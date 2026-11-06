@@ -4,7 +4,7 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 
 ## Snapshot
 
-- **25 images across 22 stories** (covers plus three multi-image galleries).
+- **27 images across 23 stories** (covers plus four multi-image galleries).
 - **0 missing alt text, 0 missing credits, 0 duplicate files** after the fixes below.
 - Every image is **1600×900** (16:9); the largest is **450 KB**. `next/image` serves responsive AVIF/WebP crops, so the source size is not the delivered size.
 - Every image has a source/license URL.
@@ -39,6 +39,7 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 | Grand Island at mile 312 | 2026 aerial of Grand Island | Replaced a poorly sourced downtown image with a clearly credited CC0 aerial. |
 | Nighttime closures at mile 427 | Nighttime bridge construction | Stock image of bridge work, explicitly captioned as not the mile 427 site; better than a generic road shot. |
 | Nebraska scanner radio | Handheld Uniden scanner | Replaced an extreme close-up of a speaker grille with a recognizable scanner. |
+| USDOT truck parking in Dawson County | Parked semis + highway truck | Two clearly captioned stock photos; the story is about capacity, not a specific site. |
 
 ## Fixes made
 

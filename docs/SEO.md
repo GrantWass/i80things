@@ -69,7 +69,7 @@ open https://validator.schema.org/
 
 ## 4. Content depth and internal links
 
-The site now has 22 stories and no empty city hubs. That is enough to launch,
+The site now has 23 stories and no empty city hubs. That is enough to launch,
 not enough to dominate.
 
 Priorities:
