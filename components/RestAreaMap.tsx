@@ -17,23 +17,25 @@ function MapCanvas({
   areas,
   markerRadius,
   townLabels = false,
+  label = "I-80 public stops",
 }: {
   map: CorridorMapModel;
   areas: RestAreaMapPoint[];
   markerRadius: number;
   townLabels?: boolean;
+  label?: string;
 }) {
   return (
     <svg
       viewBox={`0 0 ${map.viewW} ${map.viewH}`}
       role="img"
-      aria-label="Schematic map of I-80 rest areas from Kimball to Omaha"
+      aria-label={`Schematic map of ${label} from Kimball to Omaha`}
       className="h-auto w-full"
     >
-      <title>I-80 rest areas from Kimball to Omaha</title>
+      <title>{label} from Kimball to Omaha</title>
       <desc>
-        Schematic Nebraska map with I-80 and a dot for each public rest area or
-        truck-only lot. Positions are based on mile markers and are approximate.
+        Schematic Nebraska map with I-80 and a dot for each public stop.
+        Positions are based on mile markers and are approximate.
       </desc>
 
       <path
@@ -131,8 +133,9 @@ export function RestAreaMap({
             {isTruck ? "Find parking" : "Find a stop"}
           </p>
           <h2 className="mt-1 font-serif text-xl font-semibold">
-            {areas.length} {isTruck ? "public truck lots" : "rest areas"}, west
-            to east
+            {areas.length}{" "}
+            {isTruck ? "public truck-parking sites" : "public stops"}, west to
+            east
           </h2>
         </div>
         <p className="text-[10px] font-bold tracking-[0.1em] text-slate uppercase">
@@ -147,10 +150,16 @@ export function RestAreaMap({
             areas={areas}
             markerRadius={6}
             townLabels
+            label={isTruck ? "public truck parking" : "public stops"}
           />
         </div>
         <div className="md:hidden">
-          <MapCanvas map={HORIZONTAL_MAP} areas={areas} markerRadius={9} />
+          <MapCanvas
+            map={HORIZONTAL_MAP}
+            areas={areas}
+            markerRadius={9}
+            label={isTruck ? "public truck parking" : "public stops"}
+          />
         </div>
       </div>
 
@@ -169,8 +178,10 @@ export function RestAreaMap({
         </ul>
         <p className="mt-2 text-[11px] leading-relaxed text-slate">
           Approximate positions by mile marker on a schematic corridor map, not
-          a live navigation map. Check Nebraska 511 for closures before you
-          rely on a {isTruck ? "parking spot" : "stop"}.
+          a live navigation map. Eastbound and westbound sites are separate
+          stops. Where the guide has no milepost, the nearest exit is used.
+          Check Nebraska 511 for closures before you rely on a{" "}
+          {isTruck ? "parking spot" : "stop"}.
         </p>
       </div>
     </section>
