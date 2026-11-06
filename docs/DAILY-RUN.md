@@ -53,6 +53,12 @@ the files for review:
 DAILY_RUN_DRAFT=1 npm run daily
 ```
 
+Focus a run on a specific assignment — useful for filling city hubs or testing:
+
+```bash
+DAILY_RUN_DRAFT=1 DAILY_RUN_FOCUS="Write three evergreen stories for the empty town hubs: Seward, York, Grand Island, Lexington, Ogallala, Kimball and Hastings." npm run daily
+```
+
 Draft mode selects the separate `i80-daily-draft` agent, whose permissions deny
 `git commit` and `git push`. The scheduled job uses **publish mode** by default.
 Use draft mode when you want to review a story before it reaches Vercel.

@@ -207,7 +207,7 @@ The site handles schema, sitemaps and canonical URLs. You must supply the conten
 Every story needs a shareable image. Two options:
 
 1. **A real photo you have rights to.** Upload it through the admin. Credit it in `imageCredit` and link `imageCreditUrl`. Never scrape a newsroom photo.
-2. **A gallery.** A story can have one or more images. The first is the cover; mark one or more with `instagram: true` for the carousel. Each image needs its own accurate `alt`, `credit` and `creditUrl`. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card.
+2. **A gallery.** A story can have one or more images. The first is the cover; mark one or more with `instagram: true` for the carousel. Each image needs its own accurate `alt`, `credit` and `creditUrl`; add a `caption` when the alt alone does not tell the reader why the photo matters. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card.
 
 Verify the Instagram images:
 

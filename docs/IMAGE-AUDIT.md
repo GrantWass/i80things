@@ -4,11 +4,33 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 
 ## Snapshot
 
-- **14 images across 13 stories** (12 covers + one 2-image gallery).
+- **19 images across 16 stories** (covers plus three multi-image galleries).
 - **0 missing alt text, 0 missing credits, 0 duplicate files** after the fixes below.
 - Every image is **1600×900** (16:9); the largest is **450 KB**. `next/image` serves responsive AVIF/WebP crops, so the source size is not the delivered size.
 - Every image has a source/license URL.
 - Three stories now have an explicit `images:` gallery; the rest use the legacy cover fields and are normalized by `lib/content.ts`.
+
+
+## Cover inventory
+
+| Story | Cover image | Assessment |
+| --- | --- | --- |
+| Amtrak California Zephyr | Train at Omaha | Accurate and specific; strong. |
+| How to read Nebraska 511 | I-80 message sign in snow | Strong; directly supports the story. |
+| I-80 around Lincoln | I-80 approach with Capitol | Strong; good sense of place. |
+| Mile markers explained | Chappell aerial | Relevant town/I-80 view; not literally a mile marker, but the alt is accurate. |
+| I-80 through Omaha | Downtown skyline at dusk | Good, though darker than the others. |
+| Service gaps | Sidney Eastbound rest-area sign | Alt corrected; it is a sign, not a rest-area building. |
+| Kearney at mile 272 | The Archway over I-80 | Strong and unmistakable. |
+| NDOT construction | I-80 work zone near Wyoming | Strong. |
+| Scanner radio | Handheld scanner | Accurate but generic; acceptable for an explainer. |
+| NSP crash reports | NSP Dodge Charger | Replaced the badge close-up; strong. |
+| North Platte | Golden Spike Tower | Strong. |
+| Sidney to Kimball | Downtown Kimball main street + Cabela’s | New cover; much stronger than the parking-lot aerial. |
+| Winter driving | I-80 entrance after snow | Strong; directly on point. |
+| Grand Island at mile 312 | Downtown Grand Island | Strong; Highsmith CC0. |
+| Lexington at mile 237 | Lexington water tower + Platte valley cornfield | Water tower gives the town identity; the cornfield is explicitly captioned as near Minden. |
+| Ogallala at mile 126 | Lake McConaughy aerial + historic gas station | Lake gives the story its reason; gas station supports the fuel-stop angle. |
 
 ## Fixes made
 
@@ -17,6 +39,7 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 | Nebraska State Patrol crash reports | Cover was a zoomed-in shoulder patch, alt claimed it was a vehicle | Replaced with a real NSP Dodge Charger cruiser; accurate alt/credit. Removed a duplicate storm-sign image already used by the 511 story. Added a 4:5 `socialSrc` crop and a real caption. |
 | I-80 service gaps | Alt said “rest area” but the photo is the Sidney Eastbound **sign** | Alt corrected to “The Sidney Eastbound rest area sign on I-80.” |
 | Sidney to Kimball | Cover was a Cabela’s headquarters parking-lot aerial, weak for a “last 60 miles” story | New cover: a downtown Kimball main-street view (public domain). Cabela’s HQ kept as the second gallery image. Both have captions, credits and Instagram flags. |
+| New city stories (Grand Island, Lexington, Ogallala) | First drafts had usable but generic images (downtown, cornfield, gas station) | Grand Island kept its downtown image; Lexington gained the water tower as cover with the cornfield as a captioned secondary; Ogallala gained Lake McConaughy as cover with the gas station secondary. |
 
 ## Display changes
 

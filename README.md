@@ -155,12 +155,14 @@ mileMarker: "272"
 images:                            # optional gallery; first is the cover
   - src: "/images/posts/…jpg"
     alt: "Accurate description"
+    caption: "Optional display caption; alt remains for accessibility"
     credit: "Photo: …"
     creditUrl: "https://…"
     socialSrc: "/images/posts/…-social.jpg"  # optional 4:5 crop for Instagram
     instagram: true                # include in Instagram carousel
   - src: "/images/posts/…-2.jpg"
     alt: "Second image"
+    caption: "Optional display caption"
     credit: "Photo: …"
     creditUrl: "https://…"
     instagram: false

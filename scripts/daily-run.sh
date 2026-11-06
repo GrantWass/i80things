@@ -89,6 +89,11 @@ else
 images and source-health updates, then push."
 fi
 
+FOCUS="${DAILY_RUN_FOCUS:-}"
+if [ -n "$FOCUS" ]; then
+  FOCUS="FOCUS FOR THIS RUN: $FOCUS"
+fi
+
 PROMPT="Run the I-80 Things daily desk for $STAMP in America/Chicago.
 
 Follow .opencode/agents/$AGENT.md and .opencode/skills/i80-daily-post/SKILL.md.
@@ -97,6 +102,8 @@ Preflight files, if present: .cache/daily-desk/511-$STAMP.json and today's sourc
 Check npm run log first so you do not duplicate a story. Verify every fact with a primary source. Publish only what is confirmed, with a real licensed photo and credit. If there is no verified story, do not force one; report what you checked and why you skipped it.
 
 $MODE
+
+$FOCUS
 
 Do not wait for approval. End with the run report."
 

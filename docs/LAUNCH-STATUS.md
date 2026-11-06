@@ -7,13 +7,14 @@
 
 ## Live now
 
-- 13 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer and town hubs with unique local guides.
+- 16 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer, and new Grand Island, Lexington and Ogallala city stories generated through the daily pipeline.
 - `/conditions` — a five-minute-cached corridor status page combining Nebraska 511 closures/construction with point-based NWS alerts for every town.
 - 87-source directory at `/sources`, with search, category filters, copyable RSS URLs, scanner links and live feed-health status from `data/source-health.json`.
 - Public trust pages at `/corrections` and `/image-credits`.
 - Public JSON APIs: `/api/posts`, `/api/sources`, `/api/alerts`.
 - City hubs, topic hubs, author pages, RSS, sitemaps, Google News sitemap, `llms.txt`, `llms-full.txt`, `ads.txt`.
 - Generated 1200×675 OG images and 1080×1350 Instagram JPEGs per selected gallery image. Real photos are used full-bleed, with a corner brand watermark; captions use a "link in bio" CTA, no QR codes.
+- Story galleries: click-to-expand lightbox, thumbnails, captions/credits, photo-count badges and an `npm run images:audit` check.
 - AdSense-ready slots, privacy notice, editorial standards, corrections policy.
 - Daily agent: the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor, a 5:30 a.m. Central macOS scheduler, and `npm run daily`.
 - Cookieless Vercel Analytics + Speed Insights, custom events for search and outbound actions; responsive `next/image` delivery for story photos.

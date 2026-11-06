@@ -19,6 +19,8 @@ jobs:
       - run: npm ci
       - name: Validate stories
         run: npm run validate
+      - name: Audit images
+        run: npm run images:audit
       - name: Lint
         run: npm run lint
       - name: Typecheck
