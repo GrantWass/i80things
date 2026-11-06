@@ -30,7 +30,7 @@
 | Buy/connect a domain | `i80things.com` does not resolve. A custom domain is strongly recommended before applying to AdSense. | Vercel → Domains, then update `NEXT_PUBLIC_SITE_URL` and redeploy. |
 | Set `ADMIN_PASSWORD` | Enables `/admin`. Without it the page shows "Admin is locked". | Vercel → Settings → Environment Variables. |
 | Set `GITHUB_TOKEN` | Lets `/admin` commit stories, sources and images. Fine-grained token, Contents: Read and write. | Vercel env. Keep `GITHUB_REPO=GrantWass/i80things`, `GITHUB_BRANCH=main`. |
-| Apply for AdSense | Revenue. Needs the site live, 15–20 substantial stories (we have 13), legal pages and a custom domain. | https://www.google.com/adsense/ |
+| Apply for AdSense | Revenue. Needs the site live, 15–20 substantial stories (we have 18), legal pages and a custom domain. | https://www.google.com/adsense/ |
 | Set AdSense IDs | `NEXT_PUBLIC_ADSENSE_CLIENT`, `ADSENSE_PUB_ID`, three slot IDs. | Vercel env. `/ads.txt` updates automatically. |
 | Set up Google CMP | Required for personalized ads in EEA/UK. | AdSense → Privacy & messaging. |
 | Search Console + Publisher Center | Indexing and News/Discover eligibility. | Search Console, publishercenter.google.com. |

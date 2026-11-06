@@ -273,7 +273,7 @@ Do not mass-produce thin posts to chase volume. Google's spam policies target sc
 
 ## Monetization (AdSense)
 
-1. Deploy with at least 15–20 substantial original stories and the legal/transparency pages. This repo ships with 13.
+1. Deploy with at least 15–20 substantial original stories and the legal/transparency pages. This repo ships with 18.
 2. Apply at [adsense.google.com](https://www.google.com/adsense/), add the site, verify ownership, request review. Expect days to a few weeks.
 3. Set `NEXT_PUBLIC_ADSENSE_CLIENT` (`ca-pub-…`) and `ADSENSE_PUB_ID` (`pub-…`).
 4. Create three ad units and set the slot env vars (leaderboard, in-article, sidebar).

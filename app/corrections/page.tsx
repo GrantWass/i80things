@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
+import { corrections } from "@/data/corrections";
 import { site } from "@/lib/site";
+import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Corrections",
@@ -67,13 +69,36 @@ export default function CorrectionsPage() {
             <h2 className="font-serif text-2xl font-semibold">
               Correction log
             </h2>
-            <div className="mt-3 border border-line bg-cream p-5">
-              <p className="text-sm leading-relaxed text-ink-soft">
-                <strong>No corrections logged yet.</strong> When a substantive
-                correction is made, it will appear here with the story, the date
-                and a short description of what changed.
-              </p>
-            </div>
+            {corrections.length ? (
+              <ul className="mt-3 divide-y divide-line border border-line bg-paper">
+                {corrections.map((correction) => (
+                  <li key={`${correction.slug}-${correction.date}`} className="p-5">
+                    <p className="text-[10px] font-bold tracking-[0.14em] text-slate uppercase">
+                      {formatDate(correction.date)}
+                    </p>
+                    <p className="mt-1 font-serif text-lg leading-snug font-semibold">
+                      <Link
+                        href={`/news/${correction.slug}`}
+                        className="hover:underline hover:decoration-amber hover:decoration-2 hover:underline-offset-4"
+                      >
+                        {correction.story}
+                      </Link>
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                      {correction.summary}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="mt-3 border border-line bg-cream p-5">
+                <p className="text-sm leading-relaxed text-ink-soft">
+                  <strong>No corrections logged yet.</strong> When a substantive
+                  correction is made, it will appear here with the story, the date
+                  and a short description of what changed.
+                </p>
+              </div>
+            )}
             <p className="mt-4 text-[12px] leading-relaxed text-slate">
               We do not silently delete errors. Minor style or typo fixes that do
               not change meaning are made without a log entry. See our{" "}
