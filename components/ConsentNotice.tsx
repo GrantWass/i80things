@@ -17,16 +17,16 @@ export function ConsentNotice() {
   if (!visible) return null;
 
   return (
-    <div className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto max-w-3xl border border-ink bg-paper p-4 shadow-2xl sm:flex sm:items-center sm:gap-5">
-      <p className="text-xs leading-relaxed text-ink-soft">
-        We use privacy-friendly, cookieless analytics. When advertising is
-        enabled, our ad partner may use cookies to serve and personalize ads.{" "}
+    <div className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto max-w-3xl border border-ink bg-paper p-3 shadow-2xl sm:flex sm:items-center sm:gap-5 sm:p-4">
+      <p className="text-[11px] leading-snug text-ink-soft sm:text-xs sm:leading-relaxed">
+        We use privacy-friendly, cookieless analytics. When ads are enabled, our
+        ad partner may use cookies.{" "}
         <Link href="/privacy" className="font-semibold underline decoration-amber">
-          Privacy & cookie details
+          Privacy &amp; cookie details
         </Link>
         .
       </p>
-      <div className="mt-3 flex shrink-0 gap-2 sm:mt-0">
+      <div className="mt-2 flex shrink-0 gap-2 sm:mt-0">
         <button
           type="button"
           onClick={() => {
@@ -35,13 +35,13 @@ export function ConsentNotice() {
             } catch {}
             setVisible(false);
           }}
-          className="bg-ink px-4 py-2 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
+          className="min-h-11 bg-ink px-4 py-2 text-[10px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway sm:text-[11px]"
         >
           Got it
         </button>
         <Link
           href="/privacy"
-          className="border border-line px-4 py-2 text-[11px] font-bold tracking-[0.1em] text-ink uppercase hover:bg-cream"
+          className="inline-flex min-h-11 items-center border border-line px-4 py-2 text-[10px] font-bold tracking-[0.1em] text-ink uppercase hover:bg-cream sm:text-[11px]"
         >
           Details
         </Link>

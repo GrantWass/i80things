@@ -23,7 +23,7 @@ export function DataPageLinks({ current }: { current: string }) {
             key={link.href}
             href={link.href}
             aria-current={link.href === current ? "page" : undefined}
-            className={`border px-2.5 py-1 text-[10px] font-bold tracking-[0.06em] uppercase transition ${
+            className={`inline-flex min-h-11 items-center border px-3 py-2 text-[10px] font-bold tracking-[0.06em] uppercase transition ${
               link.href === current
                 ? "border-ink bg-ink text-paper"
                 : "border-line bg-paper text-ink-soft hover:border-ink"

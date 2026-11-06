@@ -6,8 +6,8 @@ import { TrackedLink } from "@/components/TrackedLink";
 export function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link href="/" className="group flex items-center gap-2.5">
-      <span className="sign-green flex h-11 w-12 shrink-0 flex-col items-center justify-center rounded-[4px] text-paper">
-        <span className="text-[7px] font-bold tracking-[0.16em]">INTERSTATE</span>
+      <span className="sign-green flex h-11 w-14 shrink-0 flex-col items-center justify-center rounded-[4px] text-paper">
+        <span className="text-[6px] font-bold tracking-[0.12em] whitespace-nowrap">INTERSTATE</span>
         <span className="font-serif text-[26px] leading-[0.9] font-bold">80</span>
       </span>
       <span className="leading-none">
@@ -62,7 +62,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <Link
               href="/sources"
-              className="hidden items-center gap-1.5 rounded-full border border-ink px-4 py-2 text-[11px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper sm:flex"
+              className="hidden min-h-11 items-center gap-1.5 rounded-full border border-ink px-4 py-2 text-[11px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper sm:flex"
             >
               Source desk
             </Link>
@@ -70,7 +70,7 @@ export function SiteHeader() {
               href="/search"
               event="search_open"
               ariaLabel="Search I-80 Things"
-              className="rounded-full border border-line p-2 text-ink-soft transition hover:border-ink hover:text-ink"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink-soft transition hover:border-ink hover:text-ink"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
@@ -83,7 +83,7 @@ export function SiteHeader() {
               event="instagram_open"
               ariaLabel="I-80 Things on Instagram"
               rel="me noopener"
-              className="rounded-full border border-line p-2 text-ink-soft transition hover:border-ink hover:text-ink"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink-soft transition hover:border-ink hover:text-ink"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -92,7 +92,7 @@ export function SiteHeader() {
               </svg>
             </TrackedLink>
             <details className="relative lg:hidden">
-              <summary className="flex cursor-pointer list-none items-center rounded-full border border-line p-2 text-ink [&::-webkit-details-marker]:hidden">
+              <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-line text-ink [&::-webkit-details-marker]:hidden">
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                   <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
                 </svg>
@@ -103,14 +103,14 @@ export function SiteHeader() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block border-b border-line/60 px-3 py-2.5 text-sm font-semibold text-ink last:border-0 hover:bg-cream"
+                    className="block border-b border-line/60 px-3 py-3 text-sm font-semibold text-ink last:border-0 hover:bg-cream"
                   >
                     {item.label}
                   </Link>
                 ))}
                 <Link
                   href="/admin"
-                  className="block px-3 py-2.5 text-xs font-semibold text-slate hover:bg-cream"
+                  className="block px-3 py-3 text-xs font-semibold text-slate hover:bg-cream"
                 >
                   Staff admin
                 </Link>
