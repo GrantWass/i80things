@@ -3,7 +3,7 @@ export const site = {
   shortName: "I-80 Things",
   tagline: "Nebraska's I-80 corridor, covered daily",
   description:
-    "Daily news from the I-80 corridor in Nebraska: crashes, closures, weather, construction and the towns from Omaha to Kimball. Verified sources, no filler.",
+    "Daily news from the I-80 corridor in Nebraska: crashes, closures, weather, construction and the towns from Omaha to Kimball.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://i80things.com").replace(
     /\/$/,
     "",
@@ -12,9 +12,8 @@ export const site = {
   language: "en-US",
   timeZone: "America/Chicago",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@i80things.com",
-  twitter: "@i80things",
-  instagram: "i80things",
-  instagramUrl: "https://www.instagram.com/i80things/",
+  instagram: "i80.things",
+  instagramUrl: "https://www.instagram.com/i80.things/",
   adsenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "",
   adsensePubId: process.env.ADSENSE_PUB_ID || "",
   founded: 2026,

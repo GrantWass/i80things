@@ -392,7 +392,7 @@ export default async function ArticlePage({
                 rel="me noopener"
                 className="shrink-0 bg-ink px-4 py-2 text-[10px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
               >
-                @i80things
+                @i80.things
               </a>
             </div>
 
@@ -457,7 +457,7 @@ export default async function ArticlePage({
                 </li>
               </ul>
               <Link href="/sources" className="mt-4 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper">
-                All 86 sources
+                All 87 sources
               </Link>
             </div>
 

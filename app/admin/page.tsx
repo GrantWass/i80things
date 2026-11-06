@@ -24,6 +24,7 @@ export default async function AdminPage() {
     city: post.city,
     draft: Boolean(post.draft),
     featured: Boolean(post.featured),
+    image: post.image,
     topics: post.topics,
   }));
 

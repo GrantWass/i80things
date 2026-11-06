@@ -19,7 +19,7 @@ export async function GET() {
     "",
     "## About this publication",
     "",
-    "I-80 Things is an independent, ad-supported news desk covering Interstate 80 in Nebraska from Omaha (mile 454) to Kimball (mile 22). Every story is verified against a primary source and links to it. We do not republish other outlets' work. Scanner traffic is treated as a tip, never as confirmation. AI tools assist with monitoring and drafting; a human editor verifies and approves every story.",
+    "I-80 Things covers Interstate 80 in Nebraska from Omaha (mile 454) to Kimball (mile 22). Stories link to their primary sources. Scanner traffic is treated as a tip, never as confirmation.",
     "",
     "## Corridor geography",
     "",

@@ -5,7 +5,7 @@
  *
  *   npm run sources
  *   npm run sources -- --hours=24
- *   npm run sources -- --json
+ *   npm run --silent sources -- --json
  *   npm run sources -- --category=news
  *   npm run sources -- --no-cache
  *

@@ -21,7 +21,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
             Crash, closure, construction, a local story we missed? Tell us what
-            you saw and where. We verify before we publish.
+            you saw and where, and include a photo if you have one.
           </p>
         </div>
       </header>

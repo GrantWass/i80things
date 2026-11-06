@@ -12,14 +12,13 @@ export function SiteFooter() {
           <div>
             <Brand light />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/70">
-              Daily reporting from Interstate 80 in Nebraska. We verify every
-              claim against an official source, credit the outlet that broke it,
-              and correct our mistakes in public.
+              Independent coverage of Interstate 80 in Nebraska, from Omaha to
+              Kimball.
             </p>
             <p className="mt-4 text-xs text-cream/50">
               {site.corridor}
               <br />
-              Independent, ad-supported. Founded {site.founded}.
+              Covering the corridor since {site.founded}.
             </p>
           </div>
           <div>
@@ -75,12 +74,6 @@ export function SiteFooter() {
             <span className="text-cream/35">
               Not affiliated with NDOT or the Nebraska State Patrol.
             </span>
-          </p>
-          <p>
-            Scanner traffic is a tip, never a source.{" "}
-            <Link href="/editorial-standards" className="underline hover:text-paper">
-              How we verify
-            </Link>
           </p>
         </div>
       </div>

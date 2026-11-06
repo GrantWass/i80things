@@ -57,8 +57,7 @@ export default async function NewsIndexPage() {
             Every story from the corridor
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Newest first. We publish when there is something verified to say —
-            not on a quota. Use the topics and town hubs to go deeper.
+            Newest first. Use the topics and town hubs to go deeper.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {topics.slice(0, 5).map((t) => (
@@ -109,8 +108,8 @@ export default async function NewsIndexPage() {
             <div className="border border-ink bg-ink p-4 text-paper">
               <p className="kicker text-amber">Follow along</p>
               <p className="mt-2 text-sm leading-relaxed text-cream/75">
-                We post every story to Instagram with a map-ready image and a
-                link in the caption.
+                We post every story to Instagram with a real photo when we have one
+                and the full story link in the bio.
               </p>
               <a
                 href={site.instagramUrl}
@@ -118,7 +117,7 @@ export default async function NewsIndexPage() {
                 rel="me noopener"
                 className="mt-3 inline-block border border-cream/30 px-3 py-2 text-[10px] font-bold tracking-[0.1em] uppercase hover:border-paper"
               >
-                @i80things
+                @i80.things
               </a>
             </div>
           </aside>

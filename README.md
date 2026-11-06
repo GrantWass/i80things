@@ -4,8 +4,8 @@
 
 An independent, ad-supported local news site built for Vercel: verified reporting, a public source directory, a daily agent workflow, Instagram-ready images, and SEO/LLM-SEO built in.
 
-**Live:** https://i80things.vercel.app  
-**Repo:** https://github.com/GrantWass/i80things  
+**Live (Vercel):** https://i80things.vercel.app  
+**Code (GitHub):** https://github.com/GrantWass/i80things — source control only; GitHub Pages is not used.  
 **Launch status & remaining setup:** [docs/LAUNCH-STATUS.md](./docs/LAUNCH-STATUS.md)
 
 ---
@@ -16,7 +16,8 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 - **87 verified sources** — police scanners, State Patrol, NDOT, 511, NWS, 27 RSS feeds, town papers, open data APIs.
 - **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus tooling to see what has been posted, sweep sources, scaffold and validate stories.
 - **Staff admin** — password-protected `/admin` to publish stories, upload images, add sources and generate the Instagram kit. Commits to GitHub via the Contents API.
-- **Instagram kit** — every story gets a 1080×1350 JPEG (`/api/social/<slug>`) and a caption (`/api/social/<slug>/caption`) with the town, mile marker and link.
+- **Instagram kit** — every story gets a 1080×1350 JPEG (`/api/social/<slug>`) and a caption (`/api/social/<slug>/caption`). Real photos are used full-bleed when attached; otherwise a branded text card is generated. No AI imagery, no QR codes; captions point to the link in bio.
+- **Stock photo tool** — `npm run stock` finds CC0/public-domain photos (Openverse) or Pexels photos, downloads and crops them, and updates the story frontmatter with the credit.
 - **Monetization** — Google AdSense slots, `ads.txt`, consent notice, privacy/terms pages, editorial standards.
 - **SEO + LLM SEO** — NewsArticle/BreadcrumbList/Place JSON-LD, Google News sitemap, RSS, `llms.txt`, `llms-full.txt`, AI-crawler robots rules, city/topic hubs, internal linking.
 - **Source research** — [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md) with verified URLs, feed IDs and access caveats.
@@ -37,6 +38,7 @@ Open http://localhost:3000. The site works without env vars except `/admin`, whi
 npm run validate   # check all stories
 npm run log        # list everything published
 npm run sources    # sweep RSS + NSP + NDOT + NWS alerts
+npm run 511        # live I-80 events from Nebraska 511
 npm run build      # production build
 ```
 
@@ -97,7 +99,7 @@ The current production alias is **https://i80things.vercel.app** and `NEXT_PUBLI
 
 1. Add `i80things.com` (and `www`) in Vercel → Domains and point DNS at Vercel.
 2. Update `NEXT_PUBLIC_SITE_URL` to `https://i80things.com` in Production and Preview.
-3. Redeploy so canonicals, sitemaps, OG images and Instagram QR codes use the final host.
+3. Redeploy so canonicals, sitemaps and generated images use the final host.
 
 ---
 
@@ -213,7 +215,7 @@ The directory lives in [`data/sources.json`](./data/sources.json) and is publish
 
 ### Access caveats (important)
 
-- **Nebraska 511** is view-only. There is no supported public incident/camera API. Its internal GraphQL endpoint is undocumented and unsupported — do not build a production dependency on it.
+- **Nebraska 511** has no supported public incident/camera API. Its internal GraphQL endpoint is undocumented but does return events; `npm run 511` uses it for low-frequency monitoring. Do not build a production dependency on it, and confirm every closure with NDOT or NSP. For a supported feed, request the CARS/NDOT XML agreement.
 - **NSP and NDOT** do not publish RSS feeds. Monitor their HTML pages.
 - **Broadcastify** requires a free account for live listening. Archives and the Calls API are paid. Do not rebroadcast audio.
 - **OpenMHz** has no public API and blocks automated access.
@@ -273,9 +275,26 @@ Never place ads that look like navigation, and never mix ads into the headline o
 Every story has:
 
 - `GET /api/social/<slug>` → 1080×1350 **JPEG** (Meta requires JPEG).
-- `GET /api/social/<slug>/caption` → JSON caption, article URL and image URL.
+- `GET /api/social/<slug>/caption` → JSON caption, bio link and image URL.
 
-Manual posting: `/admin` → **Instagram kit** → download, copy caption, post.
+**Real photos, not AI imagery.** If a story has a licensed/credited `image`, it is used as the full-bleed Instagram background. If not, the fallback is a clean branded text card — never an AI-generated scene. Upload a real photo through `/admin` whenever possible, especially for crashes, weather and breaking news.
+
+**Link in bio.** Captions start with a topic-specific hook, then the headline/context, then `Full story → link in bio.` Instagram captions cannot be clicked, so the admin kit also gives you a **Copy bio link** button. Paste that URL into the profile bio before posting.
+
+Manual posting: `/admin` → **Instagram kit** → put the link in bio → download image → copy caption → post.
+
+### Real photos
+
+Use `npm run stock` to find a real, licensed photo and add it to a story:
+
+```bash
+npm run stock -- --query "Omaha skyline" --slug i-80-omaha-exits
+npm run stock -- --query "Nebraska winter road" --slug winter-driving-i-80 --download --index 1 --update
+```
+
+It prefers Openverse's CC0/public-domain catalog and falls back to Pexels if `PEXELS_API_KEY` is set. It downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes `image`, `imageAlt`, `imageCredit` and `imageCreditUrl` into the frontmatter.
+
+Prefer CC0/public-domain images. If you use CC BY/BY-SA, keep the credit and license note. Do not use AI-generated images of real events. Upload a photo through `/admin` if you have your own or an agency handout with permission.
 
 API posting:
 
@@ -287,6 +306,8 @@ API posting:
 6. Publish: `npm run social:instagram -- --slug <slug> --publish`
 
 Constraints: public HTTPS image URL, JPEG only, 4:5 to 1.91:1, ≤8 MB, caption ≤2,200 characters, ≤30 hashtags, 100 API-published posts per 24 hours. Keep 3–5 precise hashtags; keywords in the caption matter more than tag volume.
+
+Because the caption says "link in bio," update the bio link to the current story before publishing. The API cannot do that for you.
 
 ---
 
@@ -328,8 +349,10 @@ AGENT.md                       daily agent system prompt
 | `npm run validate` | Validate all MDX frontmatter and content. |
 | `npm run log` | List published stories and source URLs (dedupe). |
 | `npm run sources` | Sweep 27 RSS feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |
+| `npm run 511` | Read live I-80 events from Nebraska 511's internal GraphQL endpoint. Unofficial; use for monitoring only. |
 | `npm run new -- --title …` | Scaffold a story. |
 | `npm run social -- --slug …` | Print Instagram caption + image URL. |
+| `npm run stock -- --query …` | Find, download and credit a real stock/CC photo. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
 | `npm run brand` | Regenerate PNG brand assets. |
 
@@ -358,4 +381,4 @@ AGENT.md                       daily agent system prompt
 - Corrections are public. See `/editorial-standards`.
 - Privacy policy covers AdSense, cookies, CCPA/CPRA and EEA consent. See `/privacy`.
 
-For the full source-by-source research, caveats and verification notes, see [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md).
+For the full source-by-source research, caveats and verification notes, see [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md). For scanner audio and free transcription, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md).

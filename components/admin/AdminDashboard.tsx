@@ -17,6 +17,7 @@ type AdminPost = {
   city: string;
   draft: boolean;
   featured: boolean;
+  image?: string;
   topics: string[];
 };
 
@@ -757,6 +758,7 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
   const [slug, setSlug] = useState(posts.find((p) => !p.draft)?.slug ?? posts[0]?.slug ?? "");
   const [caption, setCaption] = useState("");
   const [copied, setCopied] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -778,13 +780,22 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
     } catch {}
   }
 
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(`${siteUrl}/news/${slug}`);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 1800);
+    } catch {}
+  }
+
   return (
     <div className="grid gap-6 lg:grid-cols-[24rem_1fr]">
       <div className="border border-line bg-paper p-5">
         <h2 className="font-serif text-xl font-semibold">Instagram kit</h2>
         <p className="mt-1 text-[11px] leading-relaxed text-slate">
-          Pick a story. The image is a 1080×1350 JPEG with the headline, town and
-          link — ready for feed or carousel.
+          Pick a story. The image is a 1080×1350 JPEG. If the story has a real
+          photo, it is the full-bleed background; otherwise you get a branded
+          text card. Captions end with &ldquo;Full story → link in bio.&rdquo;
         </p>
         <label className="mt-3 block">
           <span className={labelClass}>Story</span>
@@ -794,6 +805,19 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
             ))}
           </select>
         </label>
+
+        {post && !post.image ? (
+          <div className="mt-3 border border-amber-dark/30 bg-amber/10 p-3">
+            <p className="text-[10px] font-bold tracking-[0.08em] text-amber-dark uppercase">
+              No real photo attached
+            </p>
+            <p className="mt-1 text-[11px] leading-relaxed text-ink-soft">
+              This story will use the branded text card. For a stronger post,
+              edit the story and upload a photo you have rights to. Do not use
+              AI-generated images of real events.
+            </p>
+          </div>
+        ) : null}
 
         {slug ? (
           <>
@@ -811,7 +835,14 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
               <a href={post ? `/news/${slug}` : "#"} target="_blank" className="border border-line px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:border-ink">
                 Story
               </a>
+              <button onClick={copyLink} className="border border-line px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:border-ink">
+                {copiedLink ? "Bio link copied" : "Copy bio link"}
+              </button>
             </div>
+            <p className="mt-3 border border-line bg-cream p-2 text-[10px] leading-relaxed text-slate">
+              Instagram captions cannot be clicked. Put this link in your bio
+              before posting: <code className="break-all">{siteUrl}/news/{slug}</code>
+            </p>
             <a href="https://www.instagram.com/" target="_blank" className="mt-3 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
               Open Instagram <Arrow className="h-3 w-3" />
             </a>
@@ -827,8 +858,9 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
       <div className="border border-line bg-paper p-5">
         <h2 className="font-serif text-xl font-semibold">Caption</h2>
         <p className="mt-1 text-[11px] text-slate">
-          Keyword-first, link in the caption, 3–5 hashtags. Edit before posting;
-          Meta caps captions at 2,200 characters.
+          Catchy hook first, then the headline and context, then
+          &ldquo;Full story → link in bio.&rdquo; 3–5 hashtags. Edit before
+          posting; Meta caps captions at 2,200 characters.
         </p>
         <textarea
           value={caption}
@@ -841,10 +873,10 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
           <h3 className="kicker text-slate">Posting checklist</h3>
           <ol className="mt-2 space-y-1.5 text-[12px] text-ink-soft">
             <li>1. Confirm the story is live at the public URL.</li>
-            <li>2. Download the 4:5 JPEG above.</li>
-            <li>3. Paste the caption and check the link preview.</li>
-            <li>4. Post, then add the story link to the bio if it changes.</li>
-            <li>5. Reply to the first comment with the source link.</li>
+            <li>2. Put the story link in your Instagram bio.</li>
+            <li>3. Download the 4:5 JPEG above.</li>
+            <li>4. Paste the caption — it ends with &ldquo;link in bio.&rdquo;</li>
+            <li>5. Post, then pin a comment naming the primary source.</li>
           </ol>
         </div>
       </div>

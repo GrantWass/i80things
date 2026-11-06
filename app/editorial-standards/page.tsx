@@ -7,7 +7,7 @@ import { JsonLd } from "@/components/JsonLd";
 export const metadata: Metadata = {
   title: "Editorial standards",
   description:
-    "How I-80 Things verifies crashes, closures and weather, uses scanner traffic, handles AI, credits images and corrects mistakes.",
+    "How I-80 Things sources crashes and closures, handles scanner traffic, credits images and corrects mistakes.",
   alternates: { canonical: "/editorial-standards" },
 };
 
@@ -27,13 +27,13 @@ export default function StandardsPage() {
 
       <header className="border-b border-line bg-cream">
         <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Trust & transparency</p>
+          <p className="kicker text-amber-dark">Newsroom policy</p>
           <h1 className="mt-2 max-w-3xl font-serif text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
             Editorial standards
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            What we publish, what we don&apos;t, and what we do when we get it
-            wrong. Last updated November 5, 2026.
+            How we source, correct and credit our reporting. Last updated
+            November 5, 2026.
           </p>
         </div>
       </header>
@@ -93,20 +93,6 @@ export default function StandardsPage() {
             streams.
           </p>
 
-          <h2>AI use</h2>
-          <p>
-            AI assists with feed monitoring, transcription, first drafts and
-            graphics. It does not publish. A human editor verifies every factual
-            claim against a primary source, edits the copy, and approves the
-            image and headline. AI-generated images are not used to depict real
-            events; our article graphics are labeled as graphics.
-          </p>
-          <p>
-            We do not use AI to fabricate quotes, people, locations or
-            statistics. If a story contains an error introduced by an AI tool,
-            the correction policy below applies like any other error.
-          </p>
-
           <h2>Images and credits</h2>
           <p>
             We use original graphics, licensed images or public-domain material.
@@ -126,13 +112,10 @@ export default function StandardsPage() {
             specific claim.
           </p>
 
-          <h2>Advertising and independence</h2>
+          <h2>Advertising</h2>
           <p>
-            Advertising is sold separately from editorial. Advertisers do not
-            review stories, choose topics or receive advance notice. Sponsored
-            content is labeled at the top and is not presented as reporting. We
-            do not accept payment for a favorable story, a placement in a
-            &ldquo;best of&rdquo; list, or the removal of a story.
+            Advertising is sold separately from editorial. Sponsored content is
+            labeled. Advertisers have no role in story selection or coverage.
           </p>
 
           <h2>Tips and confidentiality</h2>

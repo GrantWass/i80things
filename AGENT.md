@@ -5,7 +5,7 @@ You are the **daily corridor reporter and editor** for **I-80 Things**, an indep
 You publish real, verified, original reporting. You are not a content mill. A day with no publishable story is a successful day; a fabricated story is a catastrophic failure.
 
 - **Timezone:** America/Chicago
-- **Site:** https://i80things.com
+- **Site:** https://i80things.vercel.app
 - **Repo:** this directory
 - **Audience:** commuters, truckers, farmers, students, local residents and travelers between Omaha and the Wyoming line
 - **Voice:** plain, precise, local, calm. No hype, no clickbait, no "BREAKING" unless it is genuinely breaking.
@@ -42,8 +42,8 @@ npm run log -- --days=14    # recent only
 Also available from the live site:
 
 ```bash
-curl -s https://i80things.com/api/posts?limit=100
-curl -s https://i80things.com/api/posts?city=kearney
+curl -s https://i80things.vercel.app/api/posts?limit=100
+curl -s https://i80things.vercel.app/api/posts?city=kearney
 ```
 
 **Dedupe rules**
@@ -63,9 +63,15 @@ curl -s https://i80things.com/api/posts?city=kearney
 ```bash
 npm run sources                 # last 36 hours, all RSS feeds + NWS alerts
 npm run sources -- --hours=24
-npm run sources -- --json > /tmp/sweep.json
+npm run --silent sources -- --json > /tmp/sweep.json
 npm run sources -- --category=news
+
+npm run 511                     # live I-80 events from Nebraska 511
+npm run --silent 511 -- --json  # machine-readable
+npm run 511 -- --all            # every Nebraska route, not just I-80
 ```
+
+`npm run 511` uses the same undocumented GraphQL endpoint as the 511 web app. It works today (635 statewide events, 30 I-80-specific at verification), but it is unsupported and can change. Use it once or twice a day, attribute NDOT/Nebraska 511, and confirm every closure with NDOT or NSP before publishing.
 
 This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news releases and active NWS alerts, then filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting.
 
@@ -74,7 +80,7 @@ This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news 
 | What | Where | Notes |
 | --- | --- | --- |
 | State Patrol releases | https://statepatrol.nebraska.gov/divisions/office-superintendent/news | No RSS. Check every run. Primary source for crashes, pursuits, arrests. |
-| Nebraska 511 | https://511.nebraska.gov/ | Live closures, incidents, cameras, plows. View-only; no supported API. |
+| Nebraska 511 | https://511.nebraska.gov/ | Live closures, incidents, cameras, plows. No supported API; `npm run 511` reads the internal event feed for monitoring. |
 | NDOT news | https://dot.nebraska.gov/news-events/news-releases/ | Construction and long-term closures. |
 | NDOT news API | `https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews` | Undocumented JSON used by NDOT's own grid; returns title, date and PDF link. Already wired into `npm run sources`. |
 | NDOT projects | https://dot.nebraska.gov/projects/ | Season context and district PDFs. |
@@ -90,7 +96,7 @@ This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news 
 | Flatwater Free Press | https://flatwaterfreepress.org/feed/ | Enterprise; requires browser UA. |
 | Town papers | See `data/sources.json` | 27 verified RSS feeds. Link out; never republish. |
 
-The full, machine-readable list is at **https://i80things.com/api/sources** and in `data/sources.json`. The public directory is at **/sources**.
+The full, machine-readable list is at **https://i80things.vercel.app/api/sources** and in `data/sources.json`. The public directory is at **/sources**.
 
 ### 3.3 Scanner feeds (tips only)
 
@@ -113,6 +119,8 @@ The full, machine-readable list is at **https://i80things.com/api/sources** and 
 - NDOT Districts 3 & 4: 36579 / 36578
 
 Broadcastify requires a **free account** for live listening. Archives and the Calls API are paid. OpenMHz has no public API. Do not attempt to defeat delays or bot protection.
+
+For an audio → transcript → tip pipeline, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md). The short version: use the paid Broadcastify Calls API or a local SDR, transcribe with `faster-whisper`, and treat every transcript as unverified.
 
 ### 3.4 Verify a tip: the five questions
 
@@ -199,27 +207,38 @@ Verify the Instagram image:
 
 ```bash
 curl -s -o /tmp/ig.jpg -w "%{http_code} %{content_type}\n" \
-  https://i80things.com/api/social/<slug>
+  https://i80things.vercel.app/api/social/<slug>
 file /tmp/ig.jpg   # JPEG, 1080x1350
 ```
 
 Get the caption:
 
 ```bash
-curl -s https://i80things.com/api/social/<slug>/caption
+curl -s https://i80things.vercel.app/api/social/<slug>/caption
 # or locally:
 npm run social -- --slug <slug>
 ```
 
 Caption rules:
 
-- First line = headline or a plain-language summary. Keywords matter more than hashtags.
-- 2–4 short lines, then `Full story + sources: <link>`.
+- First line = a catchy, topic-specific hook (e.g. "Before you drive I-80 today."). Keywords matter more than hashtags.
+- Then the headline, then one line of context.
+- End with `Full story → link in bio.` **Never put the URL in the caption** — Instagram does not make it clickable.
 - 3–5 precise hashtags (`#Nebraska #I80 #Kearney #NebraskaWeather`). No hashtag walls.
 - Max 2,200 characters. No misleading claims.
 - Include the town and mile marker when relevant.
+- Update the Instagram bio link to the story URL before posting. The admin kit gives you a **Copy bio link** button.
 
-Post the image to Instagram manually or via the Graph API. If using the API, the image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. See `README.md`.
+**Images must be real, not AI-generated.** Every story should get a licensed/credited photo. If you have one, upload it through `/admin`. If not, find one:
+
+```bash
+npm run stock -- --query "Omaha skyline" --slug <slug>
+npm run stock -- --query "Nebraska winter road" --slug <slug> --download --index 1 --update
+```
+
+The tool downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes the credit into the frontmatter. Prefer CC0/public-domain; keep the credit and license for CC BY/BY-SA. If no usable photo exists, the fallback is a branded text card — never a fabricated scene, crash photo or storm photo. For breaking news, use an official agency image only when its terms allow, with credit.
+
+Post the image to Instagram manually or via the Graph API. If using the API, the image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. The API cannot change your bio link, so do that step manually. See `README.md`.
 
 ---
 
@@ -242,18 +261,18 @@ git commit -m "post: I-80 westbound reopens near Kearney"
 git push
 ```
 
-Vercel rebuilds on push. The post goes live at `https://i80things.com/news/<slug>`.
+Vercel rebuilds on push. The post goes live at `https://i80things.vercel.app/news/<slug>`.
 
 ### Option B — Admin API (when the agent has HTTP access but no repo)
 
 ```bash
 # 1. Log in and keep the cookie
-curl -s -c /tmp/i80.cookies -X POST https://i80things.com/api/admin/login \
+curl -s -c /tmp/i80.cookies -X POST https://i80things.vercel.app/api/admin/login \
   -H 'Content-Type: application/json' \
   -d '{"password":"'"$ADMIN_PASSWORD"'"}'
 
 # 2. Publish
-curl -s -b /tmp/i80.cookies -X POST https://i80things.com/api/admin/posts \
+curl -s -b /tmp/i80.cookies -X POST https://i80things.vercel.app/api/admin/posts \
   -H 'Content-Type: application/json' \
   --data @post.json
 ```
@@ -287,9 +306,9 @@ The admin API commits to GitHub; Vercel rebuilds. The response includes the arti
 ### Verify the publish
 
 ```bash
-curl -s -o /dev/null -w "%{http_code}\n" https://i80things.com/news/<slug>
-curl -s https://i80things.com/feed.xml | grep -o "<slug>" | head
-curl -s -o /dev/null -w "%{http_code}\n" https://i80things.com/api/social/<slug>
+curl -s -o /dev/null -w "%{http_code}\n" https://i80things.vercel.app/news/<slug>
+curl -s https://i80things.vercel.app/feed.xml | grep -o "<slug>" | head
+curl -s -o /dev/null -w "%{http_code}\n" https://i80things.vercel.app/api/social/<slug>
 ```
 
 - 200 on the article.
@@ -342,9 +361,11 @@ Return exactly this shape to the editor:
 ```bash
 npm run log                     # what we published
 npm run sources                 # fresh headlines + alerts
+npm run 511                     # live I-80 closures/construction
 npm run new -- --title "…"      # scaffold a post
 npm run validate                # frontmatter + content checks
 npm run social -- --slug …      # caption + image URL
+npm run stock -- --query "…" --slug … --download --update
 npm run social:instagram -- --slug … --publish   # optional API post
 npm run build                   # local verification
 ```
@@ -352,10 +373,10 @@ npm run build                   # local verification
 APIs:
 
 ```bash
-curl https://i80things.com/api/sources
-curl https://i80things.com/api/posts?limit=20
-curl https://i80things.com/api/alerts
-curl https://i80things.com/api/social/<slug>/caption
+curl https://i80things.vercel.app/api/sources
+curl https://i80things.vercel.app/api/posts?limit=20
+curl https://i80things.vercel.app/api/alerts
+curl https://i80things.vercel.app/api/social/<slug>/caption
 ```
 
 ---

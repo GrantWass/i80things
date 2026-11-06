@@ -7,7 +7,7 @@ import { JsonLd } from "@/components/JsonLd";
 export const metadata: Metadata = {
   title: "About I-80 Things",
   description:
-    "Who we are, how we report, how we're funded and how we use AI. I-80 Things covers the Nebraska corridor from Omaha to Kimball, every day.",
+    "Who we are, how we report and how we're funded. I-80 Things covers the Nebraska corridor from Omaha to Kimball.",
   alternates: { canonical: "/about" },
 };
 
@@ -56,18 +56,16 @@ export default function AboutPage() {
           <div className="article-prose max-w-3xl">
             <h2>What we do</h2>
             <p>
-              I-80 Things is an independent, ad-supported news desk covering
-              Interstate 80 in Nebraska. We publish when there is something
-              verified to say: a crash confirmed by the State Patrol, a closure
-              posted by NDOT, a storm warning from the National Weather Service,
-              a construction project that will change your commute.
+              I-80 Things covers Interstate 80 in Nebraska: crashes, closures,
+              weather, construction and the towns along the route. We publish
+              when there is something verified to say.
             </p>
             <p>
               We write for the people who use the corridor every day — commuters,
-              truckers, farmers, students, families driving to Kearney for a
-              tournament — not for an algorithm. Every story names its source,
-              and every claim about a crash, closure or injury is attributed to
-              an agency that confirmed it.
+              truckers, farmers, students and families driving to Kearney for a
+              tournament. Every story names its source, and every claim about a
+              crash, closure or injury is attributed to an agency that confirmed
+              it.
             </p>
 
             <h2>How we report</h2>
@@ -88,27 +86,10 @@ export default function AboutPage() {
               <Link href="/sources">source desk</Link>.
             </p>
 
-            <h2>How we use AI</h2>
+            <h2>Funding</h2>
             <p>
-              AI tools help us monitor feeds, draft summaries and produce
-              graphics. They do not decide what is true. A human editor reviews
-              every story before publication, checks the primary source, and is
-              accountable for the result. When a story relies on an official
-              document, we link it. When we get something wrong, we correct it
-              in public.
-            </p>
-            <p>
-              We do not mass-produce pages to game search results. If there is
-              nothing new to say, we do not publish. The daily cadence comes from
-              the corridor, not a quota.
-            </p>
-
-            <h2>How we&apos;re funded</h2>
-            <p>
-              I-80 Things is funded by advertising, primarily Google AdSense, and
-              eventually by local sponsorships. Advertisers do not see stories
-              before publication and cannot pay to change coverage. If we add a
-              sponsored post, it is labeled at the top.
+              I-80 Things is funded by advertising, primarily Google AdSense.
+              Sponsored content is labeled.
             </p>
             <p>
               We are not affiliated with NDOT, the Nebraska State Patrol, any

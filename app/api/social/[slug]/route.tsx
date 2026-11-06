@@ -1,17 +1,45 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
-import QRCode from "qrcode";
 import { getPost } from "@/lib/content";
 import { getPlace } from "@/data/places";
-import { site } from "@/lib/site";
-import { postImagePath } from "@/lib/utils";
+import { getOgFonts } from "@/lib/og-fonts";
 
 export const runtime = "nodejs";
 
+async function imageToDataUrl(imagePath: string, origin: string): Promise<string | null> {
+  let buffer: Buffer | null = null;
+
+  if (!imagePath.startsWith("http")) {
+    const localPath = path.join(process.cwd(), "public", imagePath.replace(/^\//, ""));
+    try {
+      buffer = await fs.readFile(localPath);
+    } catch {
+      // Public assets may not be in the function bundle on Vercel; fetch them.
+    }
+  }
+
+  if (!buffer) {
+    try {
+      const url = imagePath.startsWith("http") ? imagePath : new URL(imagePath, origin).toString();
+      const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+      if (res.ok) buffer = Buffer.from(await res.arrayBuffer());
+    } catch {
+      return null;
+    }
+  }
+
+  if (!buffer) return null;
+  const ext = (imagePath.split("?")[0].split(".").pop() || "jpg").toLowerCase();
+  const mime = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+  return `data:${mime};base64,${buffer.toString("base64")}`;
+}
+
 function headlineSize(title: string) {
-  if (title.length > 110) return 54;
-  if (title.length > 85) return 62;
-  if (title.length > 60) return 70;
-  return 80;
+  if (title.length > 115) return 52;
+  if (title.length > 90) return 60;
+  if (title.length > 65) return 68;
+  return 76;
 }
 
 export async function GET(
@@ -24,19 +52,16 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
-  // Cache the generated image; the underlying post can change, so keep it short.
+  const origin = new URL(request.url).origin;
   const place = getPlace(post.city);
-  const imagePath = postImagePath(post);
-  const photoUrl = imagePath.startsWith("http")
-    ? imagePath
-    : `${site.url}${imagePath}`;
-
-  const articleUrl = `${site.url}/news/${post.slug}`;
-  const qrCode = await QRCode.toDataURL(articleUrl, {
-    margin: 1,
-    width: 240,
-    color: { dark: "#14432f", light: "#f7f4ec" },
-  });
+  const photoUrl = post.image ? await imageToDataUrl(post.image, origin) : null;
+  const kicker = place
+    ? `${place.name.toUpperCase()} · I-80 ${place.mileMarker}`
+    : "I-80 NEBRASKA";
+  const title =
+    post.title.length > 135 ? `${post.title.slice(0, 132)}…` : post.title;
+  const dek = post.dek.length > 180 ? `${post.dek.slice(0, 177)}…` : post.dek;
+  const fonts = await getOgFonts();
 
   const png = new ImageResponse(
     (
@@ -45,233 +70,277 @@ export async function GET(
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          background: "#f7f4ec",
           position: "relative",
+          background: "#14432f",
+          color: "#f7f4ec",
         }}
       >
-        <div style={{ display: "flex", height: 360, background: "#14432f", position: "relative" }}>
-          {post.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photoUrl}
-              alt=""
-              width={1080}
-              height={360}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          ) : (
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#f7f4ec",
-              }}
-            >
-              <div style={{ fontSize: 14, letterSpacing: 6 }}>INTERSTATE</div>
-              <div style={{ fontSize: 128, fontWeight: 700, lineHeight: 0.9 }}>80</div>
-              <div style={{ fontSize: 17, letterSpacing: 5, marginTop: 10 }}>
-                NEBRASKA
-              </div>
-            </div>
-          )}
+        {photoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={photoUrl}
+            alt=""
+            width={1080}
+            height={1350}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        ) : null}
+
+        {photoUrl ? (
           <div
             style={{
               position: "absolute",
+              top: 0,
               left: 0,
-              right: 0,
-              bottom: 0,
-              height: 8,
-              background: "#e3a008",
+              width: "100%",
+              height: "100%",
               display: "flex",
+              backgroundImage:
+                "linear-gradient(to bottom, rgba(10,20,15,0.45) 0%, rgba(10,20,15,0.05) 38%, rgba(10,20,15,0.92) 100%)",
             }}
           />
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "44px 54px 36px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+        ) : (
+          <div
+            style={{
+              position: "absolute",
+              top: 150,
+              left: 0,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <div
               style={{
-                background: "#14150f",
-                color: "#f7f4ec",
-                fontSize: 16,
+                fontFamily: "Crimson Text",
+                fontSize: 560,
+                lineHeight: 0.8,
                 fontWeight: 700,
-                letterSpacing: 2,
-                padding: "7px 13px",
+                color: "rgba(247,244,236,0.055)",
                 display: "flex",
               }}
             >
-              {place ? place.name.toUpperCase() : "NEBRASKA"}
-            </div>
-            <div style={{ fontSize: 16, color: "#5d6155", letterSpacing: 1.5, display: "flex" }}>
-              I-80 {place ? place.mileMarker : ""}
+              80
             </div>
           </div>
+        )}
 
-          <div
-            style={{
-              fontSize: headlineSize(post.title),
-              lineHeight: 1.04,
-              fontWeight: 700,
-              letterSpacing: -2,
-              color: "#14150f",
-              display: "flex",
-            }}
-          >
-            {post.title}
-          </div>
-
-          <div
-            style={{
-              marginTop: 18,
-              fontSize: 25,
-              lineHeight: 1.35,
-              color: "#5d6155",
-              display: "flex",
-            }}
-          >
-            {post.dek.length > 160 ? `${post.dek.slice(0, 157)}…` : post.dek}
-          </div>
-
-          {post.summary.length ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: 24,
-                border: "1px solid #d8d1c0",
-                background: "#efe9db",
-                padding: "18px 22px",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 13,
-                  letterSpacing: 2.5,
-                  color: "#a97400",
-                  fontWeight: 700,
-                  display: "flex",
-                }}
-              >
-                THE SHORT VERSION
-              </div>
-              {post.summary.slice(0, 3).map((item) => (
-                <div key={item} style={{ display: "flex", gap: 10, marginTop: 10 }}>
-                  <div
-                    style={{
-                      width: 8,
-                      height: 8,
-                      background: "#e3a008",
-                      marginTop: 9,
-                      flexShrink: 0,
-                      display: "flex",
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontSize: 20,
-                      lineHeight: 1.32,
-                      color: "#2b2d24",
-                      display: "flex",
-                    }}
-                  >
-                    {item.length > 135 ? `${item.slice(0, 132)}…` : item}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
-
-          <div style={{ display: "flex", flex: 1 }} />
-
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            padding: "44px 50px 38px",
+          }}
+        >
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 18,
-              paddingTop: 18,
-              paddingBottom: 20,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={qrCode}
-              alt=""
-              width={126}
-              height={126}
-              style={{ border: "1px solid #d8d1c0" }}
-            />
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div
-                style={{
-                  fontSize: 13,
-                  letterSpacing: 2.5,
-                  color: "#a97400",
-                  fontWeight: 700,
-                  display: "flex",
-                }}
-              >
-                SCAN FOR THE FULL STORY
-              </div>
-              <div
-                style={{
-                  fontSize: 26,
-                  fontWeight: 700,
-                  color: "#14150f",
-                  marginTop: 4,
-                  display: "flex",
-                }}
-              >
-                Sources, map & updates
-              </div>
-              <div
-                style={{
-                  fontSize: 16,
-                  color: "#5d6155",
-                  marginTop: 3,
-                  display: "flex",
-                }}
-              >
-                i80things.com
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
-              borderTop: "2px solid #d8d1c0",
-              paddingTop: 20,
             }}
           >
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#14150f" }}>I-80 Things</div>
-              <div style={{ fontSize: 15, letterSpacing: 2, color: "#5d6155" }}>i80things.com</div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                background: "rgba(20,21,15,0.72)",
+                padding: "10px 14px",
+                borderRadius: 4,
+              }}
+            >
+              <div
+                style={{
+                  width: 44,
+                  height: 40,
+                  border: "2px solid #f7f4ec",
+                  borderRadius: 4,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ fontSize: 6, letterSpacing: 1.5, fontWeight: 700 }}>INTERSTATE</div>
+                <div style={{ fontSize: 23, fontWeight: 700, lineHeight: 0.9 }}>80</div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "Crimson Text" }}>I-80 Things</div>
+                <div style={{ fontSize: 10, letterSpacing: 2.5, color: "#c9d6cc" }}>
+                  NEBRASKA CORRIDOR NEWS
+                </div>
+              </div>
             </div>
             <div
               style={{
+                display: "flex",
                 background: "#e3a008",
                 color: "#14150f",
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: 700,
                 letterSpacing: 2,
                 padding: "10px 14px",
-                display: "flex",
               }}
             >
-              @I80THINGS
+              LINK IN BIO
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flex: 1 }} />
+
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{
+                fontSize: 20,
+                letterSpacing: 2,
+                color: "#e3a008",
+                fontWeight: 600,
+                display: "flex",
+                fontFamily: "Crimson Text",
+              }}
+            >
+              {kicker}
+            </div>
+
+            <div
+              style={{
+                marginTop: 14,
+                fontSize: headlineSize(title),
+                lineHeight: 1.03,
+                fontWeight: 700,
+                letterSpacing: -0.5,
+                color: "#f7f4ec",
+                display: "flex",
+                fontFamily: "Crimson Text",
+              }}
+            >
+              {title}
+            </div>
+
+            <div
+              style={{
+                marginTop: 16,
+                fontSize: 25,
+                lineHeight: 1.3,
+                color: "#e8e2d3",
+                display: "flex",
+                fontFamily: "Crimson Text",
+                fontWeight: 400,
+              }}
+            >
+              {dek}
+            </div>
+
+            {!photoUrl && post.summary.length ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: 22,
+                  border: "1px solid rgba(247,244,236,0.28)",
+                  background: "rgba(247,244,236,0.07)",
+                  padding: "16px 18px",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 13,
+                    letterSpacing: 2,
+                    color: "#e3a008",
+                    fontWeight: 600,
+                    display: "flex",
+                    fontFamily: "Crimson Text",
+                  }}
+                >
+                  THE SHORT VERSION
+                </div>
+                {post.summary.slice(0, 2).map((item) => (
+                  <div key={item} style={{ display: "flex", gap: 9, marginTop: 9 }}>
+                    <div
+                      style={{
+                        width: 7,
+                        height: 7,
+                        background: "#e3a008",
+                        marginTop: 8,
+                        flexShrink: 0,
+                        display: "flex",
+                      }}
+                    />
+                    <div
+                      style={{
+                        fontSize: 19,
+                        lineHeight: 1.3,
+                        color: "#f1ecdf",
+                        display: "flex",
+                        fontFamily: "Crimson Text",
+                      }}
+                    >
+                      {item.length > 120 ? `${item.slice(0, 117)}…` : item}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+                borderTop: "1px solid rgba(247,244,236,0.3)",
+                paddingTop: 16,
+                marginTop: 22,
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ fontSize: 15, letterSpacing: 1, color: "#f7f4ec", display: "flex" }}>
+                  i80things.com
+                </div>
+                {post.imageCredit ? (
+                  <div
+                    style={{
+                      marginTop: 4,
+                      fontSize: 11,
+                      color: "#b9c9be",
+                      maxWidth: 560,
+                      display: "flex",
+                    }}
+                  >
+                    {post.imageCredit.length > 90
+                      ? `${post.imageCredit.slice(0, 87)}…`
+                      : post.imageCredit}
+                  </div>
+                ) : null}
+              </div>
+              <div
+                style={{
+                  background: "#e3a008",
+                  color: "#14150f",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: 2,
+                  padding: "8px 12px",
+                  display: "flex",
+                }}
+              >
+                @I80.THINGS
+              </div>
             </div>
           </div>
         </div>
       </div>
     ),
-    { width: 1080, height: 1350 },
+    { width: 1080, height: 1350, fonts },
   );
 
   try {
@@ -285,8 +354,8 @@ export async function GET(
         "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
       },
     });
-  } catch {
-    // If sharp is unavailable, return the PNG rather than failing the request.
-    return png;
+  } catch (error) {
+    console.error("Social image conversion failed:", error);
+    return new Response("Could not generate the image.", { status: 500 });
   }
 }

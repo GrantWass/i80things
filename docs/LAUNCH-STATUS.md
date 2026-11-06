@@ -10,7 +10,7 @@
 - 87-source directory at `/sources`, with search, category filters, copyable RSS URLs and scanner links.
 - Public JSON APIs: `/api/posts`, `/api/sources`, `/api/alerts`.
 - City hubs, topic hubs, author pages, RSS, sitemaps, Google News sitemap, `llms.txt`, `llms-full.txt`, `ads.txt`.
-- Generated 1200×675 OG images and 1080×1350 Instagram JPEGs with QR codes.
+- Generated 1200×675 OG images and 1080×1350 Instagram JPEGs. Real photos are used full-bleed when attached; captions use a "link in bio" CTA, no QR codes.
 - AdSense-ready slots, privacy/CMP notice, editorial standards, corrections policy.
 - Daily agent tooling: `npm run log`, `npm run sources`, `npm run new`, `npm run validate`, `npm run social`.
 - Password-protected admin UI for stories, sources, image uploads and the Instagram kit (needs env vars below).

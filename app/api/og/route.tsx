@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
+import { getOgFonts } from "@/lib/og-fonts";
 
 export const runtime = "nodejs";
 
@@ -8,6 +9,7 @@ export async function GET(request: NextRequest) {
   const title = (searchParams.get("title") || "I-80 Things").slice(0, 150);
   const kicker = (searchParams.get("kicker") || "NEBRASKA CORRIDOR NEWS").slice(0, 60);
   const city = (searchParams.get("city") || "").slice(0, 40);
+  const fonts = await getOgFonts();
 
   return new ImageResponse(
     (
@@ -60,7 +62,7 @@ export async function GET(request: NextRequest) {
               <div style={{ fontSize: 34, fontWeight: 700, lineHeight: 0.9 }}>80</div>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#f7f4ec" }}>I-80 Things</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: "#f7f4ec", fontFamily: "Crimson Text" }}>I-80 Things</div>
               <div style={{ fontSize: 12, letterSpacing: 3, color: "#b9c9be" }}>
                 NEBRASKA CORRIDOR NEWS
               </div>
@@ -96,9 +98,10 @@ export async function GET(request: NextRequest) {
               fontSize: 17,
               letterSpacing: 3,
               color: "#e3a008",
-              fontWeight: 700,
+              fontWeight: 600,
               marginBottom: 14,
               display: "flex",
+              fontFamily: "Crimson Text",
             }}
           >
             {`${kicker.toUpperCase()}${city ? ` · ${city.toUpperCase()}` : ""}`}
@@ -109,9 +112,10 @@ export async function GET(request: NextRequest) {
               lineHeight: 1.05,
               fontWeight: 700,
               color: "#f7f4ec",
-              letterSpacing: -1.8,
+              letterSpacing: -1,
               maxWidth: 1070,
               display: "flex",
+              fontFamily: "Crimson Text",
             }}
           >
             {title}
@@ -139,6 +143,6 @@ export async function GET(request: NextRequest) {
         </div>
       </div>
     ),
-    { width: 1200, height: 675 },
+    { width: 1200, height: 675, fonts },
   );
 }

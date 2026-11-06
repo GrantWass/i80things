@@ -52,15 +52,14 @@ export default function SourcesPage() {
 
       <header className="border-b border-line bg-cream">
         <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Open newsroom</p>
+          <p className="kicker text-amber-dark">Source directory</p>
           <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.04] font-semibold tracking-tight md:text-6xl">
             The source desk
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate">
-            Every feed our daily desk uses is listed here: police scanners,
-            State Patrol releases, Nebraska 511, National Weather Service
-            alerts, town newspapers, RSS feeds, open data and the official
-            social accounts that break news first. Steal the list.
+            Police scanners, State Patrol releases, Nebraska 511, National
+            Weather Service alerts, town newspapers, RSS feeds, open data and
+            the official accounts that break news first.
           </p>
           <div className="mt-6 grid max-w-2xl grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
             {[
@@ -135,46 +134,6 @@ export default function SourcesPage() {
           className="mt-10"
         />
 
-        <section className="mt-10">
-          <h2 className="font-serif text-2xl font-semibold">How the daily desk works</h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {[
-              {
-                n: "01",
-                title: "Scan",
-                body: "Pull every RSS feed, check the State Patrol and NDOT pages, and read active NWS alerts for the corridor counties.",
-              },
-              {
-                n: "02",
-                title: "Verify",
-                body: "Find the primary source. Confirm the location by mile marker, the agency, and the current status. No scanner-only stories.",
-              },
-              {
-                n: "03",
-                title: "Publish",
-                body: "Write original context, link the source, and add a key-facts box and a shareable image. Then post it to Instagram.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="border-t-2 border-ink pt-3">
-                <p className="font-serif text-3xl leading-none text-amber">{step.n}</p>
-                <h3 className="mt-2 font-serif text-lg font-semibold">{step.title}</h3>
-                <p className="mt-1 text-[13px] leading-relaxed text-slate">{step.body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-[12px] text-slate">
-            Building your own corridor monitor? The feed list is also published
-            in machine-readable form at{" "}
-            <a href="/llms-full.txt" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-              /llms-full.txt
-            </a>{" "}
-            and as{" "}
-            <a href="/feed.xml" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-              RSS
-            </a>
-            .
-          </p>
-        </section>
       </div>
     </main>
   );

@@ -49,12 +49,25 @@ if (!igUserId || !token) {
 }
 
 const imageUrl = `${siteUrl}/api/social/${slug}`;
+const hooks = {
+  crashes: "Heads up, I-80 drivers.",
+  "road-conditions": "Planning an I-80 drive? Start here.",
+  weather: "Before you drive I-80 today.",
+  "state-patrol": "From the Nebraska State Patrol.",
+  travel: "Nebraska I-80 road-trip note.",
+  community: "Along the corridor.",
+  business: "What's moving on I-80.",
+  explainers: "I-80, explained.",
+};
+const hook = hooks[(data.topics ?? [])[0]] ?? "Nebraska I-80 news.";
 const caption = (data.instagramCaption || [
+  hook,
+  "",
   data.title,
   "",
   data.dek,
   "",
-  `${siteUrl}/news/${slug}`,
+  "Full story → link in bio.",
   "",
   "#Nebraska #I80 #NebraskaNews",
 ].join("\n")).slice(0, 2200);
@@ -68,6 +81,7 @@ const payload = new URLSearchParams({
 if (!shouldPublish) {
   console.log("DRY RUN — add --publish to post.");
   console.log(`Image: ${imageUrl}`);
+  console.log(`Bio link: ${siteUrl}/news/${slug}`);
   console.log(`Caption:\n${caption}`);
   process.exit(0);
 }

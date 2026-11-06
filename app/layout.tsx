@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Inter, Newsreader } from "next/font/google";
+import { Public_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ConsentNotice } from "@/components/ConsentNotice";
 import { site } from "@/lib/site";
 
-const inter = Inter({
+const publicSans = Public_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | I-80 Things",
   },
   description:
-    "Daily news from the I-80 corridor in Nebraska: crashes, closures, weather, construction and the towns from Omaha to Kimball. Verified sources, no filler.",
+    "Daily news from the I-80 corridor in Nebraska: crashes, closures, weather, construction and the towns from Omaha to Kimball.",
   applicationName: "I-80 Things",
   authors: [{ name: "I-80 Things", url: "/about" }],
   creator: "I-80 Things",
@@ -43,7 +43,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@i80things",
   },
   robots: {
     index: true,
@@ -75,7 +74,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-US" className={`${inter.variable} ${newsreader.variable}`}>
+    <html lang="en-US" className={`${publicSans.variable} ${newsreader.variable}`}>
       <body>
         <a
           href="#main"

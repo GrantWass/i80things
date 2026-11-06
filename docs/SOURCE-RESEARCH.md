@@ -1,6 +1,6 @@
 # I-80 Nebraska source research
 
-Verified **November 5, 2026** against live URLs, HTTP responses and, where noted, working API calls. This is the research behind [`data/sources.json`](../data/sources.json). The public directory is at **https://i80things.com/sources**.
+Verified **November 5, 2026** against live URLs, HTTP responses and, where noted, working API calls. This is the research behind [`data/sources.json`](../data/sources.json). The public directory is at **https://i80things.vercel.app/sources**.
 
 Corridor covered: I-80 in Nebraska, Omaha (mile 454) west to Kimball (mile 22), plus the Iowa border at Council Bluffs and the Hastings/Fremont/Columbus/Beatrice/McCook spurs when relevant.
 
@@ -88,7 +88,9 @@ County sheriff and city PD pages for Grand Island, Kearney, North Platte, Sidney
 
 **NDOT news API:** `https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews` returns a JSON array with `navigationTitle`, `newsDate`, `documentLink` and `dateString`. It is undocumented but public and powers NDOT's own FilteredNews.js grid. Poll it once a day; do not hammer it. The PDF `documentLink` is the actual release.
 
-**Nebraska 511 specifics:** the public site is a Castle Rock ITS "CARS" single-page app. There is **no supported public JSON/XML API**. Camera and incident data require a CARS/NDOT XML feed agreement. The internal `/api/graphql` proxy answers CMS queries but event/camera queries are undocumented; do not build on it. 511 by phone; `*55` for NSP emergencies.
+**Nebraska 511 specifics:** the public site is a Castle Rock ITS "CARS" single-page app. There is **no supported public JSON/XML API**. Camera and incident data require a CARS/NDOT XML feed agreement.
+
+There is, however, a **working internal GraphQL endpoint** at `https://511.nebraska.gov/api/graphql`. A `Dashboard` query with `layerSlugs` (verified: `weatherWarningsAreaEvents`, `winterDriving`, `roadReports`, `roadClosures`, `truckersReports`, `metroTrafficMap`, `wazeReports`, `ROAD_CONDITIONS`, `constructionReports`, `floodReports`) and `maxPriority: null` returned **635 statewide events, 30 I-80-specific** on 2026-11-05, including closures, construction, crashes and winter conditions. Fields include title, description, priority, agency, begin/updated timestamps and linear reference. `npm run 511` implements this. It is undocumented and unsupported: poll at most once or twice a day, attribute NDOT/Nebraska 511, verify before publishing, and do not redistribute bulk data. The proper long-term path is the CARS XML feed agreement. 511 by phone; `*55` for NSP emergencies.
 
 **Working keyless examples:**
 

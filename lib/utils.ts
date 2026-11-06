@@ -82,28 +82,43 @@ export function postImagePath(post: {
   return `/api/og?title=${encodeURIComponent(post.title)}&kicker=${encodeURIComponent(kicker)}`;
 }
 
+const captionHooks: Record<string, string> = {
+  crashes: "Heads up, I-80 drivers.",
+  "road-conditions": "Planning an I-80 drive? Start here.",
+  weather: "Before you drive I-80 today.",
+  "state-patrol": "From the Nebraska State Patrol.",
+  travel: "Nebraska I-80 road-trip note.",
+  community: "Along the corridor.",
+  business: "What's moving on I-80.",
+  explainers: "I-80, explained.",
+};
+
 export function instagramCaption(post: {
   title: string;
   dek: string;
   city: string;
   slug: string;
+  topics?: string[];
   tags?: string[];
   instagramCaption?: string;
 }): string {
   if (post.instagramCaption) return post.instagramCaption;
   const place = getPlace(post.city);
+  const hook = captionHooks[post.topics?.[0] ?? ""] ?? "Nebraska I-80 news.";
   const tags = ["#Nebraska", "#I80", "#NebraskaNews"];
   if (place) tags.push(`#${place.name.replace(/[^a-zA-Z]/g, "")}`);
   if (post.tags?.includes("weather")) tags.push("#NebraskaWeather");
   if (post.tags?.includes("crashes")) tags.push("#TrafficAlert");
   const lines = [
+    hook,
+    "",
     post.title,
     "",
     post.dek,
     "",
     place ? `📍 ${place.name}, Nebraska (I-80 ${place.mileMarker})` : "📍 I-80, Nebraska",
     "",
-    `Full story + sources: ${absoluteUrl(`/news/${post.slug}`)}`,
+    "Full story → link in bio.",
     "",
     tags.slice(0, 5).join(" "),
   ];

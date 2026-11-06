@@ -16,7 +16,7 @@ export async function GET() {
 
 > ${site.description}
 
-${site.name} is an independent, ad-supported news desk covering Interstate 80 in Nebraska, from Omaha (mile 454) to Kimball (mile 22). Every story is verified against a primary source and links to it. The site is updated daily. It is not affiliated with NDOT or the Nebraska State Patrol.
+${site.name} covers Interstate 80 in Nebraska, from Omaha (mile 454) to Kimball (mile 22). Stories link to their primary sources. It is not affiliated with NDOT or the Nebraska State Patrol.
 
 ## Key pages
 - [Latest news](${site.url}/news): every story, newest first
@@ -24,7 +24,7 @@ ${site.name} is an independent, ad-supported news desk covering Interstate 80 in
 - [Topics](${site.url}/topics): crashes, road conditions, weather, construction, travel, communities
 - [Source directory](${site.url}/sources): ${sources.length} verified scanners, newspapers, 511, NWS and data feeds
 - [Mile marker guide](${site.url}/news/i-80-mile-markers-nebraska-explained)
-- [Editorial standards](${site.url}/editorial-standards): sourcing, scanner policy, AI use, corrections
+- [Editorial standards](${site.url}/editorial-standards): sourcing, scanner policy, corrections
 - [About](${site.url}/about): ownership, funding and how we report
 - [RSS feed](${site.url}/feed.xml)
 - [Full text for LLMs](${site.url}/llms-full.txt)

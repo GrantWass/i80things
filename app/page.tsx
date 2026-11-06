@@ -285,10 +285,9 @@ export default async function HomePage() {
                 87 verified sources. One corridor.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream/70">
-                Every police scanner, newspaper, weather office and state data
-                feed we use is listed in public — with access notes, coverage
-                areas and verified links. Steal our source list. That is what it
-                is for.
+                Police scanners, town newspapers, weather offices and state
+                data feeds — with access notes, coverage areas and verified
+                links.
               </p>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row md:justify-end">
@@ -302,7 +301,7 @@ export default async function HomePage() {
                 href="/editorial-standards"
                 className="border border-cream/30 px-5 py-3 text-center text-[11px] font-bold tracking-[0.1em] text-paper uppercase transition hover:border-paper"
               >
-                How we verify
+                Editorial standards
               </Link>
             </div>
           </div>
