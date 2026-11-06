@@ -44,8 +44,8 @@ const pages = [
     href: "/demographics",
     title: "Town demographics",
     description:
-      "Exact 2020 and 2010 Census counts for the corridor's town hubs, with county totals.",
-    stat: "Census 2020",
+      "Exact 2020 and 2010 Census counts and 2025 estimates for the corridor's town hubs.",
+    stat: "Census + 2025 est.",
   },
   {
     href: "/distances",
