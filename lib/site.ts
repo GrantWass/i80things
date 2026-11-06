@@ -24,10 +24,9 @@ export const nav = [
   { href: "/news", label: "Latest" },
   { href: "/conditions", label: "Conditions" },
   {
-    href: "/data",
+    href: "/exits",
     label: "Corridor data",
     children: [
-      { href: "/data", label: "All data pages" },
       { href: "/exits", label: "Exit guide" },
       { href: "/rest-areas", label: "Rest areas" },
       { href: "/truck-parking", label: "Truck parking" },
