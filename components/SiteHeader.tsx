@@ -19,7 +19,7 @@ export function Brand({ light = false }: { light?: boolean }) {
           I-80 Things
         </span>
         <span
-          className={`mt-1 block text-[9px] font-semibold tracking-[0.19em] uppercase ${
+          className={`mt-1 hidden text-[9px] font-semibold tracking-[0.19em] uppercase sm:block ${
             light ? "text-cream/70" : "text-slate"
           }`}
         >
@@ -83,7 +83,7 @@ export function SiteHeader() {
               event="instagram_open"
               ariaLabel="I-80 Things on Instagram"
               rel="me noopener"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink-soft transition hover:border-ink hover:text-ink"
+              className="hidden h-11 w-11 items-center justify-center rounded-full border border-line text-ink-soft transition hover:border-ink hover:text-ink sm:flex"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="5" />

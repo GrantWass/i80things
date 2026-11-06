@@ -108,7 +108,20 @@ Priorities:
 - Every story should link to its city hub, its topic hub and at least one
   related story.
 
-## 6. Performance and monitoring
+## 6. Mobile audit
+
+Reference pages can be checked at phone widths with the local Chrome audit:
+
+```bash
+node scripts/mobile-audit.mjs --pages /data,/exits,/rest-areas,/truck-parking,/construction,/demographics,/distances --width 390 --height 844
+node scripts/mobile-audit.mjs --pages /data,/exits,/rest-areas,/truck-parking,/construction,/demographics,/distances --width 320 --height 568
+```
+
+It writes screenshots and `audit.json` to `/tmp/i80-mobile-audit` (or `--out`).
+Check page-level `scrollWidth`, wide tables inside scroll containers, tap
+targets under 44px, and the first useful section above the fold.
+
+## 7. Performance and monitoring
 
 - Run Lighthouse or PageSpeed Insights on mobile for the homepage, one article,
   one city hub and `/conditions`.
@@ -120,7 +133,7 @@ Priorities:
   `/sitemap.xml`.
 - Add a weekly check of Search Console queries, indexed pages and 404s.
 
-## 7. Distribution
+## 8. Distribution
 
 - Google Discover depends on large images, fresh stories and a clear publisher;
   `max-image-preview:large` is already set.
