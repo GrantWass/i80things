@@ -17,6 +17,10 @@ No failing `link-name`, `button-name`, `image-alt`, `heading-order`, `landmark`,
 `meta-viewport`, or `target-size` audits. The same two accessibility failures
 repeat on every page; performance notes are framework-level and minor.
 
+**Post-fix re-run (homepage, mobile):** performance **99**, accessibility **100**,
+best practices **100**, SEO **100**. The contrast and brand-link fixes below
+cleared the remaining accessibility failures.
+
 ## Top findings (actionable)
 
 1. **`text-amber-dark` (#a97400) fails contrast on light surfaces — 3.3–3.7:1, needs 4.5:1.**
