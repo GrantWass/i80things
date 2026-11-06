@@ -16,7 +16,6 @@ export function CorridorMiniMap() {
   return (
     <Link
       href="/conditions"
-      aria-label="Open the I-80 corridor map and road conditions"
       className="group block border border-line bg-paper transition hover:border-ink"
     >
       <div className="flex items-baseline justify-between gap-2 border-b border-line px-4 py-2.5">

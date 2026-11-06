@@ -46,6 +46,11 @@ export function SiteFooter() {
                   Road conditions
                 </Link>
               </li>
+              <li>
+                <Link href="/exits" className="hover:text-paper">
+                  Exit guide
+                </Link>
+              </li>
               {topics.slice(0, 5).map((t) => (
                 <li key={t.slug}>
                   <Link href={`/topics/${t.slug}`} className="hover:text-paper">

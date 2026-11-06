@@ -33,6 +33,9 @@ export default function AboutPage() {
             publishingPrinciples: absoluteUrl("/editorial-standards"),
             ethicsPolicy: absoluteUrl("/editorial-standards"),
             correctionsPolicy: absoluteUrl("/corrections"),
+            masthead: absoluteUrl("/about"),
+            ownershipFundingInfo: absoluteUrl("/about#funding"),
+            actionableFeedbackPolicy: absoluteUrl("/contact"),
             logo: {
               "@type": "ImageObject",
               url: absoluteUrl("/brand/logo.png"),
@@ -106,7 +109,7 @@ export default function AboutPage() {
               <Link href="/sources">source desk</Link>.
             </p>
 
-            <h2>Funding</h2>
+            <h2 id="funding">Funding</h2>
             <p>
               I-80 Things is funded by advertising, primarily Google AdSense.
               Sponsored content is labeled.

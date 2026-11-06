@@ -63,9 +63,10 @@ export async function generateMetadata({
       images: [
         {
           url: image,
-          width: 1200,
-          height: 675,
+          width: post.images.length ? 1600 : 1200,
+          height: post.images.length ? 900 : 675,
           alt: post.imageAlt || post.title,
+          type: "image/jpeg",
         },
       ],
     },
@@ -76,8 +77,7 @@ export async function generateMetadata({
       images: [image],
     },
     other: {
-      "article:section": topic,
-      ...(post.updated ? { "article:modified_time": post.updated } : {}),
+      news_keywords: post.tags.join(", "),
     },
   };
 }
@@ -100,8 +100,25 @@ export default async function ArticlePage({
   const url = absoluteUrl(`/news/${post.slug}`);
   const image = absoluteUrl(postImagePath(post));
   const articleImages = post.images.length
-    ? post.images.map((item) => absoluteUrl(item.src))
-    : [image];
+    ? post.images.map((item) => ({
+        "@type": "ImageObject",
+        url: absoluteUrl(item.src),
+        width: 1600,
+        height: 900,
+        caption: item.caption ?? item.alt,
+        creditText: item.credit,
+        copyrightNotice: item.license,
+        license: item.licenseUrl,
+        acquireLicensePage: item.creditUrl,
+      }))
+    : [
+        {
+          "@type": "ImageObject",
+          url: image,
+          width: 1200,
+          height: 675,
+        },
+      ];
   const localSources = place ? getSourcesForPlace(place.slug).slice(0, 4) : [];
 
   const jsonLd = {
@@ -112,11 +129,12 @@ export default async function ArticlePage({
         "@id": `${url}#article`,
         headline: post.title,
         description: post.dek,
+        url,
         image: articleImages,
         datePublished: post.date,
         dateModified: post.updated ?? post.date,
         author: {
-          "@type": "Person",
+          "@type": author.slug === "corridor-desk" ? "Organization" : "Person",
           name: author.name,
           url: absoluteUrl(`/authors/${author.slug}`),
         },
@@ -124,6 +142,14 @@ export default async function ArticlePage({
           "@type": "NewsMediaOrganization",
           "@id": `${site.url}/#organization`,
           name: site.name,
+          url: site.url,
+          sameAs: [site.instagramUrl],
+          publishingPrinciples: absoluteUrl("/editorial-standards"),
+          ethicsPolicy: absoluteUrl("/editorial-standards"),
+          correctionsPolicy: absoluteUrl("/corrections"),
+          masthead: absoluteUrl("/about"),
+          ownershipFundingInfo: absoluteUrl("/about#funding"),
+          actionableFeedbackPolicy: absoluteUrl("/contact"),
           logo: {
             "@type": "ImageObject",
             url: absoluteUrl("/brand/logo.png"),
@@ -133,8 +159,10 @@ export default async function ArticlePage({
         },
         mainEntityOfPage: { "@type": "WebPage", "@id": url },
         isAccessibleForFree: true,
+        isPartOf: { "@id": `${site.url}/#website` },
         articleSection: topic?.label ?? "News",
         keywords: post.tags.join(", "),
+        citation: post.sources.map((source) => source.url),
         about: place
           ? {
               "@type": "Place",

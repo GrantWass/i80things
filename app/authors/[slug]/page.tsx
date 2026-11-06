@@ -50,12 +50,13 @@ export default async function AuthorPage({
           "@context": "https://schema.org",
           "@type": "ProfilePage",
           mainEntity: {
-            "@type": "Person",
+            "@type": author.slug === "corridor-desk" ? "Organization" : "Person",
             name: author.name,
-            jobTitle: author.role,
+            ...(author.slug === "corridor-desk" ? {} : { jobTitle: author.role }),
             description: author.bio,
             url: absoluteUrl(`/authors/${author.slug}`),
             worksFor: { "@id": `${site.url}/#organization` },
+            ...(author.slug === "corridor-desk" ? { sameAs: [site.instagramUrl] } : {}),
           },
         }}
       />
@@ -88,6 +89,18 @@ export default async function AuthorPage({
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate">
             {author.bio}
           </p>
+          {author.slug === "corridor-desk" ? (
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate">
+              The desk is edited by{" "}
+              <Link
+                href="/authors/grant-wasserman"
+                className="font-semibold text-highway underline decoration-amber underline-offset-2"
+              >
+                Grant Wasserman
+              </Link>
+              , founder and publisher.
+            </p>
+          ) : null}
           {author.email ? (
             <a
               href={`mailto:${author.email}`}

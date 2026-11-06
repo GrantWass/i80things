@@ -56,6 +56,9 @@ export default async function HomePage() {
       publishingPrinciples: absoluteUrl("/editorial-standards"),
       ethicsPolicy: absoluteUrl("/editorial-standards"),
       correctionsPolicy: absoluteUrl("/corrections"),
+      masthead: absoluteUrl("/about"),
+      ownershipFundingInfo: absoluteUrl("/about#funding"),
+      actionableFeedbackPolicy: absoluteUrl("/contact"),
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "editorial",
@@ -125,9 +128,9 @@ export default async function HomePage() {
         <div className="grid gap-8 lg:grid-cols-[1.7fr_1fr] lg:gap-12">
           <LeadCard post={lead} />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 lg:gap-0 lg:divide-y lg:divide-line">
-            {secondary.map((post) => (
+            {secondary.map((post, index) => (
               <div key={post.slug} className="lg:pt-5 lg:first:pt-0">
-                <StandardCard post={post} />
+                <StandardCard post={post} priority={index === 0} />
               </div>
             ))}
           </div>
@@ -148,8 +151,8 @@ export default async function HomePage() {
               linkLabel="All stories"
             />
             <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
-              {latest.slice(0, 4).map((post) => (
-                <StandardCard key={post.slug} post={post} />
+              {latest.slice(0, 4).map((post, index) => (
+                <StandardCard key={post.slug} post={post} priority={index === 0} />
               ))}
             </div>
             {latest.length > 4 ? (

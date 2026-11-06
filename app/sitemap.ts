@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: site.url, lastModified: latest, changeFrequency: "hourly", priority: 1 },
     { url: `${site.url}/news`, lastModified: latest, changeFrequency: "hourly", priority: 0.9 },
     { url: `${site.url}/conditions`, lastModified: latest, changeFrequency: "hourly", priority: 0.9 },
+    { url: `${site.url}/exits`, lastModified: "2026-11-06", changeFrequency: "monthly", priority: 0.8 },
     { url: `${site.url}/sources`, lastModified: "2026-11-05", changeFrequency: "weekly", priority: 0.8 },
     { url: `${site.url}/cities`, lastModified: latest, changeFrequency: "weekly", priority: 0.8 },
     { url: `${site.url}/topics`, lastModified: latest, changeFrequency: "weekly", priority: 0.7 },
