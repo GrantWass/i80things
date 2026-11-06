@@ -16,6 +16,13 @@ export interface Correction {
 export const corrections: Correction[] = [
   {
     date: "2026-11-06",
+    story: "I-80 mile markers and Amtrak guides: Hastings spur distance",
+    slug: "i-80-mile-markers-nebraska-explained",
+    summary:
+      "An earlier version said Hastings was about 25 miles from I-80/Exit 312. The road distance is about 16 miles south via US-281; the guides have been corrected.",
+  },
+  {
+    date: "2026-11-06",
     story: "Sidney and Kimball: the last 60 miles of I-80 in Nebraska",
     slug: "sidney-kimball-last-60-miles",
     summary:

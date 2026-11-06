@@ -1,0 +1,64 @@
+{
+  "$comment": "I-80 Nebraska hub-to-hub reference distances. ESTIMATES ONLY — not a live-traffic or official NDOT drive-time product.",
+  "method": "Each hub is pinned to a single main-exit reference mile (integer). Consecutive-leg distance = next reference mile minus previous reference mile. Estimated drive time = distance / speed * 60, rounded to the nearest 5 minutes, at 65 mph and 70 mph. Times ignore traffic, weather, stops, construction, speed-limit changes, and metro congestion.",
+  "referenceMilesAre": "main-exit mile references, not city centers and not official NDOT segment lengths",
+  "lastChecked": "2026-11-06",
+  "sources": [
+    "data/places.ts (hub mile-marker ranges)",
+    "data/i80-exits.json (exit numbers and decimal mileposts)"
+  ],
+  "hubs": [
+    { "slug": "kimball", "name": "Kimball", "referenceMile": 22, "mainExit": 22, "exitMilepost": 22.69 },
+    { "slug": "sidney", "name": "Sidney", "referenceMile": 59, "mainExit": 59, "exitMilepost": 59.92 },
+    { "slug": "ogallala", "name": "Ogallala", "referenceMile": 126, "mainExit": 126, "exitMilepost": 126.69 },
+    { "slug": "north-platte", "name": "North Platte", "referenceMile": 177, "mainExit": 177, "exitMilepost": 177.16 },
+    { "slug": "lexington", "name": "Lexington", "referenceMile": 237, "mainExit": 237, "exitMilepost": 237.19 },
+    { "slug": "kearney", "name": "Kearney", "referenceMile": 272, "mainExit": 272, "exitMilepost": 272.6 },
+    { "slug": "grand-island", "name": "Grand Island", "referenceMile": 312, "mainExit": 312, "exitMilepost": 312.07 },
+    { "slug": "york", "name": "York", "referenceMile": 353, "mainExit": 353, "exitMilepost": 353.09 },
+    { "slug": "seward", "name": "Seward", "referenceMile": 379, "mainExit": 379, "exitMilepost": 379.08 },
+    { "slug": "lincoln", "name": "Lincoln", "referenceMile": 401, "mainExit": 401, "exitMilepost": 401.04 },
+    { "slug": "omaha", "name": "Omaha", "referenceMile": 454, "mainExit": 454, "exitMilepost": 454.14 }
+  ],
+  "legs": [
+    { "from": "Kimball", "to": "Sidney", "miles": 37, "minutesAt65": 35, "minutesAt70": 30 },
+    { "from": "Sidney", "to": "Ogallala", "miles": 67, "minutesAt65": 60, "minutesAt70": 55 },
+    { "from": "Ogallala", "to": "North Platte", "miles": 51, "minutesAt65": 45, "minutesAt70": 45 },
+    { "from": "North Platte", "to": "Lexington", "miles": 60, "minutesAt65": 55, "minutesAt70": 50 },
+    { "from": "Lexington", "to": "Kearney", "miles": 35, "minutesAt65": 30, "minutesAt70": 30 },
+    { "from": "Kearney", "to": "Grand Island", "miles": 40, "minutesAt65": 35, "minutesAt70": 35 },
+    { "from": "Grand Island", "to": "York", "miles": 41, "minutesAt65": 40, "minutesAt70": 35 },
+    { "from": "York", "to": "Seward", "miles": 26, "minutesAt65": 25, "minutesAt70": 20 },
+    { "from": "Seward", "to": "Lincoln", "miles": 22, "minutesAt65": 20, "minutesAt70": 20 },
+    { "from": "Lincoln", "to": "Omaha", "miles": 53, "minutesAt65": 50, "minutesAt70": 45 }
+  ],
+  "fromOmaha": [
+    { "hub": "Omaha", "referenceMile": 454, "milesFromOmaha": 0, "minutesAt65": 0, "minutesAt70": 0 },
+    { "hub": "Lincoln", "referenceMile": 401, "milesFromOmaha": 53, "minutesAt65": 50, "minutesAt70": 45 },
+    { "hub": "Seward", "referenceMile": 379, "milesFromOmaha": 75, "minutesAt65": 70, "minutesAt70": 65 },
+    { "hub": "York", "referenceMile": 353, "milesFromOmaha": 101, "minutesAt65": 95, "minutesAt70": 85 },
+    { "hub": "Grand Island", "referenceMile": 312, "milesFromOmaha": 142, "minutesAt65": 130, "minutesAt70": 120 },
+    { "hub": "Kearney", "referenceMile": 272, "milesFromOmaha": 182, "minutesAt65": 170, "minutesAt70": 155 },
+    { "hub": "Lexington", "referenceMile": 237, "milesFromOmaha": 217, "minutesAt65": 200, "minutesAt70": 185 },
+    { "hub": "North Platte", "referenceMile": 177, "milesFromOmaha": 277, "minutesAt65": 255, "minutesAt70": 235 },
+    { "hub": "Ogallala", "referenceMile": 126, "milesFromOmaha": 328, "minutesAt65": 305, "minutesAt70": 280 },
+    { "hub": "Sidney", "referenceMile": 59, "milesFromOmaha": 395, "minutesAt65": 365, "minutesAt70": 340 },
+    { "hub": "Kimball", "referenceMile": 22, "milesFromOmaha": 432, "minutesAt65": 400, "minutesAt70": 370 }
+  ],
+  "totals": {
+    "kimballToOmahaMiles": 432,
+    "minutesAt65": 400,
+    "minutesAt70": 370
+  },
+  "spur": {
+    "hub": "Hastings",
+    "note": "Not on I-80 and not part of the hub chain. Spur only.",
+    "fromExit": 312,
+    "route": "US-281 south from Exit 312",
+    "roadMiles": 16,
+    "minutesAt65": 15,
+    "minutesAt70": 15,
+    "source": "Hastings College directions",
+    "sourceUrl": "https://www.hastings.edu/admissions/visit-hastings/maps-and-directions/"
+  }
+}

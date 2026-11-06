@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
+import { DataPageLinks } from "@/components/DataPageLinks";
 import { places } from "@/data/places";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
@@ -285,6 +286,11 @@ export default function ExitsPage() {
             </a>{" "}
             or call 511. For an emergency on the interstate, use *55.
           </p>
+        </div>
+      </div>
+      <div className="container-page pb-10">
+        <div className="mx-auto max-w-5xl">
+          <DataPageLinks current="/exits" />
         </div>
       </div>
     </main>

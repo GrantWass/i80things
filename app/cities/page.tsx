@@ -133,12 +133,20 @@ export default function CitiesPage() {
                 approximate; use the Census link on each hub for the exact count.
               </p>
             </div>
-            <Link
-              href="/exits"
-              className="kicker text-highway hover:text-amber-dark"
-            >
-              All I-80 exits →
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/exits"
+                className="kicker text-highway hover:text-amber-dark"
+              >
+                All I-80 exits →
+              </Link>
+              <Link
+                href="/demographics"
+                className="kicker text-highway hover:text-amber-dark"
+              >
+                Demographics →
+              </Link>
+            </div>
           </div>
           <div className="mt-4 overflow-x-auto border border-line">
             <table className="w-full min-w-[48rem] border-collapse text-left text-sm">

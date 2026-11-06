@@ -391,6 +391,12 @@ export default async function ConditionsPage() {
               >
                 All I-80 exits
               </Link>
+              <Link
+                href="/construction"
+                className="mt-2 block border border-line px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:border-ink"
+              >
+                Construction tracker
+              </Link>
             </div>
 
             <div className="border border-line p-4">

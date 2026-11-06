@@ -50,20 +50,27 @@ agent. Work top to bottom.
 - [ ] Uptime monitoring and Sentry.
 - [ ] A Google News/Publisher Center review after the domain and email work.
 
-### Original data pages to build next
+### Live data desk
 
-The exit guide and town comparison are live. The next useful data pages are:
+The first data pages are live at `/data`:
 
-1. **Rest areas and services** — every rest area, fuel/food cluster and
-   seasonal closure, with NDOT/511 links.
-2. **Truck parking** — public and private parking by exit, including the
-   Dawson County project when dates are announced.
-3. **Construction tracker** — current NDOT projects by district and mile
-   marker, with a clear “last checked” date.
-4. **Town demographics** — exact Census population, county, school district
-   and hospital for each hub.
-5. **Hub-to-hub drive table** — mile-marker distance and typical drive time
-   between corridor towns, clearly labeled as an estimate.
+- `/exits` — every current I-80 exit, mile marker and nearest town
+- `/rest-areas` — NDOT rest-area inventory and amenities
+- `/truck-parking` — public truck capacity by exit and mile
+- `/construction` — current 511 work zones grouped by NDOT district
+- `/demographics` — exact 2020/2010 Census counts for the 12 hubs
+- `/distances` — estimated hub-to-hub miles and drive times
+
+### Future data pages
+
+1. **Private truck stops** — a hand-verified list of paid/reserved parking,
+   showers and overnight fuel stops.
+2. **Historical construction** — long-term project timelines and completion
+   dates, separate from the live 511 snapshot.
+3. **Town services** — hospital, school district, library and city hall
+   contact for each hub.
+4. **Weather normals** — NWS climate normals and closure history by segment.
+5. **Rest-area status history** — short-term closures and reopenings from 511.
 
 Do not build these as thin pages. Each needs a source, a last-checked date and
 a reason to bookmark it.

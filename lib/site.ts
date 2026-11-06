@@ -24,6 +24,7 @@ export const nav = [
   { href: "/news", label: "Latest" },
   { href: "/conditions", label: "Conditions" },
   { href: "/exits", label: "Exits" },
+  { href: "/data", label: "Data" },
   { href: "/cities", label: "Corridor towns" },
   { href: "/topics", label: "Topics" },
   { href: "/sources", label: "Sources" },

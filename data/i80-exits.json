@@ -182,6 +182,11 @@
       "road": "NE 10 (Minden/Kearney East on westbound lanes)"
     },
     {
+      "exit": 285,
+      "mile": 285.63,
+      "road": "NE Link 10C \u2014 Gibbon"
+    },
+    {
       "exit": 291,
       "mile": 291.36,
       "road": "NE Link 10D (Shelton)"
@@ -204,7 +209,7 @@
     {
       "exit": 314,
       "mile": 314.11,
-      "road": "Locust St - Opens late 2004 (Grand Island)"
+      "road": "Locust Street \u2014 Grand Island"
     },
     {
       "exit": 318,
@@ -287,6 +292,11 @@
       "road": "US 6 - eastbound only (Lincoln/W O St)"
     },
     {
+      "exit": 397,
+      "mile": 397.27,
+      "road": "US 77 south \u2014 Lincoln / Beatrice / Nebraska City"
+    },
+    {
       "exit": 399,
       "mile": 399.01,
       "road": "NW 12th St/W Cornhusker Hwy (Lincoln)"
@@ -322,6 +332,16 @@
       "road": "NE 66 (South Bend/Ashland on westbound lanes/Louisville on eastbound lanes)"
     },
     {
+      "exit": 432,
+      "mile": 432.94,
+      "road": "NE 31 / US 6 \u2014 Gretna / Schramm Park / Ashland"
+    },
+    {
+      "exit": 439,
+      "mile": 439.19,
+      "road": "NE 370 \u2014 Bellevue / Papillion / Gretna"
+    },
+    {
       "exit": 440,
       "mile": 440.63,
       "road": "NE 50/144th St (Springfield/Omaha)"
@@ -332,11 +352,6 @@
       "road": "Giles Road / Harrison Street"
     },
     {
-      "exit": 445,
-      "mile": 444.56,
-      "road": "US 275/NE 92/I-L-Q Sts - access from collector/distributor lanes only (Omaha)"
-    },
-    {
       "exit": 446,
       "mile": 445.97,
       "road": "I-680 (Omaha)"
@@ -345,6 +360,11 @@
       "exit": 445,
       "mile": 446.63,
       "road": "US 275/NE 92/I-L-Q Sts - access from collector/distributor lanes only (Omaha)"
+    },
+    {
+      "exit": 448,
+      "mile": 448.29,
+      "road": "84th Street"
     },
     {
       "exit": 449,

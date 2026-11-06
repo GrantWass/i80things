@@ -74,9 +74,12 @@ not enough to dominate.
 
 Priorities:
 
-- **I-80 exit guide**: `/exits` now lists every interstate exit with mile marker
-  and nearest corridor town. Link it from city hubs, the mile-marker guide and
-  relevant stories.
+- **Data desk**: `/data` is the hub for `/exits`, `/rest-areas`,
+  `/truck-parking`, `/construction`, `/demographics` and `/distances`. It is
+  linked from the header, footer, article sidebars and city hubs.
+- **I-80 exit guide**: `/exits` lists every current interstate exit with mile
+  marker, connecting road and nearest corridor town. The exit registry also
+  powers the fact-checker's unknown-exit guard.
 - **More local reporting per hub**: one story per town is a start; three to five
   original local stories per hub is a real footprint. Do not pad with generic
   copy.

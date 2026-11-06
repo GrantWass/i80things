@@ -52,7 +52,7 @@ export const places: Place[] = [
     lon: -102.9777,
     population: 6400,
     blurb:
-      "Home of the Cheyenne County seat and Cabela's original store, Sidney is the last full-service stop before the climb to Kimball and the Wyoming border.",
+      "Home of the Cheyenne County seat and Cabela's original store, Sidney is the biggest service cluster on the western approach to Kimball and the Wyoming border.",
     knownFor: ["Cabela's", "Cheyenne County seat", "Last big stop westbound"],
     nearby: ["Kimball", "Lodgepole", "Ogallala"],
     localGuide: {
@@ -119,7 +119,7 @@ export const places: Place[] = [
     name: "North Platte",
     county: "Lincoln County",
     mileMarker: "177–190",
-    exit: "Exit 177, 179, 183, 186, 190",
+    exit: "Exit 177, 179, 190",
     lat: 41.1239,
     lon: -100.7654,
     population: 23000,
@@ -144,7 +144,7 @@ export const places: Place[] = [
         {
           title: 'Five exits',
           body:
-            'Exits 177, 179, 183, 186 and 190 serve the city. The truck stops and motels cluster near I-80; downtown is a short drive north.',
+            'Exits 177, 179 and 190 serve the city. The truck stops and motels cluster near I-80; downtown is a short drive north.',
         },
       ],
     },
@@ -232,12 +232,12 @@ export const places: Place[] = [
     lon: -98.3884,
     population: 25000,
     blurb:
-      "Not on the interstate, but close enough to matter: Hastings sits 25 miles south of I-80 via US-281 and is a major ag, manufacturing and media market for the corridor.",
+      "Not on the interstate, but close enough to matter: Hastings sits about 16 miles south of I-80 via US-281 and is a major ag, manufacturing and media market for the corridor.",
     knownFor: ["Adams County seat", "Kool-Aid birthplace", "Ag manufacturing"],
     nearby: ["Grand Island", "Kearney", "Aurora"],
     localGuide: {
       intro:
-        'Hastings is not on the interstate, but it is close enough to matter: about 25 miles south of I-80 via US-281 from Exit 312. It is a regional center for the ag belt south of the Platte.',
+        'Hastings is not on the interstate, but it is close enough to matter: about 16 miles south of I-80 via US-281 from Exit 312. It is a regional center for the ag belt south of the Platte.',
       highlights: [
         {
           title: 'Off the interstate',
@@ -262,8 +262,8 @@ export const places: Place[] = [
     slug: "grand-island",
     name: "Grand Island",
     county: "Hall County",
-    mileMarker: "306–318",
-    exit: "Exit 306, 309, 312, 314",
+    mileMarker: "305–318",
+    exit: "Exit 305, 312, 314, 318",
     lat: 40.9247,
     lon: -98.342,
     population: 53000,

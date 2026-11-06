@@ -1,0 +1,80 @@
+{
+  "note": "Approximate service-area mile ranges for grouping I-80 events only. These are NOT official NDOT boundary claims. District boundaries follow county lines; mile markers are a convenience for sorting events west to east. Source: NDOT divisions & districts page (https://dot.nebraska.gov/about/divisions-districts/) and district map (https://dot.nebraska.gov/media/23fp3ujl/districts-map-lines-color.png).",
+  "sources": [
+    "https://dot.nebraska.gov/about/divisions-districts/",
+    "https://dot.nebraska.gov/media/23fp3ujl/districts-map-lines-color.png",
+    "https://dot.nebraska.gov/media/4v5lbeay/construction-detours-info.pdf"
+  ],
+  "districts": [
+    {
+      "id": "d5",
+      "district": "District 5",
+      "label": "Panhandle",
+      "minMile": 0,
+      "maxMile": 110,
+      "maxInclusive": false,
+      "counties": [
+        "Kimball",
+        "Cheyenne",
+        "Deuel"
+      ],
+      "note": "Wyoming line to roughly the Deuel/Keith county line (between Big Springs and Brule)."
+    },
+    {
+      "id": "d6",
+      "district": "District 6",
+      "label": "West-central",
+      "minMile": 110,
+      "maxMile": 300,
+      "maxInclusive": false,
+      "counties": [
+        "Keith",
+        "Lincoln",
+        "Dawson",
+        "Buffalo"
+      ],
+      "note": "Deuel/Keith county line to roughly the Buffalo/Hall county line (near Shelton\u2013Wood River)."
+    },
+    {
+      "id": "d4",
+      "district": "District 4",
+      "label": "Grand Island\u2013York",
+      "minMile": 300,
+      "maxMile": 362,
+      "maxInclusive": false,
+      "counties": [
+        "Hall",
+        "Hamilton",
+        "York"
+      ],
+      "note": "Wood River area to roughly the York/Seward county line (east of Waco)."
+    },
+    {
+      "id": "d1",
+      "district": "District 1",
+      "label": "Seward\u2013Lincoln\u2013Cass",
+      "minMile": 362,
+      "maxMile": 440,
+      "maxInclusive": false,
+      "counties": [
+        "Seward",
+        "Lancaster",
+        "Cass"
+      ],
+      "note": "York/Seward county line to roughly the Cass/Sarpy county line (near Springfield)."
+    },
+    {
+      "id": "d2",
+      "district": "District 2",
+      "label": "Omaha metro",
+      "minMile": 440,
+      "maxMile": 455,
+      "maxInclusive": true,
+      "counties": [
+        "Sarpy",
+        "Douglas"
+      ],
+      "note": "Springfield area to the Missouri River (I-80 end, mile ~454)."
+    }
+  ]
+}
