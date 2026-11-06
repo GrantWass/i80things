@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
+import { CorridorMap } from "@/components/CorridorMap";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
 import { TrackedLink } from "@/components/TrackedLink";
@@ -250,6 +251,10 @@ export default async function ConstructionPage() {
                 Cached for five minutes between checks
               </p>
             </div>
+          </div>
+
+          <div className="mt-6">
+            <CorridorMap events={roads.events} />
           </div>
 
           {featuredZones.length ? (

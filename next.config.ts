@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
     imageSizes: [256, 384],
     qualities: [75, 82],
   },
+  async redirects() {
+    return [
+      {
+        source: "/data",
+        destination: "/exits",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

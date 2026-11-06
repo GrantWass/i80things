@@ -74,9 +74,9 @@ not enough to dominate.
 
 Priorities:
 
-- **Data desk**: `/data` is the hub for `/exits`, `/rest-areas`,
-  `/truck-parking`, `/construction`, `/demographics` and `/distances`. It is
-  linked from the header, footer, article sidebars and city hubs.
+- **Corridor data**: the header groups `/exits`, `/rest-areas`,
+  `/truck-parking`, `/construction`, `/demographics` and `/distances` under one
+  dropdown. The old `/data` hub is gone; `/data` redirects to `/exits`.
 - **I-80 exit guide**: `/exits` lists every current interstate exit with mile
   marker, connecting road and nearest corridor town. The exit registry also
   powers the fact-checker's unknown-exit guard.
@@ -113,8 +113,8 @@ Priorities:
 Reference pages can be checked at phone widths with the local Chrome audit:
 
 ```bash
-node scripts/mobile-audit.mjs --pages /data,/exits,/rest-areas,/truck-parking,/construction,/demographics,/distances --width 390 --height 844
-node scripts/mobile-audit.mjs --pages /data,/exits,/rest-areas,/truck-parking,/construction,/demographics,/distances --width 320 --height 568
+node scripts/mobile-audit.mjs --pages /exits,/rest-areas,/truck-parking,/construction,/demographics,/distances --width 390 --height 844
+node scripts/mobile-audit.mjs --pages /exits,/rest-areas,/truck-parking,/construction,/demographics,/distances --width 320 --height 568
 ```
 
 It writes screenshots and `audit.json` to `/tmp/i80-mobile-audit` (or `--out`).

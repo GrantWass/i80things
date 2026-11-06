@@ -48,6 +48,7 @@ const fastest = towns.reduce((best, t) =>
   pctChange(t) > pctChange(best) ? t : best,
 );
 const largest = [...towns].sort((a, b) => b.pop2025 - a.pop2025).slice(0, 4);
+const maxPop = Math.max(...towns.map((town) => town.pop2025));
 
 export default function DemographicsPage() {
   const jsonLd = {
@@ -201,6 +202,48 @@ export default function DemographicsPage() {
               </p>
             </div>
           </div>
+
+          <section className="mt-8 border border-line bg-paper p-5 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-2">
+              <div>
+                <p className="kicker text-amber-dark">Visual comparison</p>
+                <h2 className="mt-1 font-serif text-2xl font-semibold">
+                  2025 population by hub
+                </h2>
+              </div>
+              <p className="text-[11px] text-slate">
+                2020 Census count in parentheses
+              </p>
+            </div>
+            <ul className="mt-4 space-y-2.5">
+              {towns.map((town) => (
+                <li key={town.slug}>
+                  <div className="flex items-baseline justify-between gap-3 text-[12px]">
+                    <Link
+                      href={`/cities/${town.slug}`}
+                      className="inline-flex min-h-11 items-center font-semibold text-ink hover:text-highway"
+                    >
+                      {town.town}
+                    </Link>
+                    <span className="shrink-0 tabular-nums text-ink-soft">
+                      {town.pop2025.toLocaleString("en-US")}{" "}
+                      <span className="text-[10px] text-slate">
+                        ({town.pop2020.toLocaleString("en-US")})
+                      </span>
+                    </span>
+                  </div>
+                  <div className="mt-1 h-2 w-full bg-cream">
+                    <div
+                      className="h-2 bg-highway"
+                      style={{
+                        width: `${Math.max(2, (town.pop2025 / maxPop) * 100)}%`,
+                      }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           <section className="mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">

@@ -21,7 +21,6 @@ ${site.name} covers Interstate 80 in Nebraska, from Omaha (mile 454) to Kimball 
 ## Key pages
 - [Latest news](${site.url}/news): every story, newest first
 - [I-80 conditions](${site.url}/conditions): current 511 closures/construction and NWS alerts
-- [I-80 data desk](${site.url}/data): exits, rest areas, truck parking, construction, demographics and distances
 - [I-80 exit guide](${site.url}/exits): every Nebraska I-80 exit, mile marker and nearest town
 - [Rest areas & services](${site.url}/rest-areas): official I-80 rest-area inventory and amenities
 - [Public truck parking](${site.url}/truck-parking): public truck capacity by exit and mile

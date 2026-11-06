@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
+import { RestAreaMap } from "@/components/RestAreaMap";
 import { places } from "@/data/places";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
@@ -192,7 +193,9 @@ export default function RestAreasPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <section className="border border-line bg-paper p-5 md:p-7">
+          <RestAreaMap areas={areas} />
+
+          <section className="mt-4 border border-line bg-paper p-5 md:p-7">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <p className="kicker text-amber-dark">Start here</p>

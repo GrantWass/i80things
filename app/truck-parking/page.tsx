@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
+import { RestAreaMap } from "@/components/RestAreaMap";
 import { DataPageLinks } from "@/components/DataPageLinks";
 import { getPlace } from "@/data/places";
 import { site } from "@/lib/site";
@@ -196,6 +197,19 @@ export default function TruckParkingPage() {
               ))}
             </div>
           </section>
+
+          <div className="mt-4">
+            <RestAreaMap
+              variant="truck"
+              areas={openSites.map((site) => ({
+                id: site.id,
+                name: site.name,
+                milepost: site.mile,
+                nearestExit: site.nearestExit ?? 0,
+                truckOnly: false,
+              }))}
+            />
+          </div>
 
           <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
             <div className="bg-paper p-5">
