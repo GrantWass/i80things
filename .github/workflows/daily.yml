@@ -6,6 +6,12 @@ name: daily-desk
 # work once the secret is present.
 on:
   workflow_dispatch:
+    inputs:
+      probe:
+        description: "Test OpenCode credentials only; do not publish"
+        required: false
+        default: false
+        type: boolean
   schedule:
     # 05:30 America/Chicago in daylight time and standard time.
     - cron: "30 10 * * *"
@@ -75,15 +81,30 @@ jobs:
           fi
 
       - name: Preflight sources and 511
-        if: steps.clock.outputs.run == 'true'
+        if: steps.clock.outputs.run == 'true' && inputs.probe != true
         shell: bash
         run: |
           mkdir -p .cache/daily-desk
           npm run sources -- --hours=24 > ".cache/daily-desk/sources-$(date +%F).txt" 2>&1 || true
           npm run --silent 511 -- --json > ".cache/daily-desk/511-$(date +%F).json" 2>&1 || true
 
+      - name: Probe OpenCode setup
+        if: steps.clock.outputs.run == 'true' && inputs.probe == true
+        uses: anomalyco/opencode/github@latest
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          model: opencode-go/muse-spark-1.3-contributor
+          variant: high
+          use_github_token: true
+          prompt: |
+            Reply with exactly: OK
+            Do not read, edit, create or commit any file.
+            Do not publish anything.
+
       - name: Run the daily desk
-        if: steps.clock.outputs.run == 'true'
+        if: steps.clock.outputs.run == 'true' && inputs.probe != true
         uses: anomalyco/opencode/github@latest
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
