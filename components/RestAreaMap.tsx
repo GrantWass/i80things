@@ -1,6 +1,6 @@
 import {
+  CORRIDOR_TOWNS,
   HORIZONTAL_MAP,
-  VERTICAL_MAP,
   type CorridorMapModel,
 } from "@/lib/corridor-map";
 
@@ -15,9 +15,13 @@ export type RestAreaMapPoint = {
 function MapCanvas({
   map,
   areas,
+  markerRadius,
+  townLabels = false,
 }: {
   map: CorridorMapModel;
   areas: RestAreaMapPoint[];
+  markerRadius: number;
+  townLabels?: boolean;
 }) {
   return (
     <svg
@@ -56,6 +60,26 @@ function MapCanvas({
         strokeLinejoin="round"
       />
 
+      {townLabels
+        ? CORRIDOR_TOWNS.map((town) => {
+            const point = map.pointAtMile(town.mile);
+            return (
+              <text
+                key={town.name}
+                x={point.x}
+                y={point.y + (town.label === "above" ? -13 : 24)}
+                textAnchor="middle"
+                fill="var(--color-slate)"
+                fontSize={10}
+                fontWeight={700}
+                letterSpacing={0.2}
+              >
+                {town.name}
+              </text>
+            );
+          })
+        : null}
+
       {areas.map((area) => {
         const mile = area.milepost ?? area.nearestExit;
         const point = map.pointAtMile(mile);
@@ -64,14 +88,18 @@ function MapCanvas({
             <circle
               cx={point.x}
               cy={point.y}
-              r={area.truckOnly ? 5.5 : 4.5}
+              r={markerRadius}
               fill={
                 area.truckOnly
                   ? "var(--color-amber-dark)"
+                  : "var(--color-paper)"
+              }
+              stroke={
+                area.truckOnly
+                  ? "var(--color-paper)"
                   : "var(--color-highway)"
               }
-              stroke="var(--color-paper)"
-              strokeWidth={1.5}
+              strokeWidth={2}
             >
               <title>
                 {area.name} — mile {mile}
@@ -114,10 +142,15 @@ export function RestAreaMap({
 
       <div className="px-3 pt-3 pb-1">
         <div className="hidden md:block">
-          <MapCanvas map={HORIZONTAL_MAP} areas={areas} />
+          <MapCanvas
+            map={HORIZONTAL_MAP}
+            areas={areas}
+            markerRadius={6}
+            townLabels
+          />
         </div>
         <div className="md:hidden">
-          <MapCanvas map={VERTICAL_MAP} areas={areas} />
+          <MapCanvas map={HORIZONTAL_MAP} areas={areas} markerRadius={9} />
         </div>
       </div>
 
