@@ -141,31 +141,46 @@ npm run daily:uninstall
 
 ## Cloud option: GitHub Actions
 
-GitHub Actions is **free for standard Linux runners on public repositories**.
-This repository is public, so the daily desk can run there without a paid
-Actions plan. On a private repository, GitHub Free includes 2,000 Linux minutes
-per month; macOS minutes count 10× and Windows 2×. A 10–20 minute daily run is
-roughly 300–600 Linux minutes per month.
+The workflow is `.github/workflows/daily.yml`. It is **free on standard Linux
+runners because this repository is public**. On a private repository, GitHub
+Free includes 2,000 Linux minutes per month; macOS counts 10× and Windows 2×.
 
-A workflow would need to:
+The workflow:
 
-1. Check out `main` with `contents: write`.
-2. Install Node 22 and OpenCode.
-3. Import credentials from a repository secret:
+1. Checks out `main` with `contents: write` and configures a git identity.
+2. Installs Node 22 and `npm ci`.
+3. Runs the source sweep and 511 preflight into `.cache/daily-desk/`.
+4. Uses `anomalyco/opencode/github@latest` with the `i80-daily` agent.
+5. Runs at **10:30 and 11:30 UTC**, then skips the duplicate by checking that
+   the local hour in `America/Chicago` is `05`.
+6. Uses `concurrency` so two runs cannot overlap.
+7. Opens a GitHub issue if the run fails.
+
+### Enable it
+
+1. Add the OpenCode Go key as a repository secret:
    ```bash
-   printf '%s' "$OPENCODE_AUTH_JSON" | opencode auth import
+   gh secret set OPENCODE_API_KEY -R GrantWass/i80things
    ```
-   Create the secret locally with `opencode auth export`; never commit it.
-4. Run `scripts/daily-run.sh` under `TZ=America/Chicago`.
-5. Use `concurrency` so two runs cannot overlap.
-6. Schedule both `10:30 UTC` and `11:30 UTC`, then exit unless
-   `date +%H` in Central is `05` — that handles daylight saving time without a
-   duplicate run.
-7. Add a failure notification (email, Slack or a GitHub issue) and a heartbeat,
-   because a green workflow is not the same as a published story.
+   Use a dedicated key with a spend limit. Do not commit it.
+2. **Turn off the Mac job first**, so launchd and GitHub do not both publish:
+   ```bash
+   npm run daily:uninstall
+   ```
+3. Enable the schedule:
+   ```bash
+   gh variable set DAILY_ENABLED --body true -R GrantWass/i80things
+   ```
+4. Test manually before trusting the cron:
+   ```bash
+   gh workflow run daily-desk.yml -R GrantWass/i80things
+   gh run watch -R GrantWass/i80things
+   ```
+
+Until `DAILY_ENABLED=true`, scheduled runs are skipped. Manual
+`workflow_dispatch` runs still work once the secret is present.
 
 **Security caveat:** this is an agent with shell access and a model credential.
-On a public repository, keep the credential in a dedicated secret with a
-spend limit, do not expose it to pull-request workflows, and prefer a manual
-`workflow_dispatch` trigger until the run is proven. The local launchd job
-remains the default.
+Keep the key in a dedicated secret with a spend limit, do not expose it to
+pull-request workflows, and do not add `pull_request` triggers to this workflow.
+The local launchd job remains the default until you explicitly switch.

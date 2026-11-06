@@ -16,6 +16,13 @@ export interface Correction {
 export const corrections: Correction[] = [
   {
     date: "2026-11-06",
+    story: "Sidney and Kimball: the last 60 miles of I-80 in Nebraska",
+    slug: "sidney-kimball-last-60-miles",
+    summary:
+      "An earlier version listed a third Sidney interchange that does not exist and called Kimball the last Nebraska exit before Wyoming. Sidney's interchanges are exits 55 and 59; Kimball is the last town of any size, with exits 8 and 1 continuing west. The headline and segment description have also been tightened.",
+  },
+  {
+    date: "2026-11-06",
     story: "Grand Island at mile 312: four exits, the State Fair and the Hastings spur",
     slug: "grand-island-at-mile-312-four-exits-the-state-fair-and-the-hastings-spur",
     summary:

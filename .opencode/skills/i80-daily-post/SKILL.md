@@ -65,6 +65,8 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
 - No AI images of real events.
 - Do not reuse an image from another story.
 - Prefer durable facts; date-stamp current road/lake/weather conditions and link to the official source.
+- Check every exit number against `data/i80-exits.json`; do not guess an exit.
+- For rankings, distances, recurring dates and event status, verify the year and the primary source.
 - A no-publish day is acceptable. A fabricated story is not.
 
 ## Output

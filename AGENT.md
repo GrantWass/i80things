@@ -138,6 +138,8 @@ Before writing a word, be able to answer:
 4. **Who confirmed it?** Agency, official, document. Link it.
 5. **What is the current status?** Open, closed, reopened, under investigation, no injuries, one lane, etc.
 
+Use `data/i80-exits.json` for every exit number. If an exit number is not in that registry, it is wrong until NDOT/511 confirms a change. Do not guess an exit because it sounds right.
+
 If any answer is missing, the story is not ready. Keep checking; do not guess.
 
 ---
@@ -202,6 +204,7 @@ If there is no safety, weather or construction story that has to run today, pref
 - In evergreen guides, use seasonal language or "as of <date>," and set `updated` when the situation changes. Do not leave "currently" or "right now" claims undated.
 - If a current closure, advisory or lake level is the point of the story, it is time-sensitive: date it, link to the official current source, and plan an update. Otherwise remove it before publishing.
 - Never leave a one-day weather advisory in a story that is meant to live for months.
+- For rankings ("third-largest"), distances ("16 miles"), recurring event dates ("second weekend") and event status ("reopened"), name the year and the source. These are the claims a model is most likely to smooth over.
 
 ### 5.4 SEO and LLM SEO requirements
 

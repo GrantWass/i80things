@@ -102,6 +102,19 @@ export default function StandardsPage() {
             or remove it promptly.
           </p>
 
+          <h2>AI-assisted reporting</h2>
+          <p>
+            We use software, including AI models, to monitor public sources,
+            organize notes and prepare drafts. The publisher is accountable for
+            everything published. AI output is never treated as confirmation:
+            claims are checked against the primary sources listed on the story,
+            and a second-pass review runs before publication.
+          </p>
+          <p>
+            We do not use AI to invent quotes, people, events or images. When a
+            substantive correction is needed, we fix it and log it publicly.
+          </p>
+
           <h2>Corrections</h2>
           <p>
             When we get a fact wrong, we fix it quickly and say so. Substantive

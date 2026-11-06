@@ -15,6 +15,9 @@ set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO"
 
+# Use the repo's pre-commit checks in both local and cloud runs.
+git config core.hooksPath .githooks 2>/dev/null || true
+
 export TZ="America/Chicago"
 export PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 

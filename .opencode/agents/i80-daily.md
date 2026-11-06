@@ -102,6 +102,9 @@ Then run the desk for today in `America/Chicago`.
      another story.
    - Never use an AI-generated image of a real event. If no usable photo exists,
      leave the fallback card rather than inventing one.
+   - Check every exit number against `data/i80-exits.json`. For rankings,
+     distances, recurring event dates and event status, verify the year and the
+     primary source rather than smoothing it over.
 
 8. **Validate and publish.**
    ```bash

@@ -1,0 +1,133 @@
+name: daily-desk
+
+# Free on standard GitHub-hosted runners for public repositories.
+# Add OPENCODE_API_KEY as an Actions secret, then set the repository variable
+# DAILY_ENABLED=true. Until then scheduled runs are skipped; manual runs still
+# work once the secret is present.
+on:
+  workflow_dispatch:
+  schedule:
+    # 05:30 America/Chicago in daylight time and standard time.
+    - cron: "30 10 * * *"
+    - cron: "30 11 * * *"
+
+concurrency:
+  group: i80-daily-desk
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  desk:
+    if: github.event_name == 'workflow_dispatch' || vars.DAILY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      TZ: America/Chicago
+      NEXT_PUBLIC_SITE_URL: https://i80things.vercel.app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure git
+        run: |
+          git config user.name "i80things-daily"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config core.hooksPath .githooks
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Decide whether this scheduled run should execute
+        id: clock
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          hour="$(date +%H)"
+          if [ "$hour" = "05" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Local hour is $hour; this is the duplicate daylight-saving run."
+          fi
+
+      - name: Check OpenCode credential
+        if: steps.clock.outputs.run == 'true'
+        shell: bash
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+        run: |
+          if [ -z "${OPENCODE_API_KEY:-}" ]; then
+            echo "::error::OPENCODE_API_KEY is not set. Add it in Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Preflight sources and 511
+        if: steps.clock.outputs.run == 'true'
+        shell: bash
+        run: |
+          mkdir -p .cache/daily-desk
+          npm run sources -- --hours=24 > ".cache/daily-desk/sources-$(date +%F).txt" 2>&1 || true
+          npm run --silent 511 -- --json > ".cache/daily-desk/511-$(date +%F).json" 2>&1 || true
+
+      - name: Run the daily desk
+        if: steps.clock.outputs.run == 'true'
+        uses: anomalyco/opencode/github@latest
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          model: opencode-go/muse-spark-1.3-contributor
+          variant: high
+          agent: i80-daily
+          use_github_token: true
+          prompt: |
+            Run the I-80 Things daily desk for today in America/Chicago.
+
+            Follow .opencode/agents/i80-daily.md and .opencode/skills/i80-daily-post/SKILL.md.
+            Preflight files, if present: .cache/daily-desk/511-*.json and .cache/daily-desk/sources-*.txt.
+
+            Check npm run log and npm run cities:coverage first. Do not duplicate a story. If there is no safety/weather story, prefer a city hub with zero local stories. Verify every fact with a primary source. Choose strong, subject-matched images, add captions/credits/license, and run npm run images:audit. Do not put one-day advisories or undated current conditions in evergreen copy. If there is no verified story, do not force one; report what you checked and why you skipped it.
+
+            PUBLISH MODE. Run validate, images:audit, factcheck --publish and build before committing. Run npm run review -- --slug <slug> for every new story; a VERDICT: BLOCK must be fixed and re-reviewed. Do not leave draft:true. Commit content, images and source-health updates, push, then verify the live article, Instagram JPEG and city hub.
+
+            Do not wait for approval. End with the run report.
+
+      - name: Open a failure alert
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().slice(0, 10);
+            const title = `Daily desk failed — ${date}`;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+            });
+            if (existing.data.some((issue) => issue.title === title)) return;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body: [
+                "The scheduled I-80 Things daily desk failed.",
+                "",
+                `Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                `Commit: ${context.sha}`,
+                "",
+                "Check the workflow log before rerunning. Do not rerun until the cause is understood.",
+              ].join("\n"),
+            });

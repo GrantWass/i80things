@@ -36,6 +36,10 @@ const topicsSource = fs.readFileSync(path.join(process.cwd(), "data", "topics.ts
 const knownTopics = new Set(
   [...topicsSource.matchAll(/slug:\s*"([^"]+)"/g)].map((match) => match[1]),
 );
+const exitData = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "data", "i80-exits.json"), "utf8"),
+);
+const knownExits = new Map(exitData.exits.map((item) => [item.exit, item.mile]));
 
 function error(file, message) {
   errors.push({ file, message });
@@ -223,6 +227,15 @@ for (const file of files) {
   if (/\b(advisory is|closure is|is closed|are closed|in effect|detour is|currently closed)\b/i.test(body) && !/\b(as of|updated|on [A-Z][a-z]+ \d|\d{4})\b/i.test(body)) {
     warn(relative, "current road/weather status without a date stamp");
   }
+  if (/\b(first|second|third|fourth)\s+weekend\b|\beach\s+(January|February|March|April|May|June|July|August|September|October|November|December)\b/i.test(body)) {
+    warn(relative, "recurring event date: confirm the year-specific date");
+  }
+  if (/\b(reopened|reopening|ribbon cutting|set for|scheduled for|will reopen)\b/i.test(body)) {
+    warn(relative, "event status: verify it happened, not just that it was scheduled");
+  }
+  if (/\b(largest|smallest|oldest|highest|lowest)\b/i.test(body)) {
+    warn(relative, "superlative/ranking claim: verify it against a source");
+  }
 
   const images = Array.isArray(data.images) ? data.images : [];
   if (!images.length && !data.image) {
@@ -249,6 +262,28 @@ for (const file of files) {
     if (!data.imageCreditUrl) error(relative, "legacy image: missing credit URL");
     if (!data.imageLicense) error(relative, "legacy image: missing license");
     if (!data.imageLicenseUrl) error(relative, "legacy image: missing license URL");
+  }
+
+  // Exit numbers are the easiest hard fact to get wrong. Check every
+  // "Exit N" against the NDOT-derived registry and the story's city range.
+  const exitMentions = [...body.matchAll(/\bExit\s+(\d{1,3})\b/g)];
+  for (const match of exitMentions) {
+    const number = Number(match[1]);
+    if (!knownExits.has(number)) {
+      error(relative, `unknown Nebraska I-80 exit: ${number}`);
+      continue;
+    }
+    if (place) {
+      const range = place.mileMarker.match(/\d+/g)?.map(Number) ?? [];
+      if (range.length >= 1) {
+        const min = Math.min(...range);
+        const max = Math.max(...range);
+        const exitMile = knownExits.get(number);
+        if (exitMile < min - 10 || exitMile > max + 10) {
+          warn(relative, `Exit ${number} is outside the ${place.name} area (${place.mileMarker})`);
+        }
+      }
+    }
   }
 
   for (const link of extractInternalLinks(body)) {

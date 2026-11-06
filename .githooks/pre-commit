@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Block a commit that changes story content or images when the story checks fail.
+# Code-only commits skip the check.
+set -euo pipefail
+
+changed="$(
+  git diff --cached --name-only -- \
+    'content/posts/*.mdx' \
+    'content/posts/*.md' \
+    'public/images/posts/*' \
+    'data/places.ts' \
+    'data/i80-exits.json'
+)"
+
+if [ -z "$changed" ]; then
+  exit 0
+fi
+
+echo "Story content changed — running validation and fact checks."
+npm run --silent validate
+npm run --silent factcheck
+npm run --silent images:audit
+echo "Story checks passed."

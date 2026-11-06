@@ -97,7 +97,9 @@ export default function AboutPage() {
             </p>
             <p>
               We monitor public-safety radio, but a scanner call is never
-              published as fact. It is a tip that must be confirmed. Our full
+              published as fact. It is a tip that must be confirmed. We also use
+              AI tools to monitor sources and prepare drafts; every story is
+              checked against primary sources before publication. Our full
               process is in our{" "}
               <Link href="/editorial-standards">editorial standards</Link>, and
               every source we use is listed in the{" "}
