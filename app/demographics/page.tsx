@@ -9,13 +9,13 @@ import demoData from "@/data/town-demographics.json";
 export const metadata: Metadata = {
   title: "I-80 corridor town demographics",
   description:
-    "Exact 2020 and 2010 Census counts for the 12 I-80 corridor hubs, from Kimball to Omaha: population change, counties, mile markers and exits.",
+    "Exact 2020 and 2010 Census counts, plus 2025 Census estimates, for the 12 I-80 corridor hubs: population change, counties, mile markers and exits.",
   alternates: { canonical: "/demographics" },
   openGraph: {
     url: `${site.url}/demographics`,
     title: "I-80 corridor town demographics | I-80 Things",
     description:
-      "Exact 2020 and 2010 Census counts for the 12 I-80 corridor hubs, from Kimball to Omaha.",
+      "Exact 2020 and 2010 Census counts, plus 2025 Census estimates, for the 12 I-80 corridor hubs.",
   },
 };
 
@@ -43,10 +43,11 @@ function fmtPct(n: number) {
 }
 
 const combined2020 = towns.reduce((sum, t) => sum + t.pop2020, 0);
+const combined2025 = towns.reduce((sum, t) => sum + t.pop2025, 0);
 const fastest = towns.reduce((best, t) =>
   pctChange(t) > pctChange(best) ? t : best,
 );
-const largest = [...towns].sort((a, b) => b.pop2020 - a.pop2020).slice(0, 4);
+const largest = [...towns].sort((a, b) => b.pop2025 - a.pop2025).slice(0, 4);
 
 export default function DemographicsPage() {
   const jsonLd = {
@@ -58,7 +59,7 @@ export default function DemographicsPage() {
         name: "I-80 corridor town demographics",
         url: absoluteUrl("/demographics"),
         description:
-          "Exact 2020 and 2010 decennial Census counts for the 12 I-80 corridor hubs, with population change, counties, mile markers and exits.",
+          "Exact 2020 and 2010 decennial Census counts plus 2025 population estimates for the 12 I-80 corridor hubs.",
         isPartOf: { "@id": `${site.url}/#website` },
         mainEntity: {
           "@type": "ItemList",
@@ -73,16 +74,16 @@ export default function DemographicsPage() {
       },
       {
         "@type": "Dataset",
-        name: "I-80 corridor town demographics, 2010 and 2020",
+        name: "I-80 corridor town demographics, 2010–2025",
         description:
-          "Decennial Census counts (2010 and 2020) for the 12 I-80 corridor hub towns, with county population, numeric and percent change, mile markers and main exits.",
+          "Decennial Census counts (2010 and 2020) plus Vintage 2025 estimates for the 12 I-80 corridor hub towns, with county population, change, mile markers and main exits.",
         url: absoluteUrl("/demographics"),
         creator: {
           "@type": "Organization",
           name: "I-80 Things",
         },
         isBasedOn: "https://www.census.gov/",
-        temporalCoverage: "2010/2020",
+        temporalCoverage: "2010/2025",
         dateModified: meta.lastVerified,
       },
       {
@@ -106,13 +107,14 @@ export default function DemographicsPage() {
 
       <header className="border-b border-line bg-cream">
         <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Kimball to Omaha · 2010 vs 2020</p>
+          <p className="kicker text-amber-dark">Kimball to Omaha · 2010 Census → 2020 Census → 2025 estimate</p>
           <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
             I-80 corridor town demographics
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Exact decennial Census counts for the 12 corridor hubs — not
-            estimates, and not the rounded figures on the{" "}
+            Exact decennial Census counts for 2010 and 2020, plus the latest
+            Vintage 2025 estimates, for the 12 corridor hubs — not the rounded
+            figures on the{" "}
             <Link
               href="/cities"
               className="font-semibold text-highway underline decoration-amber underline-offset-2"
@@ -136,8 +138,8 @@ export default function DemographicsPage() {
                 </h2>
               </div>
               <p className="max-w-sm text-[11px] leading-relaxed text-slate">
-                Exact 2020 Census population inside city limits. The full
-                12-town table is below.
+                2025 Census estimate inside city limits; 2020 Census count
+                below. The full 12-town table is below.
               </p>
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -154,7 +156,10 @@ export default function DemographicsPage() {
                     {town.town}
                   </p>
                   <p className="mt-2 font-serif text-2xl font-semibold">
-                    {town.pop2020.toLocaleString("en-US")}
+                    {town.pop2025.toLocaleString("en-US")}
+                  </p>
+                  <p className="mt-1 text-[10px] text-slate">
+                    2025 estimate · 2020: {town.pop2020.toLocaleString("en-US")}
                   </p>
                   <p className="mt-1 text-[11px] text-highway">
                     City hub →
@@ -166,12 +171,12 @@ export default function DemographicsPage() {
 
           <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
             <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Combined 2020 population</p>
+              <p className="kicker text-amber-dark">Combined population</p>
               <p className="mt-1 font-serif text-3xl font-semibold">
-                {combined2020.toLocaleString("en-US")}
+                {combined2025.toLocaleString("en-US")}
               </p>
               <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                All {towns.length} hub towns, inside city limits
+                2025 estimate · 2020 Census: {combined2020.toLocaleString("en-US")}
               </p>
             </div>
             <div className="bg-paper p-5">
@@ -244,6 +249,14 @@ export default function DemographicsPage() {
                     <dl className="mt-2 grid grid-cols-2 gap-2 text-[12px] leading-relaxed text-ink-soft">
                       <div>
                         <dt className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                          2025 est.
+                        </dt>
+                        <dd className="tabular-nums">
+                          {town.pop2025.toLocaleString("en-US")}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
                           2020
                         </dt>
                         <dd className="tabular-nums">
@@ -281,14 +294,15 @@ export default function DemographicsPage() {
               })}
             </ul>
             <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
-              <table className="w-full min-w-[52rem] border-collapse text-left text-sm">
+              <table className="w-full min-w-[56rem] border-collapse text-left text-sm">
                 <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                   <tr>
                     <th className="px-3 py-2 font-semibold">Town</th>
                     <th className="px-3 py-2 font-semibold">County (2020)</th>
                     <th className="px-3 py-2 text-right font-semibold">2020</th>
+                    <th className="px-3 py-2 text-right font-semibold">2025 est.</th>
                     <th className="px-3 py-2 text-right font-semibold">2010</th>
-                    <th className="px-3 py-2 text-right font-semibold">Change</th>
+                    <th className="px-3 py-2 text-right font-semibold">Change 2010–20</th>
                     <th className="px-3 py-2 font-semibold">I-80 miles</th>
                     <th className="px-3 py-2 font-semibold">Main exits</th>
                   </tr>
@@ -321,6 +335,9 @@ export default function DemographicsPage() {
                           {town.pop2020.toLocaleString("en-US")}
                         </td>
                         <td className="px-3 py-2 text-right tabular-nums text-ink-soft">
+                          {town.pop2025.toLocaleString("en-US")}
+                        </td>
+                        <td className="px-3 py-2 text-right tabular-nums text-ink-soft">
                           {town.pop2010.toLocaleString("en-US")}
                         </td>
                         <td
@@ -347,10 +364,12 @@ export default function DemographicsPage() {
               </table>
             </div>
             <p className="mt-3 text-[12px] leading-relaxed text-slate">
-              Source: U.S. Census Bureau, 2020 and 2010 decennial counts.
-              Last checked {meta.lastVerified}. Populations are April 1 counts
-              inside incorporated city limits. Hastings is reached via US-281
-              south from Exit 312, about 16 miles off the interstate.
+              Source: U.S. Census Bureau — 2020 and 2010 decennial counts, plus
+              the Vintage 2025 city estimates (July 1, 2025). Last checked{" "}
+              {meta.lastVerified}. Census counts are April 1; the 2025 column is
+              an estimate, not a census. Populations cover incorporated city
+              limits. Hastings is reached via US-281 south from Exit 312, about
+              16 miles off the interstate.
             </p>
           </section>
 
@@ -361,10 +380,11 @@ export default function DemographicsPage() {
                 Town figures are the Census Bureau&apos;s place-level Table P1
                 total population for 2020 and the equivalent 2010 count,
                 matched to the Census place names (for example,{" "}
-                <span className="font-semibold">“Omaha city”</span>). County
-                figures are the 2020 Table P1 county totals. No statewide rank
-                is shown because ranks shift with each boundary update and are
-                easy to get wrong.
+                <span className="font-semibold">“Omaha city”</span>). The 2025
+                column is the Vintage 2025 estimate for July 1, 2025 — later
+                than the 2020 census, but an estimate. County figures are the
+                2020 Table P1 county totals. No statewide rank is shown because
+                ranks shift with each boundary update and are easy to get wrong.
               </p>
               <p>
                 Change is the simple arithmetic difference between the two

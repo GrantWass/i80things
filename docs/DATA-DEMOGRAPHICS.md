@@ -7,8 +7,8 @@ Last verified: 2026-11-06.
 Exact 2010 and 2020 decennial Census counts for the 12 corridor hubs in
 `data/places.ts` (Omaha, Lincoln, Grand Island, Kearney, Hastings,
 North Platte, Lexington, Ogallala, Sidney, Kimball, York, Seward), plus the
-2020 county population for each hub's county, numeric change, percent change,
-I-80 mile marker, and main exits. Hastings is flagged as the US-281 spur
+latest Vintage 2025 city population estimates (July 1, 2025), 2020 county
+population, numeric change, percent change, I-80 mile marker and main exits. Hastings is flagged as the US-281 spur
 (not on I-80). No statewide rank is shown (deliberately omitted — easy to
 get wrong).
 
@@ -26,10 +26,20 @@ percent change) are computed in the page from the table rows, not hardcoded.
 - 2010 counts: U.S. Census Bureau, 2010 decennial count as published in the
   `CENSUS2010POP` field of:
   `https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/cities/totals/sub-est2019_31.csv`
+- 2025 estimates: U.S. Census Bureau, Vintage 2025 city and town population
+  estimates:
+  `https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_31.csv`
+  (`POPESTIMATE2025`). These are estimates, not a decennial census.
 - Canonical API references (same variables the files carry):
   - `https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=place:*&in=state:31`
   - `https://api.census.gov/data/2010/dec/sf1?get=NAME,P001001&for=place:*&in=state:31`
   - `https://api.census.gov/data/2020/dec/pl?get=NAME,P1_001N&for=county:*&in=state:31`
+
+## Latest data
+
+The 2020 Census is the latest decennial census. The 2025 column is the latest
+Vintage 2025 estimate (July 1, 2025), not a new census. The next decennial
+census is 2030.
 
 ## Caveat (recorded in the JSON `meta.caveat`)
 

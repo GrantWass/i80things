@@ -3,6 +3,8 @@
 Source: NDOT, "Nebraska's Interstate 80 Rest Areas" (guidance document),
 dated **Oct. 2015**.
 PDF: https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf (4 pages).
+NDOT's Rest Area Information page still linked this PDF on 2026-11-06; no newer
+official I-80 rest-area capacity guide was found.
 Transcribed 2026-11-06. `lastVerified` in `data/rest-areas.json` is the
 transcription date, not a field check.
 

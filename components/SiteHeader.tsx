@@ -49,15 +49,37 @@ export function SiteHeader() {
         <div className="container-page flex h-[68px] items-center justify-between gap-6">
           <Brand />
           <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-[13px] font-semibold tracking-wide text-ink-soft transition hover:text-amber-dark"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {nav.map((item) =>
+              "children" in item ? (
+                <details key={item.href} className="relative">
+                  <summary className="flex cursor-pointer list-none items-center gap-1 text-[13px] font-semibold tracking-wide text-ink-soft transition hover:text-amber-dark [&::-webkit-details-marker]:hidden">
+                    {item.label}
+                    <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <path d="m2 4 4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </summary>
+                  <div className="absolute left-0 top-full z-50 mt-2 w-64 border border-line bg-paper p-2 shadow-xl">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block border-b border-line/60 px-3 py-2.5 text-sm font-semibold text-ink last:border-0 hover:bg-cream"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                </details>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-[13px] font-semibold tracking-wide text-ink-soft transition hover:text-amber-dark"
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
           </nav>
           <div className="flex items-center gap-2">
             <Link
@@ -98,16 +120,33 @@ export function SiteHeader() {
                 </svg>
                 <span className="sr-only">Open menu</span>
               </summary>
-              <div className="absolute right-0 mt-2 w-56 border border-line bg-paper p-2 shadow-xl">
-                {nav.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block border-b border-line/60 px-3 py-3 text-sm font-semibold text-ink last:border-0 hover:bg-cream"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <div className="absolute right-0 mt-2 max-h-[calc(100vh-5rem)] w-64 overflow-y-auto border border-line bg-paper p-2 shadow-xl">
+                {nav.map((item) =>
+                  "children" in item ? (
+                    <div key={item.href} className="border-b border-line/60 last:border-0">
+                      <p className="px-3 pt-2 pb-1 text-[9px] font-bold tracking-[0.14em] text-slate uppercase">
+                        {item.label}
+                      </p>
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="block px-6 py-3 text-sm font-semibold text-ink hover:bg-cream"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block border-b border-line/60 px-3 py-3 text-sm font-semibold text-ink last:border-0 hover:bg-cream"
+                    >
+                      {item.label}
+                    </Link>
+                  ),
+                )}
                 <Link
                   href="/admin"
                   className="block px-3 py-3 text-xs font-semibold text-slate hover:bg-cream"

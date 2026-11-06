@@ -460,8 +460,10 @@ export default function TruckParkingPage() {
               </li>
             </ul>
             <p className="mt-2">
-              Last checked: November 6, 2026. For emergencies on the
-              interstate, use *55. Uncertainty we are carrying: the Goehner
+              Last checked: November 6, 2026. NDOT&apos;s official Rest Area
+              Information page still linked the October 2015 guide on that
+              date; no newer official capacity inventory was found. For
+              emergencies on the interstate, use *55. Uncertainty we are carrying: the Goehner
               truck-only site has no published stall count; the Deuel County
               lot&apos;s milepost is approximate (at Exit 101); Melia Hill
               is 2 miles west of Exit 432, the Highway 31 interchange; and

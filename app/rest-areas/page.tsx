@@ -515,9 +515,11 @@ export default function RestAreasPage() {
             <a href="https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
               Nebraska&apos;s Interstate 80 Rest Areas
             </a>{" "}
-            (Oct. 2015), transcribed {restAreaData.lastVerified}. Parking counts
-            and amenities are the guide&apos;s figures and may be out of date —
-            sites may have been rebuilt, resized or closed since. For current
+            (Oct. 2015), transcribed {restAreaData.lastVerified}. NDOT&apos;s
+            Rest Area Information page still linked that guide when checked on
+            November 6, 2026; no newer official capacity inventory was found.
+            Parking counts and amenities are the guide&apos;s figures and may be
+            out of date — sites may have been rebuilt, resized or closed since. For current
             status, use{" "}
             <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
               Nebraska 511

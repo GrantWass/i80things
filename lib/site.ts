@@ -23,8 +23,19 @@ export const site = {
 export const nav = [
   { href: "/news", label: "Latest" },
   { href: "/conditions", label: "Conditions" },
-  { href: "/exits", label: "Exits" },
-  { href: "/data", label: "Data" },
+  {
+    href: "/data",
+    label: "Corridor data",
+    children: [
+      { href: "/data", label: "All data pages" },
+      { href: "/exits", label: "Exit guide" },
+      { href: "/rest-areas", label: "Rest areas" },
+      { href: "/truck-parking", label: "Truck parking" },
+      { href: "/construction", label: "Construction tracker" },
+      { href: "/demographics", label: "Town demographics" },
+      { href: "/distances", label: "Distances & times" },
+    ],
+  },
   { href: "/cities", label: "Corridor towns" },
   { href: "/topics", label: "Topics" },
   { href: "/sources", label: "Sources" },

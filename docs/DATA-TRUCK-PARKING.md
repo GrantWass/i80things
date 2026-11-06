@@ -5,7 +5,9 @@ Source of truth for `/truck-parking`: `data/truck-parking.json`.
 ## Sources
 
 - Open sites: NDOT "Interstate 80 Rest Areas" guide, Oct. 2015
-  (`https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf`).
+  (`https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf`). NDOT's Rest Area
+  Information page still linked this PDF on 2026-11-06; no newer official
+  capacity inventory was found.
   Extracted Nov. 6, 2026 from the PDF text (4 pages). Only I-80 sites are
   included; the McCook primary-system site is out of scope.
 - Planned site: NDOT "USDOT Invests Up to $59.6 Million" release, Nov. 5, 2026
