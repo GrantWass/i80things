@@ -8,7 +8,10 @@
   --color-line: #d8d1c0;
   --color-slate: #5d6155;
   --color-amber: #e3a008;
-  --color-amber-dark: #a97400;
+  /* Darkened from #a97400 (3.3–3.7:1 on paper/cream) so small bold text
+     (kickers, mile markers, badges) passes WCAG AA 4.5:1 on all light
+     surfaces. Verified: 6.05 paper, 5.50 cream. See docs/AUDIT.md. */
+  --color-amber-dark: #7c5500;
   --color-highway: #14432f;
   --color-highway-light: #1d5c40;
   --color-alert: #b3392b;
@@ -33,6 +36,9 @@
     font-family: var(--font-sans);
     font-feature-settings: "kern", "liga";
     text-rendering: optimizeLegibility;
+    /* Guard against accidental horizontal scroll from full-bleed rules
+       (e.g. .lane-rule). `clip` preserves position: sticky, unlike hidden. */
+    overflow-x: clip;
   }
 
   ::selection {
@@ -44,9 +50,16 @@
     text-underline-offset: 3px;
   }
 
+  /* Amber (#e3a008) on paper is 2.05:1; highway green is 10.2:1.
+     Dark ink surfaces keep the amber ring (7.6:1 on ink). See docs/AUDIT.md. */
   :focus-visible {
-    outline: 2px solid var(--color-amber);
+    outline: 2px solid var(--color-highway);
     outline-offset: 3px;
+  }
+
+  footer :focus-visible,
+  .bg-ink :focus-visible {
+    outline-color: var(--color-amber);
   }
 
   h1,

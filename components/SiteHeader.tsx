@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
-    <Link href="/" className="group flex items-center gap-2.5" aria-label="I-80 Things home">
+    <Link
+      href="/"
+      className="group flex items-center gap-2.5"
+      aria-label="Interstate 80 — I-80 Things, Nebraska corridor news, home"
+    >
       <span className="sign-green flex h-11 w-12 shrink-0 flex-col items-center justify-center rounded-[4px] text-paper">
         <span className="text-[7px] font-bold tracking-[0.16em]">INTERSTATE</span>
         <span className="font-serif text-[26px] leading-[0.9] font-bold">80</span>
@@ -17,7 +22,11 @@ export function Brand({ light = false }: { light?: boolean }) {
         >
           I-80 Things
         </span>
-        <span className="mt-1 block text-[9px] font-semibold tracking-[0.19em] text-slate uppercase">
+        <span
+          className={`mt-1 block text-[9px] font-semibold tracking-[0.19em] uppercase ${
+            light ? "text-cream/70" : "text-slate"
+          }`}
+        >
           Nebraska corridor news
         </span>
       </span>
@@ -61,21 +70,23 @@ export function SiteHeader() {
             >
               Source desk
             </Link>
-            <Link
+            <TrackedLink
               href="/search"
-              aria-label="Search I-80 Things"
+              event="search_open"
+              ariaLabel="Search I-80 Things"
               className="rounded-full border border-line p-2 text-ink-soft transition hover:border-ink hover:text-ink"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
                 <path d="m16.5 16.5 4 4" strokeLinecap="round" />
               </svg>
-            </Link>
-            <a
+            </TrackedLink>
+            <TrackedLink
               href={site.instagramUrl}
-              target="_blank"
+              external
+              event="instagram_open"
+              ariaLabel="I-80 Things on Instagram"
               rel="me noopener"
-              aria-label="I-80 Things on Instagram"
               className="rounded-full border border-line p-2 text-ink-soft transition hover:border-ink hover:text-ink"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -83,7 +94,7 @@ export function SiteHeader() {
                 <circle cx="12" cy="12" r="4" />
                 <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
               </svg>
-            </a>
+            </TrackedLink>
             <details className="relative lg:hidden">
               <summary className="flex cursor-pointer list-none items-center rounded-full border border-line p-2 text-ink [&::-webkit-details-marker]:hidden">
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">

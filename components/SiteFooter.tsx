@@ -79,7 +79,7 @@ export function SiteFooter() {
         <div className="mt-10 flex flex-col justify-between gap-3 border-t border-cream/15 pt-6 text-xs text-cream/50 sm:flex-row">
           <p>
             © {new Date().getFullYear()} I-80 Things. All rights reserved.{" "}
-            <span className="text-cream/35">
+            <span className="text-cream/70">
               Not affiliated with NDOT or the Nebraska State Patrol.
             </span>
           </p>

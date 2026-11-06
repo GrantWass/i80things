@@ -91,7 +91,7 @@ Then run the desk for today in `America/Chicago`.
    ```bash
    npm run validate
    npm run build
-   git add content/posts public/images/posts
+   git add content/posts public/images/posts data/source-health.json
    git commit -m "post: <headline>"
    git push
    ```

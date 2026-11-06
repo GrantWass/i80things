@@ -76,12 +76,23 @@ echo ""
 echo "--- Nebraska 511 (unofficial endpoint; preflight only) ---"
 npm run --silent 511 -- --json > "$RUN_DIR/511-$STAMP.json" 2>>"$LOG" || echo "WARN: 511 preflight failed."
 
+if [ "${DAILY_RUN_DRAFT:-0}" = "1" ]; then
+  MODE="DRAFT MODE. Do not run git commit or git push. Write any story with draft: true
+in the frontmatter, leave the files in the working tree, and report the exact
+paths for human review. Do not mark anything live."
+else
+  MODE="PUBLISH MODE. Validate and build before committing. Commit only content,
+images and source-health updates, then push."
+fi
+
 PROMPT="Run the I-80 Things daily desk for $STAMP in America/Chicago.
 
 Follow .opencode/agents/i80-daily.md and .opencode/skills/i80-daily-post/SKILL.md.
 Preflight files, if present: .cache/daily-desk/511-$STAMP.json and today's source sweep above.
 
-Check npm run log first so you do not duplicate a story. Verify every fact with a primary source. Publish only what is confirmed, with a real licensed photo and credit. Validate and build before committing. If there is no verified story, do not force one; report what you checked and why you skipped it.
+Check npm run log first so you do not duplicate a story. Verify every fact with a primary source. Publish only what is confirmed, with a real licensed photo and credit. If there is no verified story, do not force one; report what you checked and why you skipped it.
+
+$MODE
 
 Do not wait for approval. End with the run report."
 

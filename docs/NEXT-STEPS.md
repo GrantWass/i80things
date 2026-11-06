@@ -126,7 +126,7 @@ the token and approval flow are tested.
 - Add error tracking (Sentry) for the Next.js app and admin routes.
 - Add a link checker to CI.
 - Add Lighthouse CI or a manual monthly performance check.
-- Add `lastChecked`/status to `data/sources.json` so dead feeds are visible.
+- Review the generated `data/source-health.json` dashboard on `/sources`; rerun `npm run sources` to refresh stale/error feeds.
 - Review image licenses at `/image-credits` when new photos are added.
 
 ## 9. Daily run

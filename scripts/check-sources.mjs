@@ -104,7 +104,23 @@ function parseFeed(xml, source) {
   });
 }
 
+function lastItemAt(items) {
+  let latest = null;
+  for (const item of items ?? []) {
+    if (!item?.date) continue;
+    const time = new Date(item.date).getTime();
+    if (Number.isNaN(time)) continue;
+    if (!latest || time > new Date(latest).getTime()) latest = item.date;
+  }
+  return latest;
+}
+
 async function fetchFeed(source, attempt = 1) {
+  const base = {
+    source: source.name,
+    sourceId: source.id,
+    url: source.feedUrl,
+  };
   try {
     const res = await fetch(source.feedUrl, {
       headers: {
@@ -120,17 +136,32 @@ async function fetchFeed(source, attempt = 1) {
       return fetchFeed(source, attempt + 1);
     }
 
+    const checkedAt = new Date().toISOString();
+
     if (!res.ok) {
       const cached = cache[source.feedUrl];
       if (cached?.items?.length) {
         return {
-          source: source.name,
+          ...base,
           items: cached.items,
           stale: true,
+          status: "stale",
+          httpStatus: res.status,
+          checkedAt,
+          lastItemAt: lastItemAt(cached.items),
           error: `HTTP ${res.status} — using cache from ${cached.fetchedAt.slice(0, 10)}`,
         };
       }
-      return { source: source.name, error: `HTTP ${res.status}`, items: [], stale: false };
+      return {
+        ...base,
+        error: `HTTP ${res.status}`,
+        items: [],
+        stale: false,
+        status: "error",
+        httpStatus: res.status,
+        checkedAt,
+        lastItemAt: null,
+      };
     }
 
     const xml = await res.text();
@@ -138,18 +169,41 @@ async function fetchFeed(source, attempt = 1) {
     if (items.length) {
       cache[source.feedUrl] = { fetchedAt: new Date().toISOString(), items };
     }
-    return { source: source.name, items, stale: false };
+    return {
+      ...base,
+      items,
+      stale: false,
+      status: "ok",
+      httpStatus: res.status,
+      checkedAt,
+      lastItemAt: lastItemAt(items),
+      error: null,
+    };
   } catch (error) {
+    const checkedAt = new Date().toISOString();
     const cached = cache[source.feedUrl];
     if (cached?.items?.length) {
       return {
-        source: source.name,
+        ...base,
         items: cached.items,
         stale: true,
+        status: "stale",
+        httpStatus: null,
+        checkedAt,
+        lastItemAt: lastItemAt(cached.items),
         error: `${error.message} — using cache from ${cached.fetchedAt.slice(0, 10)}`,
       };
     }
-    return { source: source.name, error: error.message, items: [], stale: false };
+    return {
+      ...base,
+      error: error.message,
+      items: [],
+      stale: false,
+      status: "error",
+      httpStatus: null,
+      checkedAt,
+      lastItemAt: null,
+    };
   }
 }
 
@@ -301,9 +355,38 @@ try {
   /* caching is best-effort */
 }
 
+const generatedAt = new Date().toISOString();
+const health = {
+  generatedAt,
+  feeds: Object.fromEntries(
+    results.map((r) => [
+      r.sourceId,
+      {
+        id: r.sourceId,
+        name: r.source,
+        url: r.url,
+        status: r.status,
+        httpStatus: r.httpStatus ?? null,
+        checkedAt: r.checkedAt,
+        lastItemAt: r.lastItemAt ?? null,
+        error: r.error ?? null,
+      },
+    ]),
+  ),
+};
+
+try {
+  fs.writeFileSync(
+    path.join(process.cwd(), "data", "source-health.json"),
+    JSON.stringify(health, null, 2),
+  );
+} catch {
+  /* health file is best-effort — do not fail the sweep */
+}
+
 if (asJson) {
   console.log(JSON.stringify({
-    generatedAt: new Date().toISOString(),
+    generatedAt,
     hours,
     alerts,
     nsp: nspNews,
@@ -311,6 +394,7 @@ if (asJson) {
     items: top,
     failures,
     stale,
+    health,
   }, null, 2));
   process.exit(0);
 }

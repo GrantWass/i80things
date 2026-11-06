@@ -46,6 +46,16 @@ Dry run — print the OpenCode command without calling the model:
 DAILY_RUN_DRY=1 npm run daily
 ```
 
+Draft mode — write stories as `draft: true`, do not commit or push, and leave
+the files for review:
+
+```bash
+DAILY_RUN_DRAFT=1 npm run daily
+```
+
+The scheduled job uses **publish mode** by default. Use draft mode when you want
+to review a story before it reaches Vercel.
+
 Run from OpenCode's TUI instead:
 
 ```text

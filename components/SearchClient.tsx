@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Source } from "@/lib/types";
+import { trackEvent } from "@/lib/analytics";
 
 type PostResult = {
   slug: string;
@@ -26,6 +27,7 @@ export function SearchClient() {
   const [sources, setSources] = useState<SourceResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const lastTrackedQuery = useRef("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -87,6 +89,31 @@ export function SearchClient() {
       .slice(0, 10);
   }, [sources, terms]);
 
+  // Debounced search analytics: fire once per settled query (>= 2 chars),
+  // not on every keystroke. Skip repeats of the same query + result counts.
+  const storyCount = matchedPosts.length;
+  const sourceCount = matchedSources.length;
+  const countsRef = useRef({ stories: 0, sources: 0 });
+  useEffect(() => {
+    countsRef.current = { stories: storyCount, sources: sourceCount };
+  }, [storyCount, sourceCount]);
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (trimmed.length < 2) return;
+    const timer = setTimeout(() => {
+      const key = `${trimmed.toLowerCase()}|${countsRef.current.stories}|${countsRef.current.sources}`;
+      if (lastTrackedQuery.current === key) return;
+      lastTrackedQuery.current = key;
+      trackEvent("search", {
+        query: trimmed,
+        stories: countsRef.current.stories,
+        sources: countsRef.current.sources,
+      });
+    }, 700);
+    return () => clearTimeout(timer);
+  }, [query]);
+
   return (
     <div>
       <label className="block">
@@ -128,7 +155,16 @@ export function SearchClient() {
               <ul className="mt-4 divide-y divide-line">
                 {matchedPosts.map((post) => (
                   <li key={post.slug} className="py-4 first:pt-0">
-                    <Link href={`/news/${post.slug}`} className="group block">
+                    <Link
+                      href={`/news/${post.slug}`}
+                      className="group block"
+                      onClick={() =>
+                        trackEvent("search_result_click", {
+                          type: "story",
+                          query: query.trim(),
+                        })
+                      }
+                    >
                       <p className="font-serif text-xl leading-snug font-semibold group-hover:underline group-hover:decoration-amber group-hover:decoration-2 group-hover:underline-offset-4">
                         {post.title}
                       </p>
@@ -162,6 +198,12 @@ export function SearchClient() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-semibold text-ink hover:text-highway"
+                      onClick={() =>
+                        trackEvent("search_result_click", {
+                          type: "source",
+                          query: query.trim(),
+                        })
+                      }
                     >
                       {source.name}
                     </a>

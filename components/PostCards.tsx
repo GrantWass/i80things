@@ -132,7 +132,7 @@ export function CompactCard({
     <article className="group border-t border-line py-4 first:border-t-0 first:pt-0">
       <Link href={`/news/${post.slug}`} className="flex gap-4">
         {typeof index === "number" ? (
-          <span className="mt-0.5 font-serif text-2xl leading-none font-semibold text-amber">
+          <span className="mt-0.5 font-serif text-2xl leading-none font-semibold text-amber-dark">
             {String(index + 1).padStart(2, "0")}
           </span>
         ) : null}

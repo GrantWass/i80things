@@ -20,6 +20,16 @@ export type SourceReliability = "official" | "news" | "community" | "data";
 
 export type SourceKind = "web" | "rss" | "api" | "scanner" | "social";
 
+export type SourceHealthStatus = "ok" | "stale" | "error" | "manual";
+
+export interface SourceHealth {
+  status: SourceHealthStatus;
+  checkedAt?: string;
+  lastItemAt?: string | null;
+  httpStatus?: number | null;
+  error?: string | null;
+}
+
 export interface Source {
   id: string;
   name: string;
@@ -37,6 +47,7 @@ export interface Source {
   notes: string;
   tags?: string[];
   verified: string;
+  health?: SourceHealth;
 }
 
 export interface PostSource {

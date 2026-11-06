@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Source, SourceCategory } from "@/lib/types";
 import { Icon, Arrow } from "@/components/Icon";
+import { trackEvent } from "@/lib/analytics";
 
 const accessLabel: Record<string, string> = {
   free: "Free",
@@ -27,6 +28,31 @@ const reliabilityStyle: Record<string, string> = {
   data: "border-highway/30 bg-highway/5 text-highway",
 };
 
+const healthStyle: Record<string, string> = {
+  ok: "border-green-700/30 bg-green-50 text-green-800",
+  stale: "border-amber-dark/30 bg-amber/10 text-amber-dark",
+  error: "border-red-700/30 bg-red-50 text-red-800",
+  manual: "border-line bg-cream/60 text-slate",
+};
+
+const healthLabel: Record<string, string> = {
+  ok: "OK",
+  stale: "Stale",
+  error: "Error",
+  manual: "Manual",
+};
+
+function shortDate(iso?: string | null): string | null {
+  if (!iso) return null;
+  const time = new Date(iso).getTime();
+  if (Number.isNaN(time)) return null;
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 export function SourceExplorer({
   sources,
   categories,
@@ -41,13 +67,31 @@ export function SourceExplorer({
     initialCategory ?? "all",
   );
   const [recommended, setRecommended] = useState(false);
+  const [problemsOnly, setProblemsOnly] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+
+  const healthCounts = useMemo(() => {
+    const counts = { ok: 0, stale: 0, error: 0, manual: 0 };
+    for (const source of sources) {
+      const status = source.health?.status ?? "manual";
+      if (status === "ok" || status === "stale" || status === "error") {
+        counts[status] += 1;
+      } else {
+        counts.manual += 1;
+      }
+    }
+    return counts;
+  }, [sources]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return sources.filter((source) => {
       if (category !== "all" && source.category !== category) return false;
       if (recommended && !source.recommended) return false;
+      if (problemsOnly) {
+        const status = source.health?.status;
+        if (status !== "stale" && status !== "error") return false;
+      }
       if (!q) return true;
       return [
         source.name,
@@ -61,13 +105,17 @@ export function SourceExplorer({
         .toLowerCase()
         .includes(q);
     });
-  }, [sources, query, category, recommended]);
+  }, [sources, query, category, recommended, problemsOnly]);
 
   async function copyFeed(source: Source) {
     const url = source.feedUrl || source.apiUrl || source.url;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(source.id);
+      trackEvent("source_feed_copy", {
+        source: source.id,
+        kind: source.kind,
+      });
       setTimeout(() => setCopied(null), 1600);
     } catch {
       /* ignore */
@@ -109,6 +157,15 @@ export function SourceExplorer({
             />
             Recommended only
           </label>
+          <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs font-semibold text-ink-soft">
+            <input
+              type="checkbox"
+              checked={problemsOnly}
+              onChange={(e) => setProblemsOnly(e.target.checked)}
+              className="h-4 w-4 accent-[#14432f]"
+            />
+            Problems only
+          </label>
         </div>
         <div className="no-scrollbar mt-3 flex gap-1.5 overflow-x-auto pb-1">
           <button
@@ -139,14 +196,15 @@ export function SourceExplorer({
         </div>
       </div>
 
-      <div className="mt-5 flex items-baseline justify-between gap-4">
+      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <p className="text-xs text-slate">
           <strong className="text-ink">{filtered.length}</strong> source
           {filtered.length === 1 ? "" : "s"}
           {activeCategory ? ` · ${activeCategory.label}` : ""}
         </p>
         <p className="text-[10px] tracking-wide text-slate uppercase">
-          Verified Nov 2026
+          {healthCounts.ok} feeds OK · {healthCounts.stale} stale ·{" "}
+          {healthCounts.error} errors · {healthCounts.manual} manual
         </p>
       </div>
 
@@ -188,6 +246,7 @@ export function SourceExplorer({
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => trackEvent("source_open", { source: source.id, category: source.category })}
                       className="hover:underline hover:decoration-amber hover:decoration-2 hover:underline-offset-2"
                     >
                       {source.name}
@@ -234,6 +293,7 @@ export function SourceExplorer({
                 href={source.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent("source_open", { source: source.id, category: source.category })}
                 className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
               >
                 {source.kind === "scanner" ? "Listen" : "Open"} <Arrow className="h-3 w-3" />
@@ -247,8 +307,22 @@ export function SourceExplorer({
                   {copied === source.id ? "Copied" : source.feedUrl ? "Copy RSS" : "Copy API"}
                 </button>
               ) : null}
-              <span className="ml-auto text-[9px] tracking-wide text-slate/60 uppercase">
-                {source.kind === "rss" ? "Feed verified" : "Checked 2026"}
+              <span className="ml-auto flex items-center gap-1.5">
+                <span
+                  className={`border px-1.5 py-0.5 text-[9px] font-bold tracking-[0.08em] uppercase ${healthStyle[source.health?.status ?? "manual"]}`}
+                  title={source.health?.error ?? undefined}
+                >
+                  {healthLabel[source.health?.status ?? "manual"]}
+                </span>
+                <span className="text-[9px] tracking-wide text-slate/60 uppercase">
+                  {source.health?.lastItemAt
+                    ? `Last item ${shortDate(source.health.lastItemAt)}`
+                    : source.health?.checkedAt
+                      ? `Checked ${shortDate(source.health.checkedAt)}`
+                      : source.kind === "rss"
+                        ? "Feed unverified"
+                        : "Checked 2026"}
+                </span>
               </span>
             </div>
           </article>
@@ -264,6 +338,7 @@ export function SourceExplorer({
               setQuery("");
               setCategory("all");
               setRecommended(false);
+              setProblemsOnly(false);
             }}
             className="mt-3 text-xs font-bold tracking-[0.08em] text-highway uppercase underline decoration-amber decoration-2 underline-offset-4"
           >

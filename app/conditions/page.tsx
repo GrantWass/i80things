@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
+import { CorridorMap } from "@/components/CorridorMap";
 import { JsonLd } from "@/components/JsonLd";
+import { TrackedLink } from "@/components/TrackedLink";
 import { getCorridorAlerts } from "@/lib/nws";
 import { getRoadConditions } from "@/lib/road-conditions";
 import { site } from "@/lib/site";
@@ -98,14 +100,15 @@ export default async function ConditionsPage() {
             starting point, then confirm with the official map before you drive.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a
+            <TrackedLink
               href="https://511.nebraska.gov/"
-              target="_blank"
-              rel="noopener noreferrer"
+              external
+              event="conditions_511_click"
+              eventData={{ placement: "header" }}
               className="bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
             >
               Open Nebraska 511
-            </a>
+            </TrackedLink>
             <span className="text-[11px] text-slate">
               Checked {checked} · refreshes every 5 minutes while open
             </span>
@@ -133,19 +136,24 @@ export default async function ConditionsPage() {
               ))}
             </div>
 
+            <div className="mt-6">
+              <CorridorMap events={roads.events} />
+            </div>
+
             <section className="mt-8">
               <div className="flex items-end justify-between gap-4 border-b-2 border-ink pb-2">
                 <h2 className="font-serif text-2xl font-semibold">
                   Closures, crashes &amp; work zones
                 </h2>
-                <a
+                <TrackedLink
                   href="https://511.nebraska.gov/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  external
+                  event="conditions_511_click"
+                  eventData={{ placement: "event_list" }}
                   className="kicker text-highway hover:text-amber-dark"
                 >
                   Verify on 511
-                </a>
+                </TrackedLink>
               </div>
 
               {roads.events.length ? (
@@ -189,14 +197,18 @@ export default async function ConditionsPage() {
                         {event.beginTime ? (
                           <span>Started {formatDateTime(event.beginTime)}</span>
                         ) : null}
-                        <a
+                        <TrackedLink
                           href={event.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          external
+                          event="conditions_event_click"
+                          eventData={{
+                            category: event.category,
+                            mile: event.location?.primaryLinearReference ?? null,
+                          }}
                           className="font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
                         >
                           Open on 511
-                        </a>
+                        </TrackedLink>
                       </div>
                     </li>
                   ))}
@@ -296,53 +308,57 @@ export default async function ConditionsPage() {
               <h2 className="kicker text-slate">Before you drive</h2>
               <ul className="mt-3 space-y-3 text-[13px]">
                 <li>
-                  <a
+                  <TrackedLink
                     href="https://511.nebraska.gov/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    external
+                    event="conditions_outbound"
+                    eventData={{ destination: "nebraska-511" }}
                     className="font-semibold text-ink hover:text-amber-dark"
                   >
                     Nebraska 511
-                  </a>
+                  </TrackedLink>
                   <span className="block text-[11px] text-slate">
                     Closures, cameras, plows and road reports
                   </span>
                 </li>
                 <li>
-                  <a
+                  <TrackedLink
                     href="https://www.weather.gov/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    external
+                    event="conditions_outbound"
+                    eventData={{ destination: "nws" }}
                     className="font-semibold text-ink hover:text-amber-dark"
                   >
                     National Weather Service
-                  </a>
+                  </TrackedLink>
                   <span className="block text-[11px] text-slate">
                     Warnings, forecasts and winter headlines
                   </span>
                 </li>
                 <li>
-                  <a
+                  <TrackedLink
                     href="https://statepatrol.nebraska.gov/divisions/office-superintendent/news"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    external
+                    event="conditions_outbound"
+                    eventData={{ destination: "nsp" }}
                     className="font-semibold text-ink hover:text-amber-dark"
                   >
                     Nebraska State Patrol
-                  </a>
+                  </TrackedLink>
                   <span className="block text-[11px] text-slate">
                     Confirmed crashes and incident releases
                   </span>
                 </li>
                 <li>
-                  <a
+                  <TrackedLink
                     href="https://dot.nebraska.gov/news-events/news-releases/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    external
+                    event="conditions_outbound"
+                    eventData={{ destination: "ndot" }}
                     className="font-semibold text-ink hover:text-amber-dark"
                   >
                     NDOT news
-                  </a>
+                  </TrackedLink>
                   <span className="block text-[11px] text-slate">
                     Construction and project announcements
                   </span>

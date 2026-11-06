@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CorridorAlert } from "@/lib/nws";
 import { formatDateTime } from "@/lib/utils";
 import { Arrow } from "@/components/Icon";
+import { TrackedLink } from "@/components/TrackedLink";
 
 const quickLinks = [
   {
@@ -71,10 +72,11 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
           <ul className="space-y-1.5">
             {quickLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <TrackedLink
                   href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  external
+                  event="outbound"
+                  eventData={{ destination: link.label }}
                   className="group flex items-center justify-between gap-2 text-[13px] text-ink-soft hover:text-ink"
                 >
                   <span>
@@ -82,7 +84,7 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
                     <span className="block text-[10px] text-slate">{link.detail}</span>
                   </span>
                   <Arrow className="h-3.5 w-3.5 shrink-0 text-slate transition group-hover:translate-x-0.5 group-hover:text-amber-dark" />
-                </a>
+                </TrackedLink>
               </li>
             ))}
           </ul>

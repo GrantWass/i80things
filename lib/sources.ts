@@ -1,7 +1,39 @@
 import sourcesData from "@/data/sources.json";
-import type { Source, SourceCategory } from "@/lib/types";
+import healthData from "@/data/source-health.json";
+import type { Source, SourceCategory, SourceHealth } from "@/lib/types";
 
 const sources = sourcesData as Source[];
+
+interface HealthFileEntry {
+  id: string;
+  name: string;
+  url: string;
+  status: "ok" | "stale" | "error";
+  httpStatus: number | null;
+  checkedAt: string;
+  lastItemAt: string | null;
+  error: string | null;
+}
+
+interface HealthFile {
+  generatedAt: string;
+  feeds: Record<string, HealthFileEntry>;
+}
+
+const healthFile = healthData as HealthFile;
+
+function healthForSource(source: Source): SourceHealth {
+  if (!source.feedUrl) return { status: "manual" };
+  const entry = healthFile?.feeds?.[source.id];
+  if (!entry) return { status: "manual" };
+  return {
+    status: entry.status,
+    checkedAt: entry.checkedAt,
+    lastItemAt: entry.lastItemAt,
+    httpStatus: entry.httpStatus,
+    error: entry.error,
+  };
+}
 
 export const sourceCategories: {
   id: SourceCategory;
@@ -62,12 +94,14 @@ const categoryOrder = new Map(
   sourceCategories.map((category, index) => [category.id, index]),
 );
 
-const ordered = [...sources].sort((a, b) => {
-  const categoryDiff =
-    (categoryOrder.get(a.category) ?? 99) - (categoryOrder.get(b.category) ?? 99);
-  if (categoryDiff !== 0) return categoryDiff;
-  return a.name.localeCompare(b.name);
-});
+const ordered: Source[] = [...sources]
+  .map((source) => ({ ...source, health: healthForSource(source) }))
+  .sort((a, b) => {
+    const categoryDiff =
+      (categoryOrder.get(a.category) ?? 99) - (categoryOrder.get(b.category) ?? 99);
+    if (categoryDiff !== 0) return categoryDiff;
+    return a.name.localeCompare(b.name);
+  });
 
 export function getAllSources(): Source[] {
   return ordered;
@@ -91,6 +125,36 @@ export function getSourcesForPlace(slug: string): Source[] {
 
 export function getRssSources(): Source[] {
   return ordered.filter((s) => Boolean(s.feedUrl));
+}
+
+export function getSourceHealthSummary(): {
+  ok: number;
+  stale: number;
+  error: number;
+  manual: number;
+  generatedAt: string | null;
+} {
+  let ok = 0;
+  let stale = 0;
+  let error = 0;
+  let manual = 0;
+  for (const source of ordered) {
+    switch (source.health?.status) {
+      case "ok":
+        ok += 1;
+        break;
+      case "stale":
+        stale += 1;
+        break;
+      case "error":
+        error += 1;
+        break;
+      default:
+        manual += 1;
+        break;
+    }
+  }
+  return { ok, stale, error, manual, generatedAt: healthFile?.generatedAt ?? null };
 }
 
 export const scannerLegalNote =

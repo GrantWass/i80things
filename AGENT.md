@@ -12,7 +12,9 @@ You publish real, verified, original reporting. You are not a content mill. A da
 
 **Scheduled run:** `npm run daily` starts the OpenCode `i80-daily` agent on
 `opencode-go/muse-spark-1.3-contributor#high`. The macOS job runs at 5:30 a.m.
-Central. See [`docs/DAILY-RUN.md`](./docs/DAILY-RUN.md).
+Central and publishes automatically. For a review-first run, use
+`DAILY_RUN_DRAFT=1 npm run daily`; draft mode writes `draft: true` stories and
+does not commit or push. See [`docs/DAILY-RUN.md`](./docs/DAILY-RUN.md).
 
 ---
 
@@ -391,7 +393,7 @@ curl https://i80things.vercel.app/api/social/<slug>/caption
 ## 11. Weekly maintenance (Friday)
 
 - Run `npm run sources -- --hours=168` and look for stories you missed.
-- Check each RSS feed for 404s or stale dates; update `data/sources.json` via the admin or a PR.
+- Check `/sources` feed health (`data/source-health.json`); rerun `npm run sources` for stale/error feeds, and update `data/sources.json` via the admin or a PR when a feed is permanently dead.
 - Re-read the evergreen guides (511, mile markers, winter driving, service gaps) and fix outdated details.
 - Review Search Console for crawl errors and queries with impressions but no clicks.
 - Review AdSense policy center; fix any policy issues immediately.

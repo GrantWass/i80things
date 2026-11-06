@@ -17,7 +17,9 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 - **News site** — Next.js 16 App Router, Tailwind 4, MDX content, static/ISR pages.
 - **87 verified sources** — police scanners, State Patrol, NDOT, 511, NWS, 27 RSS feeds, town papers, open data APIs.
 - **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor and a macOS scheduler. `npm run daily` runs the desk; `npm run daily:install` installs the 5:30 a.m. Central job.
-- **Live corridor conditions** — `/conditions` combines Nebraska 511 closures/construction with point-based NWS alerts for every corridor town, cached for five minutes.
+- **Live corridor conditions** — `/conditions` combines Nebraska 511 closures/construction with point-based NWS alerts for every corridor town, cached for five minutes, plus a pure-CSS corridor map and auto-refresh.
+- **Source health** — `npm run sources` writes `data/source-health.json`; `/sources` shows OK/stale/error/manual status for every feed.
+- **Search** — `/search` searches published stories and the source directory; linked from the header and footer.
 - **Staff admin** — password-protected `/admin` to publish stories, upload images, add sources and generate the Instagram kit. Commits to GitHub via the Contents API.
 - **Instagram kit** — every story gets a 1080×1350 JPEG (`/api/social/<slug>`) and a caption (`/api/social/<slug>/caption`). Real photos are used full-bleed when attached; otherwise a branded text card is generated. No AI imagery, no QR codes; captions point to the link in bio.
 - **Stock photo tool** — `npm run stock` finds CC0/public-domain photos (Openverse) or Pexels photos, downloads and crops them, and updates the story frontmatter with the credit.
