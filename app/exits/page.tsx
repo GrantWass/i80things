@@ -19,9 +19,18 @@ export const metadata: Metadata = {
   },
 };
 
-type ExitRow = { exit: number; mile: number };
+type ExitRow = { exit: number; mile: number; road?: string };
 
 const rows = (exitData.exits as ExitRow[]).slice().sort((a, b) => a.mile - b.mile);
+const gaps = rows
+  .slice(1)
+  .map((row, index) => ({
+    from: rows[index],
+    to: row,
+    miles: Number((row.mile - rows[index].mile).toFixed(1)),
+  }))
+  .sort((a, b) => b.miles - a.miles);
+const longestGap = gaps[0];
 
 const regions = [
   { name: "West", note: "Kimball, Sidney and the Wyoming line", min: 0, max: 125 },
@@ -105,7 +114,35 @@ export default function ExitsPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
+          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+            <div className="bg-paper p-5">
+              <p className="kicker text-amber-dark">At a glance</p>
+              <p className="mt-1 font-serif text-3xl font-semibold">{rows.length}</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-slate">
+                Nebraska I-80 exits in this table
+              </p>
+            </div>
+            <div className="bg-paper p-5">
+              <p className="kicker text-amber-dark">Corridor hubs</p>
+              <p className="mt-1 font-serif text-3xl font-semibold">{places.length}</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-slate">
+                Town hubs with local coverage
+              </p>
+            </div>
+            <div className="bg-paper p-5">
+              <p className="kicker text-amber-dark">Longest gap</p>
+              <p className="mt-1 font-serif text-3xl font-semibold">
+                {longestGap ? `${longestGap.miles} mi` : "—"}
+              </p>
+              <p className="mt-1 text-[11px] leading-relaxed text-slate">
+                {longestGap
+                  ? `Exit ${longestGap.from.exit} to Exit ${longestGap.to.exit}`
+                  : "Between consecutive exits"}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
             <div>
               <p className="kicker text-amber-dark">How to use it</p>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft">
@@ -151,12 +188,13 @@ export default function ExitsPage() {
                   </p>
                 </div>
                 <div className="mt-3 overflow-x-auto border border-line">
-                  <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
+                  <table className="w-full min-w-[48rem] border-collapse text-left text-sm">
                     <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                       <tr>
                         <th className="px-3 py-2 font-semibold">Exit</th>
                         <th className="px-3 py-2 font-semibold">Mile</th>
                         <th className="px-3 py-2 font-semibold">Nearest corridor town</th>
+                        <th className="px-3 py-2 font-semibold">Connects to</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-line">
@@ -180,6 +218,9 @@ export default function ExitsPage() {
                                 <span className="text-slate">Open corridor</span>
                               )}
                             </td>
+                            <td className="max-w-[16rem] px-3 py-2 text-[12px] leading-snug text-ink-soft">
+                              {row.road ?? "—"}
+                            </td>
                           </tr>
                         );
                       })}
@@ -190,9 +231,55 @@ export default function ExitsPage() {
             );
           })}
 
+          {gaps.length ? (
+            <section className="mt-10 border-t border-line pt-5">
+              <h2 className="font-serif text-2xl font-semibold">
+                Longest gaps between exits
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate">
+                Long spacing is normal west of Kearney. Use these gaps when you
+                are deciding where to fuel or stop; the next exit may be farther
+                than it looks.
+              </p>
+              <ol className="mt-4 grid gap-2 sm:grid-cols-2">
+                {gaps.slice(0, 6).map((gap) => (
+                  <li
+                    key={`${gap.from.exit}-${gap.to.exit}`}
+                    className="flex items-center justify-between gap-3 border border-line bg-paper px-3 py-2 text-sm"
+                  >
+                    <span>
+                      <a
+                        href={`#exit-${gap.from.exit}`}
+                        className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                      >
+                        Exit {gap.from.exit}
+                      </a>
+                      {" → "}
+                      <a
+                        href={`#exit-${gap.to.exit}`}
+                        className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                      >
+                        Exit {gap.to.exit}
+                      </a>
+                    </span>
+                    <span className="shrink-0 text-[11px] font-bold tracking-wide text-slate uppercase">
+                      {gap.miles} mi
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ) : null}
+
           <p className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
-            Exit and mile data is a reference, not a live conditions feed. For
-            the current status, use{" "}
+            Exit and mile data is a reference, not a live conditions feed. The
+            table is compiled from the NDOT reference log and cross-checked
+            against the current exit list; verify with{" "}
+            <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              Nebraska 511
+            </a>{" "}
+            before relying on an exit for fuel, food or lodging. For the current
+            status, use{" "}
             <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
               Nebraska 511
             </a>{" "}

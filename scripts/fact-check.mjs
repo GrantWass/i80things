@@ -136,6 +136,14 @@ for (const file of files) {
   if (!data.dek || String(data.dek).trim().length < 20) {
     error(relative, "missing or too-short dek");
   }
+  if (data.seoTitle && String(data.seoTitle).length > 60) {
+    warn(relative, "seoTitle is over 60 characters");
+  }
+  if (data.seoDescription) {
+    const length = String(data.seoDescription).length;
+    if (length > 160) warn(relative, "seoDescription is over 160 characters");
+    if (length < 120) warn(relative, "seoDescription is under 120 characters");
+  }
   if (!data.date || Number.isNaN(new Date(data.date).getTime())) {
     error(relative, "missing or invalid date");
   } else if (new Date(data.date).getTime() > Date.now() + 86400000) {

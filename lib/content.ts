@@ -9,6 +9,8 @@ const postsDirectory = path.join(process.cwd(), "content", "posts");
 type Frontmatter = {
   title?: string;
   dek?: string;
+  seoTitle?: string;
+  seoDescription?: string;
   date?: string;
   updated?: string;
   author?: string;
@@ -83,6 +85,8 @@ function parsePost(filename: string): Post | null {
     slug,
     title: fm.title,
     dek: fm.dek,
+    seoTitle: fm.seoTitle,
+    seoDescription: fm.seoDescription,
     date: fm.date,
     updated: fm.updated,
     author: fm.author || "corridor-desk",

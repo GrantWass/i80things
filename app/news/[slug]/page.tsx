@@ -38,10 +38,16 @@ export async function generateMetadata({
   if (!post) return {};
   const image = absoluteUrl(postImagePath(post));
   const topic = post.topics[0] ? topicLabel(post.topics[0]) : "News";
+  const metaTitle = post.seoTitle ?? post.title;
+  const metaDescription = post.seoDescription ?? post.dek;
+  // Keep the brand suffix for short headlines, but do not force an overlong
+  // title past the search-result limit.
+  const titleMetadata =
+    metaTitle.length <= 47 ? metaTitle : { absolute: metaTitle };
 
   return {
-    title: post.title,
-    description: post.dek,
+    title: titleMetadata,
+    description: metaDescription,
     alternates: { canonical: `/news/${post.slug}` },
     keywords: [
       placeName(post.city),
@@ -53,8 +59,8 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       url: absoluteUrl(`/news/${post.slug}`),
-      title: post.title,
-      description: post.dek,
+      title: metaTitle,
+      description: metaDescription,
       publishedTime: post.date,
       modifiedTime: post.updated ?? post.date,
       authors: [getAuthor(post.author).name],
@@ -72,8 +78,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.dek,
+      title: metaTitle,
+      description: metaDescription,
       images: [image],
     },
     other: {
@@ -451,6 +457,12 @@ export default async function ArticlePage({
             <div className="border border-line bg-paper p-4">
               <h2 className="kicker text-amber-dark">Before you drive</h2>
               <ul className="mt-3 space-y-2.5">
+                <li>
+                  <Link href="/exits" className="group flex items-center justify-between gap-2 text-sm font-semibold hover:text-amber-dark">
+                    I-80 exit guide <Arrow className="h-3.5 w-3.5 text-slate" />
+                  </Link>
+                  <p className="text-[10px] text-slate">Every exit, mile marker and nearby town</p>
+                </li>
                 <li>
                   <a href="https://511.nebraska.gov/" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-2 text-sm font-semibold hover:text-amber-dark">
                     Nebraska 511 <Arrow className="h-3.5 w-3.5 text-slate" />

@@ -93,8 +93,10 @@ Priorities:
 
 ## 5. On-page details
 
-- Article titles should stay under roughly 60 characters where possible.
-- Deks/descriptions should stay roughly 120–160 characters.
+- Article titles should stay under roughly 60 characters where possible. Use
+  `seoTitle` in frontmatter when the H1 should stay longer.
+- Deks/descriptions should stay roughly 120–160 characters. Use
+  `seoDescription` when the visible dek is longer.
 - Keep one H1 per page, descriptive H2s and a clean breadcrumb.
 - Use the city name, exit number and mile marker naturally in headlines.
 - Add `news_keywords` (already emitted from tags) but do not stuff it.

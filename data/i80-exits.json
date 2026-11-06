@@ -1,313 +1,380 @@
 {
-  "source": "Nebraska Department of Roads reference log via Wikipedia exit list; verify against NDOT/511 before changing.",
+  "source": "Nebraska Department of Roads reference log via Wikipedia exit list; proposed interchanges excluded. Verify against NDOT/511 before changing.",
   "exits": [
     {
       "exit": 1,
-      "mile": 0.48
+      "mile": 0.48,
+      "road": "NE Link 53B/Business Loop I-80 (Pine Bluffs, WY East/US 30)"
     },
     {
       "exit": 8,
-      "mile": 8.46
+      "mile": 8.46,
+      "road": "NE Link 53C (Bushnell)"
     },
     {
       "exit": 20,
-      "mile": 20.71
+      "mile": 20.71,
+      "road": "NE 71 (Kimball West)"
     },
     {
       "exit": 22,
-      "mile": 22.69
+      "mile": 22.69,
+      "road": "NE Link 53E (Kimball East)"
     },
     {
       "exit": 29,
-      "mile": 29.76
+      "mile": 29.76,
+      "road": "NE Link 53A (Dix)"
     },
     {
       "exit": 38,
-      "mile": 38.96
+      "mile": 38.96,
+      "road": "NE Link 17B (Potter)"
     },
     {
       "exit": 48,
-      "mile": 48.82
+      "mile": 48.82,
+      "road": "NE Link 17C (rural Cheyenne County)"
     },
     {
       "exit": 55,
-      "mile": 55.37
+      "mile": 55.37,
+      "road": "NE 19/Business Loop I-80 (Sidney West)"
     },
     {
       "exit": 59,
-      "mile": 59.92
+      "mile": 59.92,
+      "road": "NE Link 17J/Business Loop I-80 (Sidney East)"
     },
     {
       "exit": 69,
-      "mile": 69.63
+      "mile": 69.63,
+      "road": "NE Link 17E (Sunol)"
     },
     {
       "exit": 76,
-      "mile": 76.61
+      "mile": 76.61,
+      "road": "NE Link 17F (Lodgepole)"
     },
     {
       "exit": 85,
-      "mile": 85.22
+      "mile": 85.22,
+      "road": "NE Link 25A (Chappell/US 385/Julesburg, CO)"
     },
     {
       "exit": 95,
-      "mile": 95.02
+      "mile": 95.02,
+      "road": "NE 27(rural Deuel County/Julesburg, CO)"
     },
     {
       "exit": 101,
-      "mile": 101.19
+      "mile": 101.19,
+      "road": "US 138 (Julesburg, CO)"
     },
     {
       "exit": 102,
-      "mile": 102.59
+      "mile": 102.59,
+      "road": "I-76"
     },
     {
       "exit": 107,
-      "mile": 107.36
+      "mile": 107.36,
+      "road": "NE Link 25B (Big Springs)"
     },
     {
       "exit": 117,
-      "mile": 117.25
+      "mile": 117.25,
+      "road": "NE Link 51A (Brule)"
     },
     {
       "exit": 126,
-      "mile": 126.69
+      "mile": 126.69,
+      "road": "US 26/NE 61 (Ogallala)"
     },
     {
       "exit": 133,
-      "mile": 133.97
+      "mile": 133.97,
+      "road": "NE Link 51B (Roscoe)"
     },
     {
       "exit": 145,
-      "mile": 145.65
+      "mile": 145.65,
+      "road": "NE Link 51C (Paxton)"
     },
     {
       "exit": 158,
-      "mile": 158.01
+      "mile": 158.01,
+      "road": "NE 25 (Sutherland)"
     },
     {
       "exit": 164,
-      "mile": 164.51
+      "mile": 164.51,
+      "road": "NE Link 56C (Hershey)"
     },
     {
       "exit": 177,
-      "mile": 177.16
+      "mile": 177.16,
+      "road": "US 83 (North Platte West)"
     },
     {
       "exit": 179,
-      "mile": 179.19
+      "mile": 179.19,
+      "road": "NE Link 56G (North Platte East)"
     },
     {
       "exit": 190,
-      "mile": 190.42
+      "mile": 190.42,
+      "road": "NE Link 56A (Maxwell)"
     },
     {
       "exit": 199,
-      "mile": 198.97
+      "mile": 198.97,
+      "road": "NE Link 56D (Brady)"
     },
     {
       "exit": 211,
-      "mile": 211.77
+      "mile": 211.77,
+      "road": "NE 47 (Gothenburg)"
     },
     {
       "exit": 222,
-      "mile": 222.46
+      "mile": 222.46,
+      "road": "NE 21 (Cozad)"
     },
     {
       "exit": 231,
-      "mile": 231.1
+      "mile": 231.1,
+      "road": "NE Link 24A (rural Dawson County/Darr Rd)"
     },
     {
       "exit": 237,
-      "mile": 237.19
+      "mile": 237.19,
+      "road": "US 283 (Lexington)"
     },
     {
       "exit": 248,
-      "mile": 248.53
+      "mile": 248.53,
+      "road": "NE Link 24B (Overton)"
     },
     {
       "exit": 257,
-      "mile": 257.01
+      "mile": 257.01,
+      "road": "US 183 (Elm Creek)"
     },
     {
       "exit": 263,
-      "mile": 263.66
+      "mile": 263.66,
+      "road": "NE Link 10B (Odessa)"
     },
     {
       "exit": 272,
-      "mile": 272.6
+      "mile": 272.6,
+      "road": "NE 44 (Kearney)"
     },
     {
       "exit": 275,
-      "mile": 275.59
+      "mile": 275.59,
+      "road": "NE 10 / Archway Monument \u2014 Kearney"
     },
     {
       "exit": 279,
-      "mile": 279.89
+      "mile": 279.89,
+      "road": "NE 10 (Minden/Kearney East on westbound lanes)"
     },
     {
       "exit": 291,
-      "mile": 291.36
+      "mile": 291.36,
+      "road": "NE Link 10D (Shelton)"
     },
     {
       "exit": 300,
-      "mile": 300.1
+      "mile": 300.1,
+      "road": "NE 11/NE Spur 40D (Wood River/Prosser)"
     },
     {
       "exit": 305,
-      "mile": 305.66
+      "mile": 305.66,
+      "road": "NE Link 40C (Alda)"
     },
     {
       "exit": 312,
-      "mile": 312.07
+      "mile": 312.07,
+      "road": "US 34/US 281 (Grand Island West/Hastings)"
     },
     {
       "exit": 314,
-      "mile": 314.11
+      "mile": 314.11,
+      "road": "Locust St - Opens late 2004 (Grand Island)"
     },
     {
       "exit": 318,
-      "mile": 318.14
+      "mile": 318.14,
+      "road": "NE 2 (Grand Island East/Phillips on eastbound lanes)"
     },
     {
       "exit": 324,
-      "mile": 324.14
+      "mile": 324.14,
+      "road": "NE Spur 41B (Giltner/Phillips on westbound lanes)"
     },
     {
       "exit": 332,
-      "mile": 332.15
+      "mile": 332.15,
+      "road": "NE 14 (Aurora)"
     },
     {
       "exit": 338,
-      "mile": 338.12
+      "mile": 338.12,
+      "road": "NE Link 41D (Hampton)"
     },
     {
       "exit": 342,
-      "mile": 342.11
+      "mile": 342.11,
+      "road": "NE Spur 93A (Henderson/Bradshaw on eastbound lanes)"
     },
     {
       "exit": 348,
-      "mile": 348.09
+      "mile": 348.09,
+      "road": "NE Link 93E (rural York County/Bradshaw on westbound lanes)"
     },
     {
       "exit": 353,
-      "mile": 353.09
+      "mile": 353.09,
+      "road": "US 81 (York)"
     },
     {
       "exit": 360,
-      "mile": 360.11
+      "mile": 360.11,
+      "road": "NE Link 93B (Waco)"
     },
     {
       "exit": 366,
-      "mile": 366.13
+      "mile": 366.13,
+      "road": "NE Link 80F (Utica)"
     },
     {
       "exit": 369,
-      "mile": 369.12
+      "mile": 369.12,
+      "road": "NE Link 80E (Beaver Crossing)"
     },
     {
       "exit": 373,
-      "mile": 373.09
+      "mile": 373.09,
+      "road": "NE Link 80G (Goehner)"
     },
     {
       "exit": 379,
-      "mile": 379.08
+      "mile": 379.08,
+      "road": "NE 15 (Seward)"
     },
     {
       "exit": 382,
-      "mile": 382.08
+      "mile": 382.08,
+      "road": "NE Link 80H (Milford/US 6)"
     },
     {
       "exit": 388,
-      "mile": 388.11
+      "mile": 388.11,
+      "road": "NE 103 (Pleasant Dale)"
     },
     {
       "exit": 395,
-      "mile": 395.59
+      "mile": 395.59,
+      "road": "NE Link 55K (Lincoln/US 6)"
     },
     {
       "exit": 396,
-      "mile": 396.36
+      "mile": 396.36,
+      "road": "US 6 - eastbound only (Lincoln/W O St)"
     },
     {
       "exit": 399,
-      "mile": 399.01
+      "mile": 399.01,
+      "road": "NW 12th St/W Cornhusker Hwy (Lincoln)"
     },
     {
       "exit": 401,
-      "mile": 401.04
+      "mile": 401.04,
+      "road": "I-180 southbound/US 34 (Lincoln)"
     },
     {
       "exit": 403,
-      "mile": 403.48
+      "mile": 403.48,
+      "road": "N 27th St (Lincoln)"
     },
     {
       "exit": 405,
-      "mile": 405.75
+      "mile": 405.75,
+      "road": "US 77 northbound/NE Link 55X (Lincoln)"
     },
     {
       "exit": 409,
-      "mile": 409.74
+      "mile": 409.74,
+      "road": "US 6 (Waverly/Lincoln on westbound lanes)"
     },
     {
       "exit": 420,
-      "mile": 420.91
+      "mile": 420.91,
+      "road": "NE 63 (Greenwood/Ashland on eastbound lanes)"
     },
     {
       "exit": 426,
-      "mile": 426.06
-    },
-    {
-      "exit": 430,
-      "mile": 430.6
-    },
-    {
-      "exit": 435,
-      "mile": 435.5
+      "mile": 426.06,
+      "road": "NE 66 (South Bend/Ashland on westbound lanes/Louisville on eastbound lanes)"
     },
     {
       "exit": 440,
-      "mile": 440.63
+      "mile": 440.63,
+      "road": "NE 50/144th St (Springfield/Omaha)"
     },
     {
       "exit": 442,
-      "mile": 442.89
+      "mile": 442.89,
+      "road": "Giles Road / Harrison Street"
     },
     {
       "exit": 445,
-      "mile": 444.56
+      "mile": 444.56,
+      "road": "US 275/NE 92/I-L-Q Sts - access from collector/distributor lanes only (Omaha)"
     },
     {
       "exit": 446,
-      "mile": 445.97
+      "mile": 445.97,
+      "road": "I-680 (Omaha)"
     },
     {
       "exit": 445,
-      "mile": 446.63
+      "mile": 446.63,
+      "road": "US 275/NE 92/I-L-Q Sts - access from collector/distributor lanes only (Omaha)"
     },
     {
       "exit": 449,
-      "mile": 449.3
+      "mile": 449.3,
+      "road": "72nd St (Omaha)"
     },
     {
       "exit": 450,
-      "mile": 450.31
+      "mile": 450.31,
+      "road": "60th St (Omaha)"
     },
     {
       "exit": 451,
-      "mile": 451.83
+      "mile": 451.83,
+      "road": "42nd St (Omaha)"
     },
     {
       "exit": 452,
-      "mile": 452.85
+      "mile": 452.85,
+      "road": "I-480/US 75 (Omaha/Bellevue)"
     },
     {
       "exit": 453,
-      "mile": 453.04
+      "mile": 453.04,
+      "road": "24th St (Omaha)"
     },
     {
       "exit": 454,
-      "mile": 454.14
+      "mile": 454.14,
+      "road": "13th Street \u2014 Lauritzen Gardens / Henry Doorly Zoo"
     }
   ]
 }

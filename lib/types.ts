@@ -76,6 +76,10 @@ export interface Post {
   slug: string;
   title: string;
   dek: string;
+  /** Optional shorter title for <title> and social cards; H1 stays title. */
+  seoTitle?: string;
+  /** Optional search/social description; defaults to dek. */
+  seoDescription?: string;
   date: string;
   updated?: string;
   author: string;

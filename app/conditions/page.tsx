@@ -14,7 +14,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "I-80 road conditions & closures in Nebraska",
   description:
-    "Current I-80 closures, construction, crashes and weather alerts in Nebraska, from Omaha to Kimball. Checked every five minutes and linked to Nebraska 511.",
+    "Current I-80 closures, construction, crashes and weather alerts in Nebraska, Omaha to Kimball. Checked every five minutes against Nebraska 511.",
   alternates: { canonical: "/conditions" },
   openGraph: {
     url: `${site.url}/conditions`,
@@ -385,6 +385,12 @@ export default async function ConditionsPage() {
                   ),
                 )}
               </div>
+              <Link
+                href="/exits"
+                className="mt-3 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
+              >
+                All I-80 exits
+              </Link>
             </div>
 
             <div className="border border-line p-4">

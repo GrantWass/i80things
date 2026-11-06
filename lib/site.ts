@@ -23,6 +23,7 @@ export const site = {
 export const nav = [
   { href: "/news", label: "Latest" },
   { href: "/conditions", label: "Conditions" },
+  { href: "/exits", label: "Exits" },
   { href: "/cities", label: "Corridor towns" },
   { href: "/topics", label: "Topics" },
   { href: "/sources", label: "Sources" },

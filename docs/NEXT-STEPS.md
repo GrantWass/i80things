@@ -5,6 +5,68 @@ tracked in the repo and deployed through Vercel. Domain and email are
 deliberately deferred; they are first here because most other growth work
 depends on them.
 
+See [`SEO.md`](./SEO.md) for the technical search checklist.
+
+## What Grant needs to do now
+
+These are the account, domain and approval tasks that need you, not the daily
+agent. Work top to bottom.
+
+### This week
+
+- [ ] Add the Search Console and Bing verification values to Vercel:
+  `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and
+  `NEXT_PUBLIC_BING_SITE_VERIFICATION`. Redeploy, then submit
+  `/sitemap.xml` and `/news-sitemap.xml` in both consoles.
+- [ ] Create the Google Publisher Center publication and verify ownership.
+- [ ] Review the first scheduled GitHub Actions run. The cloud desk is enabled
+  with `DAILY_ENABLED=true`; the Mac launchd job has been removed.
+- [ ] Decide whether to keep `i80things.com` and set up mail forwarding for
+  `hello@`, `news@`, `tips@` and `grant@`.
+- [ ] Add `ADMIN_PASSWORD`, `ADMIN_SECRET`, `GITHUB_TOKEN`, `GITHUB_REPO` and
+  `GITHUB_BRANCH` to Vercel if you want `/admin` to work in production.
+
+### When the domain is ready
+
+- [ ] Point the domain at Vercel, set the apex as primary and redirect `www`.
+- [ ] Set `NEXT_PUBLIC_SITE_URL=https://i80things.com` and redeploy.
+- [ ] Update Search Console, Bing, AdSense, Publisher Center and the Instagram
+  bio link.
+- [ ] Keep `i80things.vercel.app` as a 301 redirect, not a second canonical.
+
+### Before AdSense
+
+- [ ] A working contact email and domain.
+- [ ] A Google-certified CMP for EEA/UK traffic.
+- [ ] 15–20 substantial original stories. The site now has 23.
+- [ ] Apply, then add the AdSense client, publisher ID and slot IDs.
+
+### Growth accounts
+
+- [ ] Buttondown or Resend for the newsletter.
+- [ ] Meta Business account, Facebook Page and Instagram content-publish app.
+- [ ] Uptime monitoring and Sentry.
+- [ ] A Google News/Publisher Center review after the domain and email work.
+
+### Original data pages to build next
+
+The exit guide and town comparison are live. The next useful data pages are:
+
+1. **Rest areas and services** — every rest area, fuel/food cluster and
+   seasonal closure, with NDOT/511 links.
+2. **Truck parking** — public and private parking by exit, including the
+   Dawson County project when dates are announced.
+3. **Construction tracker** — current NDOT projects by district and mile
+   marker, with a clear “last checked” date.
+4. **Town demographics** — exact Census population, county, school district
+   and hospital for each hub.
+5. **Hub-to-hub drive table** — mile-marker distance and typical drive time
+   between corridor towns, clearly labeled as an estimate.
+
+Do not build these as thin pages. Each needs a source, a last-checked date and
+a reason to bookmark it.
+
+
 ## 1. Domain and email (deferred by request)
 
 Current state: `i80things.com` has no A or MX records, so the published
@@ -68,7 +130,7 @@ cookieless). To finish:
 Prerequisites before applying:
 
 - custom domain and working contact email;
-- 15–20 substantial original stories (the site has 22, including local news and evergreen guides);
+- 15–20 substantial original stories (the site has 23, including local news and evergreen guides);
 - privacy, terms, corrections and editorial standards pages (done);
 - a Google-certified CMP for EEA/UK traffic.
 
@@ -131,15 +193,18 @@ the token and approval flow are tested.
 
 ## 9. Daily run
 
-The `i80-daily` agent and macOS launchd job are installed by:
+The scheduled desk is now **GitHub Actions**, not the Mac launchd job. The
+workflow is `.github/workflows/daily.yml`; `OPENCODE_AUTH_JSON` is stored as a
+GitHub secret and `DAILY_ENABLED=true` is set. The Mac job has been removed.
 
-```bash
-npm run daily:install
-```
+- Manual cloud run: `gh workflow run daily.yml -R GrantWass/i80things`
+- Probe only: `gh workflow run daily.yml -f probe=true -R GrantWass/i80things`
+- Logs: the `daily-desk-logs` artifact on each run
+- Local manual run still works: `npm run daily`
 
-See `docs/DAILY-RUN.md`. If macOS blocks the background job from reading
-Documents, grant Full Disk Access or run `npm run daily` from Terminal. The job
-uses the locally authenticated OpenCode Go account; do not commit credentials.
+If the OpenCode auth expires, the workflow opens a `Daily desk failed` issue.
+Replace `OPENCODE_AUTH_JSON` with a fresh `opencode auth export` and rerun the
+probe before trusting the next schedule. Do not commit credentials.
 
 ## 10. Editorial
 

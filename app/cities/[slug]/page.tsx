@@ -34,8 +34,8 @@ export async function generateMetadata({
   const { slug } = await params;
   const place = getPlace(slug);
   if (!place) return {};
-  const title = `${place.name}, Nebraska — I-80 news, exits & mile markers`;
-  const description = `${place.blurb} I-80 mile markers ${place.mileMarker}, ${place.exit}. Local news, sources and road conditions.`;
+  const title = `${place.name}, Nebraska — I-80 exits, news and conditions`;
+  const description = `${place.name}, Nebraska: I-80 exits ${place.exit}, mile ${place.mileMarker}. Local news, road conditions and sources.`;
 
   return {
     title,
@@ -304,10 +304,14 @@ export default async function CityPage({
               <h2 className="font-serif text-2xl font-semibold">Getting there & getting around</h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate">
                 {place.name} is served by {place.exit}. Before you drive, check
-                live closures and conditions on Nebraska 511. The nearest full-service
-                stops are listed below.
+                live closures and conditions on Nebraska 511. The nearest
+                full-service stops are listed below; the{" "}
+                <Link href="/exits" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+                  full exit guide
+                </Link>{" "}
+                has every interchange and mile marker.
               </p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 <a
                   href="https://511.nebraska.gov/"
                   target="_blank"
@@ -336,6 +340,18 @@ export default async function CityPage({
                     {place.name}, {place.county}
                   </span>
                 </a>
+                <Link
+                  href="/exits"
+                  className="group border border-line p-4 hover:border-ink"
+                >
+                  <span className="kicker text-amber-dark">All exits</span>
+                  <span className="mt-1 flex items-center justify-between font-serif text-lg font-semibold">
+                    I-80 exit guide <Arrow className="h-4 w-4 text-slate" />
+                  </span>
+                  <span className="mt-1 block text-[12px] text-slate">
+                    Every exit, mile marker and nearest town
+                  </span>
+                </Link>
               </div>
             </section>
           </div>

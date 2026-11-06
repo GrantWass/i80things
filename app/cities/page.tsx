@@ -19,10 +19,16 @@ export const metadata: Metadata = {
   },
 };
 
+function firstMile(mileMarker: string): number {
+  const numbers = mileMarker.match(/\d+/g)?.map(Number) ?? [];
+  return numbers.length ? Math.min(...numbers) : 0;
+}
+
 export default function CitiesPage() {
   const posts = getAllPosts();
   const count = new Map<string, number>();
   for (const post of posts) count.set(post.city, (count.get(post.city) ?? 0) + 1);
+  const ordered = [...places].sort((a, b) => firstMile(a.mileMarker) - firstMile(b.mileMarker));
 
   return (
     <main>
@@ -54,7 +60,12 @@ export default function CitiesPage() {
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
             Eleven on-corridor hubs, plus Hastings and the towns that fill the
             gaps. Each page collects our reporting, the mile markers, the exits,
-            a local guide and the sources we monitor.
+            a local guide and the sources we monitor. For the complete list, use
+            the{" "}
+            <Link href="/exits" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              I-80 exit guide
+            </Link>
+            .
           </p>
         </div>
       </header>
@@ -101,7 +112,7 @@ export default function CitiesPage() {
         <div className="mt-10 border border-line bg-cream p-5 md:p-7">
           <h2 className="font-serif text-2xl font-semibold">Not on the interstate?</h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate">
-            Hastings sits about 25 miles south of Exit 312 via US-281, and it is
+            Hastings sits about 16 miles south of Exit 312 via US-281, and it is
             one of the corridor&apos;s biggest markets. We also track Fremont,
             Columbus, Beatrice and McCook when their news spills onto I-80.
           </p>
@@ -112,6 +123,61 @@ export default function CitiesPage() {
             See the full source list <Arrow className="h-3.5 w-3.5" />
           </Link>
         </div>
+
+        <section className="mt-10 border-t-2 border-ink pt-4">
+          <div className="flex flex-wrap items-end justify-between gap-2">
+            <div>
+              <h2 className="font-serif text-2xl font-semibold">Corridor town comparison</h2>
+              <p className="mt-1 text-sm leading-relaxed text-slate">
+                Mile markers, exits and population in one table. Populations are
+                approximate; use the Census link on each hub for the exact count.
+              </p>
+            </div>
+            <Link
+              href="/exits"
+              className="kicker text-highway hover:text-amber-dark"
+            >
+              All I-80 exits →
+            </Link>
+          </div>
+          <div className="mt-4 overflow-x-auto border border-line">
+            <table className="w-full min-w-[48rem] border-collapse text-left text-sm">
+              <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
+                <tr>
+                  <th className="px-3 py-2 font-semibold">Town</th>
+                  <th className="px-3 py-2 font-semibold">County</th>
+                  <th className="px-3 py-2 font-semibold">I-80 miles</th>
+                  <th className="px-3 py-2 font-semibold">Main exits</th>
+                  <th className="px-3 py-2 font-semibold">Population</th>
+                  <th className="px-3 py-2 font-semibold">Local stories</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {ordered.map((place) => (
+                  <tr key={place.slug} className="bg-paper">
+                    <td className="px-3 py-2 font-semibold">
+                      <Link
+                        href={`/cities/${place.slug}`}
+                        className="text-highway underline decoration-amber underline-offset-2"
+                      >
+                        {place.name}
+                      </Link>
+                    </td>
+                    <td className="px-3 py-2 text-[12px] text-ink-soft">{place.county}</td>
+                    <td className="px-3 py-2 tabular-nums text-ink-soft">{place.mileMarker}</td>
+                    <td className="px-3 py-2 text-[12px] text-ink-soft">{place.exit}</td>
+                    <td className="px-3 py-2 tabular-nums text-ink-soft">
+                      {place.population ? place.population.toLocaleString("en-US") : "—"}
+                    </td>
+                    <td className="px-3 py-2 tabular-nums text-ink-soft">
+                      {count.get(place.slug) ?? 0}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
         <AdSlot
           slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD}
