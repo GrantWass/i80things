@@ -78,6 +78,7 @@ build instead of refactoring.
 ## Logs and troubleshooting
 
 ```bash
+npm run daily:status
 tail -f .cache/daily-desk/$(date +%F).log
 tail -f .cache/daily-desk/launchd.log
 launchctl print gui/$(id -u)/com.i80things.daily

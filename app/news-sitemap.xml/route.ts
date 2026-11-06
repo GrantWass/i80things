@@ -1,4 +1,5 @@
 import { site } from "@/lib/site";
+import { absoluteUrl, postImagePath } from "@/lib/utils";
 
 export const revalidate = 300;
 
@@ -30,13 +31,17 @@ export async function GET() {
       <news:title>${escapeXml(post.title)}</news:title>
       <news:keywords>${escapeXml(post.tags.join(", "))}</news:keywords>
     </news:news>
+    <image:image>
+      <image:loc>${escapeXml(absoluteUrl(postImagePath(post)))}</image:loc>
+    </image:image>
   </url>`,
     )
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls}
 </urlset>`;
 

@@ -41,6 +41,7 @@ curl https://i80things.vercel.app/api/posts?limit=5
 curl https://i80things.vercel.app/api/sources?recommended=true
 curl https://i80things.vercel.app/api/alerts
 curl https://i80things.vercel.app/api/conditions
+curl https://i80things.vercel.app/api/health
 curl -I https://i80things.vercel.app/api/social/how-to-read-nebraska-511
 ```
 

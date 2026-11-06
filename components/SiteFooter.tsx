@@ -58,6 +58,7 @@ export function SiteFooter() {
           <div>
             <h2 className="kicker mb-3 text-amber">The desk</h2>
             <ul className="space-y-2 text-sm text-cream/75">
+              <li><Link href="/search" className="hover:text-paper">Search</Link></li>
               <li><Link href="/about" className="hover:text-paper">About & masthead</Link></li>
               <li><Link href="/editorial-standards" className="hover:text-paper">Editorial standards</Link></li>
               <li><Link href="/corrections" className="hover:text-paper">Corrections</Link></li>

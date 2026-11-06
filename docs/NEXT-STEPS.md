@@ -122,7 +122,7 @@ the token and approval flow are tested.
 ## 8. Monitoring and quality
 
 - Add uptime monitoring (Better Stack, UptimeRobot) for `/`, `/conditions`,
-  `/api/conditions`, `/feed.xml`.
+  `/api/conditions`, `/api/health`, `/feed.xml`.
 - Add error tracking (Sentry) for the Next.js app and admin routes.
 - Add a link checker to CI.
 - Add Lighthouse CI or a manual monthly performance check.

@@ -31,6 +31,8 @@ export default function AboutPage() {
             description: site.description,
             sameAs: [site.instagramUrl],
             publishingPrinciples: absoluteUrl("/editorial-standards"),
+            ethicsPolicy: absoluteUrl("/editorial-standards"),
+            correctionsPolicy: absoluteUrl("/corrections"),
             logo: {
               "@type": "ImageObject",
               url: absoluteUrl("/brand/logo.png"),

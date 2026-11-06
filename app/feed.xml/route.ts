@@ -1,4 +1,6 @@
 import { getAllPosts } from "@/lib/content";
+import { getAuthor } from "@/data/authors";
+import { renderMarkdown } from "@/lib/markdown";
 import { site } from "@/lib/site";
 import { absoluteUrl, postImagePath } from "@/lib/utils";
 
@@ -13,34 +15,48 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+function cdata(value: string): string {
+  return `<![CDATA[${value.replace(/]]>/g, "]]]]><![CDATA[>")}]]>`;
+}
+
 export async function GET() {
   const posts = getAllPosts().slice(0, 40);
 
-  const items = posts
-    .map(
-      (post) => `    <item>
+  const items = (
+    await Promise.all(
+      posts.map(async (post) => {
+        const html = await renderMarkdown(post.body);
+        const author = getAuthor(post.author);
+        return `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${absoluteUrl(`/news/${post.slug}`)}</link>
       <guid isPermaLink="true">${absoluteUrl(`/news/${post.slug}`)}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <description>${escapeXml(post.dek)}</description>
+      <dc:creator>${escapeXml(author.name)}</dc:creator>
       <category>${escapeXml(post.topics[0] ?? "news")}</category>
+      <content:encoded>${cdata(html)}</content:encoded>
       <media:content url="${escapeXml(absoluteUrl(postImagePath(post)))}" medium="image" />
-    </item>`,
+      <media:thumbnail url="${escapeXml(absoluteUrl(postImagePath(post)))}" />
+    </item>`;
+      }),
     )
-    .join("\n");
+  ).join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
   xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>${escapeXml(site.name)}</title>
     <link>${site.url}</link>
     <description>${escapeXml(site.description)}</description>
     <language>en-us</language>
+    <copyright>© ${new Date().getFullYear()} ${escapeXml(site.name)}</copyright>
     <lastBuildDate>${new Date(posts[0]?.date ?? Date.now()).toUTCString()}</lastBuildDate>
+    <ttl>5</ttl>
     <atom:link href="${site.url}/feed.xml" rel="self" type="application/rss+xml" />
     <image>
       <url>${absoluteUrl("/brand/logo.png")}</url>

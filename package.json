@@ -7,6 +7,7 @@
     "511": "node scripts/check-511.mjs",
     "daily": "bash scripts/daily-run.sh",
     "daily:install": "bash scripts/install-daily-run.sh",
+    "daily:status": "bash scripts/daily-status.sh",
     "daily:uninstall": "bash scripts/install-daily-run.sh uninstall",
     "dev": "next dev",
     "build": "next build",

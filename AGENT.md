@@ -382,6 +382,7 @@ curl https://i80things.vercel.app/api/sources
 curl https://i80things.vercel.app/api/posts?limit=20
 curl https://i80things.vercel.app/api/alerts
 curl https://i80things.vercel.app/api/conditions
+curl https://i80things.vercel.app/api/health
 curl https://i80things.vercel.app/api/social/<slug>/caption
 ```
 

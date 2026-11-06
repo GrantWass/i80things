@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AutoRefresh } from "@/components/AutoRefresh";
 import { JsonLd } from "@/components/JsonLd";
 import { getCorridorAlerts } from "@/lib/nws";
 import { getRoadConditions } from "@/lib/road-conditions";
@@ -63,6 +64,7 @@ export default async function ConditionsPage() {
 
   return (
     <main>
+      <AutoRefresh />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -104,7 +106,9 @@ export default async function ConditionsPage() {
             >
               Open Nebraska 511
             </a>
-            <span className="text-[11px] text-slate">Checked {checked}</span>
+            <span className="text-[11px] text-slate">
+              Checked {checked} · refreshes every 5 minutes while open
+            </span>
           </div>
         </div>
       </header>

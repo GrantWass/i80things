@@ -53,6 +53,8 @@ export default async function HomePage() {
       foundingDate: String(site.founded),
       sameAs: [site.instagramUrl],
       publishingPrinciples: absoluteUrl("/editorial-standards"),
+      ethicsPolicy: absoluteUrl("/editorial-standards"),
+      correctionsPolicy: absoluteUrl("/corrections"),
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "editorial",
@@ -67,6 +69,11 @@ export default async function HomePage() {
       name: site.name,
       publisher: { "@id": `${site.url}/#organization` },
       inLanguage: "en-US",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${site.url}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
     },
     {
       "@type": "CollectionPage",

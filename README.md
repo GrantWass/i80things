@@ -334,6 +334,7 @@ app/
     admin/                     login, posts, sources, upload
     posts/ sources/ alerts/    public JSON APIs
     conditions/               511 + NWS JSON
+    health/                   deploy/commit health check
     og/ social/[slug]/         generated images + captions
   feed.xml/ news-sitemap.xml/  syndication
   sitemap.ts robots.ts llms.txt/ llms-full.txt/ ads.txt/
@@ -357,6 +358,7 @@ AGENT.md                       daily agent system prompt
 | `npm run validate` | Validate all MDX frontmatter and content. |
 | `npm run log` | List published stories and source URLs (dedupe). |
 | `npm run daily` | Run the `i80-daily` OpenCode agent (Muse Spark 1.3 Contributor) now. |
+| `npm run daily:status` | Show the latest local daily-run log and schedule status. |
 | `npm run daily:install` | Install the macOS launchd job for 5:30 a.m. Central. |
 | `npm run daily:uninstall` | Remove the macOS daily job. |
 | `npm run sources` | Sweep 27 RSS feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |

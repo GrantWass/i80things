@@ -4,13 +4,22 @@ import { notFound } from "next/navigation";
 import { getPlace, places } from "@/data/places";
 import { getAllPosts, getPostsByCity } from "@/lib/content";
 import { getSourcesForPlace } from "@/lib/sources";
+import { getRoadConditions } from "@/lib/road-conditions";
 import { site } from "@/lib/site";
-import { absoluteUrl } from "@/lib/utils";
+import { absoluteUrl, formatDateTime } from "@/lib/utils";
 import { SectionHeading, StandardCard } from "@/components/PostCards";
 import { JsonLd } from "@/components/JsonLd";
 import { AdSlot } from "@/components/AdSlot";
 import { Arrow, Icon } from "@/components/Icon";
 import { topicLabel } from "@/data/topics";
+
+export const revalidate = 300;
+
+function mileBounds(mileMarker: string): { min: number; max: number } | null {
+  const numbers = mileMarker.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+  if (!numbers.length) return null;
+  return { min: Math.min(...numbers) - 15, max: Math.max(...numbers) + 15 };
+}
 
 export function generateStaticParams() {
   return places.map((place) => ({ slug: place.slug }));
@@ -59,6 +68,16 @@ export default async function CityPage({
   const statewide = getAllPosts().filter((p) => p.city === "statewide");
   const posts = localPosts.length > 0 ? localPosts : statewide.slice(0, 4);
   const sources = getSourcesForPlace(place.slug);
+  const roads = await getRoadConditions();
+  const bounds = mileBounds(place.mileMarker);
+  const localRoadEvents = bounds
+    ? roads.events
+        .filter((event) => {
+          const mile = Number(event.location?.primaryLinearReference);
+          return Number.isFinite(mile) && mile >= bounds.min && mile <= bounds.max;
+        })
+        .slice(0, 3)
+    : [];
   const index = places.findIndex((p) => p.slug === place.slug);
   const west = places[index - 1];
   const east = places[index + 1];
@@ -220,6 +239,56 @@ export default async function CityPage({
                 </Link>
               ))}
             </div>
+
+            <section className="mt-10 border-t-2 border-ink pt-4">
+              <div className="flex items-end justify-between gap-4">
+                <h2 className="font-serif text-2xl font-semibold">
+                  Live on I-80 near {place.name}
+                </h2>
+                <Link
+                  href="/conditions"
+                  className="kicker text-highway hover:text-amber-dark"
+                >
+                  Full corridor status
+                </Link>
+              </div>
+              <p className="mt-2 text-[12px] leading-relaxed text-slate">
+                Nebraska 511 events within roughly 15 miles of {place.name}.
+                Unofficial reader; confirm with 511 before you drive.
+              </p>
+              {localRoadEvents.length ? (
+                <ul className="mt-3 space-y-2">
+                  {localRoadEvents.map((event) => (
+                    <li key={event.id} className="border border-line bg-paper p-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="border border-amber-dark bg-amber/10 px-1.5 py-0.5 text-[8px] font-bold tracking-[0.08em] text-amber-dark uppercase">
+                          {event.category}
+                        </span>
+                        {event.location?.primaryLinearReference ? (
+                          <span className="text-[9px] font-bold tracking-wide text-slate uppercase">
+                            Mile {Number(event.location.primaryLinearReference).toFixed(1)}
+                          </span>
+                        ) : null}
+                      </div>
+                      <p className="mt-1 text-[13px] leading-snug font-semibold">
+                        {event.title}
+                      </p>
+                      <p className="mt-1 text-[10px] text-slate">
+                        {event.lastUpdated
+                          ? `Updated ${formatDateTime(event.lastUpdated)}`
+                          : event.agency ?? "Nebraska 511"}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-3 border border-line bg-paper p-3 text-[12px] leading-relaxed text-slate">
+                  {roads.error
+                    ? "The 511 reader is unavailable right now. Check the official map before you drive."
+                    : "No I-80 events within about 15 miles were returned. That does not guarantee a clear stretch — check 511 and the weather."}
+                </p>
+              )}
+            </section>
 
             <AdSlot
               slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD}

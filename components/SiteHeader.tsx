@@ -61,6 +61,16 @@ export function SiteHeader() {
             >
               Source desk
             </Link>
+            <Link
+              href="/search"
+              aria-label="Search I-80 Things"
+              className="rounded-full border border-line p-2 text-ink-soft transition hover:border-ink hover:text-ink"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m16.5 16.5 4 4" strokeLinecap="round" />
+              </svg>
+            </Link>
             <a
               href={site.instagramUrl}
               target="_blank"
