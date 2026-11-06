@@ -38,7 +38,7 @@ export async function generateMetadata({
   const description = `${place.name}, Nebraska: I-80 exits ${place.exit}, mile ${place.mileMarker}. Local news, road conditions and sources.`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: `/cities/${place.slug}` },
     openGraph: {
