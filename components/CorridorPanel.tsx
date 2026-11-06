@@ -61,9 +61,8 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
           </ul>
         ) : (
           <p className="text-[13px] leading-relaxed text-slate">
-            No active National Weather Service alerts for Douglas, Lancaster,
-            Hall, Buffalo, Lincoln or Cheyenne counties right now. Always check
-            conditions before you drive.
+            No active National Weather Service alerts for the corridor towns
+            right now. Always check conditions before you drive.
           </p>
         )}
 
@@ -90,8 +89,14 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
         </div>
 
         <Link
+          href="/conditions"
+          className="mt-4 block bg-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-paper uppercase transition hover:bg-highway"
+        >
+          I-80 conditions &amp; closures
+        </Link>
+        <Link
           href="/sources"
-          className="mt-4 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-ink uppercase transition hover:bg-ink hover:text-paper"
+          className="mt-2 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-ink uppercase transition hover:bg-ink hover:text-paper"
         >
           Full source directory
         </Link>

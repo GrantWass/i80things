@@ -109,7 +109,8 @@ export default function StandardsPage() {
             changed and when. We do not silently delete errors. To report one,
             use the &ldquo;Report a correction&rdquo; link on any story or email{" "}
             <a href={`mailto:${site.email}`}>{site.email}</a> with the URL and the
-            specific claim.
+            specific claim. The public log is at{" "}
+            <Link href="/corrections">/corrections</Link>.
           </p>
 
           <h2>Advertising</h2>

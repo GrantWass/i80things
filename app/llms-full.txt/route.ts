@@ -25,7 +25,7 @@ export async function GET() {
     "",
     ...places.map(
       (place) =>
-        `- **${place.name}** (${place.county}) — I-80 ${place.mileMarker}, ${place.exit}. ${place.blurb}`,
+        `- **${place.name}** (${place.county}) — I-80 ${place.mileMarker}, ${place.exit}. ${place.blurb} ${place.localGuide.intro}`,
     ),
     "",
     "## Source directory",

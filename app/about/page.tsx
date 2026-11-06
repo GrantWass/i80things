@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { absoluteUrl } from "@/lib/utils";
 import { authors } from "@/data/authors";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -28,6 +29,21 @@ export default function AboutPage() {
             email: site.email,
             foundingDate: String(site.founded),
             description: site.description,
+            sameAs: [site.instagramUrl],
+            publishingPrinciples: absoluteUrl("/editorial-standards"),
+            logo: {
+              "@type": "ImageObject",
+              url: absoluteUrl("/brand/logo.png"),
+              width: 512,
+              height: 512,
+            },
+            contactPoint: {
+              "@type": "ContactPoint",
+              contactType: "editorial",
+              email: site.email,
+              url: site.url,
+              availableLanguage: ["English"],
+            },
             employee: authors.map((a) => ({
               "@type": "Person",
               name: a.name,

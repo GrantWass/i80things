@@ -52,6 +52,13 @@ export default async function HomePage() {
       email: site.email,
       foundingDate: String(site.founded),
       sameAs: [site.instagramUrl],
+      publishingPrinciples: absoluteUrl("/editorial-standards"),
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "editorial",
+        email: site.email,
+        url: site.url,
+      },
     },
     {
       "@type": "WebSite",

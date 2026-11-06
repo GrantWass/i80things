@@ -4,9 +4,11 @@
 
 An independent, ad-supported local news site built for Vercel: verified reporting, a public source directory, a daily agent workflow, Instagram-ready images, and SEO/LLM-SEO built in.
 
-**Live (Vercel):** https://i80things.vercel.app  
-**Code (GitHub):** https://github.com/GrantWass/i80things — source control only; GitHub Pages is not used.  
+**Live (Vercel):** https://i80things.vercel.app
+**Code (GitHub):** https://github.com/GrantWass/i80things — source control only; GitHub Pages is not used.
 **Launch status & remaining setup:** [docs/LAUNCH-STATUS.md](./docs/LAUNCH-STATUS.md)
+**Domain/email/account next steps:** [docs/NEXT-STEPS.md](./docs/NEXT-STEPS.md)
+**Daily agent runbook:** [docs/DAILY-RUN.md](./docs/DAILY-RUN.md)
 
 ---
 
@@ -14,11 +16,13 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 
 - **News site** — Next.js 16 App Router, Tailwind 4, MDX content, static/ISR pages.
 - **87 verified sources** — police scanners, State Patrol, NDOT, 511, NWS, 27 RSS feeds, town papers, open data APIs.
-- **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus tooling to see what has been posted, sweep sources, scaffold and validate stories.
+- **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor and a macOS scheduler. `npm run daily` runs the desk; `npm run daily:install` installs the 5:30 a.m. Central job.
+- **Live corridor conditions** — `/conditions` combines Nebraska 511 closures/construction with point-based NWS alerts for every corridor town, cached for five minutes.
 - **Staff admin** — password-protected `/admin` to publish stories, upload images, add sources and generate the Instagram kit. Commits to GitHub via the Contents API.
 - **Instagram kit** — every story gets a 1080×1350 JPEG (`/api/social/<slug>`) and a caption (`/api/social/<slug>/caption`). Real photos are used full-bleed when attached; otherwise a branded text card is generated. No AI imagery, no QR codes; captions point to the link in bio.
 - **Stock photo tool** — `npm run stock` finds CC0/public-domain photos (Openverse) or Pexels photos, downloads and crops them, and updates the story frontmatter with the credit.
 - **Monetization** — Google AdSense slots, `ads.txt`, consent notice, privacy/terms pages, editorial standards.
+- **Measurement** — cookieless Vercel Analytics + Speed Insights, with a corrected consent notice and UTM-tagged Instagram bio links.
 - **SEO + LLM SEO** — NewsArticle/BreadcrumbList/Place JSON-LD, Google News sitemap, RSS, `llms.txt`, `llms-full.txt`, AI-crawler robots rules, city/topic hubs, internal linking.
 - **Source research** — [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md) with verified URLs, feed IDs and access caveats.
 
@@ -39,6 +43,7 @@ npm run validate   # check all stories
 npm run log        # list everything published
 npm run sources    # sweep RSS + NSP + NDOT + NWS alerts
 npm run 511        # live I-80 events from Nebraska 511
+npm run daily      # run the i80-daily OpenCode agent now
 npm run build      # production build
 ```
 
@@ -317,15 +322,18 @@ Because the caption says "link in bio," update the bio link to the current story
 app/
   page.tsx                     homepage
   news/                        archive + article pages
-  cities/                      town hubs
+  conditions/                  511 + NWS corridor status page
+  cities/                      town hubs with local guides
   topics/                      beat hubs
   sources/                     public source directory
+  corrections/ image-credits/  public trust pages
   about|editorial-standards|contact|privacy|terms/
   authors/[slug]/              E-E-A-T author pages
   admin/                       staff login + dashboard
   api/
     admin/                     login, posts, sources, upload
     posts/ sources/ alerts/    public JSON APIs
+    conditions/               511 + NWS JSON
     og/ social/[slug]/         generated images + captions
   feed.xml/ news-sitemap.xml/  syndication
   sitemap.ts robots.ts llms.txt/ llms-full.txt/ ads.txt/
@@ -348,6 +356,9 @@ AGENT.md                       daily agent system prompt
 | `npm run build` | Production build. |
 | `npm run validate` | Validate all MDX frontmatter and content. |
 | `npm run log` | List published stories and source URLs (dedupe). |
+| `npm run daily` | Run the `i80-daily` OpenCode agent (Muse Spark 1.3 Contributor) now. |
+| `npm run daily:install` | Install the macOS launchd job for 5:30 a.m. Central. |
+| `npm run daily:uninstall` | Remove the macOS daily job. |
 | `npm run sources` | Sweep 27 RSS feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |
 | `npm run 511` | Read live I-80 events from Nebraska 511's internal GraphQL endpoint. Unofficial; use for monitoring only. |
 | `npm run new -- --title …` | Scaffold a story. |
@@ -381,4 +392,4 @@ AGENT.md                       daily agent system prompt
 - Corrections are public. See `/editorial-standards`.
 - Privacy policy covers AdSense, cookies, CCPA/CPRA and EEA consent. See `/privacy`.
 
-For the full source-by-source research, caveats and verification notes, see [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md). For scanner audio and free transcription, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md).
+For the full source-by-source research, caveats and verification notes, see [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md). For scanner audio and free transcription, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md). For the daily agent and scheduler, see [`docs/DAILY-RUN.md`](./docs/DAILY-RUN.md). For accounts, domain and monetization work that needs a human, see [`docs/NEXT-STEPS.md`](./docs/NEXT-STEPS.md).

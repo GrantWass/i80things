@@ -28,7 +28,7 @@
 | **Username** | i80.things |
 | **Category** | News & Media Website (or Publisher) |
 | **Profile photo** | The green I-80 shield: `/brand/logo.png` |
-| **Link** | `https://i80things.vercel.app` until the custom domain is connected |
+| **Link** | `https://i80things.vercel.app/?utm_source=instagram&utm_medium=social&utm_campaign=bio` until the custom domain is connected |
 | **Threads** | Use the same handle and bio if you create one |
 
 ## Highlights

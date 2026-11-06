@@ -5,10 +5,13 @@
   "description": "Daily news from the I-80 corridor in Nebraska",
   "scripts": {
     "511": "node scripts/check-511.mjs",
+    "daily": "bash scripts/daily-run.sh",
+    "daily:install": "bash scripts/install-daily-run.sh",
+    "daily:uninstall": "bash scripts/install-daily-run.sh uninstall",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "new": "node scripts/new-post.mjs",
     "log": "node scripts/post-log.mjs",
@@ -20,6 +23,8 @@
     "stock": "node scripts/stock-photo.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.1.0",
     "gray-matter": "^4.0.3",
     "next": "16.4.5",
     "react": "^19.2.0",
@@ -37,6 +42,8 @@
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.5",
     "puppeteer-core": "^25.16.0",
     "tailwindcss": "^4.3.4",
     "typescript": "^5.9.3"

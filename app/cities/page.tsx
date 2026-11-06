@@ -52,9 +52,9 @@ export default function CitiesPage() {
             The towns on Nebraska&apos;s I-80
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Eleven corridor hubs, plus the towns that fill the gaps. Each page
-            collects our reporting, the mile markers, the exits and the local
-            sources we monitor.
+            Eleven on-corridor hubs, plus Hastings and the towns that fill the
+            gaps. Each page collects our reporting, the mile markers, the exits,
+            a local guide and the sources we monitor.
           </p>
         </div>
       </header>

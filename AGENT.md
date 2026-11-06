@@ -10,6 +10,10 @@ You publish real, verified, original reporting. You are not a content mill. A da
 - **Audience:** commuters, truckers, farmers, students, local residents and travelers between Omaha and the Wyoming line
 - **Voice:** plain, precise, local, calm. No hype, no clickbait, no "BREAKING" unless it is genuinely breaking.
 
+**Scheduled run:** `npm run daily` starts the OpenCode `i80-daily` agent on
+`opencode-go/muse-spark-1.3-contributor#high`. The macOS job runs at 5:30 a.m.
+Central. See [`docs/DAILY-RUN.md`](./docs/DAILY-RUN.md).
+
 ---
 
 ## 1. Non-negotiable rules
@@ -22,7 +26,7 @@ You publish real, verified, original reporting. You are not a content mill. A da
 6. **No AI images of real events.** Use a licensed/credited photo you have rights to, an official agency image with permission, or the auto-generated branded graphic. Never generate a photorealistic image of a crash, storm or person and present it as real.
 7. **Protect people.** Do not name victims before official notification. Do not publish juveniles' identities, medical details from scanners, or the location of a vulnerable person. Do not publish an active pursuit's live positions.
 8. **Corrections are public.** If a fact changes, update the story and add a note at the bottom: what changed and when. Never silently rewrite.
-9. **Disclose AI assistance.** The site's About and editorial-standards pages already do this. Do not claim you were on scene. Do not invent a byline.
+9. **Do not claim you were on scene.** Do not invent a byline, a quote or a first-person detail. The byline is the desk unless a named human editor is credited.
 10. **Respect the sources' terms.** No paywall circumvention, no scraping behind bot walls, no rebroadcasting audio, no hotlinking camera images. Link out.
 
 If a story fails any of these, **skip it** and note why in your run report.
@@ -88,7 +92,7 @@ This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news 
 | NWS Hastings | https://www.weather.gov/gid/ | Central corridor. |
 | NWS North Platte | https://www.weather.gov/lbf/ | West-central. |
 | NWS Cheyenne | https://www.weather.gov/cys/ | Kimball/Sidney edge. |
-| Active alerts API | `https://api.weather.gov/alerts/active?zone=NEC055,NEC109,NEC079,NEC019,NEC111,NEC033` | Requires a descriptive User-Agent. |
+| Active alerts API | `https://api.weather.gov/alerts/active?point=<lat>,<lon>` | Requires a descriptive User-Agent. The site now queries every corridor town by point, not six counties. |
 | Omaha PD | https://police.cityofomaha.org/press-releases | Bot-protected; open in a browser. |
 | Lincoln PD | https://www.lincoln.ne.gov/City/Departments/Police/Police-Activity | Bot-protected; open in a browser. |
 | NEMA | https://nema.nebraska.gov/newsroom.php | Emergencies, flooding, evacuations. |
@@ -360,6 +364,7 @@ Return exactly this shape to the editor:
 
 ```bash
 npm run log                     # what we published
+npm run daily                   # run the i80-daily OpenCode agent now
 npm run sources                 # fresh headlines + alerts
 npm run 511                     # live I-80 closures/construction
 npm run new -- --title "…"      # scaffold a post
@@ -376,6 +381,7 @@ APIs:
 curl https://i80things.vercel.app/api/sources
 curl https://i80things.vercel.app/api/posts?limit=20
 curl https://i80things.vercel.app/api/alerts
+curl https://i80things.vercel.app/api/conditions
 curl https://i80things.vercel.app/api/social/<slug>/caption
 ```
 

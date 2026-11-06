@@ -22,6 +22,13 @@ export const metadata: Metadata = {
     title: "All I-80 Nebraska news | I-80 Things",
     description:
       "Every story from Nebraska's I-80 corridor, newest first.",
+    images: [
+      {
+        url: "/api/og?title=All%20I-80%20Nebraska%20news&kicker=I-80%20THINGS",
+        width: 1200,
+        height: 675,
+      },
+    ],
   },
 };
 

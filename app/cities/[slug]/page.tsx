@@ -59,10 +59,17 @@ export default async function CityPage({
   const statewide = getAllPosts().filter((p) => p.city === "statewide");
   const posts = localPosts.length > 0 ? localPosts : statewide.slice(0, 4);
   const sources = getSourcesForPlace(place.slug);
-  const nearby = places.filter((p) => p.slug !== place.slug).slice(0, 4);
   const index = places.findIndex((p) => p.slug === place.slug);
   const west = places[index - 1];
   const east = places[index + 1];
+  const nearby = place.nearby
+    .map((name) => places.find((p) => p.slug === name || p.name === name))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .slice(0, 4);
+  for (const candidate of [west, east, ...places]) {
+    if (nearby.length >= 4 || !candidate || candidate.slug === place.slug) break;
+    if (!nearby.some((p) => p.slug === candidate.slug)) nearby.push(candidate);
+  }
 
   return (
     <main>
@@ -164,6 +171,33 @@ export default async function CityPage({
       <div className="container-page py-10">
         <div className="grid gap-12 lg:grid-cols-[1fr_20rem]">
           <div>
+            <section className="mb-10 border border-line bg-paper p-5 md:p-7">
+              <p className="kicker text-amber-dark">Local guide</p>
+              <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
+                {place.name} at a glance
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink-soft md:text-[15px]">
+                {place.localGuide.intro}
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {place.localGuide.highlights.map((item) => (
+                  <div key={item.title} className="border border-line bg-cream p-4">
+                    <h3 className="font-serif text-base font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 text-[12px] leading-relaxed text-slate">
+                      {item.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-[10px] leading-relaxed text-slate">
+                Service hours, fuel prices and road conditions change. Verify
+                before you rely on them. This guide is reviewed with the town
+                hub; see the source desk for the official feeds we monitor.
+              </p>
+            </section>
+
             <SectionHeading
               title={localPosts.length ? `Latest from ${place.name}` : "Statewide reporting that affects the corridor"}
               href="/news"

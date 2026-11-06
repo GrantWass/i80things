@@ -49,8 +49,10 @@ export default function PrivacyPage() {
           <p>
             <strong>Cookies and local storage.</strong> We store a small
             preference when you dismiss the cookie notice. Advertising partners
-            may set their own cookies as described below. We do not use
-            third-party analytics that track you across sites.
+            may set their own cookies as described below. We use Vercel
+            Analytics, which is cookieless and does not build a cross-site
+            advertising profile; we do not use third-party analytics that track
+            you across sites.
           </p>
 
           <h2>Advertising</h2>

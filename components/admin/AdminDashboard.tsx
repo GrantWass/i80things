@@ -780,9 +780,11 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
     } catch {}
   }
 
+  const bioUrl = `${siteUrl}/news/${slug}?utm_source=instagram&utm_medium=social&utm_campaign=bio`;
+
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(`${siteUrl}/news/${slug}`);
+      await navigator.clipboard.writeText(bioUrl);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 1800);
     } catch {}
@@ -841,7 +843,7 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
             </div>
             <p className="mt-3 border border-line bg-cream p-2 text-[10px] leading-relaxed text-slate">
               Instagram captions cannot be clicked. Put this link in your bio
-              before posting: <code className="break-all">{siteUrl}/news/{slug}</code>
+              before posting: <code className="break-all">{bioUrl}</code>
             </p>
             <a href="https://www.instagram.com/" target="_blank" className="mt-3 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
               Open Instagram <Arrow className="h-3 w-3" />

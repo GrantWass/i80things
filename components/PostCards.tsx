@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Post } from "@/lib/types";
 import { formatDate, postImagePath } from "@/lib/utils";
@@ -11,23 +12,30 @@ export function PostImage({
   priority = false,
   width = 1200,
   height = 675,
+  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
 }: {
   post: Pick<Post, "image" | "imageAlt" | "title" | "city">;
   className?: string;
   priority?: boolean;
   width?: number;
   height?: number;
+  sizes?: string;
 }) {
   const src = postImagePath(post);
+  // The generated OG endpoint is already a PNG; external images are not
+  // guaranteed to be on an allowed optimizer host.
+  const unoptimized = src.startsWith("/api/og") || src.startsWith("http");
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src={src}
       alt={post.imageAlt || post.title}
       width={width}
       height={height}
+      sizes={sizes}
+      quality={82}
+      priority={priority}
       loading={priority ? "eager" : "lazy"}
-      decoding="async"
+      unoptimized={unoptimized}
       className={className}
     />
   );
@@ -60,6 +68,7 @@ export function LeadCard({ post }: { post: Post }) {
           <PostImage
             post={post}
             priority
+            sizes="(min-width: 1024px) 760px, 100vw"
             className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
           />
         </div>
@@ -146,6 +155,7 @@ export function HorizontalCard({ post }: { post: Post }) {
         <div className="overflow-hidden border border-line bg-cream">
           <PostImage
             post={post}
+            sizes="(min-width: 640px) 208px, 100vw"
             className="aspect-[16/9] h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
           />
         </div>

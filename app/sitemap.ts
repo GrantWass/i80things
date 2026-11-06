@@ -4,6 +4,7 @@ import { places } from "@/data/places";
 import { topics } from "@/data/topics";
 import { authors } from "@/data/authors";
 import { site } from "@/lib/site";
+import { absoluteUrl } from "@/lib/utils";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
@@ -12,11 +13,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: site.url, lastModified: latest, changeFrequency: "hourly", priority: 1 },
     { url: `${site.url}/news`, lastModified: latest, changeFrequency: "hourly", priority: 0.9 },
+    { url: `${site.url}/conditions`, lastModified: latest, changeFrequency: "hourly", priority: 0.9 },
     { url: `${site.url}/sources`, lastModified: "2026-11-05", changeFrequency: "weekly", priority: 0.8 },
     { url: `${site.url}/cities`, lastModified: latest, changeFrequency: "weekly", priority: 0.8 },
     { url: `${site.url}/topics`, lastModified: latest, changeFrequency: "weekly", priority: 0.7 },
     { url: `${site.url}/about`, lastModified: "2026-11-05", changeFrequency: "monthly", priority: 0.5 },
     { url: `${site.url}/editorial-standards`, lastModified: "2026-11-05", changeFrequency: "monthly", priority: 0.5 },
+    { url: `${site.url}/corrections`, lastModified: "2026-11-05", changeFrequency: "monthly", priority: 0.5 },
+    { url: `${site.url}/image-credits`, lastModified: "2026-11-05", changeFrequency: "monthly", priority: 0.4 },
     { url: `${site.url}/contact`, lastModified: "2026-11-05", changeFrequency: "monthly", priority: 0.4 },
     { url: `${site.url}/privacy`, lastModified: "2026-11-05", changeFrequency: "yearly", priority: 0.3 },
     { url: `${site.url}/terms`, lastModified: "2026-11-05", changeFrequency: "yearly", priority: 0.3 },
@@ -29,6 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: post.updated ?? post.date,
       changeFrequency: "daily" as const,
       priority: 0.9,
+      ...(post.image ? { images: [absoluteUrl(post.image)] } : {}),
     })),
     ...places.map((place) => ({
       url: `${site.url}/cities/${place.slug}`,

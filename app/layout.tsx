@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Public_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -86,6 +88,8 @@ export default function RootLayout({
         <div id="main">{children}</div>
         <SiteFooter />
         <ConsentNotice />
+        <Analytics />
+        <SpeedInsights />
         {site.adsenseClient ? (
           <Script
             async

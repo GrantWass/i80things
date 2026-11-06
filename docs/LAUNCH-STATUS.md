@@ -1,17 +1,22 @@
 # Launch status
 
-**Live:** https://i80things.vercel.app  
-**Repo:** https://github.com/GrantWass/i80things  
+**Live:** https://i80things.vercel.app
+**Repo:** https://github.com/GrantWass/i80things
 **Verified:** November 5, 2026
+**Account/purchase work:** [NEXT-STEPS.md](./NEXT-STEPS.md)
 
 ## Live now
 
-- 13 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer and five town hubs.
+- 13 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer and town hubs with unique local guides.
+- `/conditions` — a five-minute-cached corridor status page combining Nebraska 511 closures/construction with point-based NWS alerts for every town.
 - 87-source directory at `/sources`, with search, category filters, copyable RSS URLs and scanner links.
+- Public trust pages at `/corrections` and `/image-credits`.
 - Public JSON APIs: `/api/posts`, `/api/sources`, `/api/alerts`.
 - City hubs, topic hubs, author pages, RSS, sitemaps, Google News sitemap, `llms.txt`, `llms-full.txt`, `ads.txt`.
 - Generated 1200×675 OG images and 1080×1350 Instagram JPEGs. Real photos are used full-bleed when attached; captions use a "link in bio" CTA, no QR codes.
-- AdSense-ready slots, privacy/CMP notice, editorial standards, corrections policy.
+- AdSense-ready slots, privacy notice, editorial standards, corrections policy.
+- Daily agent: the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor, a 5:30 a.m. Central macOS scheduler, and `npm run daily`.
+- Cookieless Vercel Analytics + Speed Insights; responsive `next/image` delivery for story photos.
 - Daily agent tooling: `npm run log`, `npm run sources`, `npm run new`, `npm run validate`, `npm run social`.
 - Password-protected admin UI for stories, sources, image uploads and the Instagram kit (needs env vars below).
 - GitHub → Vercel auto-deploy on every push to `main`.
@@ -35,6 +40,7 @@
 curl https://i80things.vercel.app/api/posts?limit=5
 curl https://i80things.vercel.app/api/sources?recommended=true
 curl https://i80things.vercel.app/api/alerts
+curl https://i80things.vercel.app/api/conditions
 curl -I https://i80things.vercel.app/api/social/how-to-read-nebraska-511
 ```
 

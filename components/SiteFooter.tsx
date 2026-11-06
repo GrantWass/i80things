@@ -41,7 +41,12 @@ export function SiteFooter() {
           <div>
             <h2 className="kicker mb-3 text-amber">Coverage</h2>
             <ul className="space-y-2 text-sm text-cream/75">
-              {topics.slice(0, 6).map((t) => (
+              <li>
+                <Link href="/conditions" className="font-semibold text-cream hover:text-paper">
+                  Road conditions
+                </Link>
+              </li>
+              {topics.slice(0, 5).map((t) => (
                 <li key={t.slug}>
                   <Link href={`/topics/${t.slug}`} className="hover:text-paper">
                     {t.label}
@@ -55,6 +60,8 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm text-cream/75">
               <li><Link href="/about" className="hover:text-paper">About & masthead</Link></li>
               <li><Link href="/editorial-standards" className="hover:text-paper">Editorial standards</Link></li>
+              <li><Link href="/corrections" className="hover:text-paper">Corrections</Link></li>
+              <li><Link href="/image-credits" className="hover:text-paper">Image credits</Link></li>
               <li><Link href="/sources" className="hover:text-paper">Source directory</Link></li>
               <li><Link href="/contact" className="hover:text-paper">Send a tip</Link></li>
               <li><Link href="/privacy" className="hover:text-paper">Privacy & cookies</Link></li>

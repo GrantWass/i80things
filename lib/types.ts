@@ -80,6 +80,10 @@ export interface Place {
   blurb: string;
   knownFor: string[];
   nearby: string[];
+  localGuide: {
+    intro: string;
+    highlights: { title: string; body: string }[];
+  };
   featured?: boolean;
 }
 

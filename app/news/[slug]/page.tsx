@@ -257,6 +257,7 @@ export default async function ArticlePage({
               <PostImage
                 post={post}
                 priority
+                sizes="(min-width: 1024px) 760px, 100vw"
                 className="aspect-[16/9] w-full border border-line object-cover"
               />
               <figcaption className="mt-2 flex flex-wrap justify-between gap-2 text-[11px] text-slate">
