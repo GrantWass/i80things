@@ -5,7 +5,8 @@
 An independent, ad-supported local news site built for Vercel: verified reporting, a public source directory, a daily agent workflow, Instagram-ready images, and SEO/LLM-SEO built in.
 
 **Live:** https://i80things.vercel.app  
-**Repo:** https://github.com/GrantWass/i80things
+**Repo:** https://github.com/GrantWass/i80things  
+**Launch status & remaining setup:** [docs/LAUNCH-STATUS.md](./docs/LAUNCH-STATUS.md)
 
 ---
 

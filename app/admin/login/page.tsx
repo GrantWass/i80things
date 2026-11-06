@@ -24,11 +24,21 @@ export default async function AdminLoginPage() {
             Publish stories, add sources and grab the Instagram kit. Access is
             limited to the I-80 Things editorial team.
           </p>
-          <LoginForm />
-          <p className="mt-4 text-[10px] leading-relaxed text-slate">
-            Set <code className="bg-cream px-1">ADMIN_PASSWORD</code> in Vercel to
-            enable this page. If it is blank, login is disabled by design.
-          </p>
+          {process.env.ADMIN_PASSWORD ? (
+            <LoginForm />
+          ) : (
+            <div className="border border-amber-dark/30 bg-amber/10 p-3">
+              <p className="text-[11px] font-bold tracking-[0.08em] text-amber-dark uppercase">
+                Admin is locked
+              </p>
+              <p className="mt-1 text-[12px] leading-relaxed text-ink-soft">
+                Set <code className="bg-paper px-1">ADMIN_PASSWORD</code> in
+                Vercel → Settings → Environment Variables, then redeploy. Add{" "}
+                <code className="bg-paper px-1">GITHUB_TOKEN</code> too so the
+                desk can commit stories and sources.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </main>
