@@ -76,6 +76,10 @@ const areaCount = areas.length;
 const truckSpacesListed = areas.reduce((sum, area) => sum + (area.truckSpaces ?? 0), 0);
 const truckOnlyCount = areas.filter((area) => area.truckOnly).length;
 const fullServiceCount = areaCount - truckOnlyCount;
+const topTruckAreas = areas
+  .filter((area) => area.truckSpaces !== null)
+  .sort((a, b) => (b.truckSpaces ?? 0) - (a.truckSpaces ?? 0))
+  .slice(0, 4);
 
 function directionShort(direction: Direction) {
   if (direction === "eastbound") return "EB";
@@ -155,7 +159,46 @@ export default function RestAreasPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+          <section className="border border-line bg-paper p-5 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="kicker text-amber-dark">Start here</p>
+                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
+                  The biggest public truck lots
+                </h2>
+              </div>
+              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
+                Sorted by the guide&apos;s posted truck spaces. These are
+                capacity figures, not live availability — check 511.
+              </p>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {topTruckAreas.map((area) => (
+                <a
+                  key={area.id}
+                  href={`#${area.id}`}
+                  className="group border border-line bg-cream p-4 hover:border-ink"
+                >
+                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                    {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} · {directionShort(area.direction)}
+                  </p>
+                  <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
+                    {area.name}
+                  </p>
+                  <p className="mt-2 font-serif text-2xl font-semibold">
+                    {area.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
+                  </p>
+                  {area.citySlug ? (
+                    <span className="mt-1 block text-[11px] text-highway">
+                      {placeBySlug.get(area.citySlug)?.name} hub →
+                    </span>
+                  ) : null}
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
             <div className="bg-paper p-5">
               <p className="kicker text-amber-dark">At a glance</p>
               <p className="mt-1 font-serif text-3xl font-semibold">{areaCount}</p>

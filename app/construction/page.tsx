@@ -94,6 +94,7 @@ export default async function ConstructionPage() {
     mile: mileOf(event),
   }));
   withMiles.sort((a, b) => (a.mile ?? 9999) - (b.mile ?? 9999));
+  const featuredZones = withMiles.slice(0, 3);
 
   const unlocated = withMiles.filter((w) => districtFor(w.mile) === null);
   const districtsRepresented = new Set(
@@ -251,6 +252,52 @@ export default async function ConstructionPage() {
             </div>
           </div>
 
+          {featuredZones.length ? (
+            <section className="mt-6 border border-line bg-paper p-5">
+              <div className="flex flex-wrap items-end justify-between gap-2">
+                <div>
+                  <p className="kicker text-amber-dark">Current work zones</p>
+                  <h2 className="mt-1 font-serif text-2xl font-semibold">
+                    What is active right now
+                  </h2>
+                </div>
+                <a
+                  href="#all-work-zones"
+                  className="kicker text-highway hover:text-amber-dark"
+                >
+                  See all {workZones.length} →
+                </a>
+              </div>
+              <ul className="mt-3 grid gap-2 md:grid-cols-3">
+                {featuredZones.map(({ event, mile }) => {
+                  const district = districtFor(mile);
+                  return (
+                    <li
+                      key={event.id}
+                      className="border border-line bg-cream p-3"
+                    >
+                      <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                        {district ? district.district : "Location unclear"}
+                        {mile !== null ? ` · ${formatMile(mile)}` : ""}
+                      </p>
+                      <p className="mt-1 text-[13px] leading-snug font-semibold">
+                        {event.title}
+                      </p>
+                      <a
+                        href={event.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-block text-[10px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
+                      >
+                        Open on 511 →
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ) : null}
+
           <section className="mt-6 border border-line bg-paper p-5">
             <h2 className="kicker text-slate">How this page works</h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">
@@ -325,7 +372,7 @@ export default async function ConstructionPage() {
               </div>
             </div>
           ) : (
-            <div className="mt-8 space-y-10">
+            <div id="all-work-zones" className="mt-8 space-y-10">
               {DISTRICTS.map((district) => {
                 const rows = withMiles.filter(
                   (w) => districtFor(w.mile)?.id === district.id,

@@ -75,6 +75,9 @@ function formatMinutes(minutes: number): string {
 }
 
 export default function DistancesPage() {
+  const popular = fromOmaha.filter((row) =>
+    ["Lincoln", "Grand Island", "Kearney", "North Platte"].includes(row.hub),
+  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -142,7 +145,44 @@ export default function DistancesPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+          <section className="border border-line bg-paper p-5 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="kicker text-amber-dark">Start here</p>
+                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
+                  From Omaha
+                </h2>
+              </div>
+              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
+                Distance and a steady-speed estimate. No stops, traffic,
+                weather or construction included.
+              </p>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {popular.map((row) => (
+                <Link
+                  key={row.hub}
+                  href={`/cities/${hubSlugs[row.hub]}`}
+                  className="group border border-line bg-cream p-4 hover:border-ink"
+                >
+                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                    Omaha → {row.hub}
+                  </p>
+                  <p className="mt-1 font-serif text-2xl font-semibold">
+                    {row.milesFromOmaha} mi
+                  </p>
+                  <p className="mt-1 text-[12px] text-ink-soft">
+                    {formatMinutes(row.minutesAt70)} at 70 mph
+                  </p>
+                  <p className="mt-2 text-[10px] font-bold tracking-[0.06em] text-highway uppercase">
+                    {row.hub} hub →
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
             <div className="bg-paper p-5">
               <p className="kicker text-amber-dark">At a glance</p>
               <p className="mt-1 font-serif text-3xl font-semibold tabular-nums">

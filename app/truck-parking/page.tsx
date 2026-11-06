@@ -48,6 +48,10 @@ const openTruckSpaces = openSites.reduce(
 );
 const countedSites = openSites.filter((s) => s.truckSpaces != null).length;
 const planned = sites.filter((s) => s.status === "planned");
+const topSites = openSites
+  .filter((site) => site.truckSpaces !== null)
+  .sort((a, b) => (b.truckSpaces ?? 0) - (a.truckSpaces ?? 0))
+  .slice(0, 4);
 
 const regions = [
   { name: "West", note: "Wyoming line, Kimball, Sidney, Deuel County", min: 0, max: 125 },
@@ -132,7 +136,44 @@ export default function TruckParkingPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+          <section className="border border-line bg-paper p-5 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="kicker text-amber-dark">Start here</p>
+                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
+                  Largest open public lots
+                </h2>
+              </div>
+              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
+                The four biggest public truck-parking sites in the NDOT guide.
+                Counts are not live — confirm availability on 511.
+              </p>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {topSites.map((site) => (
+                <a
+                  key={site.id}
+                  href={`#${site.id}`}
+                  className="group border border-line bg-cream p-4 hover:border-ink"
+                >
+                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                    {site.mile !== null ? `Mile ${site.mile}` : "Site TBA"} · {site.direction}
+                  </p>
+                  <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
+                    {site.name}
+                  </p>
+                  <p className="mt-2 font-serif text-2xl font-semibold">
+                    {site.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
+                  </p>
+                  <span className="mt-1 block text-[11px] text-highway">
+                    {townName(site.nearestTown)} hub →
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
             <div className="bg-paper p-5">
               <p className="kicker text-amber-dark">At a glance</p>
               <p className="mt-1 font-serif text-3xl font-semibold">

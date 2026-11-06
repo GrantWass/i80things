@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
+import { ExitLookup, type ExitLookupRow } from "@/components/ExitLookup";
 import { places } from "@/data/places";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
@@ -33,6 +34,23 @@ const gaps = rows
   .sort((a, b) => b.miles - a.miles);
 const longestGap = gaps[0];
 
+const featuredExits = new Set([22, 59, 126, 177, 237, 272, 312, 353, 379, 401, 454]);
+
+const lookupRows: ExitLookupRow[] = rows.map((row) => {
+  const place = nearestPlace(row.mile);
+  return {
+    exit: row.exit,
+    mile: row.mile,
+    road: row.road ?? "Interchange",
+    placeName:
+      row.exit === 312
+        ? "Grand Island / Hastings"
+        : place?.name ?? null,
+    placeSlug: place?.slug ?? null,
+    featured: featuredExits.has(row.exit),
+  };
+});
+
 const regions = [
   { name: "West", note: "Kimball, Sidney and the Wyoming line", min: 0, max: 125 },
   { name: "Central", note: "Ogallala, North Platte, Lexington and Kearney", min: 126, max: 299 },
@@ -47,7 +65,13 @@ function nearestPlace(mile: number) {
     const min = Math.min(...range);
     const max = Math.max(...range);
     const distance = mile < min ? min - mile : mile > max ? mile - max : 0;
-    if (!best || distance < best.distance) best = { place, distance };
+    const better =
+      !best ||
+      distance < best.distance ||
+      (distance === best.distance &&
+        best.place.slug === "hastings" &&
+        place.slug !== "hastings");
+    if (better) best = { place, distance };
   }
   return best && best.distance <= 25 ? best.place : null;
 }
@@ -115,33 +139,18 @@ export default function ExitsPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">At a glance</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">{rows.length}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Nebraska I-80 exits in this table
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Corridor hubs</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">{places.length}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Town hubs with local coverage
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Longest gap</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                {longestGap ? `${longestGap.miles} mi` : "—"}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                {longestGap
-                  ? `Exit ${longestGap.from.exit} to Exit ${longestGap.to.exit}`
-                  : "Between consecutive exits"}
-              </p>
-            </div>
-          </div>
+          <ExitLookup rows={lookupRows} />
+
+          {longestGap ? (
+            <p className="mt-3 text-[11px] leading-relaxed text-slate">
+              Longest gap between consecutive exits:{" "}
+              <strong className="font-semibold text-ink">
+                {longestGap.miles} miles
+              </strong>{" "}
+              ({longestGap.from.exit} → {longestGap.to.exit}). The full table is
+              below.
+            </p>
+          ) : null}
 
           <div className="mt-4 grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
             <div>

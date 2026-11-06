@@ -46,6 +46,7 @@ const combined2020 = towns.reduce((sum, t) => sum + t.pop2020, 0);
 const fastest = towns.reduce((best, t) =>
   pctChange(t) > pctChange(best) ? t : best,
 );
+const largest = [...towns].sort((a, b) => b.pop2020 - a.pop2020).slice(0, 4);
 
 export default function DemographicsPage() {
   const jsonLd = {
@@ -126,7 +127,44 @@ export default function DemographicsPage() {
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
+          <section className="border border-line bg-paper p-5 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="kicker text-amber-dark">Start here</p>
+                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
+                  The largest corridor hubs
+                </h2>
+              </div>
+              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
+                Exact 2020 Census population inside city limits. The full
+                12-town table is below.
+              </p>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {largest.map((town) => (
+                <Link
+                  key={town.slug}
+                  href={`/cities/${town.slug}`}
+                  className="group border border-line bg-cream p-4 hover:border-ink"
+                >
+                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                    {town.county}
+                  </p>
+                  <p className="mt-1 font-serif text-xl leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
+                    {town.town}
+                  </p>
+                  <p className="mt-2 font-serif text-2xl font-semibold">
+                    {town.pop2020.toLocaleString("en-US")}
+                  </p>
+                  <p className="mt-1 text-[11px] text-highway">
+                    City hub →
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
             <div className="bg-paper p-5">
               <p className="kicker text-amber-dark">Combined 2020 population</p>
               <p className="mt-1 font-serif text-3xl font-semibold">
