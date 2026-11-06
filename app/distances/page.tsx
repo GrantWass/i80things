@@ -247,7 +247,43 @@ export default function DistancesPage() {
                 Estimates at steady speed
               </p>
             </div>
-            <div className="mt-3 overflow-x-auto border border-line">
+            <ul className="mt-3 space-y-3 sm:hidden">
+              {legs.map((leg) => (
+                <li
+                  key={`${leg.from}-${leg.to}`}
+                  className="border border-line bg-paper p-4"
+                >
+                  <p className="flex flex-wrap items-center gap-x-1 font-semibold">
+                    {hubSlugs[leg.from] ? (
+                      <Link
+                        href={`/cities/${hubSlugs[leg.from]}`}
+                        className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-2"
+                      >
+                        {leg.from}
+                      </Link>
+                    ) : (
+                      leg.from
+                    )}
+                    <span aria-hidden="true"> → </span>
+                    {hubSlugs[leg.to] ? (
+                      <Link
+                        href={`/cities/${hubSlugs[leg.to]}`}
+                        className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-2"
+                      >
+                        {leg.to}
+                      </Link>
+                    ) : (
+                      leg.to
+                    )}
+                  </p>
+                  <p className="mt-1 text-sm tabular-nums text-ink-soft">
+                    {leg.miles} mi · {formatMinutes(leg.minutesAt65)} at 65 mph ·{" "}
+                    {formatMinutes(leg.minutesAt70)} at 70 mph
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
               <table className="w-full min-w-[44rem] border-collapse text-left text-sm">
                 <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                   <tr>
@@ -304,7 +340,36 @@ export default function DistancesPage() {
                 Reference miles from mile 454
               </p>
             </div>
-            <div className="mt-3 overflow-x-auto border border-line">
+            <ul className="mt-3 space-y-3 sm:hidden">
+              {fromOmaha.map((row) => (
+                <li
+                  key={row.hub}
+                  className="border border-line bg-paper p-4"
+                >
+                  {hubSlugs[row.hub] ? (
+                    <Link
+                      href={`/cities/${hubSlugs[row.hub]}`}
+                      className="inline-flex min-h-[44px] items-center font-serif text-xl leading-tight font-semibold text-highway underline decoration-amber underline-offset-2"
+                    >
+                      {row.hub}
+                    </Link>
+                  ) : (
+                    <p className="font-serif text-xl leading-tight font-semibold">
+                      {row.hub}
+                    </p>
+                  )}
+                  <p className="mt-1 text-sm tabular-nums text-ink-soft">
+                    {row.milesFromOmaha} mi from Omaha · Ref. mile{" "}
+                    {row.referenceMile}
+                  </p>
+                  <p className="mt-1 text-sm tabular-nums text-ink-soft">
+                    {formatMinutes(row.minutesAt65)} at 65 mph ·{" "}
+                    {formatMinutes(row.minutesAt70)} at 70 mph
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
               <table className="w-full min-w-[44rem] border-collapse text-left text-sm">
                 <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                   <tr>
@@ -361,7 +426,7 @@ export default function DistancesPage() {
                 href={spur.sourceUrl}
                 className="font-semibold text-highway underline decoration-amber underline-offset-2"
               >
-                {spur.source} directions
+                {spur.source}
               </a>
               , not from reference-mile math, so keep it separate from the
               hub-to-hub tables above.
@@ -374,7 +439,7 @@ export default function DistancesPage() {
               <li className="border border-line bg-paper p-4 text-sm">
                 <Link
                   href="/exits"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                  className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
                 >
                   I-80 exit guide
                 </Link>
@@ -385,7 +450,7 @@ export default function DistancesPage() {
               <li className="border border-line bg-paper p-4 text-sm">
                 <Link
                   href="/cities"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                  className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
                 >
                   Corridor towns
                 </Link>
@@ -396,7 +461,7 @@ export default function DistancesPage() {
               <li className="border border-line bg-paper p-4 text-sm">
                 <Link
                   href="/conditions"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                  className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
                 >
                   Corridor conditions
                 </Link>

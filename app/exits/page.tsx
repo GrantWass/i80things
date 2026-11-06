@@ -197,7 +197,15 @@ export default function ExitsPage() {
                     {region.note}
                   </p>
                 </div>
-                <div className="mt-3 overflow-x-auto border border-line">
+                <p className="mt-2 text-[12px] text-slate sm:hidden">
+                  Swipe sideways to see every column →
+                </p>
+                <div
+                  className="mt-2 overflow-x-auto border border-line"
+                  role="region"
+                  aria-label={`${region.name} exits table, scroll horizontally to see all columns`}
+                  tabIndex={0}
+                >
                   <table className="w-full min-w-[48rem] border-collapse text-left text-sm">
                     <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                       <tr>
@@ -212,23 +220,23 @@ export default function ExitsPage() {
                         const place = nearestPlace(row.mile);
                         return (
                           <tr key={row.exit} id={`exit-${row.exit}`} className="bg-paper">
-                            <td className="px-3 py-2 font-semibold">Exit {row.exit}</td>
-                            <td className="px-3 py-2 tabular-nums text-ink-soft">
+                            <td className="px-3 py-3 font-semibold">Exit {row.exit}</td>
+                            <td className="px-3 py-3 tabular-nums text-ink-soft">
                               {row.mile.toFixed(1)}
                             </td>
-                            <td className="px-3 py-2">
+                            <td className="px-3">
                               {place ? (
                                 <Link
                                   href={`/cities/${place.slug}`}
-                                  className="font-medium text-highway underline decoration-amber underline-offset-2"
+                                  className="block py-3 font-medium text-highway underline decoration-amber underline-offset-2"
                                 >
                                   {place.name}
                                 </Link>
                               ) : (
-                                <span className="text-slate">Open corridor</span>
+                                <span className="block py-3 text-slate">Open corridor</span>
                               )}
                             </td>
-                            <td className="max-w-[16rem] px-3 py-2 text-[12px] leading-snug text-ink-soft">
+                            <td className="max-w-[16rem] px-3 py-3 text-[12px] leading-snug text-ink-soft">
                               {row.road ?? "—"}
                             </td>
                           </tr>
@@ -255,19 +263,19 @@ export default function ExitsPage() {
                 {gaps.slice(0, 6).map((gap) => (
                   <li
                     key={`${gap.from.exit}-${gap.to.exit}`}
-                    className="flex items-center justify-between gap-3 border border-line bg-paper px-3 py-2 text-sm"
+                    className="flex items-center justify-between gap-3 border border-line bg-paper px-3 text-sm"
                   >
                     <span>
                       <a
                         href={`#exit-${gap.from.exit}`}
-                        className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                        className="inline-block py-3 font-semibold text-highway underline decoration-amber underline-offset-2"
                       >
                         Exit {gap.from.exit}
                       </a>
                       {" → "}
                       <a
                         href={`#exit-${gap.to.exit}`}
-                        className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                        className="inline-block py-3 font-semibold text-highway underline decoration-amber underline-offset-2"
                       >
                         Exit {gap.to.exit}
                       </a>

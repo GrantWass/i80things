@@ -200,7 +200,7 @@ export default async function ConstructionPage() {
               external
               event="construction_511_click"
               eventData={{ placement: "header" }}
-              className="bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
+              className="inline-flex min-h-[44px] items-center bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
             >
               Open Nebraska 511
             </TrackedLink>
@@ -209,7 +209,7 @@ export default async function ConstructionPage() {
               external
               event="construction_ndot_report_click"
               eventData={{ placement: "header" }}
-              className="border border-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
+              className="inline-flex min-h-[44px] items-center border border-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
             >
               NDOT weekly report (PDF)
             </TrackedLink>
@@ -263,7 +263,7 @@ export default async function ConstructionPage() {
                 </div>
                 <a
                   href="#all-work-zones"
-                  className="kicker text-highway hover:text-amber-dark"
+                  className="inline-flex min-h-[44px] items-center py-2 kicker text-highway hover:text-amber-dark"
                 >
                   See all {workZones.length} →
                 </a>
@@ -287,7 +287,7 @@ export default async function ConstructionPage() {
                         href={event.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-2 inline-block text-[10px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
+                        className="mt-1 inline-flex min-h-[44px] items-center py-2 text-[10px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
                       >
                         Open on 511 →
                       </a>
@@ -356,7 +356,7 @@ export default async function ConstructionPage() {
                   external
                   event="construction_511_click"
                   eventData={{ placement: "fallback" }}
-                  className="bg-ink px-4 py-2.5 text-paper hover:bg-highway"
+                  className="inline-flex min-h-[44px] items-center bg-ink px-4 py-2.5 text-paper hover:bg-highway"
                 >
                   Open Nebraska 511
                 </TrackedLink>
@@ -365,7 +365,7 @@ export default async function ConstructionPage() {
                   external
                   event="construction_ndot_report_click"
                   eventData={{ placement: "fallback" }}
-                  className="border border-ink px-4 py-2.5 hover:bg-ink hover:text-paper"
+                  className="inline-flex min-h-[44px] items-center border border-ink px-4 py-2.5 hover:bg-ink hover:text-paper"
                 >
                   NDOT weekly report (PDF)
                 </TrackedLink>
@@ -444,7 +444,7 @@ export default async function ConstructionPage() {
                                 category: event.category,
                                 mile: mile ?? null,
                               }}
-                              className="font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
+                              className="inline-flex min-h-[44px] items-center py-1 font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
                             >
                               Open on 511
                             </TrackedLink>
@@ -486,7 +486,7 @@ export default async function ConstructionPage() {
                             external
                             event="construction_event_click"
                             eventData={{ category: event.category, mile: null }}
-                            className="font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
+                            className="inline-flex min-h-[44px] items-center py-1 font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
                           >
                             Open on 511
                           </TrackedLink>
@@ -569,16 +569,19 @@ export default async function ConstructionPage() {
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-bold tracking-[0.06em] uppercase">
               <Link
                 href="/conditions"
-                className="text-highway hover:text-amber-dark"
+                className="inline-flex min-h-[44px] items-center text-highway hover:text-amber-dark"
               >
                 Corridor conditions →
               </Link>
-              <Link href="/exits" className="text-highway hover:text-amber-dark">
+              <Link
+                href="/exits"
+                className="inline-flex min-h-[44px] items-center text-highway hover:text-amber-dark"
+              >
                 All I-80 exits →
               </Link>
               <Link
                 href="/sources"
-                className="text-highway hover:text-amber-dark"
+                className="inline-flex min-h-[44px] items-center text-highway hover:text-amber-dark"
               >
                 Full source directory →
               </Link>

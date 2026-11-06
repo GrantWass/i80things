@@ -186,7 +186,7 @@ export default function DemographicsPage() {
               <p className="mt-1 font-serif text-3xl font-semibold">
                 <Link
                   href={`/cities/${fastest.slug}`}
-                  className="text-highway underline decoration-amber underline-offset-4"
+                  className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-4"
                 >
                   {fastest.town}
                 </Link>
@@ -202,11 +202,85 @@ export default function DemographicsPage() {
               <h2 className="font-serif text-2xl font-semibold">
                 The 12 hubs, west to east
               </h2>
-              <Link href="/exits" className="kicker text-highway hover:text-amber-dark">
+              <Link
+                href="/exits"
+                className="inline-flex min-h-[44px] items-center kicker text-highway hover:text-amber-dark"
+              >
                 All I-80 exits →
               </Link>
             </div>
-            <div className="mt-3 overflow-x-auto border border-line">
+            <ul className="mt-3 space-y-3 sm:hidden">
+              {towns.map((town) => {
+                const delta = change(town);
+                const pct = pctChange(town);
+                const up = delta > 0;
+                const down = delta < 0;
+                return (
+                  <li key={town.slug} className="border border-line bg-paper p-4">
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <Link
+                        href={`/cities/${town.slug}`}
+                        className="inline-flex min-h-[44px] items-center font-serif text-xl leading-tight font-semibold text-highway underline decoration-amber underline-offset-2"
+                      >
+                        {town.town}
+                      </Link>
+                      <span
+                        className={`text-sm font-semibold tabular-nums ${
+                          up
+                            ? "text-highway"
+                            : down
+                              ? "text-alert"
+                              : "text-ink-soft"
+                        }`}
+                      >
+                        {fmtSigned(delta)} · {fmtPct(pct)}
+                      </span>
+                    </div>
+                    {!town.onInterstate ? (
+                      <p className="mt-1 inline-block rounded-sm bg-cream px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-amber-dark uppercase">
+                        US-281 spur
+                      </p>
+                    ) : null}
+                    <dl className="mt-2 grid grid-cols-2 gap-2 text-[12px] leading-relaxed text-ink-soft">
+                      <div>
+                        <dt className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                          2020
+                        </dt>
+                        <dd className="tabular-nums">
+                          {town.pop2020.toLocaleString("en-US")}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                          2010
+                        </dt>
+                        <dd className="tabular-nums">
+                          {town.pop2010.toLocaleString("en-US")}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                          County
+                        </dt>
+                        <dd>
+                          {town.county} ·{" "}
+                          {town.countyPop2020.toLocaleString("en-US")}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                          I-80
+                        </dt>
+                        <dd className="tabular-nums">
+                          Miles {town.mileMarker} · {town.exits}
+                        </dd>
+                      </div>
+                    </dl>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
               <table className="w-full min-w-[52rem] border-collapse text-left text-sm">
                 <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                   <tr>

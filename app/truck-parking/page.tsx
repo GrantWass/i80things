@@ -67,6 +67,37 @@ function formatSpaces(n: number | null): string {
   return n == null ? "Not stated" : n.toLocaleString("en-US");
 }
 
+function TopSiteCardBody({ row }: { row: SiteRow }) {
+  return (
+    <>
+      <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+        {row.mile !== null ? `Mile ${row.mile}` : "Site TBA"} · {row.direction}
+      </p>
+      <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
+        {row.name}
+      </p>
+      <p className="mt-2 font-serif text-2xl font-semibold">
+        {row.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
+      </p>
+      <span className="mt-1 block text-[11px] text-highway">
+        {townName(row.nearestTown)} hub →
+      </span>
+    </>
+  );
+}
+
+function StatusBadge({ status }: { status: SiteRow["status"] }) {
+  return status === "open" ? (
+    <span className="inline-block border border-highway px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] text-highway uppercase">
+      Open
+    </span>
+  ) : (
+    <span className="inline-block border border-amber-dark px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] text-amber-dark uppercase">
+      Planned
+    </span>
+  );
+}
+
 export default function TruckParkingPage() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -149,26 +180,19 @@ export default function TruckParkingPage() {
                 Counts are not live — confirm availability on 511.
               </p>
             </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {topSites.map((site) => (
-                <a
+                <div
                   key={site.id}
-                  href={`#${site.id}`}
-                  className="group border border-line bg-cream p-4 hover:border-ink"
+                  className="group min-w-0 border border-line bg-cream p-4 break-words hover:border-ink"
                 >
-                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-                    {site.mile !== null ? `Mile ${site.mile}` : "Site TBA"} · {site.direction}
-                  </p>
-                  <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
-                    {site.name}
-                  </p>
-                  <p className="mt-2 font-serif text-2xl font-semibold">
-                    {site.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
-                  </p>
-                  <span className="mt-1 block text-[11px] text-highway">
-                    {townName(site.nearestTown)} hub →
-                  </span>
-                </a>
+                  <a href={`#${site.id}-m`} className="block sm:hidden">
+                    <TopSiteCardBody row={site} />
+                  </a>
+                  <a href={`#${site.id}`} className="hidden sm:block">
+                    <TopSiteCardBody row={site} />
+                  </a>
+                </div>
               ))}
             </div>
           </section>
@@ -252,7 +276,54 @@ export default function TruckParkingPage() {
                     {region.note}
                   </p>
                 </div>
-                <div className="mt-3 overflow-x-auto border border-line">
+                <ul className="mt-3 space-y-2 sm:hidden">
+                  {regionRows.map((row) => (
+                    <li
+                      key={row.id}
+                      id={`${row.id}-m`}
+                      className="scroll-mt-24 border border-line bg-paper p-4"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <p className="font-serif text-lg leading-tight font-semibold">
+                          {row.name}
+                        </p>
+                        <StatusBadge status={row.status} />
+                      </div>
+                      <p className="mt-1 text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                        {row.mile != null ? `Mile ${row.mile.toFixed(1)}${row.mileApproximate ? " ~" : ""}` : "Location TBA"} ·{" "}
+                        {row.direction}
+                      </p>
+                      <p className="mt-2 font-serif text-xl font-semibold">
+                        {formatSpaces(row.truckSpaces)}{" "}
+                        <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
+                      </p>
+                      <p className="mt-1 flex flex-wrap items-center gap-x-5 text-[12px]">
+                        <Link
+                          href={`/cities/${row.nearestTown}`}
+                          className="inline-flex min-h-[44px] items-center font-medium text-highway underline decoration-amber underline-offset-2"
+                        >
+                          {townName(row.nearestTown)} hub →
+                        </Link>
+                        {row.nearestExit != null ? (
+                          <Link
+                            href={`/exits#exit-${row.nearestExit}`}
+                            className="inline-flex min-h-[44px] items-center whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
+                          >
+                            Exit {row.nearestExit} →
+                          </Link>
+                        ) : (
+                          <span className="inline-flex min-h-[44px] items-center text-slate">
+                            Exit TBA
+                          </span>
+                        )}
+                      </p>
+                      <p className="border-t border-line pt-2 text-[12px] leading-snug text-ink-soft">
+                        {row.notes}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
                   <table className="w-full min-w-[52rem] border-collapse text-left text-sm">
                     <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                       <tr>
@@ -266,7 +337,7 @@ export default function TruckParkingPage() {
                     </thead>
                     <tbody className="divide-y divide-line">
                       {regionRows.map((row) => (
-                        <tr key={row.id} id={row.id} className="bg-paper align-top">
+                        <tr key={row.id} id={row.id} className="scroll-mt-24 bg-paper align-top">
                           <td className="px-3 py-2 font-semibold">
                             {row.name}
                             <span className="mt-0.5 block text-[11px] font-normal text-slate capitalize">

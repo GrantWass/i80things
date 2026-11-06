@@ -99,7 +99,7 @@ export function ExitLookup({ rows }: { rows: ExitLookupRow[] }) {
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark"
+              className="inline-flex min-h-[44px] items-center px-2 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark"
             >
               Clear search
             </button>
@@ -125,7 +125,7 @@ export function ExitLookup({ rows }: { rows: ExitLookupRow[] }) {
               {row.placeSlug ? (
                 <Link
                   href={`/cities/${row.placeSlug}`}
-                  className="mt-2 inline-block text-[11px] font-semibold text-highway underline decoration-amber underline-offset-2"
+                  className="mt-1 inline-flex min-h-[44px] items-center text-[11px] font-semibold text-highway underline decoration-amber underline-offset-2"
                 >
                   {row.placeName} hub →
                 </Link>

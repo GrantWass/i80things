@@ -12,7 +12,7 @@ export function Brand({ light = false }: { light?: boolean }) {
       </span>
       <span className="leading-none">
         <span
-          className={`block font-serif text-[21px] font-bold tracking-tight ${
+          className={`block font-serif text-[18px] font-bold tracking-tight whitespace-nowrap sm:text-[21px] ${
             light ? "text-paper" : "text-ink"
           }`}
         >

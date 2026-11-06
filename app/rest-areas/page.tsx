@@ -96,6 +96,39 @@ function parkingLabel(area: RestArea) {
   return parts.length ? parts.join(" · ") : "—";
 }
 
+function featureText(area: RestArea): string {
+  const base = area.amenities.length
+    ? area.amenities
+        .map((amenity) => amenityLabels[amenity] ?? amenity)
+        .join(" · ")
+    : "No amenities — parking only";
+  const sculpture = area.sculpture ? ` · Sculpture: ${area.sculpture}.` : "";
+  const notes = area.notes && !area.truckOnly ? ` ${area.notes}` : "";
+  return `${base}${sculpture}${notes}`;
+}
+
+function TopLotCardBody({ area }: { area: RestArea }) {
+  const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
+  return (
+    <>
+      <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+        {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} · {directionShort(area.direction)}
+      </p>
+      <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
+        {area.name}
+      </p>
+      <p className="mt-2 font-serif text-2xl font-semibold">
+        {area.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
+      </p>
+      {place ? (
+        <span className="mt-1 block text-[11px] text-highway">
+          {place.name} hub →
+        </span>
+      ) : null}
+    </>
+  );
+}
+
 export default function RestAreasPage() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -143,7 +176,7 @@ export default function RestAreasPage() {
         <div className="container-page py-10 md:py-14">
           <p className="kicker text-amber-dark">Mileposts, parking &amp; closures</p>
           <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
-            Nebraska I-80 rest areas
+            Nebraska <span className="whitespace-nowrap">I-80</span> rest areas
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
             Every rest area and truck-parking-only lot on Nebraska&apos;s I-80,
@@ -172,28 +205,19 @@ export default function RestAreasPage() {
                 capacity figures, not live availability — check 511.
               </p>
             </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {topTruckAreas.map((area) => (
-                <a
+                <div
                   key={area.id}
-                  href={`#${area.id}`}
-                  className="group border border-line bg-cream p-4 hover:border-ink"
+                  className="group min-w-0 border border-line bg-cream p-4 break-words hover:border-ink"
                 >
-                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-                    {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} · {directionShort(area.direction)}
-                  </p>
-                  <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
-                    {area.name}
-                  </p>
-                  <p className="mt-2 font-serif text-2xl font-semibold">
-                    {area.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
-                  </p>
-                  {area.citySlug ? (
-                    <span className="mt-1 block text-[11px] text-highway">
-                      {placeBySlug.get(area.citySlug)?.name} hub →
-                    </span>
-                  ) : null}
-                </a>
+                  <a href={`#${area.id}-m`} className="block sm:hidden">
+                    <TopLotCardBody area={area} />
+                  </a>
+                  <a href={`#${area.id}`} className="hidden sm:block">
+                    <TopLotCardBody area={area} />
+                  </a>
+                </div>
               ))}
             </div>
           </section>
@@ -272,7 +296,58 @@ export default function RestAreasPage() {
                     {region.note}
                   </p>
                 </div>
-                <div className="mt-3 overflow-x-auto border border-line">
+                <ul className="mt-3 space-y-2 sm:hidden">
+                  {regionRows.map((area) => {
+                    const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
+                    return (
+                      <li
+                        key={area.id}
+                        id={`${area.id}-m`}
+                        className="scroll-mt-24 border border-line bg-paper p-4"
+                      >
+                        <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                          {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} ·{" "}
+                          {directionShort(area.direction)}
+                          {area.truckOnly ? " · Trucks only" : ""}
+                        </p>
+                        <p className="mt-1 font-serif text-lg leading-tight font-semibold">
+                          {area.name}
+                        </p>
+                        <p className="mt-2 font-serif text-xl font-semibold">
+                          {parkingLabel(area)}
+                        </p>
+                        <p className="mt-1 text-[12px] leading-snug text-slate">
+                          {area.locationNote}
+                          {area.pullThru ? " Pull-thru truck parking." : ""}
+                        </p>
+                        <p className="mt-1 flex flex-wrap items-center gap-x-5 text-[12px]">
+                          {place ? (
+                            <Link
+                              href={`/cities/${place.slug}`}
+                              className="inline-flex min-h-[44px] items-center font-medium text-highway underline decoration-amber underline-offset-2"
+                            >
+                              {place.name} hub →
+                            </Link>
+                          ) : (
+                            <span className="inline-flex min-h-[44px] items-center text-slate">
+                              {area.corridor}
+                            </span>
+                          )}
+                          <Link
+                            href={`/exits#exit-${area.nearestExit}`}
+                            className="inline-flex min-h-[44px] items-center whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
+                          >
+                            Exit {area.nearestExit} →
+                          </Link>
+                        </p>
+                        <p className="border-t border-line pt-2 text-[12px] leading-snug text-ink-soft">
+                          {featureText(area)}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
                   <table className="w-full min-w-[52rem] border-collapse text-left text-sm">
                     <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
                       <tr>
@@ -288,7 +363,7 @@ export default function RestAreasPage() {
                       {regionRows.map((area) => {
                         const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
                         return (
-                          <tr key={area.id} id={area.id} className="bg-paper">
+                          <tr key={area.id} id={area.id} className="scroll-mt-24 bg-paper">
                             <td className="px-3 py-2">
                               <p className="font-semibold">
                                 {area.name}
@@ -360,8 +435,14 @@ export default function RestAreasPage() {
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
               <li className="border border-line bg-paper px-3 py-2 text-sm">
                 <a
+                  href="#goehner-wb-truck-m"
+                  className="font-semibold text-highway underline decoration-amber underline-offset-2 sm:hidden"
+                >
+                  Goehner truck parking
+                </a>
+                <a
                   href="#goehner-wb-truck"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                  className="hidden font-semibold text-highway underline decoration-amber underline-offset-2 sm:inline"
                 >
                   Goehner truck parking
                 </a>
@@ -381,8 +462,14 @@ export default function RestAreasPage() {
               </li>
               <li className="border border-line bg-paper px-3 py-2 text-sm">
                 <a
+                  href="#interchange-101-truck-m"
+                  className="font-semibold text-highway underline decoration-amber underline-offset-2 sm:hidden"
+                >
+                  Interchange 101 truck parking
+                </a>
+                <a
                   href="#interchange-101-truck"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                  className="hidden font-semibold text-highway underline decoration-amber underline-offset-2 sm:inline"
                 >
                   Interchange 101 truck parking
                 </a>
