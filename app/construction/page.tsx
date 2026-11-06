@@ -254,7 +254,7 @@ export default async function ConstructionPage() {
           </div>
 
           <div className="mt-6">
-            <CorridorMap events={roads.events} />
+            <CorridorMap events={workZones} />
           </div>
 
           {featuredZones.length ? (

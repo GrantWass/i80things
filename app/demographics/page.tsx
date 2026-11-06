@@ -48,7 +48,14 @@ const fastest = towns.reduce((best, t) =>
   pctChange(t) > pctChange(best) ? t : best,
 );
 const largest = [...towns].sort((a, b) => b.pop2025 - a.pop2025).slice(0, 4);
-const maxPop = Math.max(...towns.map((town) => town.pop2025));
+const growth = towns.map((town) => ({
+  ...town,
+  pct2010to2025: (town.pop2025 / town.pop2010 - 1) * 100,
+}));
+const maxAbsGrowth = Math.max(
+  ...growth.map((town) => Math.abs(town.pct2010to2025)),
+  1,
+);
 
 export default function DemographicsPage() {
   const jsonLd = {
@@ -208,41 +215,55 @@ export default function DemographicsPage() {
               <div>
                 <p className="kicker text-amber-dark">Visual comparison</p>
                 <h2 className="mt-1 font-serif text-2xl font-semibold">
-                  2025 population by hub
+                  Population change by hub
                 </h2>
               </div>
               <p className="text-[11px] text-slate">
-                2020 Census count in parentheses
+                Vintage 2025 estimate vs. 2010 Census
               </p>
             </div>
-            <ul className="mt-4 space-y-2.5">
-              {towns.map((town) => (
-                <li key={town.slug}>
-                  <div className="flex items-baseline justify-between gap-3 text-[12px]">
-                    <Link
-                      href={`/cities/${town.slug}`}
-                      className="inline-flex min-h-11 items-center font-semibold text-ink hover:text-highway"
-                    >
-                      {town.town}
-                    </Link>
-                    <span className="shrink-0 tabular-nums text-ink-soft">
-                      {town.pop2025.toLocaleString("en-US")}{" "}
-                      <span className="text-[10px] text-slate">
-                        ({town.pop2020.toLocaleString("en-US")})
+            <ul className="mt-5 space-y-3">
+              {growth.map((town) => {
+                const up = town.pct2010to2025 >= 0;
+                return (
+                  <li key={town.slug}>
+                    <div className="flex items-baseline justify-between gap-3 text-[12px]">
+                      <span className="font-semibold text-ink">{town.town}</span>
+                      <span
+                        className={`shrink-0 tabular-nums font-semibold ${
+                          up ? "text-highway" : "text-amber-dark"
+                        }`}
+                      >
+                        {up ? "+" : ""}
+                        {town.pct2010to2025.toFixed(1)}%
                       </span>
-                    </span>
-                  </div>
-                  <div className="mt-1 h-2 w-full bg-cream">
+                    </div>
                     <div
-                      className="h-2 bg-highway"
-                      style={{
-                        width: `${Math.max(2, (town.pop2025 / maxPop) * 100)}%`,
-                      }}
-                    />
-                  </div>
-                </li>
-              ))}
+                      className="relative mt-1 h-2.5 w-full bg-cream"
+                      aria-hidden="true"
+                    >
+                      <span className="absolute inset-y-0 left-1/2 w-px bg-line" />
+                      <span
+                        className={`absolute top-0 h-2.5 ${
+                          up ? "left-1/2 bg-highway" : "right-1/2 bg-amber-dark"
+                        }`}
+                        style={{
+                          width: `${(Math.abs(town.pct2010to2025) / maxAbsGrowth) * 50}%`,
+                        }}
+                      />
+                    </div>
+                    <p className="mt-1 text-[10px] text-slate">
+                      2025: {town.pop2025.toLocaleString("en-US")} · 2010:{" "}
+                      {town.pop2010.toLocaleString("en-US")}
+                    </p>
+                  </li>
+                );
+              })}
             </ul>
+            <p className="mt-4 border-t border-line pt-3 text-[10px] text-slate">
+              Green = growth. Amber = decline. Bars are scaled to the largest
+              change, not to total population.
+            </p>
           </section>
 
           <section className="mt-10">
