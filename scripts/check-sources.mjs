@@ -180,6 +180,66 @@ async function fetchAlerts() {
   }
 }
 
+async function fetchNdotNews() {
+  try {
+    const res = await fetch("https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews", {
+      headers: { "User-Agent": UA, Accept: "application/json" },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (Array.isArray(data) ? data : [])
+      .slice(0, 20)
+      .filter((item) => item.navigationTitle && item.documentLink)
+      .map((item) => ({
+        source: "NDOT newsroom",
+        sourceId: "ndot-news-api",
+        city: null,
+        category: "traffic",
+        title: item.navigationTitle,
+        url: `https://dot.nebraska.gov${item.documentLink}`,
+        date: item.newsDate || null,
+        description: `NDOT release${item.dateString ? ` · ${item.dateString}` : ""} (PDF)`,
+      }));
+  } catch {
+    return [];
+  }
+}
+
+async function fetchNspNews() {
+  try {
+    const res = await fetch(
+      "https://statepatrol.nebraska.gov/divisions/office-superintendent/news",
+      {
+        headers: { "User-Agent": UA, Accept: "text/html" },
+        signal: AbortSignal.timeout(15000),
+      },
+    );
+    if (!res.ok) return [];
+    const html = await res.text();
+    const seen = new Set();
+    return [...html.matchAll(/<a href="(\/[^"]+)" hreflang="en">([^<]{10,200})<\/a>/g)]
+      .map((match) => ({
+        source: "Nebraska State Patrol",
+        sourceId: "nsp-news",
+        city: null,
+        category: "law-enforcement",
+        title: decode(match[2]),
+        url: `https://statepatrol.nebraska.gov${match[1]}`,
+        date: null,
+        description: "NSP newsroom — check the release for date and location.",
+      }))
+      .filter((item) => {
+        if (seen.has(item.url)) return false;
+        seen.add(item.url);
+        return true;
+      })
+      .slice(0, 12);
+  } catch {
+    return [];
+  }
+}
+
 async function mapWithConcurrency(items, limit, mapper) {
   const results = new Array(items.length);
   let cursor = 0;
@@ -196,11 +256,15 @@ async function mapWithConcurrency(items, limit, mapper) {
   return results;
 }
 
-const results = await mapWithConcurrency(sources, 1, (source) => fetchFeed(source));
-const alerts = await fetchAlerts();
+const [results, alerts, ndotNews, nspNews] = await Promise.all([
+  mapWithConcurrency(sources, 1, (source) => fetchFeed(source)),
+  fetchAlerts(),
+  fetchNdotNews(),
+  fetchNspNews(),
+]);
 const cutoff = Date.now() - hours * 3600 * 1000;
 
-let items = results.flatMap((r) => r.items);
+let items = [...results.flatMap((r) => r.items), ...ndotNews];
 const failures = results.filter((r) => r.error);
 const stale = results.filter((r) => r.stale);
 
@@ -242,6 +306,8 @@ if (asJson) {
     generatedAt: new Date().toISOString(),
     hours,
     alerts,
+    nsp: nspNews,
+    ndot: ndotNews,
     items: top,
     failures,
     stale,
@@ -256,6 +322,24 @@ if (alerts.length) {
   for (const alert of alerts) {
     console.log(`  [${alert.severity}] ${alert.event} — ${alert.area}${alert.ends ? ` (until ${alert.ends})` : ""}`);
     console.log(`  ${alert.headline}`);
+  }
+  console.log("");
+}
+
+if (nspNews.length) {
+  console.log("NSP NEWSROOM — newest first (undated; open the release for details)");
+  for (const item of nspNews) {
+    console.log(`  ${item.title}`);
+    console.log(`  ${item.url}`);
+  }
+  console.log("");
+}
+
+if (ndotNews.length) {
+  console.log("NDOT NEWSROOM — latest releases (PDF links)");
+  for (const item of ndotNews.slice(0, 10)) {
+    console.log(`  ${item.date ? item.date.slice(0, 10) : "undated"}  ${item.title}`);
+    console.log(`  ${item.url}`);
   }
   console.log("");
 }

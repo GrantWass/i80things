@@ -1574,5 +1574,25 @@
       "weather"
     ],
     "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-news-api",
+    "name": "NDOT news releases — JSON API",
+    "category": "traffic",
+    "kind": "api",
+    "url": "https://dot.nebraska.gov/news-events/news-releases/",
+    "apiUrl": "https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews",
+    "coverage": "Statewide road projects and closures",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Undocumented JSON endpoint used by NDOT's own news grid. Returns title, date and a PDF document link for each release. Keyless; poll once a day, not continuously.",
+    "tags": [
+      "NDOT",
+      "API",
+      "construction",
+      "closures"
+    ],
+    "verified": "2026-11-05"
   }
 ]

@@ -10,7 +10,7 @@ import { Arrow } from "@/components/Icon";
 export const metadata: Metadata = {
   title: "The source desk — every feed we monitor",
   description:
-    "A public directory of 86 verified sources for Nebraska's I-80 corridor: police scanners, State Patrol releases, Nebraska 511, NWS alerts, town newspapers, RSS feeds and open data APIs.",
+    "A public directory of 87 verified sources for Nebraska's I-80 corridor: police scanners, State Patrol releases, Nebraska 511, NWS alerts, town newspapers, RSS feeds and open data APIs.",
   alternates: { canonical: "/sources" },
   openGraph: {
     url: `${site.url}/sources`,

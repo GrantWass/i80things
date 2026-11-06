@@ -282,7 +282,7 @@ export default async function HomePage() {
             <div>
               <p className="kicker text-amber">For reporters, drivers and neighbors</p>
               <h2 className="mt-2 font-serif text-3xl leading-tight font-semibold">
-                86 verified sources. One corridor.
+                87 verified sources. One corridor.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream/70">
                 Every police scanner, newspaper, weather office and state data

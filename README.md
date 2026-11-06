@@ -12,7 +12,7 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 ## What's in this repo
 
 - **News site** — Next.js 16 App Router, Tailwind 4, MDX content, static/ISR pages.
-- **86 verified sources** — police scanners, State Patrol, NDOT, 511, NWS, 27 RSS feeds, town papers, open data APIs.
+- **87 verified sources** — police scanners, State Patrol, NDOT, 511, NWS, 27 RSS feeds, town papers, open data APIs.
 - **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus tooling to see what has been posted, sweep sources, scaffold and validate stories.
 - **Staff admin** — password-protected `/admin` to publish stories, upload images, add sources and generate the Instagram kit. Commits to GitHub via the Contents API.
 - **Instagram kit** — every story gets a 1080×1350 JPEG (`/api/social/<slug>`) and a caption (`/api/social/<slug>/caption`) with the town, mile marker and link.
@@ -35,7 +35,7 @@ Open http://localhost:3000. The site works without env vars except `/admin`, whi
 ```bash
 npm run validate   # check all stories
 npm run log        # list everything published
-npm run sources    # sweep feeds + NWS alerts
+npm run sources    # sweep RSS + NSP + NDOT + NWS alerts
 npm run build      # production build
 ```
 
@@ -187,7 +187,7 @@ An OpenCode skill is included at [`.opencode/skills/i80-daily-post/SKILL.md`](./
 | Endpoint | Returns |
 | --- | --- |
 | `/api/posts` | Published stories with title, dek, date, city, topics, sources, URL, image and caption URLs. Supports `?limit=`, `?city=`, `?topic=`, `?since=`. |
-| `/api/sources` | All 86 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
+| `/api/sources` | All 87 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
 | `/api/alerts` | Active NWS alerts for the six corridor zones. |
 | `/api/social/<slug>` | 1080×1350 JPEG for Instagram. |
 | `/api/social/<slug>/caption` | JSON caption + URLs. |
@@ -204,11 +204,11 @@ All public endpoints send permissive CORS headers; be polite and cache.
 
 The directory lives in [`data/sources.json`](./data/sources.json) and is published at **/sources** with search, category filters and copyable feed URLs.
 
-**86 sources** (verified November 2026):
+**87 sources** (verified November 2026):
 
 - **22 scanner feeds** — NSP Troop H & A, Omaha PD, Omaha Fire, Douglas/Sarpy sheriffs, Lincoln PD/Fire, Lancaster rural fire, Seward, Buffalo/Kearney, Grand Island, Lincoln County/North Platte, Keith/Ogallala, Cheyenne/Sidney, Council Bluffs, NDOT districts.
 - **27 RSS feeds** — Omaha World-Herald, WOWT, KETV, 3 News Now, Omaha Daily Record, Daily Nonpareil, Lincoln Journal Star, 10/11, KLKN, KFOR, York News-Times, Fremont Tribune, Columbus Telegram, Grand Island Independent, Hastings Tribune, Kearney Hub, Lexington Clipper-Herald, North Platte Telegraph, Sidney Sun-Telegraph, Star-Herald, Beatrice Daily Sun, Nebraska Examiner, Flatwater Free Press, McCook Gazette, Grant Tribune, Nebraska Trucking, Silicon Prairie News.
-- **37 official and data links** — NSP, Omaha PD, Lincoln PD, NEMA, State Fire Marshal, DHHS, Nebraska 511, NDOT, plow tracker, NWS offices, alert API, AADT ArcGIS, Lincoln crash data, FARS, Amtrak/Amtraker, Legislature.
+- **38 official and data links** — NSP, Omaha PD, Lincoln PD, NEMA, State Fire Marshal, DHHS, Nebraska 511, NDOT, plow tracker, NWS offices, alert API, AADT ArcGIS, Lincoln crash data, FARS, Amtrak/Amtraker, Legislature.
 
 ### Access caveats (important)
 
@@ -326,7 +326,7 @@ AGENT.md                       daily agent system prompt
 | `npm run build` | Production build. |
 | `npm run validate` | Validate all MDX frontmatter and content. |
 | `npm run log` | List published stories and source URLs (dedupe). |
-| `npm run sources` | Sweep RSS feeds + NWS alerts for candidate stories. |
+| `npm run sources` | Sweep 27 RSS feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |
 | `npm run new -- --title …` | Scaffold a story. |
 | `npm run social -- --slug …` | Print Instagram caption + image URL. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |

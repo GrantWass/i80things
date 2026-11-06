@@ -77,6 +77,7 @@ County sheriff and city PD pages for Grand Island, Kearney, North Platte, Sidney
 | Plow tracker | https://plows.nebraska.gov/ | View-only | Redirects to 511 plow layer |
 | NDOT travel | https://dot.nebraska.gov/travel/ | Free | Travel hub |
 | NDOT news | https://dot.nebraska.gov/news-events/news-releases/ | Free, no RSS | Check weekdays |
+| NDOT news JSON API | `https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews` | Free, keyless | Undocumented endpoint behind NDOT's news grid; title, date, PDF link |
 | NDOT projects | https://dot.nebraska.gov/projects/ | Free | District construction PDFs |
 | Detour PDF | https://dot.nebraska.gov/media/4v5lbeay/construction-detours-info.pdf | Free | Static guidance |
 | NDOT traffic counts | https://gis.ne.gov/dot/rest/services/AADTCountsDOT/MapServer | Free ArcGIS | Keyless query |
@@ -84,6 +85,8 @@ County sheriff and city PD pages for Grand Island, Kearney, North Platte, Sidney
 | NDOT crash data | https://dot.nebraska.gov/safety/crash/ | Free PDFs | Annual/monthly |
 | NTIP crash map | https://ntip.nebraska.gov/Map | View-only | No verified bulk export |
 | FARS | https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars | Free, lagging | Bot-protected; bulk downloads |
+
+**NDOT news API:** `https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews` returns a JSON array with `navigationTitle`, `newsDate`, `documentLink` and `dateString`. It is undocumented but public and powers NDOT's own FilteredNews.js grid. Poll it once a day; do not hammer it. The PDF `documentLink` is the actual release.
 
 **Nebraska 511 specifics:** the public site is a Castle Rock ITS "CARS" single-page app. There is **no supported public JSON/XML API**. Camera and incident data require a CARS/NDOT XML feed agreement. The internal `/api/graphql` proxy answers CMS queries but event/camera queries are undocumented; do not build on it. 511 by phone; `*55` for NSP emergencies.
 

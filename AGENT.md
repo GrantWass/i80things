@@ -67,7 +67,7 @@ npm run sources -- --json > /tmp/sweep.json
 npm run sources -- --category=news
 ```
 
-This pulls 27 verified RSS feeds and active NWS alerts for the corridor counties, filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting.
+This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news releases and active NWS alerts, then filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting.
 
 ### 3.2 Check the primary sources manually
 
@@ -75,7 +75,8 @@ This pulls 27 verified RSS feeds and active NWS alerts for the corridor counties
 | --- | --- | --- |
 | State Patrol releases | https://statepatrol.nebraska.gov/divisions/office-superintendent/news | No RSS. Check every run. Primary source for crashes, pursuits, arrests. |
 | Nebraska 511 | https://511.nebraska.gov/ | Live closures, incidents, cameras, plows. View-only; no supported API. |
-| NDOT news | https://dot.nebraska.gov/news-events/news-releases/ | No RSS. Construction and long-term closures. |
+| NDOT news | https://dot.nebraska.gov/news-events/news-releases/ | Construction and long-term closures. |
+| NDOT news API | `https://dot.nebraska.gov/api/NewsAndEvents/FilteredNews` | Undocumented JSON used by NDOT's own grid; returns title, date and PDF link. Already wired into `npm run sources`. |
 | NDOT projects | https://dot.nebraska.gov/projects/ | Season context and district PDFs. |
 | NWS Omaha/Valley | https://www.weather.gov/oax/ | Eastern corridor. |
 | NWS Hastings | https://www.weather.gov/gid/ | Central corridor. |
