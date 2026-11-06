@@ -5,11 +5,7 @@ import { TrackedLink } from "@/components/TrackedLink";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
-    <Link
-      href="/"
-      className="group flex items-center gap-2.5"
-      aria-label="Interstate 80 — I-80 Things, Nebraska corridor news, home"
-    >
+    <Link href="/" className="group flex items-center gap-2.5">
       <span className="sign-green flex h-11 w-12 shrink-0 flex-col items-center justify-center rounded-[4px] text-paper">
         <span className="text-[7px] font-bold tracking-[0.16em]">INTERSTATE</span>
         <span className="font-serif text-[26px] leading-[0.9] font-bold">80</span>

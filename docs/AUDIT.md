@@ -44,8 +44,8 @@ repeat on every page; performance notes are framework-level and minor.
 5. **Logo link `aria-label="I-80 Things home"` mismatches visible text (axe `label-content-name-mismatch`).**
    Impact: medium — flagged on header + footer of every page; speech-input users
    saying visible text ("Interstate 80") won't activate the link.
-   Fix: `aria-label="Interstate 80 — I-80 Things, Nebraska corridor news, home"`
-   so the accessible name contains the visible text.
+   Fix: remove the `aria-label` and let the accessible name compute from the
+   visible brand text.
    ✅ FIXED in `components/SiteHeader.tsx` (`Brand`).
 
 6. **Focus ring amber (#e3a008) on paper — 2.05:1, needs 3:1 (WCAG 2.4.11/2.4.13).**
