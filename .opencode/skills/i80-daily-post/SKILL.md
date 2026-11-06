@@ -14,8 +14,9 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
 1. **What have we posted?**
    ```bash
    npm run log
+   npm run cities:coverage
    ```
-   Skip anything covering the same event in the last 7 days, or using the same source URL without a new development.
+   Skip anything covering the same event in the last 7 days, or using the same source URL without a new development. If there is no breaking story, prefer a city hub with zero local stories.
 
 2. **What is new?**
    ```bash
@@ -25,7 +26,7 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
 
 3. **Verify the five questions.** What happened, where (mile marker + direction), when, who confirmed it, current status. No verification → no story.
 
-4. **Write.**
+4. **Write and illustrate.**
    ```bash
    npm run new -- \
      --title "I-80 westbound reopens near Kearney after crash" \
@@ -34,13 +35,18 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
      --source "Nebraska State Patrol|https://…"
    ```
    Fill the body with original context, 3–5 short-version bullets, a sources list and internal links to the city/topic/related story.
+   Choose 1–3 real images that show the subject — not the first generic stock result. Add alt, caption, credit and credit URL. If the 4:5 crop is bad, add `socialSrc`. Never put a one-day advisory or undated "current" condition in an evergreen story.
 
-5. **Publish.**
+5. **Validate and publish.**
    ```bash
    npm run validate
-   git add content/posts && git commit -m "post: <headline>" && git push
+   npm run images:audit
+   npm run build
+   git add content/posts public/images/posts data/source-health.json
+   git commit -m "post: <headline>"
+   git push
    ```
-   Vercel rebuilds. Or use `/admin` / the admin API (see AGENT.md).
+   Vercel rebuilds. Then verify the live article, the Instagram JPEG and the city hub all return/show the story. In publish mode, do not leave `draft: true`.
 
 6. **Instagram.**
    ```bash
@@ -55,6 +61,8 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
 - Never fabricate a name, quote, mile marker, time, cause or image.
 - One event, one story, one URL.
 - No AI images of real events.
+- Do not reuse an image from another story.
+- Prefer durable facts; date-stamp current road/lake/weather conditions and link to the official source.
 - A no-publish day is acceptable. A fabricated story is not.
 
 ## Output

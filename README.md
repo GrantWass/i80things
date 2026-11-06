@@ -379,6 +379,7 @@ AGENT.md                       daily agent system prompt
 | `npm run social -- --slug …` | Print Instagram caption + selected image URLs (1–10). |
 | `npm run stock -- --query …` | Find, download and credit a real stock/CC photo. |
 | `npm run images:audit` | Check every story image for missing files, alt, credit, dimensions, aspect and duplicates. |
+| `npm run cities:coverage` | Show which corridor city hubs have local stories and which are empty. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
 | `npm run brand` | Regenerate PNG brand assets. |
 

@@ -21,7 +21,15 @@ const titles = new Map();
 
 for (const file of files) {
   const raw = fs.readFileSync(path.join(postsDir, file), "utf8");
-  const { data, content } = matter(raw);
+  let data;
+  let content;
+  try {
+    ({ data, content } = matter(raw));
+  } catch (error) {
+    errors.push(`content/posts/${file}: invalid YAML frontmatter — ${error.message.split("\n")[0]}`);
+    console.log(`✗ ${file}`);
+    continue;
+  }
   const slug = file.replace(/\.mdx?$/, "");
   const at = `content/posts/${file}`;
 

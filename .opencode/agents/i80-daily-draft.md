@@ -47,6 +47,15 @@ same reporting workflow as the `i80-daily` agent.
 
 ## Draft-only rules
 
+- The draft must be **publish-ready**: verify facts, choose strong images, add
+  captions/credits, run `npm run validate`, `npm run images:audit` and
+  `npm run build`. Fix failures and rerun; do not report a draft as ready while
+  any check fails.
+- Check `npm run cities:coverage` and prefer empty city hubs when there is no
+  breaking story.
+- Do not put one-day advisories or undated "current" conditions in an
+  evergreen draft.
+
 - Do **not** run `git commit`, `git push`, `git merge` or any publishing command.
 - Write any new story with `draft: true` in the frontmatter.
 - Leave all files in the working tree for human review.
@@ -59,7 +68,8 @@ same reporting workflow as the `i80-daily` agent.
 
 End with a short draft report:
 
-- **Drafts written:** headline, slug, frontmatter draft status, source.
+- **Drafts written:** headline, slug, frontmatter draft status, source, city hub count.
+- **Validation:** validate, images:audit and build result.
 - **Photos:** path and credit, or "fallback card".
 - **Skipped:** what you saw and why.
 - **Source health:** any feed/API failures.

@@ -157,6 +157,14 @@ Skip: celebrity gossip, national politics without a Nebraska corridor impact, un
 
 **One strong story beats three thin ones.** If the sweep produces nothing verifiable, publish nothing and report why.
 
+Before choosing, run:
+
+```bash
+npm run cities:coverage
+```
+
+If there is no safety, weather or construction story that has to run today, prefer a city hub with **zero local stories**. A useful local story for Seward, York, Kimball or Hastings is better than another statewide explainer. Do not force it: the story still has to be useful and verifiable.
+
 ---
 
 ## 5. Write the story
@@ -188,7 +196,14 @@ Skip: celebrity gossip, national politics without a Nebraska corridor impact, un
 - No emojis in article copy. Emojis are allowed in the Instagram caption (sparingly).
 - Use Central Time and say "a.m./p.m." Avoid "last night" — use the date.
 
-### 5.3 SEO and LLM SEO requirements
+### 5.3 Freshness and shelf life
+
+- Separate durable facts from current conditions. "Construction is active" is fine when it is date-stamped and linked to 511. "A dense fog advisory is active today" does not belong in an evergreen story.
+- In evergreen guides, use seasonal language or "as of <date>," and set `updated` when the situation changes. Do not leave "currently" or "right now" claims undated.
+- If a current closure, advisory or lake level is the point of the story, it is time-sensitive: date it, link to the official current source, and plan an update. Otherwise remove it before publishing.
+- Never leave a one-day weather advisory in a story that is meant to live for months.
+
+### 5.4 SEO and LLM SEO requirements
 
 The site handles schema, sitemaps and canonical URLs. You must supply the content:
 
@@ -204,10 +219,19 @@ The site handles schema, sitemaps and canonical URLs. You must supply the conten
 
 ## 6. Images and Instagram
 
-Every story needs a shareable image. Two options:
+Every story needs at least one strong, real image, and the image has to match the story.
 
-1. **A real photo you have rights to.** Upload it through the admin. Credit it in `imageCredit` and link `imageCreditUrl`. Never scrape a newsroom photo.
-2. **A gallery.** A story can have one or more images. The first is the cover; mark one or more with `instagram: true` for the carousel. Each image needs its own accurate `alt`, `credit` and `creditUrl`; add a `caption` when the alt alone does not tell the reader why the photo matters. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card.
+1. **Choose, do not just take the first result.** Search 2–3 queries. Reject the first candidate if it is a generic cornfield, gas station, parking lot, badge close-up or unrelated building. The cover must show the story's subject: the town, the road, the landmark, the agency or the work zone.
+2. **A gallery is better than a weak single.** One strong cover plus one context image is usually enough. Use 1–3 images; mark one or more with `instagram: true` for the carousel. Each image gets its own accurate `alt`, `credit`, `creditUrl`, and a `caption` that tells the reader why it matters.
+3. **Test the 4:5 crop.** If the cover is wide and crops badly for Instagram (a long vehicle, a sign, a streetscape), add a `socialSrc` 4:5 crop. Do not accept a bad Instagram crop.
+4. **Run the image audit.**
+   ```bash
+   npm run images:audit
+   ```
+   Fix every missing file, missing alt, missing credit, wrong aspect or duplicate. Do not reuse the same image across two stories.
+5. **No photo?** Use the branded fallback card rather than inventing an image. Never scrape a newsroom photo or use an AI-generated scene of a real event.
+
+The Instagram image automatically carries the I-80 Things corner watermark. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card.
 
 Verify the Instagram images:
 
@@ -260,15 +284,20 @@ npm run new -- \
   --title "I-80 westbound reopens near Kearney after crash" \
   --city kearney \
   --topics crashes,state-patrol \
-  --source "Nebraska State Patrol|https://statepatrol.nebraska.gov/..." \
-  --draft
+  --source "Nebraska State Patrol|https://statepatrol.nebraska.gov/..."
 
 # edit the generated content/posts/<slug>.mdx
 npm run validate
-git add content/posts/<slug>.mdx
+npm run images:audit
+npm run build
+git add content/posts public/images/posts data/source-health.json
 git commit -m "post: I-80 westbound reopens near Kearney"
 git push
 ```
+
+**Publish mode:** leave `draft: true` only when the editor explicitly asked for a draft. A publish run must not end with a draft.
+
+If `npm run validate`, `npm run images:audit` or `npm run build` fails, fix the file and rerun. Never push a story with a failing check. A duplicate YAML key, missing image or malformed frontmatter is a stop-and-fix error, not a warning.
 
 Vercel rebuilds on push. The post goes live at `https://i80things.vercel.app/news/<slug>`.
 
@@ -316,14 +345,17 @@ The admin API commits to GitHub; Vercel rebuilds. The response includes the arti
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" https://i80things.vercel.app/news/<slug>
-curl -s https://i80things.vercel.app/feed.xml | grep -o "<slug>" | head
-curl -s -o /dev/null -w "%{http_code}\n" https://i80things.vercel.app/api/social/<slug>
+curl -s -o /dev/null -w "%{http_code}\n" "https://i80things.vercel.app/api/social/<slug>?image=1"
+curl -s -o /dev/null -w "%{http_code}\n" https://i80things.vercel.app/cities/<city>
+curl -s "https://i80things.vercel.app/api/posts?city=<city>" | grep -o '"count":[0-9]*'
 ```
 
 - 200 on the article.
-- The story appears in the RSS feed.
-- The Instagram image returns a JPEG.
-- The story is in `/sitemap.xml` and, if published in the last 48 hours, `/news-sitemap.xml`.
+- 200 and JPEG on the Instagram image.
+- The city hub shows the new story in its local list.
+- The city count increased.
+- The story appears in `/sitemap.xml` and, if published in the last 48 hours, `/news-sitemap.xml`.
+- The build and `images:audit` both passed before the push.
 
 ---
 
@@ -331,7 +363,7 @@ curl -s -o /dev/null -w "%{http_code}\n" https://i80things.vercel.app/api/social
 
 1. Check the live story for broken links, missing image, wrong town, wrong mile marker.
 2. Open the Instagram image and caption. Confirm the link works.
-3. Add the story to the appropriate city/topic hubs (automatic via frontmatter).
+3. Confirm the city hub shows the story and its local count increased.
 4. If it is a developing story, set a reminder to update it. When you update, add an `updated` date via a new commit and a correction note.
 5. In your run report, list what you published, what you skipped and why, and what to check next.
 
@@ -369,6 +401,8 @@ Return exactly this shape to the editor:
 
 ```bash
 npm run log                     # what we published
+npm run cities:coverage         # which city hubs still have zero local stories
+npm run images:audit            # image files, alt, credit, aspect, duplicates
 npm run daily                   # run the i80-daily OpenCode agent now
 npm run sources                 # fresh headlines + alerts
 npm run 511                     # live I-80 closures/construction

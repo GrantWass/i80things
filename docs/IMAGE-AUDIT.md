@@ -4,7 +4,7 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 
 ## Snapshot
 
-- **19 images across 16 stories** (covers plus three multi-image galleries).
+- **21 images across 18 stories** (covers plus three multi-image galleries).
 - **0 missing alt text, 0 missing credits, 0 duplicate files** after the fixes below.
 - Every image is **1600×900** (16:9); the largest is **450 KB**. `next/image` serves responsive AVIF/WebP crops, so the source size is not the delivered size.
 - Every image has a source/license URL.
@@ -31,6 +31,8 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 | Grand Island at mile 312 | Downtown Grand Island | Strong; Highsmith CC0. |
 | Lexington at mile 237 | Lexington water tower + Platte valley cornfield | Water tower gives the town identity; the cornfield is explicitly captioned as near Minden. |
 | Ogallala at mile 126 | Lake McConaughy aerial + historic gas station | Lake gives the story its reason; gas station supports the fuel-stop angle. |
+| Hit-and-run pursuit in Lincoln | Downtown Lincoln skyline | City context; the caption does not pretend the pursuit started at the Capitol. |
+| Nighttime closures at mile 427 | Nighttime bridge construction | Stock image of bridge work, explicitly captioned as not the mile 427 site; better than a generic road shot. |
 
 ## Fixes made
 

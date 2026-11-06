@@ -81,12 +81,14 @@ npm run --silent 511 -- --json > "$RUN_DIR/511-$STAMP.json" 2>>"$LOG" || echo "W
 if [ "${DAILY_RUN_DRAFT:-0}" = "1" ]; then
   AGENT="i80-daily-draft"
   MODE="DRAFT MODE. Do not run git commit or git push. Write any story with draft: true
-in the frontmatter, leave the files in the working tree, and report the exact
-paths for human review. Do not mark anything live."
+in the frontmatter, but make it publish-ready: validate, images:audit and build
+must pass. Leave the files in the working tree and report the exact paths for
+human review. Do not mark anything live."
 else
   AGENT="i80-daily"
-  MODE="PUBLISH MODE. Validate and build before committing. Commit only content,
-images and source-health updates, then push."
+  MODE="PUBLISH MODE. Run validate, images:audit and build before committing. Do
+not leave draft:true. Commit content, images and source-health updates, push,
+then verify the live article, Instagram JPEG and city hub."
 fi
 
 FOCUS="${DAILY_RUN_FOCUS:-}"
@@ -99,7 +101,7 @@ PROMPT="Run the I-80 Things daily desk for $STAMP in America/Chicago.
 Follow .opencode/agents/$AGENT.md and .opencode/skills/i80-daily-post/SKILL.md.
 Preflight files, if present: .cache/daily-desk/511-$STAMP.json and today's source sweep above.
 
-Check npm run log first so you do not duplicate a story. Verify every fact with a primary source. Publish only what is confirmed, with a real licensed photo and credit. If there is no verified story, do not force one; report what you checked and why you skipped it.
+Check npm run log and npm run cities:coverage first. Do not duplicate a story. If there is no safety/weather story, prefer a city hub with zero local stories. Verify every fact with a primary source. Choose strong, subject-matched images (1–3 when useful), add captions/credits, and run npm run images:audit. Do not put one-day advisories or undated current conditions in evergreen copy. If there is no verified story, do not force one; report what you checked and why you skipped it.
 
 $MODE
 
@@ -109,12 +111,19 @@ Do not wait for approval. End with the run report."
 
 echo ""
 echo "--- opencode run --agent $AGENT ---"
+set +e
 opencode run \
   --agent "$AGENT" \
   --model "opencode-go/muse-spark-1.3-contributor#high" \
   --auto \
   --title "I-80 daily desk $STAMP" \
   "$PROMPT"
+RUN_STATUS=$?
 
 echo ""
+echo "OpenCode exit status: $RUN_STATUS"
 echo "Daily desk finished at $(date -Iseconds)."
+
+if [ "$RUN_STATUS" -ne 0 ]; then
+  exit "$RUN_STATUS"
+fi

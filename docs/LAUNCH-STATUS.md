@@ -7,7 +7,7 @@
 
 ## Live now
 
-- 16 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer, and new Grand Island, Lexington and Ogallala city stories generated through the daily pipeline.
+- 18 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer, three city stories from the daily pipeline, and the first unattended pipeline stories (Lincoln pursuit and mile 427 closures).
 - `/conditions` — a five-minute-cached corridor status page combining Nebraska 511 closures/construction with point-based NWS alerts for every town.
 - 87-source directory at `/sources`, with search, category filters, copyable RSS URLs, scanner links and live feed-health status from `data/source-health.json`.
 - Public trust pages at `/corrections` and `/image-credits`.

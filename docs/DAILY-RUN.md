@@ -85,9 +85,13 @@ opencode run --agent i80-daily \
 3. Sweeps the source feeds (`npm run sources -- --hours=24`) and saves the 511
    JSON as preflight context.
 4. Starts `opencode run` with the `i80-daily` agent.
-5. The agent checks `npm run log`, verifies primary sources, writes 1–2 stories,
-   adds real credited photos, validates, builds, commits and pushes.
-6. If there is no verified story, the agent skips publishing and reports why.
+5. The agent checks `npm run log` and `npm run cities:coverage`, verifies primary
+   sources, writes 1–2 stories, chooses subject-matched images, adds captions
+   and credits, runs `npm run images:audit`, validates and builds.
+6. In publish mode it commits and pushes, then verifies the live article, the
+   Instagram JPEG and the city hub. In draft mode it leaves publish-ready
+   `draft: true` files and does not commit.
+7. If there is no verified story, the agent skips publishing and reports why.
 
 The agent does **not** make code changes during a news run. It reports a broken
 build instead of refactoring.

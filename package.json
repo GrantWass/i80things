@@ -22,7 +22,8 @@
     "validate": "node scripts/validate-posts.mjs",
     "brand": "node scripts/generate-brand.mjs",
     "stock": "node scripts/stock-photo.mjs",
-    "images:audit": "node scripts/audit-images.mjs"
+    "images:audit": "node scripts/audit-images.mjs",
+    "cities:coverage": "node scripts/city-coverage.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

@@ -211,7 +211,15 @@ if (shouldUpdate) {
     process.exit(1);
   }
   const raw = fs.readFileSync(postPath, "utf8");
-  const parsed = matter(raw);
+  let parsed;
+  try {
+    parsed = matter(raw);
+  } catch (error) {
+    console.error(
+      `Cannot update ${postPath}: the frontmatter YAML is invalid. Fix it first. ${error.message.split("\n")[0]}`,
+    );
+    process.exit(1);
+  }
   parsed.data.image = publicPath;
   parsed.data.imageAlt = chosen.alt;
   parsed.data.imageCredit = credit;
