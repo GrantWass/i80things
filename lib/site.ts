@@ -1,6 +1,8 @@
+import { brand } from "@/lib/brand.mjs";
+
 export const site = {
-  name: "I-80 Things",
-  shortName: "I-80 Things",
+  name: brand.name,
+  shortName: brand.name,
   tagline: "Nebraska's I-80 corridor, covered daily",
   description:
     "Daily news from the I-80 corridor in Nebraska: crashes, closures, weather, construction and the towns from Omaha to Kimball.",

@@ -106,7 +106,7 @@ PROMPT="Run the I-80 Things daily desk for $STAMP in America/Chicago.
 Follow .opencode/agents/$AGENT.md and .opencode/skills/i80-daily-post/SKILL.md.
 Preflight files, if present: .cache/daily-desk/511-$STAMP.json and today's source sweep above.
 
-Check npm run log and npm run cities:coverage first. Do not duplicate a story. If there is no safety/weather story, prefer a city hub with zero local stories. Verify every fact with a primary source. Choose strong, subject-matched images (1–3 when useful), add captions/credits, and run npm run images:audit. Do not put one-day advisories or undated current conditions in evergreen copy. If there is no verified story, do not force one; report what you checked and why you skipped it.
+Check npm run log, npm run cities:coverage and npm run stories:audit -- --due first. Do not duplicate a story. If a story is due and its facts changed, update it instead of writing a new one; set updated and add a correction note for substantive changes. If there is no safety/weather story, prefer a city hub with zero local stories. Verify every fact with a primary source. Choose strong, subject-matched images (1–3 when useful), add captions/credits, and run npm run images:audit. Do not put one-day advisories or undated current conditions in evergreen copy. If there is no verified story, do not force one; report what you checked and why you skipped it.
 
 $MODE
 

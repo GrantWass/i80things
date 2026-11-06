@@ -21,6 +21,8 @@ agent. Work top to bottom.
 - [ ] Create the Google Publisher Center publication and verify ownership.
 - [ ] Review the first scheduled GitHub Actions run. The cloud desk is enabled
   with `DAILY_ENABLED=true`; the Mac launchd job has been removed.
+- [ ] Review the Monday **Story review — weekly** issue and update any story
+  whose facts changed. Run `npm run stories:audit -- --due` locally if needed.
 - [ ] Decide whether to keep `i80things.com` and set up mail forwarding for
   `hello@`, `news@`, `tips@` and `grant@`.
 - [ ] Add `ADMIN_PASSWORD`, `ADMIN_SECRET`, `GITHUB_TOKEN`, `GITHUB_REPO` and

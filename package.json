@@ -21,10 +21,12 @@
     "social:instagram": "node scripts/publish-instagram.mjs",
     "validate": "node scripts/validate-posts.mjs",
     "brand": "node scripts/generate-brand.mjs",
+    "brand:check": "node scripts/brand-check.mjs",
     "stock": "node scripts/stock-photo.mjs",
     "images:audit": "node scripts/audit-images.mjs",
     "cities:coverage": "node scripts/city-coverage.mjs",
     "factcheck": "node scripts/fact-check.mjs",
+    "stories:audit": "node scripts/story-audit.mjs",
     "review": "bash scripts/review-story.sh"
   },
   "dependencies": {

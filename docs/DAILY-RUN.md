@@ -98,6 +98,26 @@ opencode run --agent i80-daily \
 The agent does **not** make code changes during a news run. It reports a broken
 build instead of refactoring.
 
+## Weekly story review
+
+A separate GitHub Actions workflow (`.github/workflows/story-audit.yml`) runs
+Mondays at 8 a.m. Central and opens or updates a **Story review — weekly**
+issue when a story is past its review cadence.
+
+Local equivalent:
+
+```bash
+npm run stories:audit
+npm run stories:audit -- --due
+npm run stories:audit -- --markdown
+```
+
+Cadence is inferred from the story type: crashes, weather and State Patrol
+stories get 14 days; road conditions 30 days; general features 90 days; town
+guides and explainers 180 days. A due story is not automatically rewritten.
+Confirm the facts against the current primary source, update only what changed,
+set `updated`, and add a correction note for substantive changes.
+
 ## Logs and troubleshooting
 
 ```bash

@@ -163,7 +163,10 @@ Before choosing, run:
 
 ```bash
 npm run cities:coverage
+npm run stories:audit -- --due
 ```
+
+If a story is past its review cadence and its facts have changed, update that story instead of writing a new one. Set `updated`, keep the URL, and add a correction note for substantive changes. Do not rewrite a story only to reset its date.
 
 If there is no safety, weather or construction story that has to run today, prefer a city hub with **zero local stories**. A useful local story for Seward, York, Kimball or Hastings is better than another statewide explainer. Do not force it: the story still has to be useful and verifiable.
 

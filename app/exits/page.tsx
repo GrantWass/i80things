@@ -7,7 +7,7 @@ import { absoluteUrl } from "@/lib/utils";
 import exitData from "@/data/i80-exits.json";
 
 export const metadata: Metadata = {
-  title: "I-80 Nebraska exit guide: every exit from Omaha to Kimball",
+  title: "I-80 Nebraska exit guide: Omaha to Kimball",
   description:
     "Every Interstate 80 exit in Nebraska, with mile markers and the nearest corridor town. A quick reference for the drive from Omaha to Kimball.",
   alternates: { canonical: "/exits" },

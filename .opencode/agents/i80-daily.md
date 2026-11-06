@@ -54,7 +54,14 @@ Then run the desk for today in `America/Chicago`.
    a material new development (reopened, injury update, cause released, a new
    closure, a new agency confirmation).
 
-2. **Sweep the sources.**
+2. **Check existing-story freshness.**
+   ```bash
+   npm run stories:audit -- --due
+   ```
+   A due story is a candidate for an update, not an automatic rewrite. If the
+   facts changed, update it, set `updated`, and add a correction note.
+
+3. **Sweep the sources.**
    ```bash
    npm run sources -- --hours=24
    npm run --silent 511 -- --json
@@ -62,14 +69,14 @@ Then run the desk for today in `America/Chicago`.
    Then check the primary pages yourself: NSP news, NDOT news, Nebraska 511,
    NWS alerts. The sweep is a convenience, not a source.
 
-3. **Check city coverage.**
+4. **Check city coverage.**
    ```bash
    npm run cities:coverage
    ```
    If no safety/weather story has to run today, prefer a city hub with zero
    local stories. Do not force it, but do not ignore the empty hubs.
 
-4. **Pick the story of the day.** Prefer, in order:
+5. **Pick the story of the day.** Prefer, in order:
    - a verified I-80 closure, crash or hazard affecting travel now;
    - a verified weather warning or winter-driving condition;
    - a verified NDOT construction change;
@@ -77,16 +84,16 @@ Then run the desk for today in `America/Chicago`.
    - an evergreen explainer only when there is no news, and only if it is
      genuinely useful and not a duplicate.
 
-5. **Verify before writing.** Answer: what happened, where (mile marker and
+6. **Verify before writing.** Answer: what happened, where (mile marker and
    direction), when, who confirmed it, and current status. If you cannot answer
    all five, do not publish a news story. A no-publish day is acceptable.
 
-6. **Write 1–2 stories, not a content dump.** One event, one story, one URL.
+7. **Write 1–2 stories, not a content dump.** One event, one story, one URL.
    Use `npm run new` for the scaffold, then fill the body with original context,
    a 3–5 item short version, a source list and internal links. Use `updated`
    when a story changes.
 
-7. **Give every story a strong, real image.**
+8. **Give every story a strong, real image.**
    ```bash
    npm run stock -- --query "…" --slug <slug> --download --update
    ```
@@ -106,7 +113,7 @@ Then run the desk for today in `America/Chicago`.
      distances, recurring event dates and event status, verify the year and the
      primary source rather than smoothing it over.
 
-8. **Validate and publish.**
+9. **Validate and publish.**
    ```bash
    npm run validate
    npm run images:audit
@@ -130,7 +137,7 @@ Then run the desk for today in `America/Chicago`.
    Confirm the article is 200, the Instagram image is a JPEG, and the city hub
    shows the story. Do not leave `draft: true` in a publish run.
 
-9. **Prepare the Instagram kit.** Run:
+10. **Prepare the Instagram kit.** Run:
    ```bash
    npm run social -- --slug <slug>
    ```
