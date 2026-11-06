@@ -87,12 +87,6 @@ Do not wait for approval. End with the run report."
 
 echo ""
 echo "--- opencode run --agent i80-daily ---"
-if [ "${DAILY_RUN_DRY:-0}" = "1" ]; then
-  echo "DRY RUN: would execute:"
-  printf '  opencode run --agent i80-daily --model opencode-go/muse-spark-1.3-contributor#high --auto --title %q %q\n' "I-80 daily desk $STAMP" "$PROMPT"
-  exit 0
-fi
-
 opencode run \
   --agent i80-daily \
   --model "opencode-go/muse-spark-1.3-contributor#high" \
