@@ -549,7 +549,7 @@ export function CorridorMap({ events }: { events: RoadConditionEvent[] }) {
                   cx={cx}
                   cy={cy}
                   r={radius}
-                  fill={DOT[first.category] ?? DOT.other}
+                  fill={(DOT[first.category] ?? DOT.other).fill}
                   stroke="var(--color-ink)"
                   strokeWidth={1.1}
                 />
@@ -645,7 +645,9 @@ export function CorridorMap({ events }: { events: RoadConditionEvent[] }) {
             >
               <span
                 aria-hidden="true"
-                className={`inline-block size-2.5 rounded-full ${DOT_CLASS[category]}`}
+                className={`inline-block size-2.5 rounded-full ${
+                  (DOT[category] ?? DOT.other).className
+                }`}
               />
               {LABEL[category]}
             </li>
@@ -668,11 +670,3 @@ export function CorridorMap({ events }: { events: RoadConditionEvent[] }) {
     </section>
   );
 }
-
-const DOT_CLASS: Record<string, string> = {
-  closure: "bg-alert",
-  incident: "bg-amber",
-  construction: "bg-amber-dark",
-  conditions: "bg-highway",
-  other: "bg-slate",
-};
