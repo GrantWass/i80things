@@ -27,6 +27,26 @@ type NwsFeature = {
   };
 };
 
+export type CorridorForecast = {
+  name: string;
+  temperature: number;
+  temperatureUnit: string;
+  shortForecast: string;
+  windSpeed: string;
+  windDirection: string;
+  isDaytime: boolean;
+};
+
+type NwsForecastPeriod = {
+  name?: string;
+  temperature?: number;
+  temperatureUnit?: string;
+  shortForecast?: string;
+  windSpeed?: string;
+  windDirection?: string;
+  isDaytime?: boolean;
+};
+
 const SEVERITY_RANK: Record<string, number> = {
   Extreme: 0,
   Severe: 1,
@@ -113,4 +133,58 @@ export async function getCorridorAlerts(): Promise<CorridorAlert[]> {
         (a.onset ?? "").localeCompare(b.onset ?? ""),
     )
     .slice(0, 8);
+}
+
+/**
+ * The next few NWS forecast periods for a town. The point lookup is stable
+ * (cached for a day); the forecast itself refreshes every 15 minutes. Any
+ * failure returns an empty list so a city page never depends on the weather
+ * API being up.
+ */
+export async function getPointForecast(
+  lat: number,
+  lon: number,
+): Promise<CorridorForecast[]> {
+  const headers = {
+    Accept: "application/geo+json",
+    "User-Agent": `I80Things/1.0 (+${site.url}; ${site.email})`,
+  };
+
+  try {
+    const pointRes = await fetch(`https://api.weather.gov/points/${lat},${lon}`, {
+      headers,
+      next: { revalidate: 86400 },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!pointRes.ok) return [];
+    const point = (await pointRes.json()) as {
+      properties?: { forecast?: string };
+    };
+    const forecastUrl = point.properties?.forecast;
+    if (!forecastUrl) return [];
+
+    const forecastRes = await fetch(forecastUrl, {
+      headers,
+      next: { revalidate: 900 },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!forecastRes.ok) return [];
+    const forecast = (await forecastRes.json()) as {
+      properties?: { periods?: NwsForecastPeriod[] };
+    };
+
+    return (forecast.properties?.periods ?? [])
+      .slice(0, 4)
+      .map((period) => ({
+        name: period.name ?? "Forecast",
+        temperature: period.temperature ?? 0,
+        temperatureUnit: period.temperatureUnit ?? "F",
+        shortForecast: period.shortForecast ?? "",
+        windSpeed: period.windSpeed ?? "",
+        windDirection: period.windDirection ?? "",
+        isDaytime: Boolean(period.isDaytime),
+      }));
+  } catch {
+    return [];
+  }
 }

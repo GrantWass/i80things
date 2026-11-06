@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getPlace, places } from "@/data/places";
 import { getAllPosts, getPostsByCity } from "@/lib/content";
 import { getSourcesForPlace } from "@/lib/sources";
+import { getPointForecast } from "@/lib/nws";
 import { getRoadConditions } from "@/lib/road-conditions";
 import { site } from "@/lib/site";
 import { absoluteUrl, formatDateTime } from "@/lib/utils";
@@ -68,7 +69,10 @@ export default async function CityPage({
   const statewide = getAllPosts().filter((p) => p.city === "statewide");
   const posts = localPosts.length > 0 ? localPosts : statewide.slice(0, 4);
   const sources = getSourcesForPlace(place.slug);
-  const roads = await getRoadConditions();
+  const [roads, forecast] = await Promise.all([
+    getRoadConditions(),
+    getPointForecast(place.lat, place.lon),
+  ]);
   const bounds = mileBounds(place.mileMarker);
   const localRoadEvents = bounds
     ? roads.events
@@ -337,6 +341,49 @@ export default async function CityPage({
           </div>
 
           <aside className="space-y-7">
+            <div className="border border-line bg-paper p-4">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="kicker text-slate">Weather</h2>
+                <a
+                  href={`https://forecast.weather.gov/MapClick.php?lat=${place.lat}&lon=${place.lon}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[9px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark"
+                >
+                  NWS forecast
+                </a>
+              </div>
+              {forecast.length ? (
+                <ul className="mt-3 divide-y divide-line">
+                  {forecast.map((period) => (
+                    <li key={`${period.name}-${period.isDaytime}`} className="py-2 first:pt-0 last:pb-0">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <span className="text-[11px] font-bold tracking-wide text-ink uppercase">
+                          {period.name}
+                        </span>
+                        <span className="font-serif text-lg leading-none font-semibold">
+                          {period.temperature}°{period.temperatureUnit}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-[11px] leading-snug text-slate">
+                        {period.shortForecast}
+                        {period.windSpeed ? ` · ${period.windDirection} ${period.windSpeed}` : ""}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-3 text-[12px] leading-relaxed text-slate">
+                  Forecast unavailable right now. Check the NWS before you
+                  drive.
+                </p>
+              )}
+              <p className="mt-3 border-t border-line pt-2 text-[9px] leading-relaxed text-slate">
+                Point forecast near {place.name}, not a road report. Winter
+                conditions can differ on I-80.
+              </p>
+            </div>
+
             <div className="border border-line p-4">
               <h2 className="kicker text-slate">Local sources</h2>
               {sources.length ? (
