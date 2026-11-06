@@ -19,12 +19,21 @@ export function ConsentNotice() {
   return (
     <div className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto max-w-3xl border border-ink bg-paper p-3 shadow-2xl sm:flex sm:items-center sm:gap-5 sm:p-4">
       <p className="text-[11px] leading-snug text-ink-soft sm:text-xs sm:leading-relaxed">
-        We use privacy-friendly, cookieless analytics. When ads are enabled, our
-        ad partner may use cookies.{" "}
-        <Link href="/privacy" className="font-semibold underline decoration-amber">
-          Privacy &amp; cookie details
-        </Link>
-        .
+        <span className="sm:hidden">
+          Privacy-friendly analytics.{" "}
+          <Link href="/privacy" className="font-semibold underline decoration-amber">
+            Details
+          </Link>
+          .
+        </span>
+        <span className="hidden sm:inline">
+          We use privacy-friendly, cookieless analytics. When ads are enabled,
+          our ad partner may use cookies.{" "}
+          <Link href="/privacy" className="font-semibold underline decoration-amber">
+            Privacy &amp; cookie details
+          </Link>
+          .
+        </span>
       </p>
       <div className="mt-2 flex shrink-0 gap-2 sm:mt-0">
         <button
