@@ -1,0 +1,181 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { getAllSources, getRssSources, scannerLegalNote, sourceCategories } from "@/lib/sources";
+import { SourceExplorer } from "@/components/SourceExplorer";
+import { AdSlot } from "@/components/AdSlot";
+import { JsonLd } from "@/components/JsonLd";
+import { site } from "@/lib/site";
+import { Arrow } from "@/components/Icon";
+
+export const metadata: Metadata = {
+  title: "The source desk — every feed we monitor",
+  description:
+    "A public directory of 86 verified sources for Nebraska's I-80 corridor: police scanners, State Patrol releases, Nebraska 511, NWS alerts, town newspapers, RSS feeds and open data APIs.",
+  alternates: { canonical: "/sources" },
+  openGraph: {
+    url: `${site.url}/sources`,
+    title: "The source desk | I-80 Things",
+    description:
+      "Police scanners, town newspapers, 511, NWS and open data — the full verified source list for Nebraska's I-80 corridor.",
+  },
+};
+
+export default function SourcesPage() {
+  const sources = getAllSources();
+  const rss = getRssSources();
+  const scannerCount = sources.filter((s) => s.category === "scanner").length;
+  const official = sources.filter((s) => s.reliability === "official").length;
+
+  return (
+    <main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "I-80 Nebraska source directory",
+          url: `${site.url}/sources`,
+          description:
+            "Verified scanners, newspapers, official feeds and data sources for the I-80 corridor in Nebraska.",
+          isPartOf: { "@id": `${site.url}/#website` },
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: sources.length,
+            itemListElement: sources.slice(0, 50).map((source, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: source.name,
+              url: source.url,
+            })),
+          },
+        }}
+      />
+
+      <header className="border-b border-line bg-cream">
+        <div className="container-page py-10 md:py-14">
+          <p className="kicker text-amber-dark">Open newsroom</p>
+          <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.04] font-semibold tracking-tight md:text-6xl">
+            The source desk
+          </h1>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate">
+            Every feed our daily desk uses is listed here: police scanners,
+            State Patrol releases, Nebraska 511, National Weather Service
+            alerts, town newspapers, RSS feeds, open data and the official
+            social accounts that break news first. Steal the list.
+          </p>
+          <div className="mt-6 grid max-w-2xl grid-cols-2 gap-px border border-line bg-line sm:grid-cols-4">
+            {[
+              [sources.length, "Total sources"],
+              [scannerCount, "Scanner feeds"],
+              [rss.length, "RSS feeds"],
+              [official, "Official"],
+            ].map(([value, label]) => (
+              <div key={String(label)} className="bg-paper p-3">
+                <p className="font-serif text-2xl leading-none font-semibold">{value}</p>
+                <p className="mt-1 text-[9px] font-bold tracking-[0.1em] text-slate uppercase">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      <div className="container-page py-10">
+        <section className="mb-10 grid gap-3 md:grid-cols-3">
+          <div className="border border-line bg-paper p-4">
+            <h2 className="kicker text-amber-dark">How to use it</h2>
+            <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+              Filter by beat, search a town or copy an RSS feed. Scanner links
+              open the public feed; some require a free Broadcastify account.
+            </p>
+          </div>
+          <div className="border border-line bg-paper p-4">
+            <h2 className="kicker text-amber-dark">Trust labels</h2>
+            <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+              <strong>Official</strong> means an agency or its sanctioned stream.{" "}
+              <strong>News</strong> is a newsroom. <strong>Community</strong>{" "}
+              means volunteer-hosted and unverified.
+            </p>
+          </div>
+          <div className="border border-line bg-paper p-4">
+            <h2 className="kicker text-amber-dark">Add a source</h2>
+            <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+              Know a feed we missed? Send the URL and what it covers. We test
+              every suggestion before it goes live.
+            </p>
+            <Link href="/contact" className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
+              Submit a source <Arrow className="h-3 w-3" />
+            </Link>
+          </div>
+        </section>
+
+        <SourceExplorer sources={sources} categories={sourceCategories} />
+
+        <section className="mt-12 border border-line bg-cream p-5 md:p-7">
+          <h2 className="font-serif text-2xl font-semibold">Scanner law & ethics</h2>
+          <p className="mt-2 max-w-4xl text-sm leading-relaxed text-ink-soft">
+            {scannerLegalNote}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-3 text-[11px] font-bold tracking-[0.06em] uppercase">
+            <a
+              href="https://nebraskalegislature.gov/laws/statutes.php?statute=86-290"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-highway underline decoration-amber decoration-2 underline-offset-4"
+            >
+              Neb. Rev. Stat. § 86-290
+            </a>
+            <Link href="/editorial-standards" className="text-highway underline decoration-amber decoration-2 underline-offset-4">
+              Our verification policy
+            </Link>
+          </div>
+        </section>
+
+        <AdSlot
+          slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD}
+          minHeight={90}
+          className="mt-10"
+        />
+
+        <section className="mt-10">
+          <h2 className="font-serif text-2xl font-semibold">How the daily desk works</h2>
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                n: "01",
+                title: "Scan",
+                body: "Pull every RSS feed, check the State Patrol and NDOT pages, and read active NWS alerts for the corridor counties.",
+              },
+              {
+                n: "02",
+                title: "Verify",
+                body: "Find the primary source. Confirm the location by mile marker, the agency, and the current status. No scanner-only stories.",
+              },
+              {
+                n: "03",
+                title: "Publish",
+                body: "Write original context, link the source, and add a key-facts box and a shareable image. Then post it to Instagram.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="border-t-2 border-ink pt-3">
+                <p className="font-serif text-3xl leading-none text-amber">{step.n}</p>
+                <h3 className="mt-2 font-serif text-lg font-semibold">{step.title}</h3>
+                <p className="mt-1 text-[13px] leading-relaxed text-slate">{step.body}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-[12px] text-slate">
+            Building your own corridor monitor? The feed list is also published
+            in machine-readable form at{" "}
+            <a href="/llms-full.txt" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              /llms-full.txt
+            </a>{" "}
+            and as{" "}
+            <a href="/feed.xml" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              RSS
+            </a>
+            .
+          </p>
+        </section>
+      </div>
+    </main>
+  );
+}

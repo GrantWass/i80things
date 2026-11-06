@@ -1,0 +1,1578 @@
+[
+  {
+    "id": "lincoln-crash-data",
+    "name": "Lincoln open data — Traffic crashes",
+    "category": "data",
+    "kind": "api",
+    "url": "https://opendata.lincoln.ne.gov/",
+    "apiUrl": "https://services1.arcgis.com/wpJGOi6N4Rq5cqFv/arcgis/rest/services/Traffic_Crashes_2022/FeatureServer/0/query?where=1%3D1&outFields=*&f=json&resultRecordCount=1",
+    "coverage": "Lincoln crash records (multiple years)",
+    "city": "lincoln",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Keyless FeatureServer for 2019–2022 crash records. Useful for local crash analysis; not real-time.",
+    "tags": [
+      "API",
+      "crashes",
+      "Lincoln"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-crash",
+    "name": "NDOT — Crash reporting & data",
+    "category": "data",
+    "kind": "web",
+    "url": "https://dot.nebraska.gov/safety/crash/",
+    "coverage": "Statewide crash statistics",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Annual facts, fatality reports and monthly summaries as PDFs. Good for context in crash stories.",
+    "tags": [
+      "crashes",
+      "statistics",
+      "NDOT"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-aadt",
+    "name": "NDOT AADT traffic counts (ArcGIS)",
+    "category": "data",
+    "kind": "api",
+    "url": "https://gis.ne.gov/dot/rest/services/AADTCountsDOT/MapServer",
+    "apiUrl": "https://gis.ne.gov/dot/rest/services/AADTCountsDOT/MapServer/0/query?where=1%3D1&outFields=*&f=json&resultRecordCount=1",
+    "coverage": "Statewide traffic counts",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Keyless ArcGIS REST. Query I-80 segments for annual average daily traffic and truck percentages — great for data-driven corridor stories.",
+    "tags": [
+      "API",
+      "traffic counts",
+      "data"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ne511-graphql",
+    "name": "Nebraska 511 GraphQL endpoint (unofficial access)",
+    "category": "data",
+    "kind": "api",
+    "url": "https://511.nebraska.gov/",
+    "apiUrl": "https://511.nebraska.gov/api/graphql",
+    "coverage": "511 CMS messages, layers, notifications",
+    "access": "view-only",
+    "reliability": "official",
+    "notes": "Undocumented and unsupported. The site's own GraphQL proxy answers CMS queries, but event/camera queries are not published. Do not build a production dependency without a CARS data agreement.",
+    "tags": [
+      "511",
+      "API",
+      "unofficial"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-ntip",
+    "name": "Nebraska Traffic Incident Portal (NTIP)",
+    "category": "data",
+    "kind": "web",
+    "url": "https://ntip.nebraska.gov/Map",
+    "coverage": "Statewide crash mapping",
+    "access": "view-only",
+    "reliability": "official",
+    "notes": "ArcGIS crash map. No verified public bulk export; use for research, not live scraping.",
+    "tags": [
+      "crashes",
+      "map"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "fars",
+    "name": "NHTSA FARS — Fatal crash data",
+    "category": "data",
+    "kind": "web",
+    "url": "https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars",
+    "coverage": "National fatal crash data",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Authoritative but lagging and bot-protected. Use bulk downloads or the browser for context, never for breaking news.",
+    "tags": [
+      "fatal crashes",
+      "data"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "dhhs-news",
+    "name": "Nebraska DHHS — News releases",
+    "category": "government",
+    "kind": "web",
+    "url": "https://dhhs.ne.gov/pages/news-releases.aspx",
+    "coverage": "Statewide health",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Health alerts and advisories that can affect travel and public events.",
+    "tags": [
+      "health",
+      "alerts"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nebraska-legislature",
+    "name": "Nebraska Legislature — Bills & hearings",
+    "category": "government",
+    "kind": "web",
+    "url": "https://nebraskalegislature.gov/bills/",
+    "coverage": "Statewide",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Transportation, road-funding and safety bills. Search is a POST form; no public JSON API.",
+    "tags": [
+      "legislature",
+      "policy",
+      "transportation"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "lincoln-pd",
+    "name": "Lincoln Police — Daily activity & blotter",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://www.lincoln.ne.gov/City/Departments/Police/Police-Activity",
+    "coverage": "Lincoln / Lancaster County",
+    "city": "lincoln",
+    "mileMarker": "395–401",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Daily call summaries, accident reports and crime statistics. Bot-protected; use a browser.",
+    "tags": [
+      "Lincoln",
+      "police",
+      "blotter"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nema",
+    "name": "Nebraska Emergency Management Agency — Newsroom",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://nema.nebraska.gov/newsroom.php",
+    "coverage": "Statewide emergencies",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Severe weather, flooding, evacuation and disaster declarations affecting the corridor.",
+    "tags": [
+      "emergency",
+      "disaster",
+      "flooding"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "state-fire-marshal",
+    "name": "Nebraska State Fire Marshal — News",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://sfm.nebraska.gov/agency/news",
+    "coverage": "Statewide fire investigations",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Fire investigations, burn bans and safety alerts.",
+    "tags": [
+      "fire",
+      "burn ban"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nsp-crash-reports",
+    "name": "Nebraska State Patrol — Crash report requests",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://statepatrol.nebraska.gov/services/crashaccident-report-requests",
+    "coverage": "Statewide",
+    "access": "paid",
+    "reliability": "official",
+    "recommended": false,
+    "notes": "Redirects to NDOT Records for crash report copies (402-479-4645). Use for follow-ups and document requests, not daily monitoring.",
+    "tags": [
+      "crash reports",
+      "records"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nsp-news",
+    "name": "Nebraska State Patrol — News releases",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://statepatrol.nebraska.gov/divisions/office-superintendent/news",
+    "coverage": "Statewide, all I-80 troops",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "The primary wire for pursuits, fatal crashes, arrests and trooper activity. No RSS feed — check the page directly each morning and after major incidents.",
+    "tags": [
+      "state patrol",
+      "crashes",
+      "pursuits"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nsp-reports",
+    "name": "Nebraska State Patrol — Reports & information",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://statepatrol.nebraska.gov/divisions/office-superintendent/reports-information",
+    "coverage": "Statewide",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Annual reports and statistics for context and background, not breaking news.",
+    "tags": [
+      "statistics",
+      "annual reports"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "omaha-pd",
+    "name": "Omaha Police Department — Press releases",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://police.cityofomaha.org/press-releases",
+    "coverage": "Omaha / Douglas County",
+    "city": "omaha",
+    "mileMarker": "439–454",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Official releases and blotter items. The site uses bot protection and may block automated fetches — open it in a browser.",
+    "tags": [
+      "Omaha",
+      "police",
+      "press releases"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "1011now",
+    "name": "10/11 News",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.1011now.com",
+    "feedUrl": "https://www.1011now.com/arc/outboundfeeds/rss/?output=1",
+    "coverage": "Lincoln & central Nebraska",
+    "city": "lincoln",
+    "access": "free",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Gray TV feed reaching Lincoln, York and Grand Island. Good breaking-news backup.",
+    "tags": [
+      "TV",
+      "Lincoln",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "3newsnow",
+    "name": "3 News Now (KMTV)",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.3newsnow.com",
+    "feedUrl": "https://www.3newsnow.com/index.rss",
+    "coverage": "Omaha metro",
+    "city": "omaha",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Scripps station; a useful second TV angle on metro incidents.",
+    "tags": [
+      "TV",
+      "Omaha",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "beatrice-daily-sun",
+    "name": "Beatrice Daily Sun",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://beatricedailysun.com",
+    "feedUrl": "https://beatricedailysun.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Beatrice & Gage County (spur south of I-80)",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Southeast Nebraska news; useful for spillover from the Lincoln corridor.",
+    "tags": [
+      "newspaper",
+      "Beatrice",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "columbus-telegram",
+    "name": "Columbus Telegram",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://columbustelegram.com",
+    "feedUrl": "https://columbustelegram.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Columbus & Platte County (spur north of I-80)",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Regional ag and manufacturing coverage with occasional I-80 spillover.",
+    "tags": [
+      "newspaper",
+      "Columbus",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "daily-nonpareil",
+    "name": "Council Bluffs Daily Nonpareil",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://nonpareilonline.com",
+    "feedUrl": "https://nonpareilonline.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Council Bluffs & southwest Iowa",
+    "city": "omaha",
+    "mileMarker": "454",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Iowa-side coverage of the Missouri River crossing and border incidents.",
+    "tags": [
+      "Iowa",
+      "Council Bluffs",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "flatwater-free-press",
+    "name": "Flatwater Free Press",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://flatwaterfreepress.org",
+    "feedUrl": "https://flatwaterfreepress.org/feed/",
+    "coverage": "Statewide investigative & enterprise",
+    "access": "free",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Best long-form Nebraska journalism. Feed sits behind Cloudflare — use a browser User-Agent when polling.",
+    "tags": [
+      "investigative",
+      "statewide",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "fremont-tribune",
+    "name": "Fremont Tribune",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://fremonttribune.com",
+    "feedUrl": "https://fremonttribune.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Fremont & Dodge County (spur north of I-80)",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Off-corridor but relevant for eastern Nebraska traffic and ag news.",
+    "tags": [
+      "newspaper",
+      "Fremont",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "grand-island-independent",
+    "name": "Grand Island Independent",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://theindependent.com",
+    "feedUrl": "https://theindependent.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Grand Island & Hall County",
+    "city": "grand-island",
+    "mileMarker": "306–318",
+    "access": "metered",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "The central corridor's daily paper. Strong on local government and crashes.",
+    "tags": [
+      "newspaper",
+      "Grand Island",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "grant-tribune",
+    "name": "Grant Tribune-Sentinel",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.granttribune.com",
+    "feedUrl": "https://www.granttribune.com/rss",
+    "coverage": "Perkins County (spur south of Ogallala)",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Weekly cadence. Useful for rural Perkins County stories near the I-80/I-76 junction.",
+    "tags": [
+      "newspaper",
+      "weekly",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "hastings-tribune",
+    "name": "Hastings Tribune",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://hastingstribune.com",
+    "feedUrl": "https://hastingstribune.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Hastings & Adams County",
+    "city": "hastings",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Covers the US-281 spur south of I-80 and Adams County.",
+    "tags": [
+      "newspaper",
+      "Hastings",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "kearney-hub",
+    "name": "Kearney Hub",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://kearneyhub.com",
+    "feedUrl": "https://kearneyhub.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Kearney & Buffalo County",
+    "city": "kearney",
+    "mileMarker": "272–281",
+    "access": "metered",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Frequent crash and weather coverage at the corridor's midpoint.",
+    "tags": [
+      "newspaper",
+      "Kearney",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "keith-county-news",
+    "name": "Keith County News",
+    "category": "news",
+    "kind": "web",
+    "url": "https://ogallalakcnews.com/Welcome.html",
+    "coverage": "Ogallala & Keith County",
+    "city": "ogallala",
+    "mileMarker": "126–133",
+    "access": "free",
+    "reliability": "news",
+    "notes": "No feed; the site is a bare static page. Check manually for local government and Lake McConaughy news.",
+    "tags": [
+      "newspaper",
+      "Ogallala"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ketv",
+    "name": "KETV 7 News",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.ketv.com",
+    "feedUrl": "https://www.ketv.com/topstories-rss",
+    "coverage": "Omaha metro",
+    "city": "omaha",
+    "access": "free",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Hearst TV top stories. Link and summarize only; their terms prohibit scraping/redistribution.",
+    "tags": [
+      "TV",
+      "Omaha",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "kfor",
+    "name": "KFOR / Lincoln Today",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.kfornow.com",
+    "feedUrl": "https://www.kfornow.com/feed/",
+    "coverage": "Lincoln radio news",
+    "city": "lincoln",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Fast local radio wire. Useful for quick confirmation of closures and crashes.",
+    "tags": [
+      "radio",
+      "Lincoln",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "klkn",
+    "name": "KLKN Channel 8",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.klkntv.com",
+    "feedUrl": "https://www.klkntv.com/feed/",
+    "coverage": "Lincoln & Lancaster County",
+    "city": "lincoln",
+    "access": "free",
+    "reliability": "news",
+    "notes": "WordPress feed, clean and current. Second Lincoln TV voice.",
+    "tags": [
+      "TV",
+      "Lincoln",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "lexington-clipper",
+    "name": "Lexington Clipper-Herald",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://lexch.com",
+    "feedUrl": "https://lexch.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Lexington & Dawson County",
+    "city": "lexington",
+    "mileMarker": "237–247",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Dawson County government, schools and ag news.",
+    "tags": [
+      "newspaper",
+      "Lexington",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "lincoln-journal-star",
+    "name": "Lincoln Journal Star",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://journalstar.com",
+    "feedUrl": "https://journalstar.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Lincoln & southeast Nebraska",
+    "city": "lincoln",
+    "mileMarker": "395–401",
+    "access": "metered",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "The corridor's Lincoln anchor paper. Metered; use for leads and link out.",
+    "tags": [
+      "newspaper",
+      "Lincoln",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "mccook-gazette",
+    "name": "McCook Gazette",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.mccookgazette.com",
+    "feedUrl": "https://www.mccookgazette.com/rss.xml",
+    "coverage": "Southwest Nebraska (spur)",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Southwest Nebraska coverage and severe-weather spillover.",
+    "tags": [
+      "newspaper",
+      "McCook",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nebraska-examiner",
+    "name": "Nebraska Examiner",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://nebraskaexaminer.com",
+    "feedUrl": "https://nebraskaexaminer.com/feed/",
+    "coverage": "Statewide policy & government",
+    "access": "free",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Nonprofit States Newsroom. Free to republish with credit — the best single statewide feed for transportation and government stories.",
+    "tags": [
+      "statewide",
+      "policy",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nebraska-public-media",
+    "name": "Nebraska Public Media — News",
+    "category": "news",
+    "kind": "web",
+    "url": "https://nebraskapublicmedia.org/news/",
+    "coverage": "Statewide public media",
+    "access": "free",
+    "reliability": "news",
+    "notes": "No RSS feed. Check the news page manually for transportation and rural reporting.",
+    "tags": [
+      "public media",
+      "statewide"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "rural-radio",
+    "name": "Nebraska Rural Radio Network / KRVN",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://ruralradio.com/krvn/",
+    "feedUrl": "https://ruralradio.com/feed/",
+    "coverage": "Statewide ag & rural radio",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Feed is stale (last item May 2026). Monitor the KRVN homepage manually instead.",
+    "tags": [
+      "radio",
+      "agriculture"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nebraska-trucking",
+    "name": "Nebraska Trucking Association",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://nebtrucking.com",
+    "feedUrl": "https://nebtrucking.com/feed/",
+    "coverage": "Statewide freight & trucking",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Low cadence but useful for freight policy, weigh stations and trucking-industry context.",
+    "tags": [
+      "trucking",
+      "freight",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "news-channel-nebraska",
+    "name": "News Channel Nebraska",
+    "category": "news",
+    "kind": "web",
+    "url": "https://nebraska.tv/",
+    "coverage": "Statewide TV",
+    "access": "free",
+    "reliability": "news",
+    "notes": "No RSS feed. Sitemap at nebraska.tv/sitemap.xml can be monitored for new URLs.",
+    "tags": [
+      "TV",
+      "statewide"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "north-platte-telegraph",
+    "name": "North Platte Telegraph",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://nptelegraph.com",
+    "feedUrl": "https://nptelegraph.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "North Platte & Lincoln County",
+    "city": "north-platte",
+    "mileMarker": "177–190",
+    "access": "metered",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "The only daily in the biggest news gap west of Kearney. Essential feed.",
+    "tags": [
+      "newspaper",
+      "North Platte",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "omaha-daily-record",
+    "name": "Omaha Daily Record",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://omahadailyrecord.com",
+    "feedUrl": "https://omahadailyrecord.com/rss.xml",
+    "coverage": "Omaha business, legal & public notices",
+    "city": "omaha",
+    "access": "paid",
+    "reliability": "news",
+    "notes": "Hard paywall. Headlines and public notices are still useful leads.",
+    "tags": [
+      "business",
+      "legal",
+      "Omaha"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "omaha-world-herald",
+    "name": "Omaha World-Herald",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://omaha.com",
+    "feedUrl": "https://omaha.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Omaha metro & eastern Nebraska",
+    "city": "omaha",
+    "mileMarker": "439–454",
+    "access": "metered",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Deepest Omaha reporting. Use headlines as leads and link out; never republish the body. Metered paywall.",
+    "tags": [
+      "newspaper",
+      "Omaha",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "star-herald",
+    "name": "Scottsbluff Star-Herald",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://starherald.com",
+    "feedUrl": "https://starherald.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "Panhandle & Kimball County",
+    "city": "kimball",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "Regional Panhandle paper that covers Kimball and the western gateway.",
+    "tags": [
+      "newspaper",
+      "Kimball",
+      "Panhandle",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "seward-independent",
+    "name": "Seward County Independent",
+    "category": "news",
+    "kind": "web",
+    "url": "https://www.sewardindependent.com/news",
+    "coverage": "Seward County",
+    "city": "seward",
+    "mileMarker": "373–388",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "No RSS feed. Check the news page manually; strong on Seward County government and schools.",
+    "tags": [
+      "newspaper",
+      "Seward"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "sidney-sun-telegraph",
+    "name": "Sidney Sun-Telegraph",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.suntelegraph.com",
+    "feedUrl": "https://www.suntelegraph.com/rss/articles",
+    "coverage": "Sidney & Cheyenne County",
+    "city": "sidney",
+    "mileMarker": "55–65",
+    "access": "metered",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Only working daily feed west of Ogallala. Covers the Kimball corridor too.",
+    "tags": [
+      "newspaper",
+      "Sidney",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "wowt",
+    "name": "WOWT 6 News",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.wowt.com",
+    "feedUrl": "https://www.wowt.com/arc/outboundfeeds/rss/?output=1",
+    "coverage": "Omaha metro & Council Bluffs",
+    "city": "omaha",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Gray TV Arc feed. Fast on crashes and weather closings.",
+    "tags": [
+      "TV",
+      "Omaha",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "york-news-times",
+    "name": "York News-Times",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://yorknewstimes.com",
+    "feedUrl": "https://yorknewstimes.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+    "coverage": "York County",
+    "city": "york",
+    "mileMarker": "348–353",
+    "access": "metered",
+    "reliability": "news",
+    "notes": "The York County paper of record. Useful for local government and ag stories.",
+    "tags": [
+      "newspaper",
+      "York",
+      "RSS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "broadcastify-ne",
+    "name": "Broadcastify — All Nebraska feeds",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/stid/31",
+    "coverage": "Statewide directory",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Directory of every public Nebraska feed. Free account required to listen. Archives and the Calls API are paid.",
+    "tags": [
+      "scanner",
+      "directory"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "broadcastify-calls",
+    "name": "Broadcastify Calls — Nebraska State Radio System",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/calls/tg/6699",
+    "coverage": "Statewide trunked radio",
+    "access": "paid",
+    "reliability": "community",
+    "notes": "Recorded talkgroup calls for NSP troops that lack a live feed. The Calls API is metered and prepaid; not a free data source.",
+    "tags": [
+      "scanner",
+      "NSP",
+      "archives"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-buffalo-kearney",
+    "name": "Buffalo County / Kearney Public Safety",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/40751",
+    "coverage": "Kearney & Buffalo County",
+    "city": "kearney",
+    "mileMarker": "272–293",
+    "access": "free-account",
+    "reliability": "community",
+    "recommended": true,
+    "notes": "Kearney PD, Buffalo County Sheriff and fire/EMS. Key feed for the central corridor.",
+    "tags": [
+      "scanner",
+      "Kearney",
+      "Buffalo County"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-cheyenne-sidney",
+    "name": "Cheyenne County Fire / EMS — Sidney",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/47673",
+    "coverage": "Sidney & Cheyenne County",
+    "city": "sidney",
+    "mileMarker": "40–76",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Fire/EMS for the western corridor. No dedicated Kimball County feed found.",
+    "tags": [
+      "scanner",
+      "Sidney",
+      "Cheyenne County"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-council-bluffs-pd",
+    "name": "Council Bluffs PD — Official delayed feed",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/45846",
+    "coverage": "Council Bluffs, IA",
+    "city": "omaha",
+    "mileMarker": "454",
+    "access": "free-account",
+    "reliability": "official",
+    "notes": "Official feed with a 15-minute delay. Use for the Missouri River crossing and I-80 border incidents.",
+    "tags": [
+      "scanner",
+      "Iowa",
+      "Council Bluffs"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-douglas-so",
+    "name": "Douglas County Sheriff — Dispatch",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/39790",
+    "coverage": "Douglas County outside Omaha",
+    "city": "omaha",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "County patrol, rural crashes and I-80 calls outside Omaha city limits.",
+    "tags": [
+      "scanner",
+      "Douglas County"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-grand-island",
+    "name": "Grand Island PD / Fire / EMS",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/26964",
+    "coverage": "Grand Island",
+    "city": "grand-island",
+    "mileMarker": "306–318",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Feed page notes Grand Island PD's digital traffic is not fully carried; pair with official releases.",
+    "tags": [
+      "scanner",
+      "Grand Island"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-keith-ogallala",
+    "name": "Keith County Fire / EMS — Ogallala",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/40675",
+    "coverage": "Ogallala & Keith County",
+    "city": "ogallala",
+    "mileMarker": "117–145",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Fire/EMS only. Covers the I-80/I-76 junction and Lake McConaughy area.",
+    "tags": [
+      "scanner",
+      "Ogallala",
+      "Keith County"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-lancaster-rural-fire",
+    "name": "Lancaster County Rural Fire / Rescue",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/21281",
+    "coverage": "Rural Lancaster County",
+    "city": "lincoln",
+    "mileMarker": "388–401",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Covers the I-80 stretch between Lincoln and Seward.",
+    "tags": [
+      "scanner",
+      "Lancaster",
+      "rural"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-north-platte",
+    "name": "Lincoln County Public Safety — North Platte",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/35653",
+    "coverage": "North Platte & Lincoln County",
+    "city": "north-platte",
+    "mileMarker": "177–199",
+    "access": "free-account",
+    "reliability": "community",
+    "recommended": true,
+    "notes": "Main feed for the long empty stretch around North Platte.",
+    "tags": [
+      "scanner",
+      "North Platte",
+      "Lincoln County"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-lincoln-pd-fire",
+    "name": "Lincoln PD + Lancaster Sheriff / Fire",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/14395",
+    "coverage": "Lincoln & Lancaster County (stereo: law left, fire right)",
+    "city": "lincoln",
+    "mileMarker": "395–401",
+    "access": "free-account",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "The single most useful Lincoln feed. Stereo split lets you isolate police from fire/EMS.",
+    "tags": [
+      "scanner",
+      "Lincoln",
+      "Lancaster"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-ndot-d3",
+    "name": "NDOT District 3 — Highway maintenance",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/36579",
+    "coverage": "NDOT District 3 (Platte, Colfax, Dodge, Washington counties)",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Eastern corridor plow and maintenance traffic.",
+    "tags": [
+      "scanner",
+      "NDOT",
+      "plows",
+      "winter"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-ndot-d4",
+    "name": "NDOT District 4 — Highway maintenance",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/36578",
+    "coverage": "NDOT District 4 (Polk, Merrick, Platte, Colfax counties)",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Plow and maintenance operations during storms. Listen for closures before they hit 511.",
+    "tags": [
+      "scanner",
+      "NDOT",
+      "plows",
+      "winter"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-nsp-troop-ha",
+    "name": "NSP Troop H & A — Broadcastify",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/41080",
+    "coverage": "Lancaster County & Omaha-area State Patrol",
+    "city": "lincoln",
+    "mileMarker": "395–454",
+    "access": "free-account",
+    "reliability": "community",
+    "recommended": true,
+    "notes": "Free Broadcastify account required since Oct 2026. Best single feed for I-80 State Patrol activity in the east.",
+    "tags": [
+      "scanner",
+      "NSP",
+      "Troop A"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-omaha-fire",
+    "name": "Omaha Fire — Dispatch",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/34221",
+    "coverage": "Omaha Fire Department",
+    "city": "omaha",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Crash extrications, fires and EMS response inside Omaha.",
+    "tags": [
+      "scanner",
+      "Omaha",
+      "fire",
+      "EMS"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-omaha-pd-ne",
+    "name": "Omaha Police — Northeast dispatch",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/35492",
+    "coverage": "Omaha NE precinct",
+    "city": "omaha",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Busiest Omaha police feed; includes interstate-adjacent calls.",
+    "tags": [
+      "scanner",
+      "Omaha",
+      "police"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-omaha-pd-se",
+    "name": "Omaha Police — Southeast dispatch",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/35490",
+    "coverage": "Omaha SE precinct",
+    "city": "omaha",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Covers the I-80/I-480 and Missouri River approaches.",
+    "tags": [
+      "scanner",
+      "Omaha",
+      "I-480"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-omaha-pd-sw",
+    "name": "Omaha Police — Southwest dispatch",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/35491",
+    "coverage": "Omaha SW precinct",
+    "city": "omaha",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "West Omaha and the I-80 corridor near Gretna.",
+    "tags": [
+      "scanner",
+      "Omaha",
+      "west"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "pottawattamie-streams",
+    "name": "Pottawattamie County, IA — Public safety streams",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://holt.pottcountysheriff.gov/streams/?sPermalink=streams&dID=19",
+    "coverage": "Council Bluffs / Iowa border",
+    "city": "omaha",
+    "mileMarker": "454",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official delayed streams across the Missouri River. Useful for I-80 bridge and Council Bluffs incidents. Iowa agencies apply a delay.",
+    "tags": [
+      "scanner",
+      "Iowa",
+      "Council Bluffs"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "sarpy-radio",
+    "name": "Sarpy County — Official radio traffic feeds",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.sarpy.gov/900/Radio-Traffic-Feeds",
+    "coverage": "Sarpy County (Gretna, Bellevue, I-80 east)",
+    "city": "omaha",
+    "mileMarker": "432–445",
+    "access": "free",
+    "reliability": "official",
+    "notes": "County-hosted player, no Broadcastify login needed. Good when Broadcastify is down.",
+    "tags": [
+      "scanner",
+      "Sarpy",
+      "official feed"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-sarpy-so",
+    "name": "Sarpy County Sheriff — Official feed",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/43260",
+    "coverage": "Sarpy County",
+    "city": "omaha",
+    "mileMarker": "432–445",
+    "access": "free-account",
+    "reliability": "official",
+    "notes": "Official Sarpy feed with archives. Covers Gretna, Bellevue and the I-80 south bypass area.",
+    "tags": [
+      "scanner",
+      "Sarpy",
+      "official feed"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "bcfy-seward-so",
+    "name": "Seward County Sheriff + Milford PD",
+    "category": "scanner",
+    "kind": "scanner",
+    "url": "https://www.broadcastify.com/listen/feed/21526",
+    "coverage": "Seward County, Milford, I-80 exits 373–388",
+    "city": "seward",
+    "mileMarker": "373–388",
+    "access": "free-account",
+    "reliability": "community",
+    "notes": "Primary feed for the Seward/Milford/Beaver Crossing stretch.",
+    "tags": [
+      "scanner",
+      "Seward"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "lincoln-pd-x",
+    "name": "Lincoln Police on X",
+    "category": "social",
+    "kind": "social",
+    "url": "https://x.com/Lincoln_Police",
+    "coverage": "Lincoln",
+    "city": "lincoln",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Incident notices and traffic advisories.",
+    "tags": [
+      "X",
+      "Lincoln",
+      "police"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-x",
+    "name": "NDOT on X",
+    "category": "social",
+    "kind": "social",
+    "url": "https://x.com/NebraskaDOT",
+    "coverage": "Statewide closures & projects",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Closure and construction alerts. Cross-check against 511 before publishing.",
+    "tags": [
+      "X",
+      "NDOT",
+      "closures"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nsp-x",
+    "name": "Nebraska State Patrol on X",
+    "category": "social",
+    "kind": "social",
+    "url": "https://x.com/NEStatePatrol",
+    "coverage": "Statewide, near-real-time",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Fastest NSP incident posts. X requires login for most browsing; treat posts as tips and confirm with the newsroom.",
+    "tags": [
+      "X",
+      "NSP",
+      "breaking"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nws-omaha-x",
+    "name": "NWS Omaha on X",
+    "category": "social",
+    "kind": "social",
+    "url": "https://x.com/NWSOmaha",
+    "coverage": "Eastern Nebraska weather",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Fast warning updates and storm timing for the Omaha–Lincoln stretch.",
+    "tags": [
+      "X",
+      "NWS",
+      "weather"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-detours",
+    "name": "NDOT — Construction detours (PDF)",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://dot.nebraska.gov/media/4v5lbeay/construction-detours-info.pdf",
+    "coverage": "Statewide",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Static detour guidance. Useful background for construction stories; confirm live status on 511.",
+    "tags": [
+      "detours",
+      "construction"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-news",
+    "name": "NDOT — News releases",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://dot.nebraska.gov/news-events/news-releases/",
+    "coverage": "Statewide road projects",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "No RSS. Check each weekday for I-80 construction, closures and project announcements.",
+    "tags": [
+      "NDOT",
+      "construction",
+      "news"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-projects",
+    "name": "NDOT — Projects & corridor studies",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://dot.nebraska.gov/projects/",
+    "coverage": "Statewide",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Project pages and annual district construction PDFs, including I-80 widening and bridge work.",
+    "tags": [
+      "NDOT",
+      "projects",
+      "construction"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ndot-travel",
+    "name": "NDOT — Travel & road conditions",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://dot.nebraska.gov/travel/",
+    "coverage": "Statewide",
+    "access": "free",
+    "reliability": "official",
+    "notes": "NDOT's travel hub, including construction detour guidance and links to 511.",
+    "tags": [
+      "NDOT",
+      "construction",
+      "detours"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ne511",
+    "name": "Nebraska 511 — Traveler information",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://511.nebraska.gov/",
+    "coverage": "All Nebraska interstates",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Official incidents, closures, cameras, plows and road conditions. The public site is view-only; bulk camera/event data requires a CARS/NDOT feed agreement.",
+    "tags": [
+      "511",
+      "closures",
+      "cameras",
+      "plows"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nebraska-511-app",
+    "name": "Nebraska 511 mobile app",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://apps.apple.com/us/app/nebraska-511/id921773122",
+    "coverage": "Statewide",
+    "access": "free",
+    "reliability": "official",
+    "notes": "iOS app; Android package crc.carsapp.ne. Mention in service journalism, don't scrape.",
+    "tags": [
+      "app",
+      "511"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "ne511-plows",
+    "name": "Nebraska plow tracker (511)",
+    "category": "traffic",
+    "kind": "web",
+    "url": "https://plows.nebraska.gov/",
+    "coverage": "Statewide snowplows",
+    "access": "view-only",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Live plow locations during winter storms. Viewer only — no public API. Screenshot with credit or describe; do not hotlink imagery without permission.",
+    "tags": [
+      "plows",
+      "winter",
+      "snow"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "amtraker",
+    "name": "Amtraker — California Zephyr status",
+    "category": "travel",
+    "kind": "api",
+    "url": "https://amtraker.com/",
+    "apiUrl": "https://api.amtraker.com/v2/trains/5",
+    "coverage": "Amtrak trains 5 & 6 (Omaha, Lincoln, Hastings, Holdrege, McCook)",
+    "access": "free",
+    "reliability": "community",
+    "notes": "Unofficial API for Zephyr status. Useful for travel stories; attribute Amtraker and verify with Amtrak.",
+    "tags": [
+      "Amtrak",
+      "API",
+      "travel"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nws-cys",
+    "name": "National Weather Service — Cheyenne",
+    "category": "weather",
+    "kind": "web",
+    "url": "https://www.weather.gov/cys/",
+    "coverage": "Kimball, Sidney and the Wyoming border",
+    "access": "free",
+    "reliability": "official",
+    "notes": "High-wind and winter weather alerts for the western gateway.",
+    "tags": [
+      "NWS",
+      "forecast",
+      "wind"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nws-gid",
+    "name": "National Weather Service — Hastings",
+    "category": "weather",
+    "kind": "web",
+    "url": "https://www.weather.gov/gid/",
+    "coverage": "Central Nebraska (York to Lexington)",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Covers Grand Island, Hastings, Kearney and the central Platte valley.",
+    "tags": [
+      "NWS",
+      "forecast",
+      "warnings"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nws-lbf",
+    "name": "National Weather Service — North Platte",
+    "category": "weather",
+    "kind": "web",
+    "url": "https://www.weather.gov/lbf/",
+    "coverage": "West-central Nebraska (North Platte to Ogallala)",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Winter storm and wind warnings for the wide-open western stretch.",
+    "tags": [
+      "NWS",
+      "forecast",
+      "winter"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nws-oax",
+    "name": "National Weather Service — Omaha/Valley",
+    "category": "weather",
+    "kind": "web",
+    "url": "https://www.weather.gov/oax/",
+    "coverage": "Eastern Nebraska (Omaha to Seward)",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Forecasts, warnings and storm briefings for the eastern corridor. RSS index at weather.gov/oax/oaxrss.",
+    "tags": [
+      "NWS",
+      "forecast",
+      "warnings"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nemesonet",
+    "name": "Nebraska Mesonet",
+    "category": "weather",
+    "kind": "web",
+    "url": "https://nemesonet.unl.edu/",
+    "coverage": "Statewide weather stations",
+    "access": "view-only",
+    "reliability": "official",
+    "notes": "Station observations and soil data. No public API — the viewer pulls from internal sheets. Contact NSCO for data access.",
+    "tags": [
+      "weather stations",
+      "data"
+    ],
+    "verified": "2026-11-05"
+  },
+  {
+    "id": "nws-alerts-api",
+    "name": "NWS active alerts API",
+    "category": "weather",
+    "kind": "api",
+    "url": "https://www.weather.gov/documentation/services-web-api",
+    "apiUrl": "https://api.weather.gov/alerts/active?area=NE",
+    "coverage": "Statewide alerts, filterable by zone",
+    "access": "free",
+    "reliability": "official",
+    "recommended": true,
+    "notes": "Free, no key. Requires a descriptive User-Agent header. Corridor zones: NEC055, NEC109, NEC079, NEC019, NEC111, NEC033. This site uses it for the corridor alert strip.",
+    "tags": [
+      "API",
+      "alerts",
+      "weather"
+    ],
+    "verified": "2026-11-05"
+  }
+]

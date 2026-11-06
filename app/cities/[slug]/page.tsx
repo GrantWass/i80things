@@ -1,0 +1,324 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getPlace, places } from "@/data/places";
+import { getAllPosts, getPostsByCity } from "@/lib/content";
+import { getSourcesForPlace } from "@/lib/sources";
+import { site } from "@/lib/site";
+import { absoluteUrl } from "@/lib/utils";
+import { SectionHeading, StandardCard } from "@/components/PostCards";
+import { JsonLd } from "@/components/JsonLd";
+import { AdSlot } from "@/components/AdSlot";
+import { Arrow, Icon } from "@/components/Icon";
+import { topicLabel } from "@/data/topics";
+
+export function generateStaticParams() {
+  return places.map((place) => ({ slug: place.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const place = getPlace(slug);
+  if (!place) return {};
+  const title = `${place.name}, Nebraska — I-80 news, exits & mile markers`;
+  const description = `${place.blurb} I-80 mile markers ${place.mileMarker}, ${place.exit}. Local news, sources and road conditions.`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/cities/${place.slug}` },
+    openGraph: {
+      url: absoluteUrl(`/cities/${place.slug}`),
+      title,
+      description,
+      images: [
+        {
+          url: `/api/og?title=${encodeURIComponent(`${place.name}, Nebraska`)}&kicker=${encodeURIComponent(`I-80 · MILE ${place.mileMarker}`)}`,
+          width: 1200,
+          height: 675,
+        },
+      ],
+    },
+  };
+}
+
+export default async function CityPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const place = getPlace(slug);
+  if (!place) notFound();
+
+  const localPosts = getPostsByCity(place.slug);
+  const statewide = getAllPosts().filter((p) => p.city === "statewide");
+  const posts = localPosts.length > 0 ? localPosts : statewide.slice(0, 4);
+  const sources = getSourcesForPlace(place.slug);
+  const nearby = places.filter((p) => p.slug !== place.slug).slice(0, 4);
+  const index = places.findIndex((p) => p.slug === place.slug);
+  const west = places[index - 1];
+  const east = places[index + 1];
+
+  return (
+    <main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Place",
+              name: `${place.name}, Nebraska`,
+              url: absoluteUrl(`/cities/${place.slug}`),
+              description: place.blurb,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: place.name,
+                addressRegion: "NE",
+                addressCountry: "US",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: place.lat,
+                longitude: place.lon,
+              },
+              containedInPlace: {
+                "@type": "AdministrativeArea",
+                name: place.county,
+              },
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+                { "@type": "ListItem", position: 2, name: "Corridor towns", item: `${site.url}/cities` },
+                { "@type": "ListItem", position: 3, name: place.name, item: absoluteUrl(`/cities/${place.slug}`) },
+              ],
+            },
+            {
+              "@type": "ItemList",
+              name: `Stories about ${place.name}`,
+              itemListElement: posts.slice(0, 10).map((post, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                url: absoluteUrl(`/news/${post.slug}`),
+                name: post.title,
+              })),
+            },
+          ],
+        }}
+      />
+
+      <header className="border-b border-line bg-cream">
+        <div className="container-page py-9 md:py-12">
+          <nav aria-label="Breadcrumb" className="mb-4 text-[11px] font-medium tracking-wide text-slate">
+            <ol className="flex flex-wrap items-center gap-1.5">
+              <li><Link href="/" className="hover:text-ink">Home</Link></li>
+              <li aria-hidden="true">/</li>
+              <li><Link href="/cities" className="hover:text-ink">Corridor towns</Link></li>
+              <li aria-hidden="true">/</li>
+              <li className="text-ink">{place.name}</li>
+            </ol>
+          </nav>
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <p className="kicker text-amber-dark">{place.county} · I-80 mile {place.mileMarker}</p>
+              <h1 className="mt-2 font-serif text-4xl leading-[1.03] font-semibold tracking-tight md:text-6xl">
+                {place.name}, Nebraska
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
+                {place.blurb}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {place.knownFor.map((item) => (
+                  <span key={item} className="border border-line bg-paper px-2.5 py-1 text-[10px] font-bold tracking-[0.06em] text-ink-soft uppercase">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-px border border-line bg-line text-center md:w-64">
+              <div className="bg-paper p-3">
+                <p className="kicker text-slate">Mile</p>
+                <p className="mt-1 font-serif text-2xl font-semibold">{place.mileMarker}</p>
+              </div>
+              <div className="bg-paper p-3">
+                <p className="kicker text-slate">Exits</p>
+                <p className="mt-1 text-xs leading-tight font-semibold">{place.exit}</p>
+              </div>
+              <div className="col-span-2 bg-paper p-3">
+                <p className="kicker text-slate">Population</p>
+                <p className="mt-1 font-serif text-xl font-semibold">
+                  {place.population ? place.population.toLocaleString("en-US") : "—"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container-page py-10">
+        <div className="grid gap-12 lg:grid-cols-[1fr_20rem]">
+          <div>
+            <SectionHeading
+              title={localPosts.length ? `Latest from ${place.name}` : "Statewide reporting that affects the corridor"}
+              href="/news"
+              kicker={localPosts.length ? `${localPosts.length} local stor${localPosts.length === 1 ? "y" : "ies"}` : "Start here"}
+            />
+            <div className="grid gap-8 sm:grid-cols-2">
+              {posts.map((post, i) => (
+                <StandardCard key={post.slug} post={post} priority={i === 0} />
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-2">
+              {["road-conditions", "weather", "crashes", "travel"].map((topic) => (
+                <Link
+                  key={topic}
+                  href={`/topics/${topic}`}
+                  className="border border-line px-3 py-1.5 text-[10px] font-bold tracking-[0.08em] text-ink-soft uppercase hover:border-ink"
+                >
+                  {topicLabel(topic)}
+                </Link>
+              ))}
+            </div>
+
+            <AdSlot
+              slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD}
+              minHeight={90}
+              className="mt-10"
+            />
+
+            <section className="mt-10 border-t-2 border-ink pt-4">
+              <h2 className="font-serif text-2xl font-semibold">Getting there & getting around</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate">
+                {place.name} is served by {place.exit}. Before you drive, check
+                live closures and conditions on Nebraska 511. The nearest full-service
+                stops are listed below.
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <a
+                  href="https://511.nebraska.gov/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group border border-line p-4 hover:border-ink"
+                >
+                  <span className="kicker text-amber-dark">Live conditions</span>
+                  <span className="mt-1 flex items-center justify-between font-serif text-lg font-semibold">
+                    Nebraska 511 <Arrow className="h-4 w-4 text-slate" />
+                  </span>
+                  <span className="mt-1 block text-[12px] text-slate">
+                    Closures, cameras and plows near mile {place.mileMarker.split("–")[0]}
+                  </span>
+                </a>
+                <a
+                  href={`https://www.google.com/maps/place/${encodeURIComponent(`${place.name}, NE`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group border border-line p-4 hover:border-ink"
+                >
+                  <span className="kicker text-amber-dark">Location</span>
+                  <span className="mt-1 flex items-center justify-between font-serif text-lg font-semibold">
+                    Map & directions <Arrow className="h-4 w-4 text-slate" />
+                  </span>
+                  <span className="mt-1 block text-[12px] text-slate">
+                    {place.name}, {place.county}
+                  </span>
+                </a>
+              </div>
+            </section>
+          </div>
+
+          <aside className="space-y-7">
+            <div className="border border-line p-4">
+              <h2 className="kicker text-slate">Local sources</h2>
+              {sources.length ? (
+                <ul className="mt-3 space-y-2.5">
+                  {sources.map((source) => (
+                    <li key={source.id}>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-start gap-2 text-[13px] leading-snug text-ink-soft hover:text-ink"
+                      >
+                        <Icon
+                          name={source.category === "scanner" ? "scanner" : "link"}
+                          className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-dark"
+                        />
+                        <span>
+                          {source.name}
+                          <span className="block text-[9px] tracking-wide text-slate uppercase">
+                            {source.kind === "scanner" ? "Scanner" : source.kind === "rss" ? "News feed" : source.reliability}
+                          </span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-2 text-[13px] leading-relaxed text-slate">
+                  No dedicated local feed yet. We monitor statewide sources and
+                  add town-level feeds as we verify them.
+                </p>
+              )}
+              <Link href="/sources" className="mt-3 block text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
+                Full source directory →
+              </Link>
+            </div>
+
+            <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR} minHeight={250} />
+
+            <div className="border border-line p-4">
+              <h2 className="kicker text-slate">Neighboring exits</h2>
+              <ul className="mt-2 divide-y divide-line">
+                {west ? (
+                  <li className="py-2 first:pt-0 last:pb-0">
+                    <Link href={`/cities/${west.slug}`} className="group flex items-center justify-between text-[13px]">
+                      <span className="font-semibold group-hover:text-amber-dark">{west.name}</span>
+                      <span className="text-[10px] text-slate">MM {west.mileMarker} · West</span>
+                    </Link>
+                  </li>
+                ) : null}
+                {east ? (
+                  <li className="py-2 first:pt-0 last:pb-0">
+                    <Link href={`/cities/${east.slug}`} className="group flex items-center justify-between text-[13px]">
+                      <span className="font-semibold group-hover:text-amber-dark">{east.name}</span>
+                      <span className="text-[10px] text-slate">MM {east.mileMarker} · East</span>
+                    </Link>
+                  </li>
+                ) : null}
+                {nearby.slice(0, 2).map((p) => (
+                  <li key={p.slug} className="py-2">
+                    <Link href={`/cities/${p.slug}`} className="group flex items-center justify-between text-[13px]">
+                      <span className="font-semibold group-hover:text-amber-dark">{p.name}</span>
+                      <span className="text-[10px] text-slate">MM {p.mileMarker}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border border-ink bg-ink p-4 text-paper">
+              <p className="kicker text-amber">Local tip?</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-cream/75">
+                Something happening in {place.name}? Send it to the desk. We
+                verify before we publish.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-3 inline-block border border-cream/30 px-3 py-2 text-[10px] font-bold tracking-[0.1em] uppercase hover:border-paper"
+              >
+                Send a tip
+              </Link>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+}
