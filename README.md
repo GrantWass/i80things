@@ -4,6 +4,9 @@
 
 An independent, ad-supported local news site built for Vercel: verified reporting, a public source directory, a daily agent workflow, Instagram-ready images, and SEO/LLM-SEO built in.
 
+**Live:** https://i80things.vercel.app  
+**Repo:** https://github.com/GrantWass/i80things
+
 ---
 
 ## What's in this repo
@@ -89,7 +92,11 @@ vercel --prod
 
 ### 4. Domain
 
-Add `i80things.com` (and `www`) in Vercel → Domains, then point DNS at Vercel. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin and redeploy so sitemaps and social images use the right host.
+The current production alias is **https://i80things.vercel.app** and `NEXT_PUBLIC_SITE_URL` is set to it. `i80things.com` does not resolve yet. When you buy/connect the domain:
+
+1. Add `i80things.com` (and `www`) in Vercel → Domains and point DNS at Vercel.
+2. Update `NEXT_PUBLIC_SITE_URL` to `https://i80things.com` in Production and Preview.
+3. Redeploy so canonicals, sitemaps, OG images and Instagram QR codes use the final host.
 
 ---
 

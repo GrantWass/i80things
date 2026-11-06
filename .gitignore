@@ -38,3 +38,4 @@ public/uploads/tmp/
 
 # feed sweep cache
 .cache/
+.env*

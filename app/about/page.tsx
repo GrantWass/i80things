@@ -45,7 +45,7 @@ export default function AboutPage() {
             A daily desk for Nebraska&apos;s I-80
           </h1>
           <p className="mt-4 max-w-2xl font-serif text-xl leading-relaxed text-slate">
-            432 miles. One interstate. The crashes, closures, weather and small
+            454 miles. One interstate. The crashes, closures, weather and small
             decisions that shape the drive between Omaha and Kimball.
           </p>
         </div>
