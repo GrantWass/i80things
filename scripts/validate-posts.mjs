@@ -52,6 +52,39 @@ for (const file of files) {
     const imagePath = path.join(process.cwd(), "public", data.image.replace(/^\//, ""));
     if (!fs.existsSync(imagePath)) errors.push(`${at}: image not found at public${data.image}`);
   }
+  if (data.images !== undefined) {
+    if (!Array.isArray(data.images) || data.images.length === 0) {
+      errors.push(`${at}: "images" must be a non-empty array`);
+    } else {
+      data.images.forEach((image, index) => {
+        const label = `${at}: images[${index}]`;
+        if (!image || typeof image.src !== "string" || !image.src.trim()) {
+          errors.push(`${label}: missing src`);
+          return;
+        }
+        if (!image.alt || !String(image.alt).trim()) {
+          errors.push(`${label}: missing alt text`);
+        }
+        if (image.src.startsWith("/") && !image.src.startsWith("/api/")) {
+          const imagePath = path.join(process.cwd(), "public", image.src.replace(/^\//, ""));
+          if (!fs.existsSync(imagePath)) errors.push(`${label}: image not found at public${image.src}`);
+        }
+        if (image.socialSrc && image.socialSrc.startsWith("/") && !image.socialSrc.startsWith("/api/")) {
+          const socialPath = path.join(process.cwd(), "public", image.socialSrc.replace(/^\//, ""));
+          if (!fs.existsSync(socialPath)) errors.push(`${label}: socialSrc not found at public${image.socialSrc}`);
+        }
+        if (image.instagram !== undefined && typeof image.instagram !== "boolean") {
+          errors.push(`${label}: "instagram" must be true or false`);
+        }
+        if (!image.credit) {
+          warnings.push(`${label}: no photo credit`);
+        }
+      });
+      if (!data.images.some((image) => image && image.instagram)) {
+        warnings.push(`${at}: no images marked for Instagram — will default to the cover`);
+      }
+    }
+  }
   if (titles.has(data.title)) {
     errors.push(`${at}: duplicate title with ${titles.get(data.title)}`);
   } else {

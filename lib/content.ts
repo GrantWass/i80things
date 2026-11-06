@@ -20,6 +20,14 @@ type Frontmatter = {
   imageAlt?: string;
   imageCredit?: string;
   imageCreditUrl?: string;
+  images?: {
+    src?: string;
+    alt?: string;
+    credit?: string;
+    creditUrl?: string;
+    socialSrc?: string;
+    instagram?: boolean;
+  }[];
   summary?: string[];
   sources?: { name: string; url: string }[];
   featured?: boolean;
@@ -36,6 +44,30 @@ function parsePost(filename: string): Post | null {
 
   if (!fm.title || !fm.date || !fm.dek) return null;
 
+  const images = (Array.isArray(fm.images) ? fm.images : [])
+    .filter((image) => typeof image?.src === "string" && image.src.trim())
+    .map((image, index) => ({
+      src: image.src!.trim(),
+      alt: (image.alt || fm.imageAlt || fm.title || "").trim(),
+      credit: image.credit || fm.imageCredit,
+      creditUrl: image.creditUrl || fm.imageCreditUrl,
+      socialSrc: image.socialSrc,
+      instagram: image.instagram ?? index === 0,
+    }));
+
+  if (!images.length && fm.image) {
+    images.push({
+      src: fm.image,
+      alt: (fm.imageAlt || fm.title || "").trim(),
+      credit: fm.imageCredit,
+      creditUrl: fm.imageCreditUrl,
+      socialSrc: undefined,
+      instagram: true,
+    });
+  }
+
+  const cover = images[0];
+
   return {
     slug,
     title: fm.title,
@@ -47,10 +79,11 @@ function parsePost(filename: string): Post | null {
     topics: fm.topics ?? [],
     tags: fm.tags ?? [],
     mileMarker: fm.mileMarker,
-    image: fm.image,
-    imageAlt: fm.imageAlt,
-    imageCredit: fm.imageCredit,
-    imageCreditUrl: fm.imageCreditUrl,
+    image: cover?.src ?? fm.image,
+    imageAlt: cover?.alt ?? fm.imageAlt,
+    imageCredit: cover?.credit ?? fm.imageCredit,
+    imageCreditUrl: cover?.creditUrl ?? fm.imageCreditUrl,
+    images,
     summary: fm.summary ?? [],
     sources: fm.sources ?? [],
     featured: fm.featured ?? false,

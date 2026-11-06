@@ -69,5 +69,7 @@ Rules:
 - No URL in the caption. Instagram does not make it clickable.
 - Put the story URL in the bio before posting; the admin **Instagram kit** has a **Copy bio link** button.
 - 3–5 precise hashtags, not a wall.
-- Use a real photo. If there is no photo, the fallback is a branded text card, not an AI scene.
-- Credit the photographer in the image (the generated JPEG includes the credit line).
+- Use one to ten real photos. A carousel works well with 2–5; put the strongest image first.
+- Each selected image gets its own 1080×1350 JPEG, with the brand icon in the corner as a watermark.
+- Credit the photographer in each image (the generated JPEG includes the credit line).
+- Choose the Instagram images in the admin **Instagram kit** with the carousel checkboxes; the manual post and the API carousel use the same selected set.

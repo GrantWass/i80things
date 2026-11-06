@@ -1,6 +1,6 @@
 import { getAllPosts } from "@/lib/content";
 import { site } from "@/lib/site";
-import { postImagePath } from "@/lib/utils";
+import { absoluteUrl, postImagePath, postImages } from "@/lib/utils";
 
 export const revalidate = 300;
 
@@ -44,6 +44,14 @@ export async function GET(request: Request) {
         draft: Boolean(post.draft),
         url: `${site.url}/news/${post.slug}`,
         image: `${site.url}${postImagePath(post)}`,
+        images: postImages(post).map((img) => ({
+          src: absoluteUrl(img.src),
+          alt: img.alt,
+          credit: img.credit ?? null,
+          creditUrl: img.creditUrl ?? null,
+          socialSrc: img.socialSrc ? absoluteUrl(img.socialSrc) : null,
+          instagram: Boolean(img.instagram),
+        })),
         socialImage: `${site.url}/api/social/${post.slug}`,
         instagramCaptionUrl: `${site.url}/api/social/${post.slug}/caption`,
       })),

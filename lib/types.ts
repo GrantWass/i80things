@@ -55,6 +55,17 @@ export interface PostSource {
   url: string;
 }
 
+export interface PostImage {
+  src: string;
+  alt: string;
+  credit?: string;
+  creditUrl?: string;
+  /** Optional 4:5/vertical crop for Instagram; falls back to src. */
+  socialSrc?: string;
+  /** Include this image in the Instagram carousel/selection. */
+  instagram?: boolean;
+}
+
 export interface Post {
   slug: string;
   title: string;
@@ -70,6 +81,8 @@ export interface Post {
   imageAlt?: string;
   imageCredit?: string;
   imageCreditUrl?: string;
+  /** Ordered gallery. The first image is the cover. */
+  images: PostImage[];
   summary: string[];
   sources: PostSource[];
   featured?: boolean;

@@ -25,6 +25,14 @@ export default async function AdminPage() {
     draft: Boolean(post.draft),
     featured: Boolean(post.featured),
     image: post.image,
+    images: post.images.map((image) => ({
+      src: image.src,
+      alt: image.alt,
+      credit: image.credit,
+      creditUrl: image.creditUrl,
+      socialSrc: image.socialSrc,
+      instagram: image.instagram,
+    })),
     topics: post.topics,
   }));
 

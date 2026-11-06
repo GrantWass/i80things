@@ -21,7 +21,7 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 - **Source health** — `npm run sources` writes `data/source-health.json`; `/sources` shows OK/stale/error/manual status for every feed.
 - **Search** — `/search` searches published stories and the source directory; linked from the header and footer.
 - **Staff admin** — password-protected `/admin` to publish stories, upload images, add sources and generate the Instagram kit. Commits to GitHub via the Contents API.
-- **Instagram kit** — every story gets a 1080×1350 JPEG (`/api/social/<slug>`) and a caption (`/api/social/<slug>/caption`). Real photos are used full-bleed when attached; otherwise a branded text card is generated. No AI imagery, no QR codes; captions point to the link in bio.
+- **Instagram kit** — each selected story image gets a 1080×1350 JPEG (`/api/social/<slug>?image=N`) and a caption (`/api/social/<slug>/caption`). Stories can carry a gallery; the first image is the cover and you can mark several for an Instagram carousel. Real photos are used full-bleed; otherwise a branded text card is generated. No AI imagery, no QR codes; captions point to the link in bio.
 - **Stock photo tool** — `npm run stock` finds CC0/public-domain photos (Openverse) or Pexels photos, downloads and crops them, and updates the story frontmatter with the credit.
 - **Monetization** — Google AdSense slots, `ads.txt`, consent notice, privacy/terms pages, editorial standards.
 - **Measurement** — cookieless Vercel Analytics + Speed Insights, with a corrected consent notice and UTM-tagged Instagram bio links.
@@ -116,7 +116,7 @@ The current production alias is **https://i80things.vercel.app** and `NEXT_PUBLI
 
 1. Set `ADMIN_PASSWORD` and `GITHUB_TOKEN` in Vercel.
 2. Go to `/admin`, log in.
-3. **New story** — headline, dek, markdown body, short-version bullets, town, topics, tags, sources, optional image.
+3. **New story** — headline, dek, markdown body, short-version bullets, town, topics, tags, sources, and an ordered image gallery. Upload several files, choose the cover, add alt/credit per image, and check the ones that belong in the Instagram carousel.
 4. **Publish** — commits `content/posts/<slug>.mdx` to GitHub. Vercel rebuilds in ~1 minute.
 5. The success screen gives you the live URL, the Instagram JPEG and the caption.
 
@@ -152,10 +152,18 @@ city: kearney                     # slug from data/places.ts, or statewide
 topics: [crashes, state-patrol]   # from data/topics.ts
 tags: [kearney, closure]
 mileMarker: "272"
-image: "/images/posts/…jpg"       # optional — omit for generated graphic
-imageAlt: "…"
-imageCredit: "Photo: …"
-imageCreditUrl: "https://…"
+images:                            # optional gallery; first is the cover
+  - src: "/images/posts/…jpg"
+    alt: "Accurate description"
+    credit: "Photo: …"
+    creditUrl: "https://…"
+    socialSrc: "/images/posts/…-social.jpg"  # optional 4:5 crop for Instagram
+    instagram: true                # include in Instagram carousel
+  - src: "/images/posts/…-2.jpg"
+    alt: "Second image"
+    credit: "Photo: …"
+    creditUrl: "https://…"
+    instagram: false
 summary:
   - "Confirmed fact one."
   - "Confirmed fact two."
@@ -198,8 +206,8 @@ An OpenCode skill is included at [`.opencode/skills/i80-daily-post/SKILL.md`](./
 | --- | --- |
 | `/api/posts` | Published stories with title, dek, date, city, topics, sources, URL, image and caption URLs. Supports `?limit=`, `?city=`, `?topic=`, `?since=`. |
 | `/api/sources` | All 87 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
-| `/api/alerts` | Active NWS alerts for the six corridor zones. |
-| `/api/social/<slug>` | 1080×1350 JPEG for Instagram. |
+| `/api/alerts` | Active NWS alerts for all corridor towns (point-based). |
+| `/api/social/<slug>` | 1080×1350 JPEG for the cover; add `?image=N` for other gallery images. |
 | `/api/social/<slug>/caption` | JSON caption + URLs. |
 | `/feed.xml` | RSS 2.0. |
 | `/sitemap.xml`, `/news-sitemap.xml` | Standard + Google News sitemaps. |
@@ -281,14 +289,14 @@ Never place ads that look like navigation, and never mix ads into the headline o
 
 Every story has:
 
-- `GET /api/social/<slug>` → 1080×1350 **JPEG** (Meta requires JPEG).
+- `GET /api/social/<slug>?image=N` → 1080×1350 **JPEG** for gallery image N (Meta requires JPEG).
 - `GET /api/social/<slug>/caption` → JSON caption, bio link and image URL.
 
-**Real photos, not AI imagery.** If a story has a licensed/credited `image`, it is used as the full-bleed Instagram background. If not, the fallback is a clean branded text card — never an AI-generated scene. Upload a real photo through `/admin` whenever possible, especially for crashes, weather and breaking news.
+**Real photos, not AI imagery.** The selected gallery image is used as the full-bleed Instagram background and carries a small brand icon in the corner. If there is no image, the fallback is a clean branded text card — never an AI-generated scene. Upload real photos through `/admin` whenever possible, especially for crashes, weather and breaking news.
 
 **Link in bio.** Captions start with a topic-specific hook, then the headline/context, then `Full story → link in bio.` Instagram captions cannot be clicked, so the admin kit also gives you a **Copy bio link** button. Paste that URL into the profile bio before posting.
 
-Manual posting: `/admin` → **Instagram kit** → put the link in bio → download image → copy caption → post.
+Manual posting: `/admin` → **Instagram kit** → choose one or several gallery images for the carousel → put the link in bio → download/copy → post.
 
 ### Real photos
 
@@ -299,7 +307,7 @@ npm run stock -- --query "Omaha skyline" --slug i-80-omaha-exits
 npm run stock -- --query "Nebraska winter road" --slug winter-driving-i-80 --download --index 1 --update
 ```
 
-It prefers Openverse's CC0/public-domain catalog and falls back to Pexels if `PEXELS_API_KEY` is set. It downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes `image`, `imageAlt`, `imageCredit` and `imageCreditUrl` into the frontmatter.
+It prefers Openverse's CC0/public-domain catalog and falls back to Pexels if `PEXELS_API_KEY` is set. It downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes the legacy cover fields into the frontmatter. To build a gallery, upload multiple images through `/admin` or add `images:` entries manually.
 
 Prefer CC0/public-domain images. If you use CC BY/BY-SA, keep the credit and license note. Do not use AI-generated images of real events. Upload a photo through `/admin` if you have your own or an agency handout with permission.
 
@@ -366,7 +374,7 @@ AGENT.md                       daily agent system prompt
 | `npm run sources` | Sweep 27 RSS feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |
 | `npm run 511` | Read live I-80 events from Nebraska 511's internal GraphQL endpoint. Unofficial; use for monitoring only. |
 | `npm run new -- --title …` | Scaffold a story. |
-| `npm run social -- --slug …` | Print Instagram caption + image URL. |
+| `npm run social -- --slug …` | Print Instagram caption + selected image URLs (1–10). |
 | `npm run stock -- --query …` | Find, download and credit a real stock/CC photo. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
 | `npm run brand` | Regenerate PNG brand assets. |

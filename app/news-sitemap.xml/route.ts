@@ -31,9 +31,13 @@ export async function GET() {
       <news:title>${escapeXml(post.title)}</news:title>
       <news:keywords>${escapeXml(post.tags.join(", "))}</news:keywords>
     </news:news>
-    <image:image>
-      <image:loc>${escapeXml(absoluteUrl(postImagePath(post)))}</image:loc>
-    </image:image>
+${(post.images.length ? post.images : [{ src: postImagePath(post), alt: post.title }])
+      .map(
+        (image) => `    <image:image>
+      <image:loc>${escapeXml(absoluteUrl(image.src))}</image:loc>
+    </image:image>`,
+      )
+      .join("\n")}
   </url>`,
     )
     .join("\n");

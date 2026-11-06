@@ -15,6 +15,7 @@ import { getTopic, topicLabel } from "@/data/topics";
 import { site } from "@/lib/site";
 import { getSourcesForPlace } from "@/lib/sources";
 import { PostImage, CompactCard, SectionHeading } from "@/components/PostCards";
+import { PostGallery } from "@/components/PostGallery";
 import { AdSlot } from "@/components/AdSlot";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgress } from "@/components/ReadingProgress";
@@ -98,6 +99,9 @@ export default async function ArticlePage({
   const html = await renderMarkdown(post.body);
   const url = absoluteUrl(`/news/${post.slug}`);
   const image = absoluteUrl(postImagePath(post));
+  const articleImages = post.images.length
+    ? post.images.map((item) => absoluteUrl(item.src))
+    : [image];
   const localSources = place ? getSourcesForPlace(place.slug).slice(0, 4) : [];
 
   const jsonLd = {
@@ -108,7 +112,7 @@ export default async function ArticlePage({
         "@id": `${url}#article`,
         headline: post.title,
         description: post.dek,
-        image: [image],
+        image: articleImages,
         datePublished: post.date,
         dateModified: post.updated ?? post.date,
         author: {
@@ -277,6 +281,8 @@ export default async function ArticlePage({
                 </span>
               </figcaption>
             </figure>
+
+            <PostGallery images={post.images} title={post.title} />
 
             {post.summary.length > 0 ? (
               <section className="mt-7 border border-line border-l-4 border-l-amber bg-cream p-5">

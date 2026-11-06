@@ -53,8 +53,9 @@ the files for review:
 DAILY_RUN_DRAFT=1 npm run daily
 ```
 
-The scheduled job uses **publish mode** by default. Use draft mode when you want
-to review a story before it reaches Vercel.
+Draft mode selects the separate `i80-daily-draft` agent, whose permissions deny
+`git commit` and `git push`. The scheduled job uses **publish mode** by default.
+Use draft mode when you want to review a story before it reaches Vercel.
 
 Run from OpenCode's TUI instead:
 

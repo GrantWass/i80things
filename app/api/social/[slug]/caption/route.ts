@@ -1,5 +1,5 @@
 import { getPost } from "@/lib/content";
-import { instagramCaption } from "@/lib/utils";
+import { instagramCaption, selectedInstagramImages } from "@/lib/utils";
 import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -14,11 +14,23 @@ export async function GET(
     return Response.json({ error: "Not found" }, { status: 404 });
   }
 
+  const selected = selectedInstagramImages(post);
+  const imageUrls = selected.map(
+    ({ index }) => `${site.url}/api/social/${post.slug}?image=${index + 1}`,
+  );
+  const images = selected.map(({ image, index }) => ({
+    index: index + 1,
+    alt: image.alt,
+    credit: image.credit ?? null,
+  }));
+
   return Response.json({
     slug: post.slug,
     title: post.title,
     caption: instagramCaption(post),
-    imageUrl: `${site.url}/api/social/${post.slug}`,
+    imageUrl: imageUrls[0] ?? `${site.url}/api/social/${post.slug}`,
+    imageUrls,
+    images,
     articleUrl: `${site.url}/news/${post.slug}`,
     publishedAt: post.date,
   });

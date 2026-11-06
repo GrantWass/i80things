@@ -4,6 +4,7 @@ import { ImageResponse } from "next/og";
 import { getPost } from "@/lib/content";
 import { getPlace } from "@/data/places";
 import { getOgFonts } from "@/lib/og-fonts";
+import { postImages } from "@/lib/utils";
 
 export const runtime = "nodejs";
 
@@ -54,7 +55,21 @@ export async function GET(
 
   const origin = new URL(request.url).origin;
   const place = getPlace(post.city);
-  const photoUrl = post.image ? await imageToDataUrl(post.image, origin) : null;
+  const gallery = postImages(post);
+  const imageParam = new URL(request.url).searchParams.get("image");
+  let selected = gallery[0];
+  if (imageParam !== null) {
+    const n = Number(imageParam);
+    if (!Number.isInteger(n) || n < 1 || n > gallery.length) {
+      return new Response("Not found", { status: 404 });
+    }
+    selected = gallery[n - 1];
+  }
+  const photoUrl = selected
+    ? await imageToDataUrl(selected.socialSrc ?? selected.src, origin)
+    : null;
+  const logoUrl = await imageToDataUrl("/brand/logo.png", origin);
+  const imageCredit = selected?.credit;
   const kicker = place
     ? `${place.name.toUpperCase()} · I-80 ${place.mileMarker}`
     : "I-80 NEBRASKA";
@@ -184,15 +199,38 @@ export async function GET(
             <div
               style={{
                 display: "flex",
-                background: "#e3a008",
-                color: "#14150f",
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: 2,
-                padding: "10px 14px",
+                alignItems: "center",
+                gap: 12,
               }}
             >
-              LINK IN BIO
+              {logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoUrl}
+                  alt=""
+                  width={46}
+                  height={46}
+                  style={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: 9,
+                    opacity: 0.84,
+                  }}
+                />
+              ) : null}
+              <div
+                style={{
+                  display: "flex",
+                  background: "#e3a008",
+                  color: "#14150f",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  letterSpacing: 2,
+                  padding: "10px 14px",
+                }}
+              >
+                LINK IN BIO
+              </div>
             </div>
           </div>
 
@@ -306,7 +344,7 @@ export async function GET(
                 <div style={{ fontSize: 15, letterSpacing: 1, color: "#f7f4ec", display: "flex" }}>
                   i80things.com
                 </div>
-                {post.imageCredit ? (
+                {imageCredit ? (
                   <div
                     style={{
                       marginTop: 4,
@@ -316,9 +354,9 @@ export async function GET(
                       display: "flex",
                     }}
                   >
-                    {post.imageCredit.length > 90
-                      ? `${post.imageCredit.slice(0, 87)}…`
-                      : post.imageCredit}
+                    {imageCredit.length > 90
+                      ? `${imageCredit.slice(0, 87)}…`
+                      : imageCredit}
                   </div>
                 ) : null}
               </div>

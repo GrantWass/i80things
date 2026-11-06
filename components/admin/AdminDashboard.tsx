@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { Source } from "@/lib/types";
+import type { PostImage, Source } from "@/lib/types";
 import { places } from "@/data/places";
 import { topics } from "@/data/topics";
 import { sourceCategories } from "@/lib/sources";
@@ -18,6 +18,7 @@ type AdminPost = {
   draft: boolean;
   featured: boolean;
   image?: string;
+  images?: PostImage[];
   topics: string[];
 };
 
@@ -170,6 +171,14 @@ export function AdminDashboard({
   );
 }
 
+type GalleryImage = {
+  src: string;
+  alt: string;
+  credit: string;
+  creditUrl: string;
+  instagram: boolean;
+};
+
 function ComposeForm({
   configured,
   onDone,
@@ -187,30 +196,46 @@ function ComposeForm({
   const [date, setDate] = useState(localNow());
   const [featured, setFeatured] = useState(false);
   const [draft, setDraft] = useState(false);
-  const [image, setImage] = useState("");
-  const [imageAlt, setImageAlt] = useState("");
-  const [imageCredit, setImageCredit] = useState("");
-  const [imageCreditUrl, setImageCreditUrl] = useState("");
   const [instagramCaption, setInstagramCaption] = useState("");
   const [sourceRows, setSourceRows] = useState([{ name: "", url: "" }]);
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState("");
+  const [gallery, setGallery] = useState<GalleryImage[]>([]);
+  const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<PublishResult | null>(null);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
   function toggleTopic(slug: string) {
     setSelectedTopics((current) =>
       current.includes(slug) ? current.filter((t) => t !== slug) : [...current, slug],
     );
+  }
+
+  function updateImage(index: number, patch: Partial<GalleryImage>) {
+    setGallery((current) => current.map((image, i) => (i === index ? { ...image, ...patch } : image)));
+  }
+
+  function removeImage(index: number) {
+    setGallery((current) => current.filter((_, i) => i !== index));
+  }
+
+  function moveImage(index: number, direction: -1 | 1) {
+    setGallery((current) => {
+      const next = [...current];
+      const target = index + direction;
+      if (target < 0 || target >= next.length) return current;
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
+  }
+
+  function makeCover(index: number) {
+    setGallery((current) => {
+      if (index <= 0 || index >= current.length) return current;
+      const next = [...current];
+      const [picked] = next.splice(index, 1);
+      return [picked, ...next];
+    });
   }
 
   function reset() {
@@ -224,33 +249,52 @@ function ComposeForm({
     setDate(localNow());
     setFeatured(false);
     setDraft(false);
-    setImage("");
-    setImageAlt("");
-    setImageCredit("");
-    setImageCreditUrl("");
+    setGallery([]);
     setInstagramCaption("");
     setSourceRows([{ name: "", url: "" }]);
-    setFile(null);
-    setPreview("");
     setResult(null);
     setError("");
   }
 
-  async function uploadIfNeeded(): Promise<string> {
-    if (!file) return image;
-    const dataUrl = await new Promise<string>((resolve, reject) => {
+  function readFileAsDataUrl(file: File): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(String(reader.result));
       reader.onerror = () => reject(new Error("Could not read the image."));
       reader.readAsDataURL(file);
     });
-    const uploaded = await postJson<{ path: string }>("/api/admin/upload", {
-      dataUrl,
-      filename: file.name,
-      slug: slugify(title) || "post",
-    });
-    setImage(uploaded.path);
-    return uploaded.path;
+  }
+
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    const picked = Array.from(files).slice(0, 10);
+    setUploading(true);
+    setError("");
+    try {
+      for (const file of picked) {
+        if (gallery.length >= 10) throw new Error("A story can have at most 10 images.");
+        const dataUrl = await readFileAsDataUrl(file);
+        const uploaded = await postJson<{ path: string }>("/api/admin/upload", {
+          dataUrl,
+          filename: file.name,
+          slug: slugify(title) || "post",
+        });
+        setGallery((current) => [
+          ...current,
+          {
+            src: uploaded.path,
+            alt: "",
+            credit: "",
+            creditUrl: "",
+            instagram: current.length === 0,
+          },
+        ]);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not upload.");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function submit(event: React.FormEvent) {
@@ -261,7 +305,9 @@ function ComposeForm({
       if (title.trim().length < 8) throw new Error("Add a longer headline.");
       if (!dek.trim()) throw new Error("Add a dek.");
       if (body.trim().length < 200) throw new Error("The story body must be at least 200 characters.");
-      const uploadedPath = await uploadIfNeeded();
+      if (gallery.length > 10) throw new Error("A story can have at most 10 images.");
+      const missingAlt = gallery.findIndex((image) => !image.alt.trim());
+      if (missingAlt >= 0) throw new Error(`Add alt text for image ${missingAlt + 1} before publishing.`);
       const created = await postJson<PublishResult>("/api/admin/posts", {
         title,
         dek,
@@ -273,10 +319,13 @@ function ComposeForm({
         date: new Date(date).toISOString(),
         featured,
         draft,
-        image: uploadedPath,
-        imageAlt,
-        imageCredit,
-        imageCreditUrl,
+        images: gallery.map((image) => ({
+          src: image.src,
+          alt: image.alt.trim(),
+          credit: image.credit.trim(),
+          creditUrl: image.creditUrl.trim(),
+          instagram: image.instagram,
+        })),
         instagramCaption,
         sources: sourceRows.filter((row) => row.name.trim() && row.url.trim()),
       });
@@ -502,33 +551,117 @@ Context for drivers...
         </div>
 
         <div className="border border-line bg-paper p-5">
-          <h2 className="font-serif text-xl font-semibold">Image</h2>
+          <h2 className="font-serif text-xl font-semibold">Images</h2>
           <p className="mt-1 text-[11px] text-slate">
-            Upload a photo you have rights to, or leave blank and we generate a
-            branded graphic. Instagram images are generated automatically.
+            A story can have one or more images. The first image is the cover.
+            Select one or several images for Instagram. Leave the gallery empty
+            and we generate a branded graphic.
           </p>
           <input
             type="file"
+            multiple
             accept="image/jpeg,image/png,image/webp"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            onChange={(e) => { void handleFiles(e.target.files); e.target.value = ""; }}
             className="mt-3 block w-full text-[11px] file:mr-2 file:border file:border-line file:bg-cream file:px-2 file:py-1.5 file:text-[10px] file:font-bold file:uppercase"
           />
-          {preview ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={preview} alt="Upload preview" className="mt-2 aspect-[16/9] w-full border border-line object-cover" />
-          ) : null}
-          <label className="mt-2 block">
-            <span className={labelClass}>Alt text / caption</span>
-            <input value={imageAlt} onChange={(e) => setImageAlt(e.target.value)} className={inputClass} placeholder="I-80 westbound near Kearney" />
-          </label>
-          <label className="mt-2 block">
-            <span className={labelClass}>Credit</span>
-            <input value={imageCredit} onChange={(e) => setImageCredit(e.target.value)} className={inputClass} placeholder="Photo: Nebraska State Patrol" />
-          </label>
-          <label className="mt-2 block">
-            <span className={labelClass}>Credit URL</span>
-            <input value={imageCreditUrl} onChange={(e) => setImageCreditUrl(e.target.value)} className={inputClass} placeholder="https://…" />
-          </label>
+          {uploading ? <p className="mt-2 text-[11px] text-slate">Uploading…</p> : null}
+          {gallery.length === 0 ? (
+            <p className="mt-3 border border-line bg-cream p-2.5 text-[11px] text-slate">
+              No images yet — the story and Instagram kit will use the branded fallback.
+            </p>
+          ) : (
+            <ol className="mt-3 space-y-3">
+              {gallery.map((image, index) => (
+                <li key={image.src} className="border border-line bg-cream p-2.5">
+                  <div className="flex items-start gap-2.5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={image.src} alt={image.alt || `Image ${index + 1}`} className="h-16 w-24 shrink-0 border border-line object-cover" />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-bold tracking-[0.08em] uppercase">
+                        {index === 0 ? "Cover" : `Image ${index + 1}`}
+                      </p>
+                      <p className="truncate text-[10px] text-slate">{image.src}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="border border-line bg-paper px-2 py-1 text-[9px] font-bold tracking-wide uppercase hover:border-alert hover:text-alert"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <label className="mt-2 block">
+                    <span className={labelClass}>Alt text (required)</span>
+                    <input
+                      value={image.alt}
+                      onChange={(e) => updateImage(index, { alt: e.target.value })}
+                      className={inputClass}
+                      placeholder="I-80 westbound near Kearney"
+                    />
+                  </label>
+                  <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <label className="block">
+                      <span className={labelClass}>Credit</span>
+                      <input
+                        value={image.credit}
+                        onChange={(e) => updateImage(index, { credit: e.target.value })}
+                        className={inputClass}
+                        placeholder="Photo: Nebraska State Patrol"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>Credit URL</span>
+                      <input
+                        value={image.creditUrl}
+                        onChange={(e) => updateImage(index, { creditUrl: e.target.value })}
+                        className={inputClass}
+                        placeholder="https://…"
+                      />
+                    </label>
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+                    <label className="flex items-center gap-1.5 text-[11px] font-semibold">
+                      <input
+                        type="radio"
+                        name="cover-image"
+                        checked={index === 0}
+                        onChange={() => makeCover(index)}
+                        className="h-3.5 w-3.5 accent-[#14432f]"
+                      />
+                      Cover
+                    </label>
+                    <label className="flex items-center gap-1.5 text-[11px] font-semibold">
+                      <input
+                        type="checkbox"
+                        checked={image.instagram}
+                        onChange={(e) => updateImage(index, { instagram: e.target.checked })}
+                        className="h-3.5 w-3.5 accent-[#14432f]"
+                      />
+                      Instagram
+                    </label>
+                    <span className="ml-auto flex gap-1">
+                      <button
+                        type="button"
+                        disabled={index === 0}
+                        onClick={() => moveImage(index, -1)}
+                        className="border border-line bg-paper px-2 py-1 text-[9px] font-bold uppercase disabled:opacity-40"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === gallery.length - 1}
+                        onClick={() => moveImage(index, 1)}
+                        className="border border-line bg-paper px-2 py-1 text-[9px] font-bold uppercase disabled:opacity-40"
+                      >
+                        ↓
+                      </button>
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
 
         <div className="border border-line bg-paper p-5">
@@ -759,6 +892,8 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
   const [caption, setCaption] = useState("");
   const [copied, setCopied] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedUrls, setCopiedUrls] = useState(false);
+  const [selected, setSelected] = useState<number[]>([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -771,6 +906,34 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
   }, [slug]);
 
   const post = posts.find((p) => p.slug === slug);
+  const gallery: PostImage[] = useMemo(() => {
+    if (post?.images?.length) return post.images;
+    if (post?.image) return [{ src: post.image, alt: "", instagram: true }];
+    return [];
+  }, [post]);
+  const galleryKey = gallery.map((image) => `${image.src}|${image.instagram ? 1 : 0}`).join("~");
+
+  useEffect(() => {
+    const flagged = gallery
+      .map((image, index) => ({ image, index }))
+      .filter(({ image }) => image.instagram)
+      .map(({ index }) => index);
+    setSelected(flagged.length ? flagged : gallery.length ? [0] : []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, galleryKey]);
+
+  function toggleSelected(index: number) {
+    setSelected((current) =>
+      current.includes(index) ? current.filter((i) => i !== index) : [...current, index].sort((a, b) => a - b),
+    );
+  }
+
+  const orderedSelected = [...selected].sort((a, b) => a - b).filter((i) => i >= 0 && i < gallery.length);
+  const firstSelected = orderedSelected[0] ?? 0;
+  const mainSocialUrl = gallery.length
+    ? `/api/social/${slug}?image=${firstSelected + 1}`
+    : `/api/social/${slug}`;
+  const selectedUrls = orderedSelected.map((i) => `${siteUrl}/api/social/${slug}?image=${i + 1}`);
 
   async function copy() {
     try {
@@ -790,14 +953,23 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
     } catch {}
   }
 
+  async function copyUrls() {
+    try {
+      await navigator.clipboard.writeText(selectedUrls.join("\n"));
+      setCopiedUrls(true);
+      setTimeout(() => setCopiedUrls(false), 1800);
+    } catch {}
+  }
+
   return (
     <div className="grid gap-6 lg:grid-cols-[24rem_1fr]">
       <div className="border border-line bg-paper p-5">
         <h2 className="font-serif text-xl font-semibold">Instagram kit</h2>
         <p className="mt-1 text-[11px] leading-relaxed text-slate">
-          Pick a story. The image is a 1080×1350 JPEG. If the story has a real
-          photo, it is the full-bleed background; otherwise you get a branded
-          text card. Captions end with &ldquo;Full story → link in bio.&rdquo;
+          Pick a story. Each selected image is a 1080×1350 JPEG; Instagram can
+          use one or several. If the story has real photos, they are the
+          full-bleed backgrounds; otherwise you get a branded text card.
+          Captions end with &ldquo;Full story → link in bio.&rdquo;
         </p>
         <label className="mt-3 block">
           <span className={labelClass}>Story</span>
@@ -823,15 +995,61 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
 
         {slug ? (
           <>
+            {gallery.length > 1 ? (
+              <div className="mt-3">
+                <p className={labelClass}>Instagram carousel — choose images</p>
+                <div className="mt-1.5 grid grid-cols-3 gap-1.5">
+                  {gallery.map((image, index) => (
+                    <label
+                      key={`${image.src}-${index}`}
+                      className={`relative block cursor-pointer border ${selected.includes(index) ? "border-ink" : "border-line opacity-70"}`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/api/social/${slug}?image=${index + 1}`}
+                        alt={image.alt || `Option ${index + 1}`}
+                        className="aspect-[4/5] w-full object-cover"
+                      />
+                      <span className="absolute top-1 left-1 flex items-center gap-1 bg-paper px-1.5 py-0.5 text-[9px] font-bold uppercase">
+                        <input
+                          type="checkbox"
+                          checked={selected.includes(index)}
+                          onChange={() => toggleSelected(index)}
+                          className="h-3 w-3 accent-[#14432f]"
+                        />
+                        {index + 1}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                <p className="mt-1 text-[10px] text-slate">
+                  {orderedSelected.length} of {gallery.length} selected for Instagram.
+                </p>
+                {orderedSelected.length > 1 ? (
+                  <div className="mt-1.5 flex flex-wrap gap-2">
+                    {orderedSelected.map((index) => (
+                      <a
+                        key={index}
+                        href={`/api/social/${slug}?image=${index + 1}`}
+                        download={`${slug}-${index + 1}.jpg`}
+                        className="border border-line bg-paper px-2 py-1 text-[9px] font-bold tracking-[0.06em] uppercase hover:border-ink"
+                      >
+                        Download image {index + 1}
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
             <div className="mt-4 border border-line bg-cream p-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/api/social/${slug}`} alt="Instagram image preview" className="w-full border border-line" />
+              <img src={mainSocialUrl} alt="Instagram image preview" className="w-full border border-line" />
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               <button onClick={copy} className="bg-ink px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-paper uppercase hover:bg-highway">
                 {copied ? "Copied" : "Copy caption"}
               </button>
-              <a href={`/api/social/${slug}`} download={`${slug}.jpg`} className="border border-ink px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:bg-cream">
+              <a href={mainSocialUrl} download={`${slug}-${firstSelected + 1}.jpg`} className="border border-ink px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:bg-cream">
                 Download image
               </a>
               <a href={post ? `/news/${slug}` : "#"} target="_blank" className="border border-line px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:border-ink">
@@ -840,6 +1058,11 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
               <button onClick={copyLink} className="border border-line px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:border-ink">
                 {copiedLink ? "Bio link copied" : "Copy bio link"}
               </button>
+              {selectedUrls.length ? (
+                <button onClick={copyUrls} className="border border-line px-3 py-2 text-[10px] font-bold tracking-[0.08em] uppercase hover:border-ink">
+                  {copiedUrls ? "Image URLs copied" : "Copy image URLs"}
+                </button>
+              ) : null}
             </div>
             <p className="mt-3 border border-line bg-cream p-2 text-[10px] leading-relaxed text-slate">
               Instagram captions cannot be clicked. Put this link in your bio
@@ -849,7 +1072,16 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
               Open Instagram <Arrow className="h-3 w-3" />
             </a>
             <p className="mt-3 border-t border-line pt-3 text-[10px] leading-relaxed text-slate">
-              Public JPEG for the Meta API: <code className="break-all">{siteUrl}/api/social/{slug}</code>
+              Public JPEGs for the Meta API{orderedSelected.length > 1 ? " (in order)" : ""}:
+              {selectedUrls.length ? (
+                <span className="mt-1 block space-y-0.5">
+                  {selectedUrls.map((url) => (
+                    <code key={url} className="block break-all">{url}</code>
+                  ))}
+                </span>
+              ) : (
+                <code className="break-all">{siteUrl}/api/social/{slug}</code>
+              )}
             </p>
           </>
         ) : (
@@ -876,7 +1108,7 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
           <ol className="mt-2 space-y-1.5 text-[12px] text-ink-soft">
             <li>1. Confirm the story is live at the public URL.</li>
             <li>2. Put the story link in your Instagram bio.</li>
-            <li>3. Download the 4:5 JPEG above.</li>
+            <li>3. Download the 4:5 JPEG(s) for the selected image(s).</li>
             <li>4. Paste the caption — it ends with &ldquo;link in bio.&rdquo;</li>
             <li>5. Post, then pin a comment naming the primary source.</li>
           </ol>

@@ -1,4 +1,5 @@
 import { site } from "@/lib/site";
+import type { Post, PostImage } from "@/lib/types";
 import { getPlace, placeName } from "@/data/places";
 
 export function formatDate(
@@ -70,12 +71,48 @@ export function absoluteUrl(path: string): string {
   return `${site.url}${path.startsWith("/") ? "" : "/"}${path}`;
 }
 
+export function postImages(
+  post: Pick<
+    Post,
+    "images" | "image" | "imageAlt" | "imageCredit" | "imageCreditUrl"
+  >,
+): PostImage[] {
+  if (post.images?.length) return post.images;
+  if (post.image) {
+    return [
+      {
+        src: post.image,
+        alt: post.imageAlt || "",
+        credit: post.imageCredit,
+        creditUrl: post.imageCreditUrl,
+        instagram: true,
+      },
+    ];
+  }
+  return [];
+}
+
+export function selectedInstagramImages(post: Pick<Post, "images" | "image" | "imageAlt" | "imageCredit" | "imageCreditUrl">): {
+  image: PostImage;
+  index: number;
+}[] {
+  const all = postImages(post);
+  const selected = all
+    .map((image, index) => ({ image, index }))
+    .filter(({ image }) => image.instagram);
+  return selected.length
+    ? selected
+    : all.slice(0, 1).map((image, index) => ({ image, index }));
+}
+
 export function postImagePath(post: {
+  images?: PostImage[];
   image?: string;
   title: string;
   city: string;
 }): string {
-  if (post.image) return post.image;
+  const cover = post.images?.[0]?.src ?? post.image;
+  if (cover) return cover;
   const kicker = getPlace(post.city)
     ? `${placeName(post.city)} · I-80`
     : "I-80 Nebraska";

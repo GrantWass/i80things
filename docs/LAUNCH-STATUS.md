@@ -13,7 +13,7 @@
 - Public trust pages at `/corrections` and `/image-credits`.
 - Public JSON APIs: `/api/posts`, `/api/sources`, `/api/alerts`.
 - City hubs, topic hubs, author pages, RSS, sitemaps, Google News sitemap, `llms.txt`, `llms-full.txt`, `ads.txt`.
-- Generated 1200×675 OG images and 1080×1350 Instagram JPEGs. Real photos are used full-bleed when attached; captions use a "link in bio" CTA, no QR codes.
+- Generated 1200×675 OG images and 1080×1350 Instagram JPEGs per selected gallery image. Real photos are used full-bleed, with a corner brand watermark; captions use a "link in bio" CTA, no QR codes.
 - AdSense-ready slots, privacy notice, editorial standards, corrections policy.
 - Daily agent: the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor, a 5:30 a.m. Central macOS scheduler, and `npm run daily`.
 - Cookieless Vercel Analytics + Speed Insights, custom events for search and outbound actions; responsive `next/image` delivery for story photos.

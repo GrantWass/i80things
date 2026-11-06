@@ -48,7 +48,27 @@ if (!igUserId || !token) {
   process.exit(1);
 }
 
-const imageUrl = `${siteUrl}/api/social/${slug}`;
+const fmImages = Array.isArray(data.images) ? data.images : [];
+const gallery = fmImages
+  .filter((image) => typeof image?.src === "string" && image.src.trim())
+  .map((image, index) => ({
+    index: index + 1,
+    instagram: image.instagram ?? index === 0,
+  }));
+if (!gallery.length && data.image) {
+  gallery.push({ index: 1, instagram: true });
+}
+const flagged = gallery.filter((image) => image.instagram);
+const selected = flagged.length ? flagged : gallery.slice(0, 1);
+let imageUrls = selected.map(
+  (image) => `${siteUrl}/api/social/${slug}?image=${image.index}`,
+);
+if (imageUrls.length > 10) {
+  console.error(`Only the first 10 of ${imageUrls.length} Instagram images will be posted (Meta carousel limit).`);
+  imageUrls = imageUrls.slice(0, 10);
+}
+const imageUrl = imageUrls[0] ?? `${siteUrl}/api/social/${slug}`;
+const isCarousel = imageUrls.length > 1;
 const hooks = {
   crashes: "Heads up, I-80 drivers.",
   "road-conditions": "Planning an I-80 drive? Start here.",
@@ -72,15 +92,14 @@ const caption = (data.instagramCaption || [
   "#Nebraska #I80 #NebraskaNews",
 ].join("\n")).slice(0, 2200);
 
-const payload = new URLSearchParams({
-  image_url: imageUrl,
-  caption,
-  access_token: token,
-});
-
 if (!shouldPublish) {
   console.log("DRY RUN — add --publish to post.");
-  console.log(`Image: ${imageUrl}`);
+  if (isCarousel) {
+    console.log(`Images (${imageUrls.length}):`);
+    for (const url of imageUrls) console.log(`  - ${url}`);
+  } else {
+    console.log(`Image: ${imageUrl}`);
+  }
   console.log(`Bio link: ${siteUrl}/news/${slug}`);
   console.log(`Caption:\n${caption}`);
   process.exit(0);
@@ -98,17 +117,60 @@ async function graphPost(pathname, body) {
 }
 
 try {
-  console.log("Creating media container…");
-  const container = await graphPost(`${igUserId}/media`, payload);
-  console.log(`Container: ${container.id}`);
+  if (!isCarousel) {
+    console.log("Creating media container…");
+    const container = await graphPost(
+      `${igUserId}/media`,
+      new URLSearchParams({
+        image_url: imageUrl,
+        caption,
+        access_token: token,
+      }),
+    );
+    console.log(`Container: ${container.id}`);
 
-  // Give Meta a moment to ingest the image, then publish.
-  await new Promise((resolve) => setTimeout(resolve, 4000));
-  const published = await graphPost(
-    `${igUserId}/media_publish`,
-    new URLSearchParams({ creation_id: container.id, access_token: token }),
-  );
-  console.log(`Published media ID: ${published.id}`);
+    // Give Meta a moment to ingest the image, then publish.
+    await new Promise((resolve) => setTimeout(resolve, 4000));
+    const published = await graphPost(
+      `${igUserId}/media_publish`,
+      new URLSearchParams({ creation_id: container.id, access_token: token }),
+    );
+    console.log(`Published media ID: ${published.id}`);
+  } else {
+    console.log(`Creating ${imageUrls.length} carousel item containers…`);
+    const children = [];
+    for (const url of imageUrls) {
+      const item = await graphPost(
+        `${igUserId}/media`,
+        new URLSearchParams({
+          image_url: url,
+          is_carousel_item: "true",
+          access_token: token,
+        }),
+      );
+      console.log(`Item container: ${item.id} (${url})`);
+      children.push(item.id);
+    }
+    console.log("Creating carousel container…");
+    const carousel = await graphPost(
+      `${igUserId}/media`,
+      new URLSearchParams({
+        media_type: "CAROUSEL",
+        children: children.join(","),
+        caption,
+        access_token: token,
+      }),
+    );
+    console.log(`Carousel container: ${carousel.id}`);
+
+    // Give Meta a moment to ingest the images, then publish.
+    await new Promise((resolve) => setTimeout(resolve, 4000));
+    const published = await graphPost(
+      `${igUserId}/media_publish`,
+      new URLSearchParams({ creation_id: carousel.id, access_token: token }),
+    );
+    console.log(`Published media ID: ${published.id}`);
+  }
   console.log("Open Instagram to confirm the post and add it to a highlight if relevant.");
 } catch (error) {
   console.error(error.message);

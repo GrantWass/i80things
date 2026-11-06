@@ -24,8 +24,10 @@ LOG="$RUN_DIR/$STAMP.log"
 LOCK="$REPO/.cache/daily-desk.lock"
 
 if [ "${DAILY_RUN_DRY:-0}" = "1" ]; then
+  AGENT="i80-daily"
+  [ "${DAILY_RUN_DRAFT:-0}" = "1" ] && AGENT="i80-daily-draft"
   echo "DRY RUN: would execute:"
-  printf '  opencode run --agent i80-daily --model opencode-go/muse-spark-1.3-contributor#high --auto --title %q %q\n' "I-80 daily desk $STAMP" "Run the I-80 Things daily desk for $STAMP. Follow .opencode/agents/i80-daily.md."
+  printf '  opencode run --agent %s --model opencode-go/muse-spark-1.3-contributor#high --auto --title %q %q\n' "$AGENT" "I-80 daily desk $STAMP" "Run the I-80 Things daily desk for $STAMP. Follow .opencode/agents/$AGENT.md."
   exit 0
 fi
 
@@ -77,17 +79,19 @@ echo "--- Nebraska 511 (unofficial endpoint; preflight only) ---"
 npm run --silent 511 -- --json > "$RUN_DIR/511-$STAMP.json" 2>>"$LOG" || echo "WARN: 511 preflight failed."
 
 if [ "${DAILY_RUN_DRAFT:-0}" = "1" ]; then
+  AGENT="i80-daily-draft"
   MODE="DRAFT MODE. Do not run git commit or git push. Write any story with draft: true
 in the frontmatter, leave the files in the working tree, and report the exact
 paths for human review. Do not mark anything live."
 else
+  AGENT="i80-daily"
   MODE="PUBLISH MODE. Validate and build before committing. Commit only content,
 images and source-health updates, then push."
 fi
 
 PROMPT="Run the I-80 Things daily desk for $STAMP in America/Chicago.
 
-Follow .opencode/agents/i80-daily.md and .opencode/skills/i80-daily-post/SKILL.md.
+Follow .opencode/agents/$AGENT.md and .opencode/skills/i80-daily-post/SKILL.md.
 Preflight files, if present: .cache/daily-desk/511-$STAMP.json and today's source sweep above.
 
 Check npm run log first so you do not duplicate a story. Verify every fact with a primary source. Publish only what is confirmed, with a real licensed photo and credit. If there is no verified story, do not force one; report what you checked and why you skipped it.
@@ -97,9 +101,9 @@ $MODE
 Do not wait for approval. End with the run report."
 
 echo ""
-echo "--- opencode run --agent i80-daily ---"
+echo "--- opencode run --agent $AGENT ---"
 opencode run \
-  --agent i80-daily \
+  --agent "$AGENT" \
   --model "opencode-go/muse-spark-1.3-contributor#high" \
   --auto \
   --title "I-80 daily desk $STAMP" \

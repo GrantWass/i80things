@@ -118,7 +118,7 @@ export default async function ConditionsPage() {
 
       <div className="container-page py-10">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
-          <div>
+          <div className="min-w-0">
             <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
               {[
                 [roads.events.length, "I-80 events"],

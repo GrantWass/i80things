@@ -46,7 +46,7 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
    ```bash
    npm run social -- --slug <slug>
    ```
-   Image: `https://i80things.vercel.app/api/social/<slug>` (1080×1350 JPEG). Caption from the command output.
+   Images: `https://i80things.vercel.app/api/social/<slug>?image=N` (1080×1350 JPEG each). Caption from the command output. Mark 1–10 gallery images `instagram: true` for a carousel.
 
 ## Hard rules
 

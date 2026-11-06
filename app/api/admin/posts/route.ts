@@ -8,6 +8,15 @@ import { topics } from "@/data/topics";
 import { slugify } from "@/lib/utils";
 import { site } from "@/lib/site";
 
+type ImageInput = {
+  src?: string;
+  alt?: string;
+  credit?: string;
+  creditUrl?: string;
+  socialSrc?: string;
+  instagram?: boolean;
+};
+
 type Body = {
   title?: string;
   dek?: string;
@@ -18,6 +27,7 @@ type Body = {
   summary?: string;
   sources?: { name: string; url: string }[];
   date?: string;
+  images?: ImageInput[];
   image?: string;
   imageAlt?: string;
   imageCredit?: string;
@@ -26,6 +36,32 @@ type Body = {
   draft?: boolean;
   instagramCaption?: string;
 };
+
+function sanitizeImages(input: unknown, title: string): { src: string; alt: string; credit?: string; creditUrl?: string; instagram?: boolean }[] {
+  if (!Array.isArray(input)) return [];
+  return (input as ImageInput[])
+    .filter((image) => typeof image?.src === "string" && image.src.trim())
+    .filter((image) => {
+      const src = image.src!.trim();
+      return src.startsWith("/images/") || src.startsWith("https://");
+    })
+    .slice(0, 10)
+    .map((image) => {
+      const src = image.src!.trim();
+      const alt = (image.alt ?? "").trim() || title;
+      const credit = (image.credit ?? "").trim();
+      const creditUrl = (image.creditUrl ?? "").trim();
+      const socialSrc = (image.socialSrc ?? "").trim();
+      return {
+        src,
+        alt,
+        ...(credit ? { credit } : {}),
+        ...(creditUrl ? { creditUrl } : {}),
+        ...(socialSrc ? { socialSrc } : {}),
+        instagram: Boolean(image.instagram),
+      };
+    });
+}
 
 export async function POST(request: Request) {
   if (!(await isAuthed())) {
@@ -99,7 +135,17 @@ export async function POST(request: Request) {
     draft: Boolean(input.draft),
   };
 
-  if (input.image) {
+  if (input.images !== undefined) {
+    const images = sanitizeImages(input.images, title);
+    if (images.length) {
+      frontmatter.images = images;
+      const cover = images[0];
+      frontmatter.image = cover.src;
+      frontmatter.imageAlt = cover.alt;
+      if (cover.credit) frontmatter.imageCredit = cover.credit;
+      if (cover.creditUrl) frontmatter.imageCreditUrl = cover.creditUrl;
+    }
+  } else if (input.image) {
     frontmatter.image = input.image;
     frontmatter.imageAlt = input.imageAlt || title;
     if (input.imageCredit) frontmatter.imageCredit = input.imageCredit;

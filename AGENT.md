@@ -207,14 +207,16 @@ The site handles schema, sitemaps and canonical URLs. You must supply the conten
 Every story needs a shareable image. Two options:
 
 1. **A real photo you have rights to.** Upload it through the admin. Credit it in `imageCredit` and link `imageCreditUrl`. Never scrape a newsroom photo.
-2. **The branded generated graphic.** Leave `image` blank. The site generates a 16:9 OG image and a 1080×1350 Instagram JPEG automatically.
+2. **A gallery.** A story can have one or more images. The first is the cover; mark one or more with `instagram: true` for the carousel. Each image needs its own accurate `alt`, `credit` and `creditUrl`. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card.
 
-Verify the Instagram image:
+Verify the Instagram images:
 
 ```bash
-curl -s -o /tmp/ig.jpg -w "%{http_code} %{content_type}\n" \
-  https://i80things.vercel.app/api/social/<slug>
-file /tmp/ig.jpg   # JPEG, 1080x1350
+curl -s -o /tmp/ig-1.jpg -w "%{http_code} %{content_type}\n" \
+  "https://i80things.vercel.app/api/social/<slug>?image=1"
+curl -s -o /tmp/ig-2.jpg -w "%{http_code} %{content_type}\n" \
+  "https://i80things.vercel.app/api/social/<slug>?image=2"
+file /tmp/ig-1.jpg   # JPEG, 1080x1350
 ```
 
 Get the caption:
@@ -233,7 +235,8 @@ Caption rules:
 - 3–5 precise hashtags (`#Nebraska #I80 #Kearney #NebraskaWeather`). No hashtag walls.
 - Max 2,200 characters. No misleading claims.
 - Include the town and mile marker when relevant.
-- Update the Instagram bio link to the story URL before posting. The admin kit gives you a **Copy bio link** button.
+- Update the Instagram bio link to the story URL before posting. The admin kit gives you a **Copy bio link** button and a carousel image picker.
+- Each generated JPEG carries a small I-80 Things icon in the corner as a watermark.
 
 **Images must be real, not AI-generated.** Every story should get a licensed/credited photo. If you have one, upload it through `/admin`. If not, find one:
 
@@ -242,9 +245,9 @@ npm run stock -- --query "Omaha skyline" --slug <slug>
 npm run stock -- --query "Nebraska winter road" --slug <slug> --download --index 1 --update
 ```
 
-The tool downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes the credit into the frontmatter. Prefer CC0/public-domain; keep the credit and license for CC BY/BY-SA. If no usable photo exists, the fallback is a branded text card — never a fabricated scene, crash photo or storm photo. For breaking news, use an official agency image only when its terms allow, with credit.
+The tool downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes the credit into the frontmatter. For a gallery, upload additional images through `/admin` or add multiple `images:` entries. Prefer CC0/public-domain; keep the credit and license for CC BY/BY-SA. If no usable photo exists, the fallback is a branded text card — never a fabricated scene, crash photo or storm photo. For breaking news, use an official agency image only when its terms allow, with credit.
 
-Post the image to Instagram manually or via the Graph API. If using the API, the image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. The API cannot change your bio link, so do that step manually. See `README.md`.
+Post one image or a carousel to Instagram manually or via the Graph API. If using the API, every image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. The API cannot change your bio link, so do that step manually. See `README.md`.
 
 ---
 

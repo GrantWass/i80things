@@ -63,15 +63,50 @@ const caption = data.instagramCaption || [
   hashtags.slice(0, 5).join(" "),
 ].join("\n").slice(0, 2200);
 
+const fmImages = Array.isArray(data.images) ? data.images : [];
+const gallery = fmImages
+  .filter((image) => typeof image?.src === "string" && image.src.trim())
+  .map((image, index) => ({
+    src: image.src.trim(),
+    alt: (image.alt || data.imageAlt || data.title || "").trim(),
+    credit: image.credit || data.imageCredit || null,
+    index: index + 1,
+    instagram: image.instagram ?? index === 0,
+  }));
+if (!gallery.length && data.image) {
+  gallery.push({
+    src: data.image,
+    alt: (data.imageAlt || data.title || "").trim(),
+    credit: data.imageCredit || null,
+    index: 1,
+    instagram: true,
+  });
+}
+const flagged = gallery.filter((image) => image.instagram);
+const selected = flagged.length ? flagged : gallery.slice(0, 1);
+const imageUrls = selected.map(
+  (image) => `${siteUrl}/api/social/${slug}?image=${image.index}`,
+);
+const imagesMeta = selected.map((image) => ({
+  index: image.index,
+  alt: image.alt,
+  credit: image.credit,
+}));
+const imageUrl = imageUrls[0] ?? `${siteUrl}/api/social/${slug}`;
+
 if (asJson) {
   console.log(JSON.stringify({
     slug,
     caption,
-    imageUrl: `${siteUrl}/api/social/${slug}`,
+    imageUrl,
+    imageUrls,
+    images: imagesMeta,
     bioLink: `${siteUrl}/news/${slug}`,
   }, null, 2));
 } else {
-  console.log(`\nIMAGE (1080×1350 JPEG)\n${siteUrl}/api/social/${slug}\n`);
+  console.log(`\nIMAGE${imageUrls.length > 1 ? "S" : ""} (1080×1350 JPEG)`);
+  for (const url of imageUrls) console.log(url);
+  console.log("");
   console.log(`BIO LINK (paste before posting)\n${siteUrl}/news/${slug}\n`);
   console.log(`CAPTION (${caption.length}/2200)\n${caption}\n`);
 }

@@ -33,7 +33,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: post.updated ?? post.date,
       changeFrequency: "daily" as const,
       priority: 0.9,
-      ...(post.image ? { images: [absoluteUrl(post.image)] } : {}),
+      ...(post.images.length
+        ? { images: post.images.map((image) => absoluteUrl(image.src)) }
+        : {}),
     })),
     ...places.map((place) => ({
       url: `${site.url}/cities/${place.slug}`,

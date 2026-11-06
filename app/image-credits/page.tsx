@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function ImageCreditsPage() {
-  const posts = getAllPosts().filter((post) => post.image);
+  const posts = getAllPosts().filter((post) => post.images.length > 0);
 
   return (
     <main>
@@ -65,22 +65,34 @@ export default function ImageCreditsPage() {
                       {post.title}
                     </Link>
                   </p>
-                  <p className="mt-1.5 text-[12px] leading-relaxed text-slate">
-                    {post.imageCredit ?? "I-80 Things graphic"}
-                    {post.imageCreditUrl ? (
-                      <>
-                        {" · "}
-                        <a
-                          href={post.imageCreditUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-semibold text-highway underline decoration-amber underline-offset-2"
-                        >
-                          source &amp; license
-                        </a>
-                      </>
-                    ) : null}
-                  </p>
+                  <ul className="mt-2 space-y-1.5">
+                    {post.images.map((image, index) => (
+                      <li
+                        key={`${image.src}-${index}`}
+                        className="text-[12px] leading-relaxed text-slate"
+                      >
+                        <span className="text-ink-soft">
+                          {index === 0 ? "Cover: " : ""}
+                          {image.alt}
+                        </span>
+                        {" — "}
+                        {image.credit ?? "I-80 Things graphic"}
+                        {image.creditUrl ? (
+                          <>
+                            {" · "}
+                            <a
+                              href={image.creditUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                            >
+                              source &amp; license
+                            </a>
+                          </>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               ))}
             </ul>
