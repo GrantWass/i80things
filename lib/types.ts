@@ -58,6 +58,8 @@ export interface PostSource {
 export interface PostImage {
   src: string;
   alt: string;
+  /** Optional display caption; falls back to alt. */
+  caption?: string;
   credit?: string;
   creditUrl?: string;
   /** Optional 4:5/vertical crop for Instagram; falls back to src. */

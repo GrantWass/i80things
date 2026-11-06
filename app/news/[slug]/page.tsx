@@ -14,8 +14,8 @@ import { getPlace, placeName } from "@/data/places";
 import { getTopic, topicLabel } from "@/data/topics";
 import { site } from "@/lib/site";
 import { getSourcesForPlace } from "@/lib/sources";
-import { PostImage, CompactCard, SectionHeading } from "@/components/PostCards";
-import { PostGallery } from "@/components/PostGallery";
+import { CompactCard, SectionHeading } from "@/components/PostCards";
+import { ArticleGallery } from "@/components/ArticleGallery";
 import { AdSlot } from "@/components/AdSlot";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgress } from "@/components/ReadingProgress";
@@ -257,32 +257,11 @@ export default async function ArticlePage({
               </div>
             </header>
 
-            <figure className="mt-6">
-              <PostImage
-                post={post}
-                priority
-                sizes="(min-width: 1024px) 760px, 100vw"
-                className="aspect-[16/9] w-full border border-line object-cover"
-              />
-              <figcaption className="mt-2 flex flex-wrap justify-between gap-2 text-[11px] text-slate">
-                <span>{post.imageAlt || post.title}</span>
-                <span>
-                  {post.imageCredit ? (
-                    post.imageCreditUrl ? (
-                      <a href={post.imageCreditUrl} className="underline" target="_blank" rel="noopener noreferrer">
-                        {post.imageCredit}
-                      </a>
-                    ) : (
-                      post.imageCredit
-                    )
-                  ) : (
-                    "Graphic: I-80 Things"
-                  )}
-                </span>
-              </figcaption>
-            </figure>
-
-            <PostGallery images={post.images} title={post.title} />
+            <ArticleGallery
+              images={post.images}
+              title={post.title}
+              priority
+            />
 
             {post.summary.length > 0 ? (
               <section className="mt-7 border border-line border-l-4 border-l-amber bg-cream p-5">

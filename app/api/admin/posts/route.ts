@@ -11,6 +11,7 @@ import { site } from "@/lib/site";
 type ImageInput = {
   src?: string;
   alt?: string;
+  caption?: string;
   credit?: string;
   creditUrl?: string;
   socialSrc?: string;
@@ -49,12 +50,14 @@ function sanitizeImages(input: unknown, title: string): { src: string; alt: stri
     .map((image) => {
       const src = image.src!.trim();
       const alt = (image.alt ?? "").trim() || title;
+      const caption = (image.caption ?? "").trim();
       const credit = (image.credit ?? "").trim();
       const creditUrl = (image.creditUrl ?? "").trim();
       const socialSrc = (image.socialSrc ?? "").trim();
       return {
         src,
         alt,
+        ...(caption ? { caption } : {}),
         ...(credit ? { credit } : {}),
         ...(creditUrl ? { creditUrl } : {}),
         ...(socialSrc ? { socialSrc } : {}),

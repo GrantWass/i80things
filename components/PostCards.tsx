@@ -64,13 +64,18 @@ export function LeadCard({ post }: { post: Post }) {
   return (
     <article className="group">
       <Link href={`/news/${post.slug}`} className="block">
-        <div className="overflow-hidden border border-line bg-cream">
+        <div className="relative overflow-hidden border border-line bg-cream">
           <PostImage
             post={post}
             priority
             sizes="(min-width: 1024px) 760px, 100vw"
             className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
           />
+          {post.images.length > 1 ? (
+            <span className="absolute right-2 bottom-2 bg-ink/85 px-2 py-1 text-[9px] font-bold tracking-[0.08em] text-paper uppercase">
+              {post.images.length} photos
+            </span>
+          ) : null}
         </div>
         <div className="pt-4">
           <Kicker post={post} />
@@ -99,12 +104,17 @@ export function StandardCard({
   return (
     <article className="group">
       <Link href={`/news/${post.slug}`} className="block">
-        <div className="overflow-hidden border border-line bg-cream">
+        <div className="relative overflow-hidden border border-line bg-cream">
           <PostImage
             post={post}
             priority={priority}
             className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
           />
+          {post.images.length > 1 ? (
+            <span className="absolute right-2 bottom-2 bg-ink/85 px-2 py-1 text-[9px] font-bold tracking-[0.08em] text-paper uppercase">
+              {post.images.length} photos
+            </span>
+          ) : null}
         </div>
         <div className="pt-3">
           <Kicker post={post} />

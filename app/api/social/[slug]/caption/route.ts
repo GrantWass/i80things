@@ -21,6 +21,7 @@ export async function GET(
   const images = selected.map(({ image, index }) => ({
     index: index + 1,
     alt: image.alt,
+    caption: image.caption ?? null,
     credit: image.credit ?? null,
   }));
 

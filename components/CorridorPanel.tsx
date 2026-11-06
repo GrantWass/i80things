@@ -107,35 +107,71 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
   );
 }
 
+const CITY_RAIL = [
+  ["omaha", "Omaha", "454"],
+  ["lincoln", "Lincoln", "399"],
+  ["seward", "Seward", "379"],
+  ["york", "York", "353"],
+  ["grand-island", "Grand Island", "312"],
+  ["kearney", "Kearney", "272"],
+  ["lexington", "Lexington", "237"],
+  ["north-platte", "North Platte", "177"],
+  ["ogallala", "Ogallala", "126"],
+  ["sidney", "Sidney", "59"],
+  ["kimball", "Kimball", "22"],
+] as const;
+
+function TownChip({ slug, name, mm }: { slug: string; name: string; mm: string }) {
+  return (
+    <Link
+      href={`/cities/${slug}`}
+      className="group flex items-center gap-2 border border-line bg-paper px-2.5 py-1.5 transition hover:border-ink hover:bg-cream sm:px-3 sm:py-2"
+    >
+      <span className="font-serif text-sm font-semibold text-ink group-hover:underline group-hover:decoration-amber">
+        {name}
+      </span>
+      <span className="text-[9px] font-bold tracking-wider text-slate">
+        MM {mm}
+      </span>
+    </Link>
+  );
+}
+
+function TownChips() {
+  return (
+    <>
+      {CITY_RAIL.map(([slug, name, mm]) => (
+        <TownChip key={slug} slug={slug} name={name} mm={mm} />
+      ))}
+      <Link
+        href="/cities"
+        className="flex items-center gap-1 border border-dashed border-line px-2.5 py-1.5 text-[10px] font-bold tracking-[0.06em] text-highway uppercase transition hover:border-ink hover:bg-cream sm:px-3 sm:py-2"
+      >
+        All towns →
+      </Link>
+    </>
+  );
+}
+
 export function CityRail() {
   return (
-    <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-1">
-      {[
-        ["omaha", "Omaha", "454"],
-        ["lincoln", "Lincoln", "399"],
-        ["seward", "Seward", "379"],
-        ["york", "York", "353"],
-        ["grand-island", "Grand Island", "312"],
-        ["kearney", "Kearney", "272"],
-        ["lexington", "Lexington", "237"],
-        ["north-platte", "North Platte", "177"],
-        ["ogallala", "Ogallala", "126"],
-        ["sidney", "Sidney", "59"],
-        ["kimball", "Kimball", "22"],
-      ].map(([slug, name, mm]) => (
-        <Link
-          key={slug}
-          href={`/cities/${slug}`}
-          className="group flex shrink-0 items-center gap-2 border border-line bg-paper px-3 py-2 transition hover:border-ink hover:bg-cream"
-        >
-          <span className="font-serif text-sm font-semibold text-ink group-hover:underline group-hover:decoration-amber">
-            {name}
+    <div className="-mx-1 px-1 py-1">
+      {/* On phones the full town list would be five rows tall, so keep it
+          behind a disclosure. The desktop rail simply wraps. */}
+      <details className="group md:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between border border-line bg-paper px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-ink uppercase [&::-webkit-details-marker]:hidden">
+          Jump to a corridor town
+          <span className="text-slate transition group-open:rotate-180">
+            ▾
           </span>
-          <span className="text-[9px] font-bold tracking-wider text-slate">
-            MM {mm}
-          </span>
-        </Link>
-      ))}
+        </summary>
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          <TownChips />
+        </div>
+      </details>
+      <div className="hidden flex-wrap gap-2 md:flex">
+        <TownChips />
+      </div>
     </div>
   );
 }

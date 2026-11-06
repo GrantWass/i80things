@@ -7,6 +7,7 @@ import { places } from "@/data/places";
 import { topics } from "@/data/topics";
 import { LeadCard, SectionHeading, StandardCard, HorizontalCard } from "@/components/PostCards";
 import { CorridorPanel, CityRail } from "@/components/CorridorPanel";
+import { CorridorMiniMap } from "@/components/CorridorMiniMap";
 import { AdSlot } from "@/components/AdSlot";
 import { JsonLd } from "@/components/JsonLd";
 import { Icon, Arrow } from "@/components/Icon";
@@ -162,6 +163,8 @@ export default async function HomePage() {
 
           <aside className="space-y-8">
             <CorridorPanel alerts={alerts} />
+
+            <CorridorMiniMap />
 
             <div className="border border-line p-4">
               <p className="kicker mb-2 text-amber-dark">The daily brief</p>

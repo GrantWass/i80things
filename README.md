@@ -376,6 +376,7 @@ AGENT.md                       daily agent system prompt
 | `npm run new -- --title …` | Scaffold a story. |
 | `npm run social -- --slug …` | Print Instagram caption + selected image URLs (1–10). |
 | `npm run stock -- --query …` | Find, download and credit a real stock/CC photo. |
+| `npm run images:audit` | Check every story image for missing files, alt, credit, dimensions, aspect and duplicates. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
 | `npm run brand` | Regenerate PNG brand assets. |
 
@@ -404,4 +405,4 @@ AGENT.md                       daily agent system prompt
 - Corrections are public. See `/editorial-standards`.
 - Privacy policy covers AdSense, cookies, CCPA/CPRA and EEA consent. See `/privacy`.
 
-For the full source-by-source research, caveats and verification notes, see [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md). For scanner audio and free transcription, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md). For the daily agent and scheduler, see [`docs/DAILY-RUN.md`](./docs/DAILY-RUN.md). For accounts, domain and monetization work that needs a human, see [`docs/NEXT-STEPS.md`](./docs/NEXT-STEPS.md).
+For the full source-by-source research, caveats and verification notes, see [`docs/SOURCE-RESEARCH.md`](./docs/SOURCE-RESEARCH.md). For scanner audio and free transcription, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md). For the image audit and display rules, see [`docs/IMAGE-AUDIT.md`](./docs/IMAGE-AUDIT.md). For the daily agent and scheduler, see [`docs/DAILY-RUN.md`](./docs/DAILY-RUN.md). For accounts, domain and monetization work that needs a human, see [`docs/NEXT-STEPS.md`](./docs/NEXT-STEPS.md).

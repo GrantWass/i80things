@@ -23,6 +23,7 @@ type Frontmatter = {
   images?: {
     src?: string;
     alt?: string;
+    caption?: string;
     credit?: string;
     creditUrl?: string;
     socialSrc?: string;
@@ -49,6 +50,7 @@ function parsePost(filename: string): Post | null {
     .map((image, index) => ({
       src: image.src!.trim(),
       alt: (image.alt || fm.imageAlt || fm.title || "").trim(),
+      caption: image.caption?.trim() || undefined,
       credit: image.credit || fm.imageCredit,
       creditUrl: image.creditUrl || fm.imageCreditUrl,
       socialSrc: image.socialSrc,
@@ -59,6 +61,7 @@ function parsePost(filename: string): Post | null {
     images.push({
       src: fm.image,
       alt: (fm.imageAlt || fm.title || "").trim(),
+      caption: undefined,
       credit: fm.imageCredit,
       creditUrl: fm.imageCreditUrl,
       socialSrc: undefined,

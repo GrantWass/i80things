@@ -47,6 +47,7 @@ export async function GET(request: Request) {
         images: postImages(post).map((img) => ({
           src: absoluteUrl(img.src),
           alt: img.alt,
+          caption: img.caption ?? null,
           credit: img.credit ?? null,
           creditUrl: img.creditUrl ?? null,
           socialSrc: img.socialSrc ? absoluteUrl(img.socialSrc) : null,

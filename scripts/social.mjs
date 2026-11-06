@@ -69,6 +69,7 @@ const gallery = fmImages
   .map((image, index) => ({
     src: image.src.trim(),
     alt: (image.alt || data.imageAlt || data.title || "").trim(),
+    caption: (image.caption || "").trim() || null,
     credit: image.credit || data.imageCredit || null,
     index: index + 1,
     instagram: image.instagram ?? index === 0,
@@ -90,6 +91,7 @@ const imageUrls = selected.map(
 const imagesMeta = selected.map((image) => ({
   index: image.index,
   alt: image.alt,
+  caption: image.caption,
   credit: image.credit,
 }));
 const imageUrl = imageUrls[0] ?? `${siteUrl}/api/social/${slug}`;

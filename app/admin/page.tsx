@@ -28,6 +28,7 @@ export default async function AdminPage() {
     images: post.images.map((image) => ({
       src: image.src,
       alt: image.alt,
+      caption: image.caption,
       credit: image.credit,
       creditUrl: image.creditUrl,
       socialSrc: image.socialSrc,

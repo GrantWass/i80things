@@ -123,7 +123,7 @@ export function AdminDashboard({
       </div>
 
       <div className="border-b border-line bg-paper">
-        <div className="container-page no-scrollbar flex gap-1 overflow-x-auto py-2">
+        <div className="container-page flex flex-wrap gap-1 py-2">
           {([
             ["compose", "New story"],
             ["stories", `Stories (${posts.length})`],
@@ -174,6 +174,7 @@ export function AdminDashboard({
 type GalleryImage = {
   src: string;
   alt: string;
+  caption: string;
   credit: string;
   creditUrl: string;
   instagram: boolean;
@@ -284,6 +285,7 @@ function ComposeForm({
           {
             src: uploaded.path,
             alt: "",
+            caption: "",
             credit: "",
             creditUrl: "",
             instagram: current.length === 0,
@@ -322,6 +324,7 @@ function ComposeForm({
         images: gallery.map((image) => ({
           src: image.src,
           alt: image.alt.trim(),
+          caption: image.caption.trim(),
           credit: image.credit.trim(),
           creditUrl: image.creditUrl.trim(),
           instagram: image.instagram,
@@ -597,6 +600,15 @@ Context for drivers...
                       onChange={(e) => updateImage(index, { alt: e.target.value })}
                       className={inputClass}
                       placeholder="I-80 westbound near Kearney"
+                    />
+                  </label>
+                  <label className="mt-2 block">
+                    <span className={labelClass}>Caption (optional, shown to readers)</span>
+                    <input
+                      value={image.caption}
+                      onChange={(e) => updateImage(index, { caption: e.target.value })}
+                      className={inputClass}
+                      placeholder="Westbound traffic near Kearney after the closure"
                     />
                   </label>
                   <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -1173,7 +1185,7 @@ function Setup({ configured }: { configured: Configured }) {
             The full system prompt lives in <code className="bg-cream px-1">AGENT.md</code>.
             The agent should run these before writing:
           </p>
-          <pre className="mt-3 overflow-x-auto border border-line bg-ink p-3 text-[11px] leading-relaxed text-cream">npm run log        # what we already published
+          <pre className="mt-3 border border-line bg-ink p-3 text-[11px] leading-relaxed break-words whitespace-pre-wrap text-cream">npm run log        # what we already published
 npm run sources    # fresh headlines + NWS alerts
 npm run new        # scaffold a draft
 npm run validate   # check frontmatter</pre>

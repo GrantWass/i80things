@@ -21,7 +21,8 @@
     "social:instagram": "node scripts/publish-instagram.mjs",
     "validate": "node scripts/validate-posts.mjs",
     "brand": "node scripts/generate-brand.mjs",
-    "stock": "node scripts/stock-photo.mjs"
+    "stock": "node scripts/stock-photo.mjs",
+    "images:audit": "node scripts/audit-images.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

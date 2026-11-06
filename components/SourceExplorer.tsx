@@ -167,7 +167,7 @@ export function SourceExplorer({
             Problems only
           </label>
         </div>
-        <div className="no-scrollbar mt-3 flex gap-1.5 overflow-x-auto pb-1">
+        <div className="mt-3 flex flex-wrap gap-1.5 pb-1">
           <button
             type="button"
             onClick={() => setCategory("all")}
