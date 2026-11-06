@@ -86,8 +86,25 @@ export default function ImageCreditsPage() {
                               rel="noopener noreferrer"
                               className="font-semibold text-highway underline decoration-amber underline-offset-2"
                             >
-                              source &amp; license
+                              source
                             </a>
+                          </>
+                        ) : null}
+                        {image.license ? (
+                          <>
+                            {" · "}
+                            {image.licenseUrl ? (
+                              <a
+                                href={image.licenseUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-semibold text-highway underline decoration-amber underline-offset-2"
+                              >
+                                {image.license}
+                              </a>
+                            ) : (
+                              image.license
+                            )}
                           </>
                         ) : null}
                       </li>

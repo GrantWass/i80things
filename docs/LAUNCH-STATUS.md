@@ -7,7 +7,7 @@
 
 ## Live now
 
-- 18 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer, three city stories from the daily pipeline, and the first unattended pipeline stories (Lincoln pursuit and mile 427 closures).
+- 22 original corridor stories, including the 511 guide, mile-marker reference, winter-driving guide, service-gap guide, scanner explainer, three city stories from the daily pipeline, and the first unattended pipeline stories (Lincoln pursuit and mile 427 closures).
 - `/conditions` — a five-minute-cached corridor status page combining Nebraska 511 closures/construction with point-based NWS alerts for every town.
 - 87-source directory at `/sources`, with search, category filters, copyable RSS URLs, scanner links and live feed-health status from `data/source-health.json`.
 - Public trust pages at `/corrections` and `/image-credits`.
@@ -30,7 +30,7 @@
 | Buy/connect a domain | `i80things.com` does not resolve. A custom domain is strongly recommended before applying to AdSense. | Vercel → Domains, then update `NEXT_PUBLIC_SITE_URL` and redeploy. |
 | Set `ADMIN_PASSWORD` | Enables `/admin`. Without it the page shows "Admin is locked". | Vercel → Settings → Environment Variables. |
 | Set `GITHUB_TOKEN` | Lets `/admin` commit stories, sources and images. Fine-grained token, Contents: Read and write. | Vercel env. Keep `GITHUB_REPO=GrantWass/i80things`, `GITHUB_BRANCH=main`. |
-| Apply for AdSense | Revenue. Needs the site live, 15–20 substantial stories (we have 18), legal pages and a custom domain. | https://www.google.com/adsense/ |
+| Apply for AdSense | Revenue. Needs the site live, 15–20 substantial stories (we have 22), legal pages and a custom domain. | https://www.google.com/adsense/ |
 | Set AdSense IDs | `NEXT_PUBLIC_ADSENSE_CLIENT`, `ADSENSE_PUB_ID`, three slot IDs. | Vercel env. `/ads.txt` updates automatically. |
 | Set up Google CMP | Required for personalized ads in EEA/UK. | AdSense → Privacy & messaging. |
 | Search Console + Publisher Center | Indexing and News/Discover eligibility. | Search Console, publishercenter.google.com. |

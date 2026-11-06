@@ -38,6 +38,8 @@ for (const file of files) {
             alt: data.imageAlt,
             credit: data.imageCredit,
             creditUrl: data.imageCreditUrl,
+            license: data.imageLicense,
+            licenseUrl: data.imageLicenseUrl,
             instagram: true,
           },
         ]
@@ -85,6 +87,8 @@ for (const file of files) {
     if (!image?.alt || !String(image.alt).trim()) issues.push("missing alt text");
     if (!image?.credit) issues.push("missing credit");
     if (image?.credit && !image?.creditUrl) issues.push("credit has no source URL");
+    if (!image?.license) issues.push("missing license");
+    if (image?.license && !image?.licenseUrl) issues.push("license has no URL");
     if (image?.socialSrc) {
       const socialFull = path.join(
         process.cwd(),
@@ -110,6 +114,8 @@ for (const file of files) {
       alt: image?.alt ?? "",
       credit: image?.credit ?? "",
       creditUrl: image?.creditUrl ?? "",
+      license: image?.license ?? "",
+      licenseUrl: image?.licenseUrl ?? "",
       socialSrc: image?.socialSrc ?? null,
       instagram: Boolean(image?.instagram),
       dimensions,
@@ -125,6 +131,7 @@ const summary = {
   withIssues: images.filter((image) => image.issues.length).length,
   missingAlt: images.filter((image) => image.issues.includes("missing alt text")).length,
   missingCredit: images.filter((image) => image.issues.includes("missing credit")).length,
+  missingLicense: images.filter((image) => image.issues.includes("missing license")).length,
   duplicates: images.filter((image) => image.issues.some((issue) => issue.startsWith("duplicate of"))).length,
 };
 
@@ -154,6 +161,7 @@ SUMMARY
   ${summary.withIssues} with issues
   ${summary.missingAlt} missing alt
   ${summary.missingCredit} missing credit
+  ${summary.missingLicense} missing license
   ${summary.duplicates} duplicates
 `);
 

@@ -32,6 +32,8 @@ const slug = arg("slug");
 const directUrl = arg("url");
 const directCredit = arg("credit");
 const directSourceUrl = arg("source-url");
+const directLicense = arg("license");
+const directLicenseUrl = arg("license-url");
 const directAlt = arg("alt");
 const indexArg = arg("index") ? Number(arg("index")) : 1;
 const shouldDownload = args.includes("--download");
@@ -112,8 +114,8 @@ if (directUrl) {
   results = [{
     title: directAlt || query || "Photo",
     creator: directCredit || "Unknown",
-    license: "See source",
-    licenseUrl: directSourceUrl || directUrl,
+    license: directLicense || "See source",
+    licenseUrl: directLicenseUrl || directSourceUrl || directUrl,
     sourceUrl: directSourceUrl || directUrl,
     imageUrl: directUrl,
     thumbnail: directUrl,
@@ -202,7 +204,9 @@ console.log("Add these to the story frontmatter:\n");
 console.log(`image: "${publicPath}"`);
 console.log(`imageAlt: "${chosen.alt.replace(/"/g, '\\"')}"`);
 console.log(`imageCredit: "${credit.replace(/"/g, '\\"')}"`);
-console.log(`imageCreditUrl: "${chosen.sourceUrl}"\n`);
+console.log(`imageCreditUrl: "${chosen.sourceUrl}"`);
+console.log(`imageLicense: "${chosen.license.replace(/"/g, '\\"')}"`);
+console.log(`imageLicenseUrl: "${chosen.licenseUrl}"\n`);
 
 if (shouldUpdate) {
   const postPath = path.join(process.cwd(), "content", "posts", `${slug}.mdx`);
@@ -224,6 +228,8 @@ if (shouldUpdate) {
   parsed.data.imageAlt = chosen.alt;
   parsed.data.imageCredit = credit;
   parsed.data.imageCreditUrl = chosen.sourceUrl;
+  parsed.data.imageLicense = chosen.license;
+  parsed.data.imageLicenseUrl = chosen.licenseUrl;
   fs.writeFileSync(postPath, matter.stringify(parsed.content, parsed.data));
   console.log(`Updated ${path.relative(process.cwd(), postPath)}`);
 }

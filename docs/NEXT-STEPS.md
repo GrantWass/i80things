@@ -68,7 +68,7 @@ cookieless). To finish:
 Prerequisites before applying:
 
 - custom domain and working contact email;
-- 15–20 substantial original stories (the site has 18, including local news and evergreen guides);
+- 15–20 substantial original stories (the site has 22, including local news and evergreen guides);
 - privacy, terms, corrections and editorial standards pages (done);
 - a Google-certified CMP for EEA/UK traffic.
 

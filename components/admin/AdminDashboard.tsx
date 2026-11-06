@@ -177,6 +177,8 @@ type GalleryImage = {
   caption: string;
   credit: string;
   creditUrl: string;
+  license: string;
+  licenseUrl: string;
   instagram: boolean;
 };
 
@@ -288,6 +290,8 @@ function ComposeForm({
             caption: "",
             credit: "",
             creditUrl: "",
+            license: "",
+            licenseUrl: "",
             instagram: current.length === 0,
           },
         ]);
@@ -327,6 +331,8 @@ function ComposeForm({
           caption: image.caption.trim(),
           credit: image.credit.trim(),
           creditUrl: image.creditUrl.trim(),
+          license: image.license.trim(),
+          licenseUrl: image.licenseUrl.trim(),
           instagram: image.instagram,
         })),
         instagramCaption,
@@ -628,6 +634,24 @@ Context for drivers...
                         onChange={(e) => updateImage(index, { creditUrl: e.target.value })}
                         className={inputClass}
                         placeholder="https://…"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>License</span>
+                      <input
+                        value={image.license}
+                        onChange={(e) => updateImage(index, { license: e.target.value })}
+                        className={inputClass}
+                        placeholder="CC BY-SA 4.0"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className={labelClass}>License URL</span>
+                      <input
+                        value={image.licenseUrl}
+                        onChange={(e) => updateImage(index, { licenseUrl: e.target.value })}
+                        className={inputClass}
+                        placeholder="https://creativecommons.org/…"
                       />
                     </label>
                   </div>

@@ -65,6 +65,7 @@ export function SiteFooter() {
               <li><Link href="/image-credits" className="hover:text-paper">Image credits</Link></li>
               <li><Link href="/sources" className="hover:text-paper">Source directory</Link></li>
               <li><Link href="/contact" className="hover:text-paper">Send a tip</Link></li>
+              <li><Link href="/advertise" className="hover:text-paper">Advertise</Link></li>
               <li><Link href="/privacy" className="hover:text-paper">Privacy & cookies</Link></li>
               <li><Link href="/terms" className="hover:text-paper">Terms</Link></li>
               <li><a href="/feed.xml" className="hover:text-paper">RSS feed</a></li>

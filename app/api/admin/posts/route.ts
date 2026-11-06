@@ -14,6 +14,8 @@ type ImageInput = {
   caption?: string;
   credit?: string;
   creditUrl?: string;
+  license?: string;
+  licenseUrl?: string;
   socialSrc?: string;
   instagram?: boolean;
 };
@@ -33,12 +35,14 @@ type Body = {
   imageAlt?: string;
   imageCredit?: string;
   imageCreditUrl?: string;
+  imageLicense?: string;
+  imageLicenseUrl?: string;
   featured?: boolean;
   draft?: boolean;
   instagramCaption?: string;
 };
 
-function sanitizeImages(input: unknown, title: string): { src: string; alt: string; credit?: string; creditUrl?: string; instagram?: boolean }[] {
+function sanitizeImages(input: unknown, title: string): { src: string; alt: string; credit?: string; creditUrl?: string; license?: string; licenseUrl?: string; instagram?: boolean }[] {
   if (!Array.isArray(input)) return [];
   return (input as ImageInput[])
     .filter((image) => typeof image?.src === "string" && image.src.trim())
@@ -53,6 +57,8 @@ function sanitizeImages(input: unknown, title: string): { src: string; alt: stri
       const caption = (image.caption ?? "").trim();
       const credit = (image.credit ?? "").trim();
       const creditUrl = (image.creditUrl ?? "").trim();
+      const license = (image.license ?? "").trim();
+      const licenseUrl = (image.licenseUrl ?? "").trim();
       const socialSrc = (image.socialSrc ?? "").trim();
       return {
         src,
@@ -60,6 +66,8 @@ function sanitizeImages(input: unknown, title: string): { src: string; alt: stri
         ...(caption ? { caption } : {}),
         ...(credit ? { credit } : {}),
         ...(creditUrl ? { creditUrl } : {}),
+        ...(license ? { license } : {}),
+        ...(licenseUrl ? { licenseUrl } : {}),
         ...(socialSrc ? { socialSrc } : {}),
         instagram: Boolean(image.instagram),
       };
@@ -147,6 +155,8 @@ export async function POST(request: Request) {
       frontmatter.imageAlt = cover.alt;
       if (cover.credit) frontmatter.imageCredit = cover.credit;
       if (cover.creditUrl) frontmatter.imageCreditUrl = cover.creditUrl;
+      if (cover.license) frontmatter.imageLicense = cover.license;
+      if (cover.licenseUrl) frontmatter.imageLicenseUrl = cover.licenseUrl;
     }
   } else if (input.image) {
     frontmatter.image = input.image;

@@ -23,7 +23,9 @@
     "brand": "node scripts/generate-brand.mjs",
     "stock": "node scripts/stock-photo.mjs",
     "images:audit": "node scripts/audit-images.mjs",
-    "cities:coverage": "node scripts/city-coverage.mjs"
+    "cities:coverage": "node scripts/city-coverage.mjs",
+    "factcheck": "node scripts/fact-check.mjs",
+    "review": "bash scripts/review-story.sh"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

@@ -41,6 +41,8 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
    ```bash
    npm run validate
    npm run images:audit
+   npm run factcheck -- --publish
+   npm run review -- --slug <slug>
    npm run build
    git add content/posts public/images/posts data/source-health.json
    git commit -m "post: <headline>"

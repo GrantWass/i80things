@@ -273,7 +273,7 @@ Do not mass-produce thin posts to chase volume. Google's spam policies target sc
 
 ## Monetization (AdSense)
 
-1. Deploy with at least 15–20 substantial original stories and the legal/transparency pages. This repo ships with 18.
+1. Deploy with at least 15–20 substantial original stories and the legal/transparency pages. This repo ships with 22.
 2. Apply at [adsense.google.com](https://www.google.com/adsense/), add the site, verify ownership, request review. Expect days to a few weeks.
 3. Set `NEXT_PUBLIC_ADSENSE_CLIENT` (`ca-pub-…`) and `ADSENSE_PUB_ID` (`pub-…`).
 4. Create three ad units and set the slot env vars (leaderboard, in-article, sidebar).
@@ -378,8 +378,10 @@ AGENT.md                       daily agent system prompt
 | `npm run new -- --title …` | Scaffold a story. |
 | `npm run social -- --slug …` | Print Instagram caption + selected image URLs (1–10). |
 | `npm run stock -- --query …` | Find, download and credit a real stock/CC photo. |
-| `npm run images:audit` | Check every story image for missing files, alt, credit, dimensions, aspect and duplicates. |
+| `npm run images:audit` | Check every story image for missing files, alt, credit, license, dimensions, aspect and duplicates. |
 | `npm run cities:coverage` | Show which corridor city hubs have local stories and which are empty. |
+| `npm run factcheck` | Deterministic second pass: frontmatter, sources, dates, stale phrasing, image license and internal links. Add `-- --publish` to fail on drafts. |
+| `npm run review -- --slug <slug>` | Read-only AI reviewer that verifies one story against its sources and returns `VERDICT: PASS` or `VERDICT: BLOCK`. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
 | `npm run brand` | Regenerate PNG brand assets. |
 

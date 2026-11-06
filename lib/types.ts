@@ -62,6 +62,10 @@ export interface PostImage {
   caption?: string;
   credit?: string;
   creditUrl?: string;
+  /** License label, e.g. "CC BY-SA 4.0". */
+  license?: string;
+  /** Link to the license deed or rights statement. */
+  licenseUrl?: string;
   /** Optional 4:5/vertical crop for Instagram; falls back to src. */
   socialSrc?: string;
   /** Include this image in the Instagram carousel/selection. */
@@ -83,6 +87,8 @@ export interface Post {
   imageAlt?: string;
   imageCredit?: string;
   imageCreditUrl?: string;
+  imageLicense?: string;
+  imageLicenseUrl?: string;
   /** Ordered gallery. The first image is the cover. */
   images: PostImage[];
   summary: string[];

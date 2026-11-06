@@ -289,6 +289,8 @@ npm run new -- \
 # edit the generated content/posts/<slug>.mdx
 npm run validate
 npm run images:audit
+npm run factcheck -- --publish
+npm run review -- --slug <slug>   # second-pass reviewer; must end VERDICT: PASS
 npm run build
 git add content/posts public/images/posts data/source-health.json
 git commit -m "post: I-80 westbound reopens near Kearney"
@@ -297,7 +299,7 @@ git push
 
 **Publish mode:** leave `draft: true` only when the editor explicitly asked for a draft. A publish run must not end with a draft.
 
-If `npm run validate`, `npm run images:audit` or `npm run build` fails, fix the file and rerun. Never push a story with a failing check. A duplicate YAML key, missing image or malformed frontmatter is a stop-and-fix error, not a warning.
+If `npm run validate`, `npm run images:audit`, `npm run factcheck` or `npm run build` fails, fix the file and rerun. If the second-pass reviewer returns `VERDICT: BLOCK`, fix the story and run it again. Never push a story with a failing check. A duplicate YAML key, missing image or malformed frontmatter is a stop-and-fix error, not a warning.
 
 Vercel rebuilds on push. The post goes live at `https://i80things.vercel.app/news/<slug>`.
 

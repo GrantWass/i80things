@@ -4,7 +4,7 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 
 ## Snapshot
 
-- **21 images across 18 stories** (covers plus three multi-image galleries).
+- **25 images across 22 stories** (covers plus three multi-image galleries).
 - **0 missing alt text, 0 missing credits, 0 duplicate files** after the fixes below.
 - Every image is **1600×900** (16:9); the largest is **450 KB**. `next/image` serves responsive AVIF/WebP crops, so the source size is not the delivered size.
 - Every image has a source/license URL.
@@ -32,7 +32,13 @@ Tooling: `npm run images:audit` (`scripts/audit-images.mjs`).
 | Lexington at mile 237 | Lexington water tower + Platte valley cornfield | Water tower gives the town identity; the cornfield is explicitly captioned as near Minden. |
 | Ogallala at mile 126 | Lake McConaughy aerial + historic gas station | Lake gives the story its reason; gas station supports the fuel-stop angle. |
 | Hit-and-run pursuit in Lincoln | Downtown Lincoln skyline | City context; the caption does not pretend the pursuit started at the Capitol. |
+| York at mile 353 | Painted hot-air-balloon water tower | The city's actual landmark; the image is the subject, not a generic field. |
+| Seward at mile 379 | Downtown Seward courthouse square | The actual downtown the story describes. |
+| Kimball at mile 22 | Downtown Kimball | The actual county-seat downtown, not a highway stock photo. |
+| Hastings at Exit 312 | Downtown Hastings, Second Street | The actual downtown; the caption explains the US-281 spur. |
+| Grand Island at mile 312 | 2026 aerial of Grand Island | Replaced a poorly sourced downtown image with a clearly credited CC0 aerial. |
 | Nighttime closures at mile 427 | Nighttime bridge construction | Stock image of bridge work, explicitly captioned as not the mile 427 site; better than a generic road shot. |
+| Nebraska scanner radio | Handheld Uniden scanner | Replaced an extreme close-up of a speaker grille with a recognizable scanner. |
 
 ## Fixes made
 

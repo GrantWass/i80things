@@ -56,7 +56,7 @@ DAILY_RUN_DRAFT=1 npm run daily
 Focus a run on a specific assignment — useful for filling city hubs or testing:
 
 ```bash
-DAILY_RUN_DRAFT=1 DAILY_RUN_FOCUS="Write three evergreen stories for the empty town hubs: Seward, York, Grand Island, Lexington, Ogallala, Kimball and Hastings." npm run daily
+DAILY_RUN_DRAFT=1 DAILY_RUN_FOCUS="Write a reported local story for a corridor town that needs coverage, and check every exit number against NDOT before publishing." npm run daily
 ```
 
 Draft mode selects the separate `i80-daily-draft` agent, whose permissions deny
@@ -87,7 +87,9 @@ opencode run --agent i80-daily \
 4. Starts `opencode run` with the `i80-daily` agent.
 5. The agent checks `npm run log` and `npm run cities:coverage`, verifies primary
    sources, writes 1–2 stories, chooses subject-matched images, adds captions
-   and credits, runs `npm run images:audit`, validates and builds.
+   and credits, runs `npm run images:audit` and `npm run factcheck -- --publish`,
+   validates and builds, then runs the read-only `npm run review -- --slug`
+   second pass. A `VERDICT: BLOCK` is fixed and re-reviewed before publishing.
 6. In publish mode it commits and pushes, then verifies the live article, the
    Instagram JPEG and the city hub. In draft mode it leaves publish-ready
    `draft: true` files and does not commit.
@@ -137,10 +139,33 @@ the Mac to Central or change the hour in the plist.
 npm run daily:uninstall
 ```
 
-## Cloud option
+## Cloud option: GitHub Actions
 
-A local job is the right first step because OpenCode is already authenticated on
-this Mac. For a machine that sleeps, the later cloud option is a scheduled
-GitHub Actions workflow that installs OpenCode, imports an `opencode auth
-export` secret, and runs the same agent. That requires storing model credentials
-in GitHub and is intentionally not enabled yet.
+GitHub Actions is **free for standard Linux runners on public repositories**.
+This repository is public, so the daily desk can run there without a paid
+Actions plan. On a private repository, GitHub Free includes 2,000 Linux minutes
+per month; macOS minutes count 10× and Windows 2×. A 10–20 minute daily run is
+roughly 300–600 Linux minutes per month.
+
+A workflow would need to:
+
+1. Check out `main` with `contents: write`.
+2. Install Node 22 and OpenCode.
+3. Import credentials from a repository secret:
+   ```bash
+   printf '%s' "$OPENCODE_AUTH_JSON" | opencode auth import
+   ```
+   Create the secret locally with `opencode auth export`; never commit it.
+4. Run `scripts/daily-run.sh` under `TZ=America/Chicago`.
+5. Use `concurrency` so two runs cannot overlap.
+6. Schedule both `10:30 UTC` and `11:30 UTC`, then exit unless
+   `date +%H` in Central is `05` — that handles daylight saving time without a
+   duplicate run.
+7. Add a failure notification (email, Slack or a GitHub issue) and a heartbeat,
+   because a green workflow is not the same as a published story.
+
+**Security caveat:** this is an agent with shell access and a model credential.
+On a public repository, keep the credential in a dedicated secret with a
+spend limit, do not expose it to pull-request workflows, and prefer a manual
+`workflow_dispatch` trigger until the run is proven. The local launchd job
+remains the default.

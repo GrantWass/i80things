@@ -86,9 +86,11 @@ must pass. Leave the files in the working tree and report the exact paths for
 human review. Do not mark anything live."
 else
   AGENT="i80-daily"
-  MODE="PUBLISH MODE. Run validate, images:audit and build before committing. Do
-not leave draft:true. Commit content, images and source-health updates, push,
-then verify the live article, Instagram JPEG and city hub."
+  MODE="PUBLISH MODE. Run validate, images:audit, factcheck --publish and build
+before committing. Run review --slug for each new story; a VERDICT: BLOCK must
+be fixed and re-reviewed. Do not leave draft:true. Commit content, images and
+source-health updates, push, then verify the live article, Instagram JPEG and
+city hub."
 fi
 
 FOCUS="${DAILY_RUN_FOCUS:-}"

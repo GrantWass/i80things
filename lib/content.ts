@@ -20,12 +20,16 @@ type Frontmatter = {
   imageAlt?: string;
   imageCredit?: string;
   imageCreditUrl?: string;
+  imageLicense?: string;
+  imageLicenseUrl?: string;
   images?: {
     src?: string;
     alt?: string;
     caption?: string;
     credit?: string;
     creditUrl?: string;
+    license?: string;
+    licenseUrl?: string;
     socialSrc?: string;
     instagram?: boolean;
   }[];
@@ -53,6 +57,8 @@ function parsePost(filename: string): Post | null {
       caption: image.caption?.trim() || undefined,
       credit: image.credit || fm.imageCredit,
       creditUrl: image.creditUrl || fm.imageCreditUrl,
+      license: image.license || fm.imageLicense,
+      licenseUrl: image.licenseUrl || fm.imageLicenseUrl,
       socialSrc: image.socialSrc,
       instagram: image.instagram ?? index === 0,
     }));
@@ -64,6 +70,8 @@ function parsePost(filename: string): Post | null {
       caption: undefined,
       credit: fm.imageCredit,
       creditUrl: fm.imageCreditUrl,
+      license: fm.imageLicense,
+      licenseUrl: fm.imageLicenseUrl,
       socialSrc: undefined,
       instagram: true,
     });
@@ -86,6 +94,8 @@ function parsePost(filename: string): Post | null {
     imageAlt: cover?.alt ?? fm.imageAlt,
     imageCredit: cover?.credit ?? fm.imageCredit,
     imageCreditUrl: cover?.creditUrl ?? fm.imageCreditUrl,
+    imageLicense: cover?.license ?? fm.imageLicense,
+    imageLicenseUrl: cover?.licenseUrl ?? fm.imageLicenseUrl,
     images,
     summary: fm.summary ?? [],
     sources: fm.sources ?? [],

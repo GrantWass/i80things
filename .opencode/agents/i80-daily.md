@@ -107,14 +107,17 @@ Then run the desk for today in `America/Chicago`.
    ```bash
    npm run validate
    npm run images:audit
+   npm run factcheck -- --publish
+   npm run review -- --slug <slug>
    npm run build
    git add content/posts public/images/posts data/source-health.json
    git commit -m "post: <headline>"
    git push
    ```
-   If validate, images:audit or build fails, fix the file and rerun. Never push
-   with a failing check or force-push. A duplicate YAML key is a validation
-   error, not a warning.
+   If validate, images:audit, factcheck or build fails, fix the file and rerun.
+   If the second-pass reviewer ends with `VERDICT: BLOCK`, fix the story and run
+   the review again. Never push with a failing check or force-push. A duplicate
+   YAML key is a validation error, not a warning.
 
    **A publish run is not done at `git push`.** After Vercel deploys:
    ```bash

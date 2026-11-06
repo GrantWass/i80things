@@ -48,9 +48,11 @@ same reporting workflow as the `i80-daily` agent.
 ## Draft-only rules
 
 - The draft must be **publish-ready**: verify facts, choose strong images, add
-  captions/credits, run `npm run validate`, `npm run images:audit` and
-  `npm run build`. Fix failures and rerun; do not report a draft as ready while
-  any check fails.
+  captions/credits, run `npm run validate`, `npm run images:audit`,
+  `npm run factcheck -- --publish` and `npm run build`. Run
+  `npm run review -- --slug <slug>` for the second pass. Fix failures and
+  rerun; do not report a draft as ready while any check fails or the reviewer
+  returns `VERDICT: BLOCK`.
 - Check `npm run cities:coverage` and prefer empty city hubs when there is no
   breaking story.
 - Do not put one-day advisories or undated "current" conditions in an

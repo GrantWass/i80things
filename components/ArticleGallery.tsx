@@ -10,17 +10,38 @@ function captionFor(image: PostImage): string {
 
 function Credit({ image }: { image: PostImage }) {
   if (!image.credit) return null;
-  return image.creditUrl ? (
-    <a
-      href={image.creditUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline decoration-line underline-offset-2 hover:text-ink"
-    >
-      {image.credit}
-    </a>
-  ) : (
-    <span>{image.credit}</span>
+  return (
+    <>
+      {image.creditUrl ? (
+        <a
+          href={image.creditUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-line underline-offset-2 hover:text-ink"
+        >
+          {image.credit}
+        </a>
+      ) : (
+        <span>{image.credit}</span>
+      )}
+      {image.license ? (
+        <span>
+          {" · "}
+          {image.licenseUrl ? (
+            <a
+              href={image.licenseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-line underline-offset-2 hover:text-ink"
+            >
+              {image.license}
+            </a>
+          ) : (
+            image.license
+          )}
+        </span>
+      ) : null}
+    </>
   );
 }
 
