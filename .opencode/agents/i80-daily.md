@@ -61,11 +61,10 @@ Then run the desk for today in `America/Chicago`.
    A due story is a candidate for an update, not an automatic rewrite. If the
    facts changed, update it, set `updated`, and add a correction note.
 
-3. **Sweep the sources.**
-   ```bash
-   npm run sources -- --hours=24
-   npm run --silent 511 -- --json
-   ```
+3. **Read the preflight bundle.**
+   The source and 511 sweeps already ran. Read the preflight bundle at
+   `$DAILY_BUNDLE` (`sources.txt`, `511.json`, `meta.json`); do not re-sweep
+   the feeds with `npm run sources` or `npm run 511`.
    Then check the primary pages yourself: NSP news, NDOT news, Nebraska 511,
    NWS alerts. The sweep is a convenience, not a source.
 

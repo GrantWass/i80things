@@ -74,12 +74,19 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 fi
 
 echo ""
-echo "--- source sweep (preflight only; the agent re-checks primary sources) ---"
-npm run sources -- --hours=24 2>&1 || echo "WARN: source sweep failed."
-
-echo ""
-echo "--- Nebraska 511 (unofficial endpoint; preflight only) ---"
-npm run --silent 511 -- --json > "$RUN_DIR/511-$STAMP.json" 2>>"$LOG" || echo "WARN: 511 preflight failed."
+echo "--- preflight bundle (sweeps already ran; the agent verifies primary sources) ---"
+BUNDLE_DIR=""
+if BUNDLE_DIR="$(bash "$REPO/scripts/preflight.sh" --reuse)"; then
+  echo "Preflight bundle: $BUNDLE_DIR"
+else
+  echo "WARN: preflight failed."
+  BUNDLE_DIR="$RUN_DIR/$STAMP"
+fi
+if [ -f "$BUNDLE_DIR/meta.json" ]; then
+  grep -q '"sources": "failed"' "$BUNDLE_DIR/meta.json" 2>/dev/null && echo "WARN: source sweep failed." || true
+  grep -q '"five11": "failed"' "$BUNDLE_DIR/meta.json" 2>/dev/null && echo "WARN: 511 preflight failed." || true
+fi
+export DAILY_BUNDLE="$BUNDLE_DIR"
 
 if [ "${DAILY_RUN_DRAFT:-0}" = "1" ]; then
   AGENT="i80-daily-draft"
@@ -104,7 +111,9 @@ fi
 PROMPT="Run the I-80 Things daily desk for $STAMP in America/Chicago.
 
 Follow .opencode/agents/$AGENT.md and .opencode/skills/i80-daily-post/SKILL.md.
-Preflight files, if present: .cache/daily-desk/511-$STAMP.json and today's source sweep above.
+Preflight bundle: $BUNDLE_DIR (sources.txt, 511.json, meta.json). The source and
+511 sweeps already ran — read the bundle; do not re-sweep the feeds with
+npm run sources or npm run 511. Verify every fact against a primary source yourself.
 
 Check npm run log, npm run cities:coverage and npm run stories:audit -- --due first. Do not duplicate a story. If a story is due and its facts changed, update it instead of writing a new one; set updated and add a correction note for substantive changes. If there is no safety/weather story, prefer a city hub with zero local stories. Verify every fact with a primary source. Choose strong, subject-matched images (1–3 when useful), add captions/credits, and run npm run images:audit. Do not put one-day advisories or undated current conditions in evergreen copy. If there is no verified story, do not force one; report what you checked and why you skipped it.
 

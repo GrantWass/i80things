@@ -90,10 +90,7 @@ jobs:
       - name: Preflight sources and 511
         if: steps.clock.outputs.run == 'true' && inputs.probe != true
         shell: bash
-        run: |
-          mkdir -p .cache/daily-desk
-          npm run sources -- --hours=24 > ".cache/daily-desk/sources-$(date +%F).txt" 2>&1 || true
-          npm run --silent 511 -- --json > ".cache/daily-desk/511-$(date +%F).json" 2>&1 || true
+        run: bash scripts/preflight.sh
 
       - name: Probe OpenCode setup
         if: steps.clock.outputs.run == 'true' && inputs.probe == true
