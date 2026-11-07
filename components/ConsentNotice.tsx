@@ -17,8 +17,8 @@ export function ConsentNotice() {
   if (!visible) return null;
 
   return (
-    <div className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto max-w-3xl border border-ink bg-paper p-3 shadow-2xl sm:flex sm:items-center sm:gap-5 sm:p-4">
-      <p className="text-[11px] leading-snug text-ink-soft sm:text-xs sm:leading-relaxed">
+    <div className="no-print fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-3xl items-center gap-3 border border-ink bg-paper p-2.5 shadow-2xl sm:gap-5 sm:p-4">
+      <p className="min-w-0 flex-1 text-[10px] leading-snug text-ink-soft sm:text-xs sm:leading-relaxed">
         <span className="sm:hidden">
           Privacy-friendly analytics.{" "}
           <Link href="/privacy" className="font-semibold underline decoration-amber">
@@ -35,7 +35,7 @@ export function ConsentNotice() {
           .
         </span>
       </p>
-      <div className="mt-2 flex shrink-0 gap-2 sm:mt-0">
+      <div className="flex shrink-0 gap-2">
         <button
           type="button"
           onClick={() => {
@@ -50,7 +50,7 @@ export function ConsentNotice() {
         </button>
         <Link
           href="/privacy"
-          className="inline-flex min-h-11 items-center border border-line px-4 py-2 text-[10px] font-bold tracking-[0.1em] text-ink uppercase hover:bg-cream sm:text-[11px]"
+          className="hidden min-h-11 items-center border border-line px-4 py-2 text-[10px] font-bold tracking-[0.1em] text-ink uppercase hover:bg-cream sm:inline-flex sm:text-[11px]"
         >
           Details
         </Link>

@@ -117,7 +117,7 @@ export default function SourcesPage() {
               Know a feed we missed? Send the URL and what it covers. We test
               every suggestion before it goes live.
             </p>
-            <Link href="/contact" className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
+            <Link href="/contact" className="mt-2 inline-flex min-h-11 items-center gap-1 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
               Submit a source <Arrow className="h-3 w-3" />
             </Link>
           </div>

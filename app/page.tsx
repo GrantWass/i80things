@@ -180,7 +180,7 @@ export default async function HomePage() {
               </p>
               <a
                 href={`mailto:${site.email}?subject=Subscribe%20to%20the%20I-80%20brief`}
-                className="mt-3 flex items-center justify-center gap-2 bg-ink px-4 py-2.5 text-[11px] font-bold tracking-[0.1em] text-paper uppercase transition hover:bg-highway"
+                className="mt-3 flex min-h-11 items-center justify-center gap-2 bg-ink px-4 py-2.5 text-[11px] font-bold tracking-[0.1em] text-paper uppercase transition hover:bg-highway"
               >
                 Get the brief <Arrow className="h-3.5 w-3.5" />
               </a>
@@ -206,7 +206,7 @@ export default async function HomePage() {
                     <li key={place.slug}>
                       <Link
                         href={`/cities/${place.slug}`}
-                        className="flex items-center justify-between px-4 py-2.5 text-sm hover:bg-cream"
+                        className="flex min-h-11 items-center justify-between px-4 py-2.5 text-sm hover:bg-cream"
                       >
                         <span className="font-semibold">{place.name}</span>
                         <span className="text-[10px] font-bold tracking-wider text-slate">
@@ -218,7 +218,7 @@ export default async function HomePage() {
                 <li>
                   <Link
                     href="/cities"
-                    className="block px-4 py-2.5 text-[10px] font-bold tracking-[0.1em] text-highway uppercase hover:bg-cream"
+                    className="flex min-h-11 items-center px-4 py-2.5 text-[10px] font-bold tracking-[0.1em] text-highway uppercase hover:bg-cream"
                   >
                     All corridor towns →
                   </Link>
@@ -313,13 +313,13 @@ export default async function HomePage() {
             <div className="flex flex-col gap-2 sm:flex-row md:justify-end">
               <Link
                 href="/sources"
-                className="bg-amber px-5 py-3 text-center text-[11px] font-bold tracking-[0.1em] text-ink uppercase transition hover:bg-paper"
+                className="inline-flex min-h-11 items-center justify-center bg-amber px-5 py-3 text-center text-[11px] font-bold tracking-[0.1em] text-ink uppercase transition hover:bg-paper"
               >
                 Open the source desk
               </Link>
               <Link
                 href="/editorial-standards"
-                className="border border-cream/30 px-5 py-3 text-center text-[11px] font-bold tracking-[0.1em] text-paper uppercase transition hover:border-paper"
+                className="inline-flex min-h-11 items-center justify-center border border-cream/30 px-5 py-3 text-center text-[11px] font-bold tracking-[0.1em] text-paper uppercase transition hover:border-paper"
               >
                 Editorial standards
               </Link>

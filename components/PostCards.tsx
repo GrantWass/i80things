@@ -206,7 +206,7 @@ export function SectionHeading({
       {href ? (
         <Link
           href={href}
-          className="kicker flex shrink-0 items-center gap-1.5 text-highway hover:text-amber-dark"
+          className="kicker flex min-h-11 shrink-0 items-center gap-1.5 text-highway hover:text-amber-dark"
         >
           {linkLabel} <Arrow className="h-3.5 w-3.5" />
         </Link>

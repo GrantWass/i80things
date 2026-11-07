@@ -235,7 +235,7 @@ export default async function CityPage({
                 <Link
                   key={topic}
                   href={`/topics/${topic}`}
-                  className="border border-line px-3 py-1.5 text-[10px] font-bold tracking-[0.08em] text-ink-soft uppercase hover:border-ink"
+                  className="inline-flex min-h-11 items-center border border-line px-3 py-1.5 text-[10px] font-bold tracking-[0.08em] text-ink-soft uppercase hover:border-ink"
                 >
                   {topicLabel(topic)}
                 </Link>
@@ -362,7 +362,7 @@ export default async function CityPage({
                   href={`https://forecast.weather.gov/MapClick.php?lat=${place.lat}&lon=${place.lon}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[9px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark"
+                  className="inline-flex min-h-11 items-center text-[9px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark"
                 >
                   NWS forecast
                 </a>
@@ -430,7 +430,7 @@ export default async function CityPage({
                   add town-level feeds as we verify them.
                 </p>
               )}
-              <Link href="/sources" className="mt-3 block text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
+              <Link href="/sources" className="mt-3 inline-flex min-h-11 items-center text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
                 Full source directory →
               </Link>
             </div>
@@ -442,7 +442,7 @@ export default async function CityPage({
               <ul className="mt-2 divide-y divide-line">
                 {west ? (
                   <li className="py-2 first:pt-0 last:pb-0">
-                    <Link href={`/cities/${west.slug}`} className="group flex items-center justify-between text-[13px]">
+                    <Link href={`/cities/${west.slug}`} className="group flex min-h-11 items-center justify-between text-[13px]">
                       <span className="font-semibold group-hover:text-amber-dark">{west.name}</span>
                       <span className="text-[10px] text-slate">MM {west.mileMarker} · West</span>
                     </Link>
@@ -450,7 +450,7 @@ export default async function CityPage({
                 ) : null}
                 {east ? (
                   <li className="py-2 first:pt-0 last:pb-0">
-                    <Link href={`/cities/${east.slug}`} className="group flex items-center justify-between text-[13px]">
+                    <Link href={`/cities/${east.slug}`} className="group flex min-h-11 items-center justify-between text-[13px]">
                       <span className="font-semibold group-hover:text-amber-dark">{east.name}</span>
                       <span className="text-[10px] text-slate">MM {east.mileMarker} · East</span>
                     </Link>
@@ -458,7 +458,7 @@ export default async function CityPage({
                 ) : null}
                 {nearby.slice(0, 2).map((p) => (
                   <li key={p.slug} className="py-2">
-                    <Link href={`/cities/${p.slug}`} className="group flex items-center justify-between text-[13px]">
+                    <Link href={`/cities/${p.slug}`} className="group flex min-h-11 items-center justify-between text-[13px]">
                       <span className="font-semibold group-hover:text-amber-dark">{p.name}</span>
                       <span className="text-[10px] text-slate">MM {p.mileMarker}</span>
                     </Link>
@@ -475,7 +475,7 @@ export default async function CityPage({
               </p>
               <Link
                 href="/contact"
-                className="mt-3 inline-block border border-cream/30 px-3 py-2 text-[10px] font-bold tracking-[0.1em] uppercase hover:border-paper"
+                className="mt-3 inline-flex min-h-11 items-center border border-cream/30 px-3 py-2 text-[10px] font-bold tracking-[0.1em] uppercase hover:border-paper"
               >
                 Send a tip
               </Link>

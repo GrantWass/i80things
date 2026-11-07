@@ -147,7 +147,7 @@ export function SiteHeader() {
                 )}
                 <Link
                   href="/admin"
-                  className="block px-3 py-3 text-xs font-semibold text-slate hover:bg-cream"
+                  className="flex min-h-11 items-center px-3 py-3 text-xs font-semibold text-slate hover:bg-cream"
                 >
                   Staff admin
                 </Link>

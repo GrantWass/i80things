@@ -71,7 +71,7 @@ export default async function NewsIndexPage() {
               <Link
                 key={t.slug}
                 href={`/topics/${t.slug}`}
-                className="border border-line bg-paper px-3 py-1.5 text-[10px] font-bold tracking-[0.08em] text-ink-soft uppercase hover:border-ink"
+                className="inline-flex min-h-11 items-center border border-line bg-paper px-3 py-1.5 text-[10px] font-bold tracking-[0.08em] text-ink-soft uppercase hover:border-ink"
               >
                 {t.label}
               </Link>
@@ -105,7 +105,7 @@ export default async function NewsIndexPage() {
               <ul className="grid grid-cols-2 gap-x-3 gap-y-2 text-[13px]">
                 {places.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/cities/${p.slug}`} className="hover:text-amber-dark">
+                    <Link href={`/cities/${p.slug}`} className="inline-flex min-h-11 items-center hover:text-amber-dark">
                       {p.name}
                     </Link>
                   </li>
@@ -122,7 +122,7 @@ export default async function NewsIndexPage() {
                 href={site.instagramUrl}
                 target="_blank"
                 rel="me noopener"
-                className="mt-3 inline-block border border-cream/30 px-3 py-2 text-[10px] font-bold tracking-[0.1em] uppercase hover:border-paper"
+                className="mt-3 inline-flex min-h-11 items-center border border-cream/30 px-3 py-2 text-[10px] font-bold tracking-[0.1em] uppercase hover:border-paper"
               >
                 @i80.things
               </a>

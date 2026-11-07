@@ -145,10 +145,10 @@ export function SourceExplorer({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={`Search ${sources.length} sources — scanners, papers, 511, weather…`}
-              className="w-full border border-line bg-paper py-2.5 pr-3 pl-9 text-sm outline-none placeholder:text-slate/70 focus:border-ink"
+              className="min-h-11 w-full border border-line bg-paper py-2.5 pr-3 pl-9 text-sm outline-none placeholder:text-slate/70 focus:border-ink"
             />
           </label>
-          <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs font-semibold text-ink-soft">
+          <label className="flex min-h-11 shrink-0 cursor-pointer items-center gap-2 text-xs font-semibold text-ink-soft">
             <input
               type="checkbox"
               checked={recommended}
@@ -157,7 +157,7 @@ export function SourceExplorer({
             />
             Recommended only
           </label>
-          <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs font-semibold text-ink-soft">
+          <label className="flex min-h-11 shrink-0 cursor-pointer items-center gap-2 text-xs font-semibold text-ink-soft">
             <input
               type="checkbox"
               checked={problemsOnly}
@@ -171,7 +171,7 @@ export function SourceExplorer({
           <button
             type="button"
             onClick={() => setCategory("all")}
-            className={`shrink-0 border px-3 py-1.5 text-[11px] font-bold tracking-[0.06em] uppercase transition ${
+            className={`inline-flex min-h-11 shrink-0 items-center border px-3 py-1.5 text-[11px] font-bold tracking-[0.06em] uppercase transition ${
               category === "all"
                 ? "border-ink bg-ink text-paper"
                 : "border-line bg-paper text-ink-soft hover:border-ink"
@@ -184,7 +184,7 @@ export function SourceExplorer({
               key={c.id}
               type="button"
               onClick={() => setCategory(c.id)}
-              className={`shrink-0 border px-3 py-1.5 text-[11px] font-bold tracking-[0.06em] uppercase transition ${
+              className={`inline-flex min-h-11 shrink-0 items-center border px-3 py-1.5 text-[11px] font-bold tracking-[0.06em] uppercase transition ${
                 category === c.id
                   ? "border-ink bg-ink text-paper"
                   : "border-line bg-paper text-ink-soft hover:border-ink"
@@ -247,7 +247,7 @@ export function SourceExplorer({
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackEvent("source_open", { source: source.id, category: source.category })}
-                      className="hover:underline hover:decoration-amber hover:decoration-2 hover:underline-offset-2"
+                      className="inline-flex min-h-11 items-center hover:underline hover:decoration-amber hover:decoration-2 hover:underline-offset-2"
                     >
                       {source.name}
                     </a>
@@ -294,7 +294,7 @@ export function SourceExplorer({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("source_open", { source: source.id, category: source.category })}
-                className="inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
+                className="inline-flex min-h-11 items-center gap-1 text-[11px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
               >
                 {source.kind === "scanner" ? "Listen" : "Open"} <Arrow className="h-3 w-3" />
               </a>
@@ -302,7 +302,7 @@ export function SourceExplorer({
                 <button
                   type="button"
                   onClick={() => copyFeed(source)}
-                  className="text-[11px] font-semibold text-slate underline decoration-line underline-offset-2 hover:text-ink"
+                  className="inline-flex min-h-11 items-center text-[11px] font-semibold text-slate underline decoration-line underline-offset-2 hover:text-ink"
                 >
                   {copied === source.id ? "Copied" : source.feedUrl ? "Copy RSS" : "Copy API"}
                 </button>

@@ -77,7 +77,7 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
                   external
                   event="outbound"
                   eventData={{ destination: link.label }}
-                  className="group flex items-center justify-between gap-2 text-[13px] text-ink-soft hover:text-ink"
+                  className="group flex min-h-11 items-center justify-between gap-2 text-[13px] text-ink-soft hover:text-ink"
                 >
                   <span>
                     <span className="font-semibold">{link.label}</span>
@@ -92,13 +92,13 @@ export function CorridorPanel({ alerts }: { alerts: CorridorAlert[] }) {
 
         <Link
           href="/conditions"
-          className="mt-4 block bg-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-paper uppercase transition hover:bg-highway"
+          className="mt-4 flex min-h-11 items-center justify-center bg-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-paper uppercase transition hover:bg-highway"
         >
           I-80 conditions &amp; closures
         </Link>
         <Link
           href="/sources"
-          className="mt-2 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-ink uppercase transition hover:bg-ink hover:text-paper"
+          className="mt-2 flex min-h-11 items-center justify-center border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] text-ink uppercase transition hover:bg-ink hover:text-paper"
         >
           Full source directory
         </Link>
@@ -125,7 +125,7 @@ function TownChip({ slug, name, mm }: { slug: string; name: string; mm: string }
   return (
     <Link
       href={`/cities/${slug}`}
-      className="group flex items-center gap-2 border border-line bg-paper px-2.5 py-1.5 transition hover:border-ink hover:bg-cream sm:px-3 sm:py-2"
+      className="group flex min-h-11 items-center gap-2 border border-line bg-paper px-2.5 py-1.5 transition hover:border-ink hover:bg-cream sm:px-3 sm:py-2"
     >
       <span className="font-serif text-sm font-semibold text-ink group-hover:underline group-hover:decoration-amber">
         {name}
@@ -145,7 +145,7 @@ function TownChips() {
       ))}
       <Link
         href="/cities"
-        className="flex items-center gap-1 border border-dashed border-line px-2.5 py-1.5 text-[10px] font-bold tracking-[0.06em] text-highway uppercase transition hover:border-ink hover:bg-cream sm:px-3 sm:py-2"
+        className="flex min-h-11 items-center gap-1 border border-dashed border-line px-2.5 py-1.5 text-[10px] font-bold tracking-[0.06em] text-highway uppercase transition hover:border-ink hover:bg-cream sm:px-3 sm:py-2"
       >
         All towns →
       </Link>
@@ -159,7 +159,7 @@ export function CityRail() {
       {/* On phones the full town list would be five rows tall, so keep it
           behind a disclosure. The desktop rail simply wraps. */}
       <details className="group md:hidden">
-        <summary className="flex cursor-pointer list-none items-center justify-between border border-line bg-paper px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-ink uppercase [&::-webkit-details-marker]:hidden">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between border border-line bg-paper px-3 py-2 text-[10px] font-bold tracking-[0.08em] text-ink uppercase [&::-webkit-details-marker]:hidden">
           Jump to a corridor town
           <span className="text-slate transition group-open:rotate-180">
             ▾

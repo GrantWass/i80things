@@ -106,7 +106,7 @@ export default async function ConditionsPage() {
               external
               event="conditions_511_click"
               eventData={{ placement: "header" }}
-              className="bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
+              className="inline-flex min-h-11 items-center bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
             >
               Open Nebraska 511
             </TrackedLink>
@@ -154,7 +154,7 @@ export default async function ConditionsPage() {
                   external
                   event="conditions_511_click"
                   eventData={{ placement: "event_list" }}
-                  className="kicker text-highway hover:text-amber-dark"
+                  className="kicker inline-flex min-h-11 items-center text-highway hover:text-amber-dark"
                 >
                   Verify on 511
                 </TrackedLink>
@@ -209,7 +209,7 @@ export default async function ConditionsPage() {
                             category: event.category,
                             mile: event.location?.primaryLinearReference ?? null,
                           }}
-                          className="font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
+                          className="inline-flex min-h-11 items-center font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
                         >
                           Open on 511
                         </TrackedLink>
@@ -382,7 +382,7 @@ export default async function ConditionsPage() {
                     <Link
                       key={slug}
                       href={`/cities/${slug}`}
-                      className="border border-line bg-paper px-2.5 py-1 text-[10px] font-bold tracking-[0.06em] text-ink-soft uppercase hover:border-ink"
+                      className="inline-flex min-h-11 items-center border border-line bg-paper px-2.5 py-1 text-[10px] font-bold tracking-[0.06em] text-ink-soft uppercase hover:border-ink"
                     >
                       {slug.replace("-", " ")}
                     </Link>
@@ -391,13 +391,13 @@ export default async function ConditionsPage() {
               </div>
               <Link
                 href="/exits"
-                className="mt-3 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
+                className="mt-3 flex min-h-11 items-center justify-center border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
               >
                 All I-80 exits
               </Link>
               <Link
                 href="/construction"
-                className="mt-2 block border border-line px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:border-ink"
+                className="mt-2 flex min-h-11 items-center justify-center border border-line px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:border-ink"
               >
                 Construction tracker
               </Link>

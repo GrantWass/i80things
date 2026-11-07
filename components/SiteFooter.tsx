@@ -8,8 +8,8 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 bg-ink text-cream">
       <div className="container-page py-12">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="col-span-2 md:col-span-1">
             <Brand light />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/70">
               Independent coverage of Interstate 80 in Nebraska, from Omaha to
@@ -23,7 +23,7 @@ export function SiteFooter() {
           </div>
           <div>
             <h2 className="kicker mb-3 text-amber">Corridor</h2>
-            <ul className="space-y-2 text-sm text-cream/75">
+            <ul className="space-y-2 text-sm text-cream/75 max-md:[&_a]:inline-flex max-md:[&_a]:min-h-11 max-md:[&_a]:items-center">
               {places.slice(0, 6).map((p) => (
                 <li key={p.slug}>
                   <Link href={`/cities/${p.slug}`} className="hover:text-paper">
@@ -40,7 +40,7 @@ export function SiteFooter() {
           </div>
           <div>
             <h2 className="kicker mb-3 text-amber">Coverage</h2>
-            <ul className="space-y-2 text-sm text-cream/75">
+            <ul className="space-y-2 text-sm text-cream/75 max-md:[&_a]:inline-flex max-md:[&_a]:min-h-11 max-md:[&_a]:items-center">
               <li>
                 <Link href="/conditions" className="font-semibold text-cream hover:text-paper">
                   Road conditions
@@ -60,9 +60,9 @@ export function SiteFooter() {
               ))}
             </ul>
           </div>
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h2 className="kicker mb-3 text-amber">The desk</h2>
-            <ul className="space-y-2 text-sm text-cream/75">
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-cream/75 md:grid-cols-1 md:space-y-2 max-md:[&_a]:inline-flex max-md:[&_a]:min-h-11 max-md:[&_a]:items-center">
               <li><Link href="/search" className="hover:text-paper">Search</Link></li>
               <li><Link href="/about" className="hover:text-paper">About & masthead</Link></li>
               <li><Link href="/editorial-standards" className="hover:text-paper">Editorial standards</Link></li>
