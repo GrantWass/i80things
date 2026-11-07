@@ -14,6 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import matter from "gray-matter";
+import { parseStory, publishVerdict } from "../lib/story.mjs";
 
 const args = process.argv.slice(2);
 const publish = args.includes("--publish");
@@ -130,9 +131,13 @@ for (const file of files) {
   const body = stripCode(parsed.content);
   const report = { file: relative, errors: 0, warnings: 0 };
 
-  if (!data.title || String(data.title).trim().length < 8) {
-    error(relative, "missing or too-short title");
-  }
+  const story = parseStory(raw, { path: path.basename(file) });
+  const verdict = publishVerdict(story, {
+    mode: publish ? "publish" : "draft",
+  });
+  for (const message of verdict.errors) error(relative, message);
+  for (const message of verdict.warnings) warn(relative, message);
+
   if (!data.dek || String(data.dek).trim().length < 20) {
     error(relative, "missing or too-short dek");
   }
@@ -144,11 +149,6 @@ for (const file of files) {
     if (length > 160) warn(relative, "seoDescription is over 160 characters");
     if (length < 120) warn(relative, "seoDescription is under 120 characters");
   }
-  if (!data.date || Number.isNaN(new Date(data.date).getTime())) {
-    error(relative, "missing or invalid date");
-  } else if (new Date(data.date).getTime() > Date.now() + 86400000) {
-    error(relative, "date is more than a day in the future");
-  }
   if (data.updated) {
     if (Number.isNaN(new Date(data.updated).getTime())) {
       error(relative, "invalid updated date");
@@ -158,9 +158,6 @@ for (const file of files) {
     if (!/\b(correction|corrected|updated|update)\b/i.test(body)) {
       warn(relative, "updated date is set but the body has no correction/update note");
     }
-  }
-  if (publish && data.draft === true) {
-    error(relative, "draft: true in a publish run");
   }
   if (!data.city) {
     error(relative, "missing city");
@@ -173,9 +170,6 @@ for (const file of files) {
     for (const topic of data.topics) {
       if (!knownTopics.has(topic)) warn(relative, `unknown topic slug: ${topic}`);
     }
-  }
-  if (!Array.isArray(data.summary) || data.summary.length < 3) {
-    warn(relative, "summary should have at least three bullets");
   }
   if (!Array.isArray(data.sources) || !data.sources.length) {
     error(relative, "missing sources");
@@ -250,28 +244,12 @@ for (const file of files) {
     warn(relative, "no image");
   }
   for (const [index, image] of images.entries()) {
-    if (!image?.alt || !String(image.alt).trim()) error(relative, `image ${index + 1}: missing alt`);
-    if (!image?.credit) error(relative, `image ${index + 1}: missing credit`);
-    if (image?.credit && !image?.creditUrl) error(relative, `image ${index + 1}: missing credit URL`);
-    if (!image?.license) error(relative, `image ${index + 1}: missing license`);
-    if (image?.license && !image?.licenseUrl) error(relative, `image ${index + 1}: missing license URL`);
-    if (image?.licenseUrl && !urlIsValid(image.licenseUrl)) {
-      error(relative, `image ${index + 1}: invalid license URL`);
-    }
     const caption = String(image?.caption ?? "");
     if (caption && caption.length < 20) warn(relative, `image ${index + 1}: very short caption`);
     if (/\bstock\b/i.test(caption) && !/\bnot (?:the|this)\b/i.test(caption)) {
       warn(relative, `image ${index + 1}: stock image caption should say it is not the actual site`);
     }
   }
-  if (data.image) {
-    if (!data.imageAlt) error(relative, "legacy image: missing alt");
-    if (!data.imageCredit) error(relative, "legacy image: missing credit");
-    if (!data.imageCreditUrl) error(relative, "legacy image: missing credit URL");
-    if (!data.imageLicense) error(relative, "legacy image: missing license");
-    if (!data.imageLicenseUrl) error(relative, "legacy image: missing license URL");
-  }
-
   // Exit numbers are the easiest hard fact to get wrong. Check every
   // "Exit N" against the NDOT-derived registry and the story's city range.
   const exitMentions = [...body.matchAll(/\bExit\s+(\d{1,3})\b/g)];

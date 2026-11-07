@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { parseStory, publishVerdict } from "../lib/story.mjs";
 
 const postsDir = path.join(process.cwd(), "content", "posts");
 const placesSource = fs.readFileSync(path.join(process.cwd(), "data", "places.ts"), "utf8");
@@ -33,16 +34,15 @@ for (const file of files) {
   const slug = file.replace(/\.mdx?$/, "");
   const at = `content/posts/${file}`;
 
-  if (!data.title) errors.push(`${at}: missing title`);
-  if (!data.dek) errors.push(`${at}: missing dek`);
-  if (!data.date || Number.isNaN(new Date(data.date).getTime())) errors.push(`${at}: invalid or missing date`);
+  const story = parseStory(raw, { path: file });
+  const verdict = publishVerdict(story, { mode: "draft" });
+  for (const message of verdict.errors) errors.push(`${at}: ${message}`);
+  for (const message of verdict.warnings) warnings.push(`${at}: ${message}`);
+
   if (!data.city || !validCities.has(data.city)) errors.push(`${at}: invalid city "${data.city}"`);
   if (!Array.isArray(data.topics) || data.topics.length === 0) errors.push(`${at}: add at least one topic`);
   for (const topic of data.topics ?? []) {
     if (!validTopics.has(topic)) errors.push(`${at}: unknown topic "${topic}"`);
-  }
-  if (!Array.isArray(data.summary) || data.summary.length < 2) {
-    errors.push(`${at}: add at least 2 "short version" bullets`);
   }
   if (!Array.isArray(data.sources) || data.sources.length === 0) {
     errors.push(`${at}: add at least one primary source`);
@@ -70,9 +70,6 @@ for (const file of files) {
           errors.push(`${label}: missing src`);
           return;
         }
-        if (!image.alt || !String(image.alt).trim()) {
-          errors.push(`${label}: missing alt text`);
-        }
         if (image.src.startsWith("/") && !image.src.startsWith("/api/")) {
           const imagePath = path.join(process.cwd(), "public", image.src.replace(/^\//, ""));
           if (!fs.existsSync(imagePath)) errors.push(`${label}: image not found at public${image.src}`);
@@ -83,9 +80,6 @@ for (const file of files) {
         }
         if (image.instagram !== undefined && typeof image.instagram !== "boolean") {
           errors.push(`${label}: "instagram" must be true or false`);
-        }
-        if (!image.credit) {
-          warnings.push(`${label}: no photo credit`);
         }
       });
       if (!data.images.some((image) => image && image.instagram)) {
@@ -98,7 +92,6 @@ for (const file of files) {
   } else {
     titles.set(data.title, file);
   }
-  if (data.draft) warnings.push(`${at}: draft — will not appear on the site`);
   if (!data.instagramCaption && (!data.title || !data.dek)) {
     warnings.push(`${at}: no Instagram caption and not enough metadata to generate one`);
   }

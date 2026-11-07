@@ -1,113 +1,46 @@
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
+import { readStoryFile } from "@/lib/story.mjs";
 import type { Post } from "@/lib/types";
 import { readingTime } from "@/lib/utils";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
-type Frontmatter = {
-  title?: string;
-  dek?: string;
-  seoTitle?: string;
-  seoDescription?: string;
-  date?: string;
-  updated?: string;
-  author?: string;
-  city?: string;
-  topics?: string[];
-  tags?: string[];
-  mileMarker?: string;
-  image?: string;
-  imageAlt?: string;
-  imageCredit?: string;
-  imageCreditUrl?: string;
-  imageLicense?: string;
-  imageLicenseUrl?: string;
-  images?: {
-    src?: string;
-    alt?: string;
-    caption?: string;
-    credit?: string;
-    creditUrl?: string;
-    license?: string;
-    licenseUrl?: string;
-    socialSrc?: string;
-    instagram?: boolean;
-  }[];
-  summary?: string[];
-  sources?: { name: string; url: string }[];
-  featured?: boolean;
-  draft?: boolean;
-  instagramCaption?: string;
-};
-
 function parsePost(filename: string): Post | null {
-  const slug = filename.replace(/\.mdx?$/, "");
   const fullPath = path.join(postsDirectory, filename);
-  const raw = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(raw);
-  const fm = data as Frontmatter;
+  const story = readStoryFile(fullPath);
 
-  if (!fm.title || !fm.date || !fm.dek) return null;
+  if (!story.title || !story.date || !story.dek) return null;
 
-  const images = (Array.isArray(fm.images) ? fm.images : [])
-    .filter((image) => typeof image?.src === "string" && image.src.trim())
-    .map((image, index) => ({
-      src: image.src!.trim(),
-      alt: (image.alt || fm.imageAlt || fm.title || "").trim(),
-      caption: image.caption?.trim() || undefined,
-      credit: image.credit || fm.imageCredit,
-      creditUrl: image.creditUrl || fm.imageCreditUrl,
-      license: image.license || fm.imageLicense,
-      licenseUrl: image.licenseUrl || fm.imageLicenseUrl,
-      socialSrc: image.socialSrc,
-      instagram: image.instagram ?? index === 0,
-    }));
-
-  if (!images.length && fm.image) {
-    images.push({
-      src: fm.image,
-      alt: (fm.imageAlt || fm.title || "").trim(),
-      caption: undefined,
-      credit: fm.imageCredit,
-      creditUrl: fm.imageCreditUrl,
-      license: fm.imageLicense,
-      licenseUrl: fm.imageLicenseUrl,
-      socialSrc: undefined,
-      instagram: true,
-    });
-  }
-
-  const cover = images[0];
+  const cover = story.images[0];
 
   return {
-    slug,
-    title: fm.title,
-    dek: fm.dek,
-    seoTitle: fm.seoTitle,
-    seoDescription: fm.seoDescription,
-    date: fm.date,
-    updated: fm.updated,
-    author: fm.author || "corridor-desk",
-    city: fm.city || "statewide",
-    topics: fm.topics ?? [],
-    tags: fm.tags ?? [],
-    mileMarker: fm.mileMarker,
-    image: cover?.src ?? fm.image,
-    imageAlt: cover?.alt ?? fm.imageAlt,
-    imageCredit: cover?.credit ?? fm.imageCredit,
-    imageCreditUrl: cover?.creditUrl ?? fm.imageCreditUrl,
-    imageLicense: cover?.license ?? fm.imageLicense,
-    imageLicenseUrl: cover?.licenseUrl ?? fm.imageLicenseUrl,
-    images,
-    summary: fm.summary ?? [],
-    sources: fm.sources ?? [],
-    featured: fm.featured ?? false,
-    draft: fm.draft ?? false,
-    instagramCaption: fm.instagramCaption,
-    body: content,
-    readingTime: readingTime(content),
+    slug: story.slug,
+    title: story.title,
+    dek: story.dek,
+    seoTitle: story.seoTitle,
+    seoDescription: story.seoDescription,
+    date: story.date,
+    updated: story.updated,
+    author: story.author,
+    city: story.city,
+    topics: story.topics,
+    tags: story.tags,
+    mileMarker: story.mileMarker,
+    image: cover?.src ?? story.image,
+    imageAlt: cover?.alt ?? story.imageAlt,
+    imageCredit: cover?.credit ?? story.imageCredit,
+    imageCreditUrl: cover?.creditUrl ?? story.imageCreditUrl,
+    imageLicense: cover?.license ?? story.imageLicense,
+    imageLicenseUrl: cover?.licenseUrl ?? story.imageLicenseUrl,
+    images: story.images,
+    summary: story.summary,
+    sources: story.sources,
+    featured: story.featured,
+    draft: story.draft,
+    instagramCaption: story.instagramCaption,
+    body: story.body,
+    readingTime: readingTime(story.body),
   };
 }
 
