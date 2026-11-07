@@ -17,7 +17,7 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 ## What's in this repo
 
 - **News site** — Next.js 16 App Router, Tailwind 4, MDX content, static/ISR pages.
-- **75 verified sources** — town newspapers, State Patrol, NDOT, 511, NWS, 35 RSS/discovery feeds, open data APIs and one human-only scanner directory link.
+- **81 verified sources** — town newspapers, State Patrol, NDOT, 511, NWS, 35 RSS/discovery feeds, open data APIs and one human-only scanner directory link.
 - **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor, a GitHub Actions schedule and a Vercel Cron fallback. `npm run daily` runs the desk; `npm run daily:install` installs the optional local 5:30 a.m. Central job.
 - **Live corridor conditions** — `/conditions` combines Nebraska 511 closures/construction with point-based NWS alerts for every corridor town, cached for five minutes, plus a pure-CSS corridor map and auto-refresh.
 - **Source health** — `npm run sources` writes `data/source-health.json`; `/sources` shows OK/stale/error/manual status for every feed.
@@ -211,7 +211,7 @@ An OpenCode skill is included at [`.opencode/skills/i80-daily-post/SKILL.md`](./
 | Endpoint | Returns |
 | --- | --- |
 | `/api/posts` | Published stories with title, dek, date, city, topics, sources, URL, image and caption URLs. Supports `?limit=`, `?city=`, `?topic=`, `?since=`. |
-| `/api/sources` | All 75 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
+| `/api/sources` | All 81 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
 | `/api/alerts` | Active NWS alerts for all corridor towns (point-based). |
 | `/api/social/<slug>` | 1080×1350 JPEG for the cover; add `?image=N` for other gallery images. |
 | `/api/social/<slug>/caption` | JSON caption + URLs. |
@@ -228,11 +228,11 @@ All public endpoints send permissive CORS headers; be polite and cache.
 
 The directory lives in [`data/sources.json`](./data/sources.json) and is published at **/sources** with search, category filters and copyable feed URLs.
 
-**75 sources** (verified November 2026):
+**81 sources** (verified November 2026):
 
 - **One scanner directory link** — the daily desk cannot listen to audio, so individual Broadcastify feeds are not part of the automated source stack. The public directory points humans to the statewide index; scanner tips still require agency confirmation.
-- **35 RSS/discovery feeds** — Omaha World-Herald, WOWT, KETV, 3 News Now, Omaha Daily Record, Daily Nonpareil, Lincoln Journal Star, 10/11, KLKN, KFOR, York News-Times, Fremont Tribune, Columbus Telegram, Grand Island Independent, Hastings Tribune, Kearney Hub, Lexington Clipper-Herald, North Platte Telegraph, Sidney Sun-Telegraph, Star-Herald, Beatrice Daily Sun, Nebraska Examiner, Flatwater Free Press, McCook Gazette, Grant Tribune, Nebraska Trucking, Western Nebraska Observer, Cozad Local, Phelps County Focus, Aurora News-Register, Panhandle Post, Seward Independent, Nebraska Public Media and News Channel Nebraska. Some newspaper feeds use Google News discovery because the paper blocks direct RSS; open the original article before reporting.
-- **39 official and data links** — NSP, Omaha PD, Lincoln PD, Hastings PD, Adams County Sheriff, Hamilton County, Kimball County, NEMA, State Fire Marshal, DHHS, Nebraska 511, NDOT, plow tracker, NWS offices, alert API, AADT ArcGIS, Lincoln crash data, FARS, Amtrak/Amtraker, Legislature.
+- **35 RSS/discovery feeds** — Omaha World-Herald, WOWT, KETV, 3 News Now, Omaha Daily Record, Daily Nonpareil, Lincoln Journal Star, 10/11, KLKN, KFOR, York News-Times, Fremont Tribune, Columbus Telegram, Grand Island Independent, Hastings Tribune, Kearney Hub, Lexington Clipper-Herald, North Platte Telegraph, Sidney Sun-Telegraph, Star-Herald, Beatrice Daily Sun, Nebraska Examiner, Flatwater Free Press, McCook Gazette, Grant Tribune, Nebraska Trucking, Western Nebraska Observer, Cozad Local, Phelps County Focus, Aurora News-Register, Panhandle Post, Seward Independent, Nebraska Public Media and News Channel Nebraska. North Platte Post is listed as a web-only local outlet. Some newspaper feeds use Google News discovery because the paper blocks direct RSS; open the original article before reporting.
+- **45 official and data links** — NSP, Omaha PD, Lincoln PD, Kearney PD, Hastings PD, North Platte PD, Hall County Sheriff, Adams County Sheriff, Hamilton County, Kimball County, city news flashes for Kearney and North Platte, NEMA, State Fire Marshal, DHHS, Nebraska 511, NDOT, plow tracker, NWS offices, alert API, AADT ArcGIS, Lincoln crash data, FARS, Amtrak/Amtraker, Legislature.
 
 ### Access caveats (important)
 

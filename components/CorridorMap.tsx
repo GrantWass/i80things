@@ -339,9 +339,19 @@ function MapCanvas({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={describeGroup(group)}
-            className="cursor-pointer"
+            className="cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-dark"
           >
             <title>{describeGroup(group)}</title>
+            {/* Invisible hit area keeps the visual marker small while giving
+                touch users a full 44px target on the rotated phone map. */}
+            <circle
+              cx={cx}
+              cy={cy}
+              r={isVertical ? 44 : 30}
+              fill="transparent"
+              pointerEvents="all"
+              aria-hidden="true"
+            />
             <line
               x1={position.x}
               y1={position.y}

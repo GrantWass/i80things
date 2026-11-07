@@ -956,6 +956,25 @@
     "verified": "2026-11-07"
   },
   {
+    "id": "north-platte-post",
+    "name": "North Platte Post",
+    "category": "news",
+    "kind": "web",
+    "url": "https://northplattepost.com/",
+    "coverage": "North Platte & Lincoln County",
+    "city": "north-platte",
+    "mileMarker": "177–190",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Local digital outlet with police press releases and city coverage. No usable RSS; check manually.",
+    "tags": [
+      "North Platte",
+      "local news",
+      "press releases"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
     "id": "broadcastify-ne",
     "name": "Broadcastify — Nebraska scanner directory",
     "category": "scanner",
@@ -1110,6 +1129,101 @@
       "Kimball County",
       "government",
       "news"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "kearney-news-flash",
+    "name": "City of Kearney — News Flash",
+    "category": "government",
+    "kind": "web",
+    "url": "https://www.cityofkearney.org/CivicAlerts.aspx?CID=1",
+    "coverage": "Kearney city government & alerts",
+    "city": "kearney",
+    "mileMarker": "272–281",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official city news flash: lane closures, city services and public notices. No RSS.",
+    "tags": [
+      "Kearney",
+      "city government",
+      "news flash"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "kearney-pd-releases",
+    "name": "Kearney Police — Press releases",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://www.cityofkearney.org/Archive.asp?AMID=16",
+    "coverage": "Kearney / Buffalo County",
+    "city": "kearney",
+    "mileMarker": "272–281",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official Kearney Police press-release archive. No RSS; check the latest items manually.",
+    "tags": [
+      "Kearney",
+      "police",
+      "press releases"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "hall-so-media",
+    "name": "Hall County Sheriff — Media reports",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://www.hallcountyne.gov/government/sheriff/hcso_media_reports.php",
+    "coverage": "Hall County / Grand Island",
+    "city": "grand-island",
+    "mileMarker": "306–318",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official sheriff media reports for Grand Island and Hall County. No RSS; check manually.",
+    "tags": [
+      "Grand Island",
+      "Hall County",
+      "sheriff",
+      "media reports"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "north-platte-news",
+    "name": "City of North Platte — News Flash",
+    "category": "government",
+    "kind": "web",
+    "url": "https://northplattene.gov/m/NewsFlash",
+    "coverage": "North Platte city government & alerts",
+    "city": "north-platte",
+    "mileMarker": "177–190",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official city news: closures, services, council items and public notices. No RSS.",
+    "tags": [
+      "North Platte",
+      "city government",
+      "news flash"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "north-platte-pd",
+    "name": "North Platte Police Department",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://northplattene.gov/228/Police-Department",
+    "coverage": "North Platte / Lincoln County",
+    "city": "north-platte",
+    "mileMarker": "177–190",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official department page; press releases are also carried by North Platte Post. No RSS.",
+    "tags": [
+      "North Platte",
+      "police"
     ],
     "verified": "2026-11-07"
   },

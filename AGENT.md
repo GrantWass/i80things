@@ -98,6 +98,12 @@ This pulls 35 verified RSS/discovery feeds, the Nebraska State Patrol newsroom, 
 | Omaha PD | https://police.cityofomaha.org/press-releases | Bot-protected; open in a browser. |
 | Lincoln PD | https://www.lincoln.ne.gov/City/Departments/Police/Police-Activity | Bot-protected; open in a browser. |
 | NEMA | https://nema.nebraska.gov/newsroom.php | Emergencies, flooding, evacuations. |
+| Kearney city news | https://www.cityofkearney.org/CivicAlerts.aspx?CID=1 | City alerts, closures and public notices. |
+| Kearney PD releases | https://www.cityofkearney.org/Archive.asp?AMID=16 | Official police press-release archive. |
+| Hall County Sheriff | https://www.hallcountyne.gov/government/sheriff/hcso_media_reports.php | Grand Island / Hall County media reports. |
+| North Platte city news | https://northplattene.gov/m/NewsFlash | City news and public notices. |
+| North Platte PD | https://northplattene.gov/228/Police-Department | Department page; releases also carried by North Platte Post. |
+| North Platte Post | https://northplattepost.com/ | Local digital outlet; no RSS. |
 | Hastings PD | https://www.cityofhastings.org/departments/police/reports-and-services/press-reports/ | Official press reports; no RSS. |
 | Adams County Sheriff | https://www.adamscounty.org/sheriff/166-media-public-information-release | Media releases; no RSS. |
 | Hamilton County | https://hamiltoncountyne.gov/news/ | County news and notices. |
