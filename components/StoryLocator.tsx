@@ -72,16 +72,16 @@ export function StoryLocator({
               <circle
                 cx={start.x}
                 cy={start.y}
-                r={22}
+                r={34}
                 fill="var(--color-paper)"
               />
               <circle
                 cx={start.x}
                 cy={start.y}
-                r={14}
+                r={22}
                 fill="var(--color-highway)"
                 stroke="var(--color-paper)"
-                strokeWidth={3}
+                strokeWidth={4}
               />
             </>
           ) : (
@@ -90,25 +90,25 @@ export function StoryLocator({
                 d={routeSegmentPath(HORIZONTAL_MAP, range.min, range.max)}
                 fill="none"
                 stroke="var(--color-amber-dark)"
-                strokeWidth={24}
+                strokeWidth={30}
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
               <circle
                 cx={start.x}
                 cy={start.y}
-                r={9}
+                r={16}
                 fill="var(--color-amber-dark)"
                 stroke="var(--color-paper)"
-                strokeWidth={2}
+                strokeWidth={3}
               />
               <circle
                 cx={end.x}
                 cy={end.y}
-                r={9}
+                r={16}
                 fill="var(--color-amber-dark)"
                 stroke="var(--color-paper)"
-                strokeWidth={2}
+                strokeWidth={3}
               />
             </>
           )}
