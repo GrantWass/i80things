@@ -230,7 +230,7 @@ export default async function ConstructionPage() {
               {
                 value: checked,
                 label: "last checked",
-                detail: "updates every 5 min",
+                detail: "5-min cache",
               },
             ]}
           />
