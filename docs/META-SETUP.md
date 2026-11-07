@@ -345,6 +345,48 @@ Instagram user token. It needs a one-line host change in the script.
 
 ---
 
+## 5b. Posting to the Facebook Page (`pages_manage_posts`)
+
+The Instagram configuration only exposes `instagram_*` permissions, so a token
+generated there cannot publish to the Page. Meta answers with:
+
+```
+(#200) The permission(s) pages_manage_posts are not available.
+```
+
+`pages_manage_posts` lives under a **different use case**. Add it to the same
+app:
+
+1. App Dashboard → **Dashboard** → **Add use case** → **Manage everything on
+   your Page** (Content management). It is compatible with the Instagram use
+   case, so the app can hold both.
+2. Open the new use case → **Customize** → **Permissions and features** →
+   **Add** `pages_manage_posts`. Keep `pages_read_engagement`; `pages_show_list`
+   is added by default.
+3. Generate a Page token, either:
+   - **Graph API Explorer** — select the app, get a User token with
+     `pages_show_list`, `pages_read_engagement`, `pages_manage_posts`, then call
+     `GET /me/accounts` and copy the `access_token` for **I-80 Things**; or
+   - **Business Suite system user** — assign the Page to `i80-publisher` and
+     generate a token with the same three permissions and expiry **Never**.
+4. Set `FB_PAGE_ID=1431947413332602`. `FB_PAGE_ACCESS_TOKEN` is optional: if it
+   is unset, the script falls back to `IG_ACCESS_TOKEN`. A system-user token
+   with both `instagram_content_publish` and `pages_manage_posts` covers both
+   platforms; the script exchanges it for the Page's own token before posting,
+   which the new Pages experience requires.
+
+Then:
+
+```bash
+npm run social:facebook -- --slug <slug>            # dry run
+npm run social:facebook -- --slug <slug> --publish  # post
+```
+
+In Development mode this works for app admins only. To post on behalf of Pages
+you do not administer, the app needs Advanced Access (App Review) and Live mode.
+
+---
+
 ## 6. The privacy checklist (run before your first post)
 
 **Public surface**
@@ -400,6 +442,7 @@ delete the personal comment, untag yourself, and switch the share to the Page.
 | --- | --- | --- |
 | "No Instagram account connected" | Link never completed, or wrong IG account selected | Redo §3; check the Page's Linked accounts |
 | API returns permission error | App missing `instagram_content_publish` or `pages_read_engagement` | Add to the token request, regenerate |
+| `pages_manage_posts` not offered | Looking at the Instagram configuration; Page permissions live in another use case | Add **Manage everything on your Page**, then see §5b |
 | System user token rejected | Asset not assigned, or app not linked to the portfolio | Reassign the Page and Instagram account to the system user |
 | "Page Publishing Authorization required" | New or unverified Page | Page Settings → Page setup → complete PPA |
 | Image fails to load | `image_url` not public HTTPS, or not JPEG | Check `/api/social/<slug>` returns a JPEG publicly |

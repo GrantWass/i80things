@@ -17,6 +17,9 @@ import matter from "gray-matter";
 const args = process.argv.slice(2);
 const slug = args.includes("--slug") ? args[args.indexOf("--slug") + 1] : null;
 const shouldPublish = args.includes("--publish");
+// A burst of posts all say "link in bio", but the bio resolves to the newest
+// story. Use the direct URL in the caption when posting several at once.
+const directLink = args.includes("--direct-link");
 
 // Local runs do not inherit Vercel env; pick up .env.local (gitignored).
 try {
@@ -87,6 +90,16 @@ const hooks = {
   explainers: "I-80, explained.",
 };
 const hook = hooks[(data.topics ?? [])[0]] ?? "Nebraska I-80 news.";
+const cityTag =
+  data.city && data.city !== "statewide"
+    ? `#${String(data.city).replace(/-/g, "")}`
+    : null;
+const hashtags = ["#Nebraska", "#I80", "#NebraskaNews", cityTag]
+  .filter(Boolean)
+  .join(" ");
+const callToAction = directLink
+  ? `Full story: ${siteUrl}/news/${slug}`
+  : "Full story → link in bio.";
 const caption = (data.instagramCaption || [
   hook,
   "",
@@ -94,9 +107,9 @@ const caption = (data.instagramCaption || [
   "",
   data.dek,
   "",
-  "Full story → link in bio.",
+  callToAction,
   "",
-  "#Nebraska #I80 #NebraskaNews",
+  hashtags,
 ].join("\n")).slice(0, 2200);
 
 if (!shouldPublish) {

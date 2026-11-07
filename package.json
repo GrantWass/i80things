@@ -22,6 +22,7 @@
     "share": "node scripts/share.mjs",
     "groups": "node scripts/groups.mjs",
     "social:instagram": "node scripts/publish-instagram.mjs",
+    "social:facebook": "node scripts/publish-facebook.mjs",
     "validate": "node scripts/validate-posts.mjs",
     "brand": "node scripts/generate-brand.mjs",
     "brand:check": "node scripts/brand-check.mjs",

@@ -390,6 +390,7 @@ AGENT.md                       daily agent system prompt
 | `npm run factcheck` | Deterministic second pass: frontmatter, sources, dates, stale phrasing, image license and internal links. Add `-- --publish` to fail on drafts. |
 | `npm run review -- --slug <slug>` | Read-only AI reviewer that verifies one story against its sources and returns `VERDICT: PASS` or `VERDICT: BLOCK`. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
+| `npm run social:facebook -- --slug … --publish` | Post to the Facebook Page via Graph API. Needs `FB_PAGE_ID` and a token with `pages_manage_posts`. |
 | `npm run brand` | Regenerate brand assets from `lib/brand.mjs` (see `docs/BRAND.md`). |
 | `npm run brand:check` | Verify brand tokens, assets and wordmark fit. |
 
