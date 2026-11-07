@@ -159,9 +159,10 @@ Then run the desk for today in `America/Chicago`.
    ```bash
    npm run social -- --slug <slug>
    ```
-   The image URL and caption are for the human operator unless
-   `IG_ACCESS_TOKEN` is configured. Do not claim a post was published when it
-   was only prepared.
+   The daily runner posts the day's lead story to Instagram and the Facebook
+   Page after this run finishes, so do not publish to social yourself. Verify
+   the image URL returns a JPEG and the caption reads correctly; report a
+   problem instead of posting.
 
 ## Rules
 

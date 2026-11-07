@@ -391,6 +391,7 @@ AGENT.md                       daily agent system prompt
 | `npm run review -- --slug <slug>` | Read-only AI reviewer that verifies one story against its sources and returns `VERDICT: PASS` or `VERDICT: BLOCK`. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
 | `npm run social:facebook -- --slug … --publish` | Post to the Facebook Page via Graph API. Needs `FB_PAGE_ID` and a token with `pages_manage_posts`. |
+| `npm run social:daily -- --publish` | Post the day's lead story to Instagram and the Facebook Page. Used by `npm run daily`. |
 | `npm run brand` | Regenerate brand assets from `lib/brand.mjs` (see `docs/BRAND.md`). |
 | `npm run brand:check` | Verify brand tokens, assets and wordmark fit. |
 

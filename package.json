@@ -23,6 +23,7 @@
     "groups": "node scripts/groups.mjs",
     "social:instagram": "node scripts/publish-instagram.mjs",
     "social:facebook": "node scripts/publish-facebook.mjs",
+    "social:daily": "node scripts/social-daily.mjs",
     "validate": "node scripts/validate-posts.mjs",
     "brand": "node scripts/generate-brand.mjs",
     "brand:check": "node scripts/brand-check.mjs",

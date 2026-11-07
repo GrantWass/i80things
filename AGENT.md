@@ -288,7 +288,16 @@ npm run stock -- --query "Nebraska winter road" --slug <slug> --download --index
 
 The tool downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes the credit into the frontmatter. For a gallery, upload additional images through `/admin` or add multiple `images:` entries. Prefer CC0/public-domain; keep the credit and license for CC BY/BY-SA. If no usable photo exists, the fallback is a branded text card — never a fabricated scene, crash photo or storm photo. For breaking news, use an official agency image only when its terms allow, with credit.
 
-Post one image or a carousel to Instagram manually or via the Graph API. If using the API, every image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. The API cannot change your bio link, but it only needs setting once: `https://i80things.com/instagram` redirects to the newest story. See `README.md`.
+Post one image or a carousel to Instagram manually or via the Graph API. The
+daily runner posts the day's lead story to Instagram and the Facebook Page
+automatically after a publish-mode run (`npm run social:daily`), so an agent
+should not post during a news run. That step is idempotent, waits for the Vercel
+deploy, and uses `link in bio` for a single story. For a manual burst, use
+`npm run social:instagram -- --slug … --publish --direct-link`. If using the
+API, every image URL must be public HTTPS and the account must be a
+Business/Creator account linked to a Facebook Page. The API cannot change your
+bio link, but it only needs setting once: `https://i80things.com/instagram`
+redirects to the newest story. See `README.md`.
 
 ---
 
@@ -432,6 +441,7 @@ npm run social -- --slug …      # caption + image URL
 npm run share -- --slug …       # per-platform share kit + UTM links
 npm run stock -- --query "…" --slug … --download --update
 npm run social:instagram -- --slug … --publish   # optional API post
+npm run social:daily -- --publish                # post the day's lead story to IG + FB
 npm run build                   # local verification
 ```
 

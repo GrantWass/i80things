@@ -141,3 +141,20 @@ echo "Daily desk finished at $(date -Iseconds)."
 if [ "$RUN_STATUS" -ne 0 ]; then
   exit "$RUN_STATUS"
 fi
+
+# Post the day's lead story to Instagram and the Facebook Page. Draft runs
+# never post. Set DAILY_SOCIAL=0 to skip. social-daily.mjs is idempotent and
+# waits for the Vercel deploy before using the image URL.
+if [ "${DAILY_RUN_DRAFT:-0}" = "1" ] || [ "${DAILY_SOCIAL:-1}" = "0" ]; then
+  echo ""
+  echo "--- social posts skipped (draft mode or DAILY_SOCIAL=0) ---"
+else
+  echo ""
+  echo "--- social posts ---"
+  SOCIAL_STATUS=0
+  node "$REPO/scripts/social-daily.mjs" --publish || SOCIAL_STATUS=$?
+  if [ "$SOCIAL_STATUS" -ne 0 ]; then
+    echo "SOCIAL POST FAILED — the story is live but at least one social post did not publish."
+    exit "$SOCIAL_STATUS"
+  fi
+fi

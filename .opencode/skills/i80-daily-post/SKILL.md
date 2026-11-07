@@ -51,11 +51,11 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
    ```
    Vercel rebuilds. Then verify the live article, the Instagram JPEG and the city hub all return/show the story. In publish mode, do not leave `draft: true`.
 
-6. **Instagram.**
+6. **Instagram and Facebook.**
    ```bash
    npm run social -- --slug <slug>
    ```
-   Images: `https://i80things.vercel.app/api/social/<slug>?image=N` (1080×1350 JPEG each). Caption from the command output. Mark 1–10 gallery images `instagram: true` for a carousel.
+   Images: `https://i80things.vercel.app/api/social/<slug>?image=N` (1080×1350 JPEG each). Caption from the command output. Mark 1–10 gallery images `instagram: true` for a carousel. The daily runner posts the day's lead story to both platforms after this run, so do not post yourself; verify the image URL and caption and report any problem.
 
 ## Hard rules
 

@@ -35,6 +35,10 @@ jobs:
     env:
       TZ: America/Chicago
       NEXT_PUBLIC_SITE_URL: https://i80things.vercel.app
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_GRAPH_VERSION: v27.0
+      FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -93,10 +93,47 @@ opencode run --agent i80-daily \
 6. In publish mode it commits and pushes, then verifies the live article, the
    Instagram JPEG and the city hub. In draft mode it leaves publish-ready
    `draft: true` files and does not commit.
-7. If there is no verified story, the agent skips publishing and reports why.
+7. After a publish-mode run, it posts the day's lead story to Instagram and the
+   Facebook Page (`scripts/social-daily.mjs`). Draft mode never posts.
+8. If there is no verified story, the agent skips publishing and reports why.
 
 The agent does **not** make code changes during a news run. It reports a broken
 build instead of refactoring.
+
+## Social posting
+
+The runner posts **one story per day** — the newest story whose `date` is today
+in America/Chicago — to both platforms. The step:
+
+- waits up to 10 minutes for the Vercel deploy, so the social image URL resolves;
+- checks the last 25 posts on each platform and skips a platform when the title
+  is already there, so reruns do not duplicate;
+- uses `Full story → link in bio` because `/instagram` resolves to the newest
+  story;
+- skips a platform whose credentials are missing, and exits non-zero only when a
+  post actually fails.
+
+Disable it for one run:
+
+```bash
+DAILY_SOCIAL=0 npm run daily
+```
+
+Post manually, or backfill a specific story:
+
+```bash
+npm run social:daily                          # dry run for today
+npm run social:daily -- --slug <slug>         # dry run for one story
+npm run social:daily -- --slug <slug> --publish
+npm run social:daily -- --date 2026-11-06 --publish
+npm run social:daily -- --date 2026-11-06 --all --publish  # every story that day
+```
+
+The daily runner needs `IG_USER_ID`, `IG_ACCESS_TOKEN`, `IG_GRAPH_VERSION` and
+`FB_PAGE_ID` (plus `NEXT_PUBLIC_SITE_URL`). Locally they come from `.env.local`.
+For GitHub Actions, add `IG_USER_ID`, `IG_ACCESS_TOKEN` and `FB_PAGE_ID` as
+repository secrets; the workflow passes them to `scripts/daily-run.sh`. If they
+are absent, the news run still succeeds and the social step logs a skip.
 
 ## Weekly story review
 
