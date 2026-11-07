@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { CorridorMap } from "@/components/CorridorMap";
+import { DataSummary } from "@/components/DataSummary";
 import { JsonLd } from "@/components/JsonLd";
 import { TrackedLink } from "@/components/TrackedLink";
 import { getCorridorAlerts } from "@/lib/nws";
@@ -119,22 +120,25 @@ export default async function ConditionsPage() {
       <div className="container-page py-10">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div className="min-w-0">
-            <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
-              {[
-                [roads.events.length, "I-80 events"],
-                [alerts.length, "NWS alerts"],
-                [roads.totalStatewideEvents, "Statewide 511"],
-              ].map(([value, label]) => (
-                <div key={String(label)} className="bg-paper p-4">
-                  <p className="font-serif text-3xl leading-none font-semibold">
-                    {value}
-                  </p>
-                  <p className="mt-1 text-[9px] font-bold tracking-[0.1em] text-slate uppercase">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <DataSummary
+              items={[
+                {
+                  value: roads.events.length,
+                  label: "I-80 events",
+                  detail: "closures, work zones and incidents",
+                },
+                {
+                  value: alerts.length,
+                  label: "NWS alerts",
+                  detail: "corridor counties",
+                },
+                {
+                  value: roads.totalStatewideEvents,
+                  label: "statewide 511 events",
+                  detail: "includes events off I-80",
+                },
+              ]}
+            />
 
             <div className="mt-6">
               <CorridorMap events={roads.events} />

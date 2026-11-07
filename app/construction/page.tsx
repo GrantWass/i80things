@@ -4,6 +4,7 @@ import { AutoRefresh } from "@/components/AutoRefresh";
 import { CorridorMap } from "@/components/CorridorMap";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
+import { DataSummary } from "@/components/DataSummary";
 import { TrackedLink } from "@/components/TrackedLink";
 import {
   getRoadConditions,
@@ -95,7 +96,6 @@ export default async function ConstructionPage() {
     mile: mileOf(event),
   }));
   withMiles.sort((a, b) => (a.mile ?? 9999) - (b.mile ?? 9999));
-  const featuredZones = withMiles.slice(0, 3);
 
   const unlocated = withMiles.filter((w) => districtFor(w.mile) === null);
   const districtsRepresented = new Set(
@@ -214,134 +214,32 @@ export default async function ConstructionPage() {
             >
               NDOT weekly report (PDF)
             </TrackedLink>
-            <span className="text-[11px] text-slate">
-              Checked {checked} · refreshes every 5 minutes while open
-            </span>
           </div>
         </div>
       </header>
 
       <div className="container-page py-10">
         <div className="mx-auto max-w-5xl">
-          <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">At a glance</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                {workZones.length}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Active construction / closure events on I-80 right now
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Districts affected</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                {districtsRepresented}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Of {DISTRICTS.length} NDOT district areas along I-80
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Last checked</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                {roads.fetchedAt ? formatDateTime(roads.fetchedAt) : "—"}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Cached for five minutes between checks
-              </p>
-            </div>
-          </div>
+          <DataSummary
+            items={[
+              {
+                value: workZones.length,
+                label: "active work zones",
+                detail: `${districtsRepresented} of ${DISTRICTS.length} district areas`,
+              },
+              {
+                value: checked,
+                label: "last checked",
+                detail: "updates every 5 min",
+              },
+            ]}
+          />
 
           <div className="mt-6">
-            <CorridorMap events={workZones} />
+            <CorridorMap events={workZones} maxEvents={workZones.length} />
           </div>
 
-          {featuredZones.length ? (
-            <section className="mt-6 border border-line bg-paper p-5">
-              <div className="flex flex-wrap items-end justify-between gap-2">
-                <div>
-                  <p className="kicker text-amber-dark">Current work zones</p>
-                  <h2 className="mt-1 font-serif text-2xl font-semibold">
-                    What is active right now
-                  </h2>
-                </div>
-                <a
-                  href="#all-work-zones"
-                  className="inline-flex min-h-[44px] items-center py-2 kicker text-highway hover:text-amber-dark"
-                >
-                  See all {workZones.length} →
-                </a>
-              </div>
-              <ul className="mt-3 grid gap-2 md:grid-cols-3">
-                {featuredZones.map(({ event, mile }) => {
-                  const district = districtFor(mile);
-                  return (
-                    <li
-                      key={event.id}
-                      className="border border-line bg-cream p-3"
-                    >
-                      <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-                        {district ? district.district : "Location unclear"}
-                        {mile !== null ? ` · ${formatMile(mile)}` : ""}
-                      </p>
-                      <p className="mt-1 text-[13px] leading-snug font-semibold">
-                        {event.title}
-                      </p>
-                      <a
-                        href={event.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-1 inline-flex min-h-[44px] items-center py-2 text-[10px] font-bold tracking-[0.06em] text-highway uppercase hover:text-amber-dark"
-                      >
-                        Open on 511 →
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ) : null}
 
-          <section className="mt-6 border border-line bg-paper p-5">
-            <h2 className="kicker text-slate">How this page works</h2>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              Events come from the same public 511 map the state runs, read
-              through this site&apos;s unofficial reader and cached for five
-              minutes. Only I-80 events classified as{" "}
-              <strong className="font-semibold">construction</strong> or{" "}
-              <strong className="font-semibold">closure</strong> are grouped
-              below, sorted by mile marker from the Wyoming line to Omaha.
-              Crashes and disabled vehicles appear separately, when reported.
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              District groupings are approximate: the mile ranges are a sorting
-              convenience, not official NDOT boundary claims. NDOT district
-              boundaries follow county lines — see the{" "}
-              <TrackedLink
-                href="https://dot.nebraska.gov/about/divisions-districts/"
-                external
-                event="construction_outbound"
-                eventData={{ destination: "ndot-districts" }}
-                className="font-semibold text-highway underline decoration-amber underline-offset-2"
-              >
-                NDOT divisions &amp; districts page
-              </TrackedLink>
-              . NDOT&apos;s weekly{" "}
-              <TrackedLink
-                href={NDOT_REPORT_URL}
-                external
-                event="construction_outbound"
-                eventData={{ destination: "ndot-weekly-pdf" }}
-                className="font-semibold text-highway underline decoration-amber underline-offset-2"
-              >
-                Construction &amp; Detour Report (PDF)
-              </TrackedLink>{" "}
-              also covers long-term projects that may not appear in 511 at all —
-              511 is the current-conditions source, the PDF is the planning
-              source. Use both.
-            </p>
-          </section>
 
           {roads.error || !workZones.length ? (
             <div className="mt-8 border border-amber-dark/40 bg-amber/5 p-5">
@@ -378,6 +276,17 @@ export default async function ConstructionPage() {
             </div>
           ) : (
             <div id="all-work-zones" className="mt-8 space-y-10">
+              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-ink pb-2">
+                <div>
+                  <p className="kicker text-amber-dark">All active work zones</p>
+                  <h2 className="mt-1 font-serif text-2xl font-semibold">
+                    Every current construction and closure
+                  </h2>
+                </div>
+                <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
+                  West to east · grouped by NDOT district
+                </p>
+              </div>
               {DISTRICTS.map((district) => {
                 const rows = withMiles.filter(
                   (w) => districtFor(w.mile)?.id === district.id,

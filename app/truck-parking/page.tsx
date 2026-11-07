@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { RestAreaMap } from "@/components/RestAreaMap";
+import { DataSummary } from "@/components/DataSummary";
 import { DataPageLinks } from "@/components/DataPageLinks";
 import { getPlace } from "@/data/places";
 import { site } from "@/lib/site";
@@ -211,34 +212,26 @@ export default function TruckParkingPage() {
             />
           </div>
 
-          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">At a glance</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                {openTruckSpaces.toLocaleString("en-US")}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Open public truck spaces listed, across {countedSites} counted
-                sites ({openSites.length} open sites total)
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Planned, not open</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">~120</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                New stalls in the Dawson County grant project (the release also
-                quotes ~92)
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Source vintage</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">2015</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                NDOT rest-area guide; counts may have changed — check 511
-                before you count on a stall
-              </p>
-            </div>
-          </div>
+          <DataSummary
+            className="mt-4"
+            items={[
+              {
+                value: openTruckSpaces.toLocaleString("en-US"),
+                label: "open public truck spaces",
+                detail: `${countedSites} sites with posted counts`,
+              },
+              {
+                value: "~120",
+                label: "planned in Dawson County",
+                detail: "not open yet; release also cites ~92",
+              },
+              {
+                value: "2015",
+                label: "NDOT guide",
+                detail: "counts may have changed; check 511",
+              },
+            ]}
+          />
 
           <div className="mt-4 grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
             <div>

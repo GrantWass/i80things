@@ -20,6 +20,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { ShareButtons } from "@/components/ShareButtons";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { JsonLd } from "@/components/JsonLd";
+import { StoryLocator } from "@/components/StoryLocator";
 import { Arrow, Icon } from "@/components/Icon";
 
 export const revalidate = 300;
@@ -250,12 +251,6 @@ export default async function ArticlePage({
                 ) : (
                   <span>Corridor news</span>
                 )}
-                {place ? (
-                  <>
-                    <span aria-hidden="true" className="inline-block h-1 w-1 bg-amber" />
-                    <span>I-80 {place.mileMarker}</span>
-                  </>
-                ) : null}
               </p>
 
               <h1 className="mt-3 max-w-4xl font-serif text-4xl leading-[1.04] font-semibold tracking-tight text-ink md:text-[3.5rem]">
@@ -264,6 +259,8 @@ export default async function ArticlePage({
               <p className="mt-4 max-w-3xl font-serif text-xl leading-relaxed text-slate md:text-2xl">
                 {post.dek}
               </p>
+
+              <StoryLocator place={place} mileMarker={post.mileMarker} />
 
               <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-line py-3">
                 <Link href={`/authors/${author.slug}`} className="flex items-center gap-2">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
+import { DataSummary } from "@/components/DataSummary";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 import hubData from "@/data/hub-distances.json";
@@ -182,35 +183,26 @@ export default function DistancesPage() {
             </div>
           </section>
 
-          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">At a glance</p>
-              <p className="mt-1 font-serif text-3xl font-semibold tabular-nums">
-                {totals.kimballToOmahaMiles} mi
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Estimated Kimball → Omaha (reference mile 22 to 454)
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Est. time at 70 mph</p>
-              <p className="mt-1 font-serif text-3xl font-semibold tabular-nums">
-                {formatMinutes(totals.minutesAt70)}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                {totals.minutesAt70} estimated minutes; no stops or delays
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Est. time at 65 mph</p>
-              <p className="mt-1 font-serif text-3xl font-semibold tabular-nums">
-                {formatMinutes(totals.minutesAt65)}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                {totals.minutesAt65} estimated minutes; no stops or delays
-              </p>
-            </div>
-          </div>
+          <DataSummary
+            className="mt-4"
+            items={[
+              {
+                value: `${totals.kimballToOmahaMiles} mi`,
+                label: "Kimball to Omaha",
+                detail: "reference miles 22–454",
+              },
+              {
+                value: formatMinutes(totals.minutesAt70),
+                label: "at 70 mph",
+                detail: "no stops or delays",
+              },
+              {
+                value: formatMinutes(totals.minutesAt65),
+                label: "at 65 mph",
+                detail: "no stops or delays",
+              },
+            ]}
+          />
 
           <section className="mt-8 border border-line bg-paper p-5 md:p-7">
             <h2 className="font-serif text-2xl font-semibold">Methodology</h2>

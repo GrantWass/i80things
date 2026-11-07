@@ -3,6 +3,7 @@ import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
 import { RestAreaMap } from "@/components/RestAreaMap";
+import { DataSummary } from "@/components/DataSummary";
 import { places } from "@/data/places";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
@@ -75,8 +76,7 @@ function regionFor(area: RestArea) {
 
 const areaCount = areas.length;
 const truckSpacesListed = areas.reduce((sum, area) => sum + (area.truckSpaces ?? 0), 0);
-const truckOnlyCount = areas.filter((area) => area.truckOnly).length;
-const fullServiceCount = areaCount - truckOnlyCount;
+
 const topTruckAreas = areas
   .filter((area) => area.truckSpaces !== null)
   .sort((a, b) => (b.truckSpaces ?? 0) - (a.truckSpaces ?? 0))
@@ -225,29 +225,21 @@ export default function RestAreasPage() {
             </div>
           </section>
 
-          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">At a glance</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">{areaCount}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                I-80 sites listed ({fullServiceCount} rest areas, {truckOnlyCount} truck-only lots)
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Listed truck spaces</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">{truckSpacesListed}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Sum of the guide&apos;s posted truck counts (Goehner unstated)
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Data vintage</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">2015</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                NDOT guide date — verify everything on 511
-              </p>
-            </div>
-          </div>
+          <DataSummary
+            className="mt-4"
+            items={[
+              {
+                value: truckSpacesListed,
+                label: "listed truck spaces",
+                detail: "Goehner unstated",
+              },
+              {
+                value: "2015",
+                label: "NDOT guide",
+                detail: "verify on 511 before you go",
+              },
+            ]}
+          />
 
           <div className="mt-4 grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
             <div>

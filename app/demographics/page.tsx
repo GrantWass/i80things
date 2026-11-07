@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { DataPageLinks } from "@/components/DataPageLinks";
+import { DataSummary } from "@/components/DataSummary";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 import demoData from "@/data/town-demographics.json";
@@ -44,14 +45,14 @@ function fmtPct(n: number) {
 
 const combined2020 = towns.reduce((sum, t) => sum + t.pop2020, 0);
 const combined2025 = towns.reduce((sum, t) => sum + t.pop2025, 0);
-const fastest = towns.reduce((best, t) =>
-  pctChange(t) > pctChange(best) ? t : best,
-);
 const largest = [...towns].sort((a, b) => b.pop2025 - a.pop2025).slice(0, 4);
 const growth = towns.map((town) => ({
   ...town,
   pct2010to2025: (town.pop2025 / town.pop2010 - 1) * 100,
 }));
+const fastestGrowth = growth.reduce((best, town) =>
+  town.pct2010to2025 > best.pct2010to2025 ? town : best,
+);
 const maxAbsGrowth = Math.max(
   ...growth.map((town) => Math.abs(town.pct2010to2025)),
   1,
@@ -177,38 +178,26 @@ export default function DemographicsPage() {
             </div>
           </section>
 
-          <div className="mt-4 grid gap-px border border-line bg-line sm:grid-cols-3">
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Combined population</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                {combined2025.toLocaleString("en-US")}
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                2025 estimate · 2020 Census: {combined2020.toLocaleString("en-US")}
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Corridor hubs</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">{towns.length}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                Eleven on I-80, plus Hastings on the US-281 spur
-              </p>
-            </div>
-            <div className="bg-paper p-5">
-              <p className="kicker text-amber-dark">Fastest-growing, 2010–2020</p>
-              <p className="mt-1 font-serif text-3xl font-semibold">
-                <Link
-                  href={`/cities/${fastest.slug}`}
-                  className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-4"
-                >
-                  {fastest.town}
-                </Link>
-              </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-slate">
-                {fmtPct(pctChange(fastest))} ({fmtSigned(change(fastest))} people)
-              </p>
-            </div>
-          </div>
+          <DataSummary
+            className="mt-4"
+            items={[
+              {
+                value: combined2025.toLocaleString("en-US"),
+                label: "combined 2025 population",
+                detail: `2020 Census: ${combined2020.toLocaleString("en-US")}`,
+              },
+              {
+                value: towns.length,
+                label: "corridor hubs",
+                detail: "11 on I-80 + Hastings spur",
+              },
+              {
+                value: fmtPct(fastestGrowth.pct2010to2025),
+                label: `${fastestGrowth.town}, 2010–2025`,
+                detail: "fastest-growing hub",
+              },
+            ]}
+          />
 
           <section className="mt-8 border border-line bg-paper p-5 md:p-7">
             <div className="flex flex-wrap items-end justify-between gap-2">

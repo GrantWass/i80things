@@ -39,13 +39,16 @@ type PlottedGroup = {
  * tenths of a mile apart are the same dot on the road, so merging them
  * avoids overlapping markers and a misleading cluster of pins.
  */
-function plotEvents(events: RoadConditionEvent[]): {
+function plotEvents(
+  events: RoadConditionEvent[],
+  maxEvents = 12,
+): {
   plotted: PlottedGroup[];
   unmapped: number;
 } {
   const byMile = new Map<string, PlottedGroup>();
   let unmapped = 0;
-  for (const event of events.slice(0, 12)) {
+  for (const event of events.slice(0, maxEvents)) {
     const mile = Number(event.location?.primaryLinearReference);
     if (!Number.isFinite(mile)) {
       unmapped += 1;
@@ -471,8 +474,14 @@ function MapCanvas({
   );
 }
 
-export function CorridorMap({ events }: { events: RoadConditionEvent[] }) {
-  const { plotted, unmapped } = plotEvents(events);
+export function CorridorMap({
+  events,
+  maxEvents = 12,
+}: {
+  events: RoadConditionEvent[];
+  maxEvents?: number;
+}) {
+  const { plotted, unmapped } = plotEvents(events, maxEvents);
 
   return (
     <section
