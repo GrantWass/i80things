@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { JsonLd } from "@/components/JsonLd";
-import { DataPageLinks } from "@/components/DataPageLinks";
+import { DataPage, RowSection, StartHere } from "@/components/data-page";
 import { DataSummary } from "@/components/DataSummary";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
@@ -75,6 +74,17 @@ function formatMinutes(minutes: number): string {
   return rest === 0 ? `~${hours} h` : `~${hours} h ${rest} min`;
 }
 
+function HubLink({ hub, className }: { hub: string; className: string }) {
+  const slug = hubSlugs[hub];
+  return slug ? (
+    <Link href={`/cities/${slug}`} className={className}>
+      {hub}
+    </Link>
+  ) : (
+    <>{hub}</>
+  );
+}
+
 export default function DistancesPage() {
   const popular = fromOmaha.filter((row) =>
     ["Lincoln", "Grand Island", "Kearney", "North Platte"].includes(row.hub),
@@ -126,367 +136,277 @@ export default function DistancesPage() {
   };
 
   return (
-    <main>
-      <JsonLd data={jsonLd} />
-
-      <header className="border-b border-line bg-cream">
-        <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Estimates, not live times</p>
-          <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
-            I-80 Nebraska hub-to-hub distances
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Estimated miles and drive times between the corridor&apos;s main
-            hubs, from Kimball to Omaha. These are planning estimates at steady
-            highway speeds — not live traffic, not official NDOT drive times,
-            and not adjusted for weather, stops or construction.
-          </p>
-        </div>
-      </header>
-
-      <div className="container-page py-10">
-        <div className="mx-auto max-w-5xl">
-          <section className="border border-line bg-paper p-5 md:p-7">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="kicker text-amber-dark">Start here</p>
-                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
-                  From Omaha
-                </h2>
-              </div>
-              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
-                Distance and a steady-speed estimate. No stops, traffic,
-                weather or construction included.
-              </p>
-            </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {popular.map((row) => (
-                <Link
-                  key={row.hub}
-                  href={`/cities/${hubSlugs[row.hub]}`}
-                  className="group border border-line bg-cream p-4 hover:border-ink"
-                >
-                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-                    Omaha → {row.hub}
-                  </p>
-                  <p className="mt-1 font-serif text-2xl font-semibold">
-                    {row.milesFromOmaha} mi
-                  </p>
-                  <p className="mt-1 text-[12px] text-ink-soft">
-                    {formatMinutes(row.minutesAt70)} at 70 mph
-                  </p>
-                  <p className="mt-2 text-[10px] font-bold tracking-[0.06em] text-highway uppercase">
-                    {row.hub} hub →
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          <DataSummary
-            className="mt-4"
-            items={[
-              {
-                value: `${totals.kimballToOmahaMiles} mi`,
-                label: "Kimball to Omaha",
-                detail: "reference miles 22–454",
-              },
-              {
-                value: formatMinutes(totals.minutesAt70),
-                label: "at 70 mph",
-                detail: "no stops or delays",
-              },
-              {
-                value: formatMinutes(totals.minutesAt65),
-                label: "at 65 mph",
-                detail: "no stops or delays",
-              },
-            ]}
-          />
-
-          <section className="mt-8 border border-line bg-paper p-5 md:p-7">
-            <h2 className="font-serif text-2xl font-semibold">Methodology</h2>
-            <div className="mt-2 grid gap-4 text-sm leading-relaxed text-ink-soft md:grid-cols-2">
-              <div>
-                <p className="kicker text-amber-dark">Reference miles</p>
-                <p className="mt-2">
-                  Each hub is pinned to one main-exit reference mile: Kimball
-                  22, Sidney 59, Ogallala 126, North Platte 177, Lexington 237,
-                  Kearney 272, Grand Island 312, York 353, Seward 379, Lincoln
-                  401, Omaha 454. These are main-exit mile references pulled
-                  from the exit list — not city centers and not official NDOT
-                  segment lengths.
-                </p>
-              </div>
-              <div>
-                <p className="kicker text-amber-dark">The math</p>
-                <p className="mt-2">
-                  Each leg is the next reference mile minus the previous one
-                  (for example, 59 − 22 = 37 miles for Kimball → Sidney).
-                  Estimated time is distance ÷ speed × 60, rounded to the
-                  nearest 5 minutes, at 65 mph and 70 mph. Nothing here accounts
-                  for traffic, weather, stops, construction, speed-limit changes
-                  or Omaha metro congestion.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section className="mt-10">
-            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">
-              <h2 className="font-serif text-2xl font-semibold">Consecutive hubs, west to east</h2>
-              <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
-                Estimates at steady speed
-              </p>
-            </div>
-            <ul className="mt-3 space-y-3 sm:hidden">
-              {legs.map((leg) => (
-                <li
-                  key={`${leg.from}-${leg.to}`}
-                  className="border border-line bg-paper p-4"
-                >
-                  <p className="flex flex-wrap items-center gap-x-1 font-semibold">
-                    {hubSlugs[leg.from] ? (
-                      <Link
-                        href={`/cities/${hubSlugs[leg.from]}`}
-                        className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-2"
-                      >
-                        {leg.from}
-                      </Link>
-                    ) : (
-                      leg.from
-                    )}
-                    <span aria-hidden="true"> → </span>
-                    {hubSlugs[leg.to] ? (
-                      <Link
-                        href={`/cities/${hubSlugs[leg.to]}`}
-                        className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-2"
-                      >
-                        {leg.to}
-                      </Link>
-                    ) : (
-                      leg.to
-                    )}
-                  </p>
-                  <p className="mt-1 text-sm tabular-nums text-ink-soft">
-                    {leg.miles} mi · {formatMinutes(leg.minutesAt65)} at 65 mph ·{" "}
-                    {formatMinutes(leg.minutesAt70)} at 70 mph
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
-              <table className="w-full min-w-[44rem] border-collapse text-left text-sm">
-                <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
-                  <tr>
-                    <th className="px-3 py-2 font-semibold">Leg</th>
-                    <th className="px-3 py-2 font-semibold">Est. miles</th>
-                    <th className="px-3 py-2 font-semibold">Est. at 65 mph</th>
-                    <th className="px-3 py-2 font-semibold">Est. at 70 mph</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-line">
-                  {legs.map((leg) => (
-                    <tr key={`${leg.from}-${leg.to}`} className="bg-paper">
-                      <td className="px-3 py-2 font-semibold">
-                        {hubSlugs[leg.from] ? (
-                          <Link
-                            href={`/cities/${hubSlugs[leg.from]}`}
-                            className="text-highway underline decoration-amber underline-offset-2"
-                          >
-                            {leg.from}
-                          </Link>
-                        ) : (
-                          leg.from
-                        )}
-                        {" → "}
-                        {hubSlugs[leg.to] ? (
-                          <Link
-                            href={`/cities/${hubSlugs[leg.to]}`}
-                            className="text-highway underline decoration-amber underline-offset-2"
-                          >
-                            {leg.to}
-                          </Link>
-                        ) : (
-                          leg.to
-                        )}
-                      </td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">{leg.miles} mi</td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">
-                        {formatMinutes(leg.minutesAt65)}
-                      </td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">
-                        {formatMinutes(leg.minutesAt70)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section className="mt-10">
-            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">
-              <h2 className="font-serif text-2xl font-semibold">From Omaha, heading west</h2>
-              <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
-                Reference miles from mile 454
-              </p>
-            </div>
-            <ul className="mt-3 space-y-3 sm:hidden">
-              {fromOmaha.map((row) => (
-                <li
-                  key={row.hub}
-                  className="border border-line bg-paper p-4"
-                >
-                  {hubSlugs[row.hub] ? (
-                    <Link
-                      href={`/cities/${hubSlugs[row.hub]}`}
-                      className="inline-flex min-h-[44px] items-center font-serif text-xl leading-tight font-semibold text-highway underline decoration-amber underline-offset-2"
-                    >
-                      {row.hub}
-                    </Link>
-                  ) : (
-                    <p className="font-serif text-xl leading-tight font-semibold">
-                      {row.hub}
-                    </p>
-                  )}
-                  <p className="mt-1 text-sm tabular-nums text-ink-soft">
-                    {row.milesFromOmaha} mi from Omaha · Ref. mile{" "}
-                    {row.referenceMile}
-                  </p>
-                  <p className="mt-1 text-sm tabular-nums text-ink-soft">
-                    {formatMinutes(row.minutesAt65)} at 65 mph ·{" "}
-                    {formatMinutes(row.minutesAt70)} at 70 mph
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
-              <table className="w-full min-w-[44rem] border-collapse text-left text-sm">
-                <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
-                  <tr>
-                    <th className="px-3 py-2 font-semibold">Hub</th>
-                    <th className="px-3 py-2 font-semibold">Ref. mile</th>
-                    <th className="px-3 py-2 font-semibold">Est. miles from Omaha</th>
-                    <th className="px-3 py-2 font-semibold">Est. at 65 mph</th>
-                    <th className="px-3 py-2 font-semibold">Est. at 70 mph</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-line">
-                  {fromOmaha.map((row) => (
-                    <tr key={row.hub} className="bg-paper">
-                      <td className="px-3 py-2 font-semibold">
-                        {hubSlugs[row.hub] ? (
-                          <Link
-                            href={`/cities/${hubSlugs[row.hub]}`}
-                            className="text-highway underline decoration-amber underline-offset-2"
-                          >
-                            {row.hub}
-                          </Link>
-                        ) : (
-                          row.hub
-                        )}
-                      </td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">{row.referenceMile}</td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">
-                        {row.milesFromOmaha} mi
-                      </td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">
-                        {formatMinutes(row.minutesAt65)}
-                      </td>
-                      <td className="px-3 py-2 tabular-nums text-ink-soft">
-                        {formatMinutes(row.minutesAt70)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section className="mt-10 border border-line bg-cream p-5 md:p-7">
-            <p className="kicker text-amber-dark">Off-interstate spur</p>
-            <h2 className="mt-1 font-serif text-2xl font-semibold">
-              Hastings is not on the chain
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-soft">
-              Hastings sits off I-80: Exit {spur.fromExit} to Hastings is about{" "}
-              {spur.roadMiles} miles by road via {spur.route} — roughly{" "}
-              {formatMinutes(spur.minutesAt65)} at steady highway speed. That
-              figure comes from{" "}
-              <a
-                href={spur.sourceUrl}
-                className="font-semibold text-highway underline decoration-amber underline-offset-2"
-              >
-                {spur.source}
-              </a>
-              , not from reference-mile math, so keep it separate from the
-              hub-to-hub tables above.
+    <DataPage
+      jsonLd={jsonLd}
+      kicker="Estimates, not live times"
+      title="I-80 Nebraska hub-to-hub distances"
+      intro={
+        <>
+          Estimated miles and drive times between the corridor&apos;s main
+          hubs, from Kimball to Omaha. These are planning estimates at steady
+          highway speeds — not live traffic, not official NDOT drive times,
+          and not adjusted for weather, stops or construction.
+        </>
+      }
+      current="/distances"
+    >
+      <StartHere
+        title="From Omaha"
+        note="Distance and a steady-speed estimate. No stops, traffic, weather or construction included."
+      >
+        {popular.map((row) => (
+          <Link
+            key={row.hub}
+            href={`/cities/${hubSlugs[row.hub]}`}
+            className="group border border-line bg-cream p-4 hover:border-ink"
+          >
+            <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+              Omaha → {row.hub}
             </p>
-          </section>
+            <p className="mt-1 font-serif text-2xl font-semibold">
+              {row.milesFromOmaha} mi
+            </p>
+            <p className="mt-1 text-[12px] text-ink-soft">
+              {formatMinutes(row.minutesAt70)} at 70 mph
+            </p>
+            <p className="mt-2 text-[10px] font-bold tracking-[0.06em] text-highway uppercase">
+              {row.hub} hub →
+            </p>
+          </Link>
+        ))}
+      </StartHere>
 
-          <section className="mt-10 border-t border-line pt-5">
-            <h2 className="font-serif text-2xl font-semibold">Keep exploring</h2>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-3">
-              <li className="border border-line bg-paper p-4 text-sm">
-                <Link
-                  href="/exits"
-                  className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
-                >
-                  I-80 exit guide
-                </Link>
-                <p className="mt-1 text-[12px] leading-relaxed text-slate">
-                  Every Nebraska exit with mile markers.
-                </p>
-              </li>
-              <li className="border border-line bg-paper p-4 text-sm">
-                <Link
-                  href="/cities"
-                  className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
-                >
-                  Corridor towns
-                </Link>
-                <p className="mt-1 text-[12px] leading-relaxed text-slate">
-                  Hub pages with exits and local coverage.
-                </p>
-              </li>
-              <li className="border border-line bg-paper p-4 text-sm">
-                <Link
-                  href="/conditions"
-                  className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
-                >
-                  Corridor conditions
-                </Link>
-                <p className="mt-1 text-[12px] leading-relaxed text-slate">
-                  Current status before you drive — check 511 too.
-                </p>
-              </li>
-            </ul>
-          </section>
+      <DataSummary
+        className="mt-4"
+        items={[
+          {
+            value: `${totals.kimballToOmahaMiles} mi`,
+            label: "Kimball to Omaha",
+            detail: "reference miles 22–454",
+          },
+          {
+            value: formatMinutes(totals.minutesAt70),
+            label: "at 70 mph",
+            detail: "no stops or delays",
+          },
+          {
+            value: formatMinutes(totals.minutesAt65),
+            label: "at 65 mph",
+            detail: "no stops or delays",
+          },
+        ]}
+      />
 
-          <p className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
-            Data source / method / last checked: reference miles compiled from{" "}
-            <span className="font-semibold">data/places.ts</span> hub ranges and
-            cross-checked against <span className="font-semibold">data/i80-exits.json</span>{" "}
-            exit mileposts; last checked {hubData.lastChecked}. Distances are
-            reference-mile differences and times are steady-speed estimates
-            rounded to 5 minutes. They are not live traffic, not current drive
-            times, and not official NDOT figures — verify with{" "}
-            <a
-              href="https://511.nebraska.gov/"
-              className="font-semibold text-highway underline decoration-amber underline-offset-2"
+      <section className="mt-8 border border-line bg-paper p-5 md:p-7">
+        <h2 className="font-serif text-2xl font-semibold">Methodology</h2>
+        <div className="mt-2 grid gap-4 text-sm leading-relaxed text-ink-soft md:grid-cols-2">
+          <div>
+            <p className="kicker text-amber-dark">Reference miles</p>
+            <p className="mt-2">
+              Each hub is pinned to one main-exit reference mile: Kimball
+              22, Sidney 59, Ogallala 126, North Platte 177, Lexington 237,
+              Kearney 272, Grand Island 312, York 353, Seward 379, Lincoln
+              401, Omaha 454. These are main-exit mile references pulled
+              from the exit list — not city centers and not official NDOT
+              segment lengths.
+            </p>
+          </div>
+          <div>
+            <p className="kicker text-amber-dark">The math</p>
+            <p className="mt-2">
+              Each leg is the next reference mile minus the previous one
+              (for example, 59 − 22 = 37 miles for Kimball → Sidney).
+              Estimated time is distance ÷ speed × 60, rounded to the
+              nearest 5 minutes, at 65 mph and 70 mph. Nothing here accounts
+              for traffic, weather, stops, construction, speed-limit changes
+              or Omaha metro congestion.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <RowSection<Leg>
+        title="Consecutive hubs, west to east"
+        note="Estimates at steady speed"
+        rows={legs}
+        rowKey={(leg) => `${leg.from}-${leg.to}`}
+        minWidth="min-w-[44rem]"
+        columns={[
+          { label: "Leg" },
+          { label: "Est. miles" },
+          { label: "Est. at 65 mph" },
+          { label: "Est. at 70 mph" },
+        ]}
+        renderMobile={(leg) => (
+          <>
+            <p className="flex flex-wrap items-center gap-x-1 font-semibold">
+              <HubLink
+                hub={leg.from}
+                className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-2"
+              />
+              <span aria-hidden="true"> → </span>
+              <HubLink
+                hub={leg.to}
+                className="inline-flex min-h-[44px] items-center text-highway underline decoration-amber underline-offset-2"
+              />
+            </p>
+            <p className="mt-1 text-sm tabular-nums text-ink-soft">
+              {leg.miles} mi · {formatMinutes(leg.minutesAt65)} at 65 mph ·{" "}
+              {formatMinutes(leg.minutesAt70)} at 70 mph
+            </p>
+          </>
+        )}
+        renderCells={(leg) => (
+          <>
+            <td className="px-3 py-2 font-semibold">
+              <HubLink
+                hub={leg.from}
+                className="text-highway underline decoration-amber underline-offset-2"
+              />
+              {" → "}
+              <HubLink
+                hub={leg.to}
+                className="text-highway underline decoration-amber underline-offset-2"
+              />
+            </td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">{leg.miles} mi</td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">
+              {formatMinutes(leg.minutesAt65)}
+            </td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">
+              {formatMinutes(leg.minutesAt70)}
+            </td>
+          </>
+        )}
+      />
+
+      <RowSection<FromOmaha>
+        title="From Omaha, heading west"
+        note="Reference miles from mile 454"
+        rows={fromOmaha}
+        rowKey={(row) => row.hub}
+        minWidth="min-w-[44rem]"
+        columns={[
+          { label: "Hub" },
+          { label: "Ref. mile" },
+          { label: "Est. miles from Omaha" },
+          { label: "Est. at 65 mph" },
+          { label: "Est. at 70 mph" },
+        ]}
+        renderMobile={(row) => (
+          <>
+            <HubLink
+              hub={row.hub}
+              className="inline-flex min-h-[44px] items-center font-serif text-xl leading-tight font-semibold text-highway underline decoration-amber underline-offset-2"
+            />
+            <p className="mt-1 text-sm tabular-nums text-ink-soft">
+              {row.milesFromOmaha} mi from Omaha · Ref. mile{" "}
+              {row.referenceMile}
+            </p>
+            <p className="mt-1 text-sm tabular-nums text-ink-soft">
+              {formatMinutes(row.minutesAt65)} at 65 mph ·{" "}
+              {formatMinutes(row.minutesAt70)} at 70 mph
+            </p>
+          </>
+        )}
+        renderCells={(row) => (
+          <>
+            <td className="px-3 py-2 font-semibold">
+              <HubLink
+                hub={row.hub}
+                className="text-highway underline decoration-amber underline-offset-2"
+              />
+            </td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">{row.referenceMile}</td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">
+              {row.milesFromOmaha} mi
+            </td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">
+              {formatMinutes(row.minutesAt65)}
+            </td>
+            <td className="px-3 py-2 tabular-nums text-ink-soft">
+              {formatMinutes(row.minutesAt70)}
+            </td>
+          </>
+        )}
+      />
+
+      <section className="mt-10 border border-line bg-cream p-5 md:p-7">
+        <p className="kicker text-amber-dark">Off-interstate spur</p>
+        <h2 className="mt-1 font-serif text-2xl font-semibold">
+          Hastings is not on the chain
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-soft">
+          Hastings sits off I-80: Exit {spur.fromExit} to Hastings is about{" "}
+          {spur.roadMiles} miles by road via {spur.route} — roughly{" "}
+          {formatMinutes(spur.minutesAt65)} at steady highway speed. That
+          figure comes from{" "}
+          <a
+            href={spur.sourceUrl}
+            className="font-semibold text-highway underline decoration-amber underline-offset-2"
+          >
+            {spur.source}
+          </a>
+          , not from reference-mile math, so keep it separate from the
+          hub-to-hub tables above.
+        </p>
+      </section>
+
+      <section className="mt-10 border-t border-line pt-5">
+        <h2 className="font-serif text-2xl font-semibold">Keep exploring</h2>
+        <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+          <li className="border border-line bg-paper p-4 text-sm">
+            <Link
+              href="/exits"
+              className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
             >
-              Nebraska 511
-            </a>{" "}
-            before you drive.
-          </p>
-        </div>
-      </div>
-      <div className="container-page pb-10">
-        <div className="mx-auto max-w-5xl">
-          <DataPageLinks current="/distances" />
-        </div>
-      </div>
-    </main>
+              I-80 exit guide
+            </Link>
+            <p className="mt-1 text-[12px] leading-relaxed text-slate">
+              Every Nebraska exit with mile markers.
+            </p>
+          </li>
+          <li className="border border-line bg-paper p-4 text-sm">
+            <Link
+              href="/cities"
+              className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
+            >
+              Corridor towns
+            </Link>
+            <p className="mt-1 text-[12px] leading-relaxed text-slate">
+              Hub pages with exits and local coverage.
+            </p>
+          </li>
+          <li className="border border-line bg-paper p-4 text-sm">
+            <Link
+              href="/conditions"
+              className="inline-flex min-h-[44px] items-center font-semibold text-highway underline decoration-amber underline-offset-2"
+            >
+              Corridor conditions
+            </Link>
+            <p className="mt-1 text-[12px] leading-relaxed text-slate">
+              Current status before you drive — check 511 too.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <p className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
+        Data source / method / last checked: reference miles compiled from{" "}
+        <span className="font-semibold">data/places.ts</span> hub ranges and
+        cross-checked against <span className="font-semibold">data/i80-exits.json</span>{" "}
+        exit mileposts; last checked {hubData.lastChecked}. Distances are
+        reference-mile differences and times are steady-speed estimates
+        rounded to 5 minutes. They are not live traffic, not current drive
+        times, and not official NDOT figures — verify with{" "}
+        <a
+          href="https://511.nebraska.gov/"
+          className="font-semibold text-highway underline decoration-amber underline-offset-2"
+        >
+          Nebraska 511
+        </a>{" "}
+        before you drive.
+      </p>
+    </DataPage>
   );
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { JsonLd } from "@/components/JsonLd";
-import { DataPageLinks } from "@/components/DataPageLinks";
+import { DataPage, AnchorCard, Explainer, RowSection, StartHere } from "@/components/data-page";
 import { RestAreaMap } from "@/components/RestAreaMap";
 import { DataSummary } from "@/components/DataSummary";
 import { places } from "@/data/places";
@@ -108,6 +107,10 @@ function featureText(area: RestArea): string {
   return `${base}${sculpture}${notes}`;
 }
 
+function locationText(area: RestArea, separator: string): string {
+  return `${area.locationNote}${area.pullThru ? `${separator}Pull-thru truck parking.` : ""}`;
+}
+
 function TopLotCardBody({ area }: { area: RestArea }) {
   const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
   return (
@@ -170,90 +173,75 @@ export default function RestAreasPage() {
   };
 
   return (
-    <main>
-      <JsonLd data={jsonLd} />
+    <DataPage
+      jsonLd={jsonLd}
+      kicker="Mileposts, parking & closures"
+      title={
+        <>
+          Nebraska <span className="whitespace-nowrap">I-80</span> rest areas
+        </>
+      }
+      intro={
+        <>
+          Every rest area and truck-parking-only lot on Nebraska&apos;s I-80,
+          transcribed from the NDOT rest area guide. Counts below are the
+          guide&apos;s figures — not a live count of open spaces — so check{" "}
+          <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+            Nebraska 511
+          </a>{" "}
+          for current closures before you count on a stop.
+        </>
+      }
+      current="/rest-areas"
+    >
+      <RestAreaMap areas={areas} />
 
-      <header className="border-b border-line bg-cream">
-        <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Mileposts, parking &amp; closures</p>
-          <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
-            Nebraska <span className="whitespace-nowrap">I-80</span> rest areas
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Every rest area and truck-parking-only lot on Nebraska&apos;s I-80,
-            transcribed from the NDOT rest area guide. Counts below are the
-            guide&apos;s figures — not a live count of open spaces — so check{" "}
-            <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-              Nebraska 511
-            </a>{" "}
-            for current closures before you count on a stop.
-          </p>
-        </div>
-      </header>
+      <StartHere
+        className="mt-4"
+        title="The biggest public truck lots"
+        note="Sorted by the guide's posted truck spaces. These are capacity figures, not live availability — check 511."
+      >
+        {topTruckAreas.map((area) => (
+          <AnchorCard key={area.id} id={area.id}>
+            <TopLotCardBody area={area} />
+          </AnchorCard>
+        ))}
+      </StartHere>
 
-      <div className="container-page py-10">
-        <div className="mx-auto max-w-5xl">
-          <RestAreaMap areas={areas} />
+      <DataSummary
+        className="mt-4"
+        items={[
+          {
+            value: truckSpacesListed,
+            label: "listed truck spaces",
+            detail: "Goehner unstated",
+          },
+          {
+            value: "2015",
+            label: "NDOT guide",
+            detail: "verify on 511 before you go",
+          },
+        ]}
+      />
 
-          <section className="mt-4 border border-line bg-paper p-5 md:p-7">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="kicker text-amber-dark">Start here</p>
-                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
-                  The biggest public truck lots
-                </h2>
-              </div>
-              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
-                Sorted by the guide&apos;s posted truck spaces. These are
-                capacity figures, not live availability — check 511.
-              </p>
-            </div>
-            <div className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {topTruckAreas.map((area) => (
-                <div
-                  key={area.id}
-                  className="group min-w-0 border border-line bg-cream p-4 break-words hover:border-ink"
-                >
-                  <a href={`#${area.id}-m`} className="block sm:hidden">
-                    <TopLotCardBody area={area} />
-                  </a>
-                  <a href={`#${area.id}`} className="hidden sm:block">
-                    <TopLotCardBody area={area} />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <DataSummary
-            className="mt-4"
-            items={[
-              {
-                value: truckSpacesListed,
-                label: "listed truck spaces",
-                detail: "Goehner unstated",
-              },
-              {
-                value: "2015",
-                label: "NDOT guide",
-                detail: "verify on 511 before you go",
-              },
-            ]}
-          />
-
-          <div className="mt-4 grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
-            <div>
-              <p className="kicker text-amber-dark">How to use it</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+      <Explainer
+        className="mt-4"
+        items={[
+          {
+            title: "How to use it",
+            body: (
+              <>
                 Match your direction of travel — most sites serve one side only,
                 and the eastbound and westbound areas near a town sit at
                 different mileposts. The milepost column tells you which comes
                 first on your route.
-              </p>
-            </div>
-            <div>
-              <p className="kicker text-amber-dark">Not full-service stops</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              </>
+            ),
+          },
+          {
+            title: "Not full-service stops",
+            body: (
+              <>
                 Rest areas have toilets, picnic tables and room to stretch, not
                 fuel or food. For gas, meals and overnight stays, use the town
                 hub linked in each row or the{" "}
@@ -261,11 +249,13 @@ export default function RestAreasPage() {
                   exit guide
                 </Link>
                 .
-              </p>
-            </div>
-            <div>
-              <p className="kicker text-amber-dark">Before you drive</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              </>
+            ),
+          },
+          {
+            title: "Before you drive",
+            body: (
+              <>
                 The guide is dated October 2015. For short-term closures call
                 511 or check{" "}
                 <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
@@ -276,258 +266,233 @@ export default function RestAreasPage() {
                   truck parking page
                 </Link>
                 .
-              </p>
-            </div>
-          </div>
+              </>
+            ),
+          },
+        ]}
+      />
 
-          {regions.map((region) => {
-            const regionRows = areas.filter((area) => regionFor(area) === region.name);
-            if (!regionRows.length) return null;
-            return (
-              <section key={region.name} className="mt-10">
-                <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">
-                  <h2 className="font-serif text-2xl font-semibold">{region.name}</h2>
-                  <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
-                    {region.note}
+      {regions.map((region) => {
+        const regionRows = areas.filter((area) => regionFor(area) === region.name);
+        if (!regionRows.length) return null;
+        return (
+          <RowSection<RestArea>
+            key={region.name}
+            title={region.name}
+            note={region.note}
+            rows={regionRows}
+            rowKey={(area) => area.id}
+            rowId={(area) => area.id}
+            mobileGap="2"
+            minWidth="min-w-[52rem]"
+            columns={[
+              { label: "Rest area" },
+              { label: "Mile" },
+              { label: "Dir" },
+              { label: "Parking" },
+              { label: "Town & exit" },
+              { label: "Features" },
+            ]}
+            renderMobile={(area) => {
+              const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
+              return (
+                <>
+                  <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                    {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} ·{" "}
+                    {directionShort(area.direction)}
+                    {area.truckOnly ? " · Trucks only" : ""}
                   </p>
-                </div>
-                <ul className="mt-3 space-y-2 sm:hidden">
-                  {regionRows.map((area) => {
-                    const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
-                    return (
-                      <li
-                        key={area.id}
-                        id={`${area.id}-m`}
-                        className="scroll-mt-24 border border-line bg-paper p-4"
+                  <p className="mt-1 font-serif text-lg leading-tight font-semibold">
+                    {area.name}
+                  </p>
+                  <p className="mt-2 font-serif text-xl font-semibold">
+                    {parkingLabel(area)}
+                  </p>
+                  <p className="mt-1 text-[12px] leading-snug text-slate">
+                    {locationText(area, " ")}
+                  </p>
+                  <p className="mt-1 flex flex-wrap items-center gap-x-5 text-[12px]">
+                    {place ? (
+                      <Link
+                        href={`/cities/${place.slug}`}
+                        className="inline-flex min-h-[44px] items-center font-medium text-highway underline decoration-amber underline-offset-2"
                       >
-                        <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-                          {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} ·{" "}
-                          {directionShort(area.direction)}
-                          {area.truckOnly ? " · Trucks only" : ""}
-                        </p>
-                        <p className="mt-1 font-serif text-lg leading-tight font-semibold">
-                          {area.name}
-                        </p>
-                        <p className="mt-2 font-serif text-xl font-semibold">
-                          {parkingLabel(area)}
-                        </p>
-                        <p className="mt-1 text-[12px] leading-snug text-slate">
-                          {area.locationNote}
-                          {area.pullThru ? " Pull-thru truck parking." : ""}
-                        </p>
-                        <p className="mt-1 flex flex-wrap items-center gap-x-5 text-[12px]">
-                          {place ? (
-                            <Link
-                              href={`/cities/${place.slug}`}
-                              className="inline-flex min-h-[44px] items-center font-medium text-highway underline decoration-amber underline-offset-2"
-                            >
-                              {place.name} hub →
-                            </Link>
-                          ) : (
-                            <span className="inline-flex min-h-[44px] items-center text-slate">
-                              {area.corridor}
-                            </span>
-                          )}
-                          <Link
-                            href={`/exits#exit-${area.nearestExit}`}
-                            className="inline-flex min-h-[44px] items-center whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
-                          >
-                            Exit {area.nearestExit} →
-                          </Link>
-                        </p>
-                        <p className="border-t border-line pt-2 text-[12px] leading-snug text-ink-soft">
-                          {featureText(area)}
-                        </p>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
-                  <table className="w-full min-w-[52rem] border-collapse text-left text-sm">
-                    <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
-                      <tr>
-                        <th className="px-3 py-2 font-semibold">Rest area</th>
-                        <th className="px-3 py-2 font-semibold">Mile</th>
-                        <th className="px-3 py-2 font-semibold">Dir</th>
-                        <th className="px-3 py-2 font-semibold">Parking</th>
-                        <th className="px-3 py-2 font-semibold">Town &amp; exit</th>
-                        <th className="px-3 py-2 font-semibold">Features</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-line">
-                      {regionRows.map((area) => {
-                        const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
-                        return (
-                          <tr key={area.id} id={area.id} className="scroll-mt-24 bg-paper">
-                            <td className="px-3 py-2">
-                              <p className="font-semibold">
-                                {area.name}
-                                {area.truckOnly ? (
-                                  <span className="ml-2 inline-block bg-cream px-1.5 py-0.5 align-middle text-[10px] font-bold tracking-wide text-amber-dark uppercase">
-                                    Trucks only
-                                  </span>
-                                ) : null}
-                              </p>
-                              <p className="mt-0.5 max-w-[16rem] text-[12px] leading-snug text-slate">
-                                {area.locationNote}
-                                {area.pullThru ? " · Pull-thru truck parking." : ""}
-                              </p>
-                            </td>
-                            <td className="px-3 py-2 tabular-nums whitespace-nowrap text-ink-soft">
-                              {area.milepost !== null ? area.milepost.toFixed(2) : "—"}
-                            </td>
-                            <td className="px-3 py-2 font-semibold whitespace-nowrap text-ink-soft">
-                              {directionShort(area.direction)}
-                            </td>
-                            <td className="px-3 py-2 text-[12px] whitespace-nowrap text-ink-soft">
-                              {parkingLabel(area)}
-                            </td>
-                            <td className="px-3 py-2 text-[12px] leading-snug">
-                              {place ? (
-                                <Link
-                                  href={`/cities/${place.slug}`}
-                                  className="font-medium text-highway underline decoration-amber underline-offset-2"
-                                >
-                                  {place.name}
-                                </Link>
-                              ) : (
-                                <span className="text-slate">{area.corridor}</span>
-                              )}{" "}
-                              <Link
-                                href={`/exits#exit-${area.nearestExit}`}
-                                className="whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
-                              >
-                                Exit {area.nearestExit}
-                              </Link>
-                            </td>
-                            <td className="max-w-[18rem] px-3 py-2 text-[12px] leading-snug text-ink-soft">
-                              {area.amenities.length
-                                ? area.amenities
-                                    .map((amenity) => amenityLabels[amenity] ?? amenity)
-                                    .join(" · ")
-                                : "No amenities — parking only"}
-                              {area.sculpture ? ` · Sculpture: ${area.sculpture}.` : ""}
-                              {area.notes && !area.truckOnly ? ` ${area.notes}` : ""}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            );
-          })}
+                        {place.name} hub →
+                      </Link>
+                    ) : (
+                      <span className="inline-flex min-h-[44px] items-center text-slate">
+                        {area.corridor}
+                      </span>
+                    )}
+                    <Link
+                      href={`/exits#exit-${area.nearestExit}`}
+                      className="inline-flex min-h-[44px] items-center whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
+                    >
+                      Exit {area.nearestExit} →
+                    </Link>
+                  </p>
+                  <p className="border-t border-line pt-2 text-[12px] leading-snug text-ink-soft">
+                    {featureText(area)}
+                  </p>
+                </>
+              );
+            }}
+            renderCells={(area) => {
+              const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
+              return (
+                <>
+                  <td className="px-3 py-2">
+                    <p className="font-semibold">
+                      {area.name}
+                      {area.truckOnly ? (
+                        <span className="ml-2 inline-block bg-cream px-1.5 py-0.5 align-middle text-[10px] font-bold tracking-wide text-amber-dark uppercase">
+                          Trucks only
+                        </span>
+                      ) : null}
+                    </p>
+                    <p className="mt-0.5 max-w-[16rem] text-[12px] leading-snug text-slate">
+                      {locationText(area, " · ")}
+                    </p>
+                  </td>
+                  <td className="px-3 py-2 tabular-nums whitespace-nowrap text-ink-soft">
+                    {area.milepost !== null ? area.milepost.toFixed(2) : "—"}
+                  </td>
+                  <td className="px-3 py-2 font-semibold whitespace-nowrap text-ink-soft">
+                    {directionShort(area.direction)}
+                  </td>
+                  <td className="px-3 py-2 text-[12px] whitespace-nowrap text-ink-soft">
+                    {parkingLabel(area)}
+                  </td>
+                  <td className="px-3 py-2 text-[12px] leading-snug">
+                    {place ? (
+                      <Link
+                        href={`/cities/${place.slug}`}
+                        className="font-medium text-highway underline decoration-amber underline-offset-2"
+                      >
+                        {place.name}
+                      </Link>
+                    ) : (
+                      <span className="text-slate">{area.corridor}</span>
+                    )}{" "}
+                    <Link
+                      href={`/exits#exit-${area.nearestExit}`}
+                      className="whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
+                    >
+                      Exit {area.nearestExit}
+                    </Link>
+                  </td>
+                  <td className="max-w-[18rem] px-3 py-2 text-[12px] leading-snug text-ink-soft">
+                    {featureText(area)}
+                  </td>
+                </>
+              );
+            }}
+          />
+        );
+      })}
 
-          <section className="mt-10 border-t border-line pt-5">
-            <h2 className="font-serif text-2xl font-semibold">Truck parking notes</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate">
-              Two of the {areaCount} sites are trucks-only. The rest areas above
-              list a small number of truck spaces each — typically seven — with a
-              few exceptions: Melia Hill (24), Platte River (10), Brady
-              eastbound (18), Brady westbound (22) and Sidney eastbound (28).
+      <section className="mt-10 border-t border-line pt-5">
+        <h2 className="font-serif text-2xl font-semibold">Truck parking notes</h2>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate">
+          Two of the {areaCount} sites are trucks-only. The rest areas above
+          list a small number of truck spaces each — typically seven — with a
+          few exceptions: Melia Hill (24), Platte River (10), Brady
+          eastbound (18), Brady westbound (22) and Sidney eastbound (28).
+        </p>
+        <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+          <li className="border border-line bg-paper px-3 py-2 text-sm">
+            <a
+              href="#goehner-wb-truck-m"
+              className="font-semibold text-highway underline decoration-amber underline-offset-2 sm:hidden"
+            >
+              Goehner truck parking
+            </a>
+            <a
+              href="#goehner-wb-truck"
+              className="hidden font-semibold text-highway underline decoration-amber underline-offset-2 sm:inline"
+            >
+              Goehner truck parking
+            </a>
+            <span className="text-ink-soft"> (MM 375.50 WB)</span>
+            <p className="mt-1 text-[12px] leading-snug text-slate">
+              Trucks only; the guide gives no space count. For food, fuel
+              and overnight parking, see{" "}
+              <Link href="/truck-parking" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+                truck parking
+              </Link>{" "}
+              and the{" "}
+              <Link href="/cities/seward" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+                Seward hub
+              </Link>
+              .
             </p>
-            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              <li className="border border-line bg-paper px-3 py-2 text-sm">
-                <a
-                  href="#goehner-wb-truck-m"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2 sm:hidden"
-                >
-                  Goehner truck parking
-                </a>
-                <a
-                  href="#goehner-wb-truck"
-                  className="hidden font-semibold text-highway underline decoration-amber underline-offset-2 sm:inline"
-                >
-                  Goehner truck parking
-                </a>
-                <span className="text-ink-soft"> (MM 375.50 WB)</span>
-                <p className="mt-1 text-[12px] leading-snug text-slate">
-                  Trucks only; the guide gives no space count. For food, fuel
-                  and overnight parking, see{" "}
-                  <Link href="/truck-parking" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                    truck parking
-                  </Link>{" "}
-                  and the{" "}
-                  <Link href="/cities/seward" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                    Seward hub
-                  </Link>
-                  .
-                </p>
-              </li>
-              <li className="border border-line bg-paper px-3 py-2 text-sm">
-                <a
-                  href="#interchange-101-truck-m"
-                  className="font-semibold text-highway underline decoration-amber underline-offset-2 sm:hidden"
-                >
-                  Interchange 101 truck parking
-                </a>
-                <a
-                  href="#interchange-101-truck"
-                  className="hidden font-semibold text-highway underline decoration-amber underline-offset-2 sm:inline"
-                >
-                  Interchange 101 truck parking
-                </a>
-                <span className="text-ink-soft"> (Exit 101, Deuel County)</span>
-                <p className="mt-1 text-[12px] leading-snug text-slate">
-                  About 60 truck spaces on a surfaced lot off US-138, serving
-                  both directions. No amenities of any kind — plan accordingly.
-                </p>
-              </li>
-            </ul>
-          </section>
+          </li>
+          <li className="border border-line bg-paper px-3 py-2 text-sm">
+            <a
+              href="#interchange-101-truck-m"
+              className="font-semibold text-highway underline decoration-amber underline-offset-2 sm:hidden"
+            >
+              Interchange 101 truck parking
+            </a>
+            <a
+              href="#interchange-101-truck"
+              className="hidden font-semibold text-highway underline decoration-amber underline-offset-2 sm:inline"
+            >
+              Interchange 101 truck parking
+            </a>
+            <span className="text-ink-soft"> (Exit 101, Deuel County)</span>
+            <p className="mt-1 text-[12px] leading-snug text-slate">
+              About 60 truck spaces on a surfaced lot off US-138, serving
+              both directions. No amenities of any kind — plan accordingly.
+            </p>
+          </li>
+        </ul>
+      </section>
 
-          <section className="mt-10 border-t border-line pt-5">
-            <h2 className="font-serif text-2xl font-semibold">Amenities and rules</h2>
-            <div className="mt-3 grid gap-4 text-sm leading-relaxed text-ink-soft md:grid-cols-2">
-              <div className="border border-line bg-paper p-5">
-                <p className="kicker text-amber-dark">What to expect</p>
-                <p className="mt-2">
-                  The guide describes rest areas as offering some or all of:
-                  full toilet facilities, drinking fountains, accessible
-                  facilities, vending, pet exercise areas, picnic shelters and
-                  tables, night lighting, real-time weather and road-condition
-                  information, historical plaques, and summer tourist information
-                  stations. Per-site details are in the tables above; anything
-                  not listed for a site was not stated in the guide.
-                </p>
-              </div>
-              <div className="border border-line bg-paper p-5">
-                <p className="kicker text-amber-dark">The rules</p>
-                <p className="mt-2">
-                  No camping; maximum stay is ten hours. Park only in
-                  designated areas, keep pets leashed and in pet areas, use
-                  provided grills for fires, and don&apos;t dump household
-                  trash. Alcohol, weapons, loitering around buildings and
-                  soliciting are prohibited.
-                </p>
-              </div>
-            </div>
-          </section>
+      <section className="mt-10 border-t border-line pt-5">
+        <h2 className="font-serif text-2xl font-semibold">Amenities and rules</h2>
+        <div className="mt-3 grid gap-4 text-sm leading-relaxed text-ink-soft md:grid-cols-2">
+          <div className="border border-line bg-paper p-5">
+            <p className="kicker text-amber-dark">What to expect</p>
+            <p className="mt-2">
+              The guide describes rest areas as offering some or all of:
+              full toilet facilities, drinking fountains, accessible
+              facilities, vending, pet exercise areas, picnic shelters and
+              tables, night lighting, real-time weather and road-condition
+              information, historical plaques, and summer tourist information
+              stations. Per-site details are in the tables above; anything
+              not listed for a site was not stated in the guide.
+            </p>
+          </div>
+          <div className="border border-line bg-paper p-5">
+            <p className="kicker text-amber-dark">The rules</p>
+            <p className="mt-2">
+              No camping; maximum stay is ten hours. Park only in
+              designated areas, keep pets leashed and in pet areas, use
+              provided grills for fires, and don&apos;t dump household
+              trash. Alcohol, weapons, loitering around buildings and
+              soliciting are prohibited.
+            </p>
+          </div>
+        </div>
+      </section>
 
-          <p className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
-            Data source: NDOT&apos;s{" "}
-            <a href="https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-              Nebraska&apos;s Interstate 80 Rest Areas
-            </a>{" "}
-            (Oct. 2015), transcribed {restAreaData.lastVerified}. NDOT&apos;s
-            Rest Area Information page still linked that guide when checked on
-            November 6, 2026; no newer official capacity inventory was found.
-            Parking counts and amenities are the guide&apos;s figures and may be
-            out of date — sites may have been rebuilt, resized or closed since. For current
-            status, use{" "}
-            <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-              Nebraska 511
-            </a>{" "}
-            or call 511; for an emergency on the interstate, use *55.
-          </p>
-        </div>
-      </div>
-      <div className="container-page pb-10">
-        <div className="mx-auto max-w-5xl">
-          <DataPageLinks current="/rest-areas" />
-        </div>
-      </div>
-    </main>
+      <p className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
+        Data source: NDOT&apos;s{" "}
+        <a href="https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+          Nebraska&apos;s Interstate 80 Rest Areas
+        </a>{" "}
+        (Oct. 2015), transcribed {restAreaData.lastVerified}. NDOT&apos;s
+        Rest Area Information page still linked that guide when checked on
+        November 6, 2026; no newer official capacity inventory was found.
+        Parking counts and amenities are the guide&apos;s figures and may be
+        out of date — sites may have been rebuilt, resized or closed since. For current
+        status, use{" "}
+        <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+          Nebraska 511
+        </a>{" "}
+        or call 511; for an emergency on the interstate, use *55.
+      </p>
+    </DataPage>
   );
 }

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { JsonLd } from "@/components/JsonLd";
+import { DataPage, AnchorCard, Explainer, RowSection, StartHere } from "@/components/data-page";
 import { RestAreaMap } from "@/components/RestAreaMap";
 import { DataSummary } from "@/components/DataSummary";
-import { DataPageLinks } from "@/components/DataPageLinks";
 import { getPlace } from "@/data/places";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
@@ -49,7 +48,6 @@ const openTruckSpaces = openSites.reduce(
   0,
 );
 const countedSites = openSites.filter((s) => s.truckSpaces != null).length;
-const planned = sites.filter((s) => s.status === "planned");
 const topSites = openSites
   .filter((site) => site.truckSpaces !== null)
   .sort((a, b) => (b.truckSpaces ?? 0) - (a.truckSpaces ?? 0))
@@ -143,118 +141,100 @@ export default function TruckParkingPage() {
   };
 
   return (
-    <main>
-      <JsonLd data={jsonLd} />
+    <DataPage
+      jsonLd={jsonLd}
+      kicker="Mile markers & exits"
+      title="Public truck parking on I-80"
+      intro={
+        <>
+          Every public truck-parking spot NDOT lists on I-80 in Nebraska:
+          rest-area stalls and the state truck lots, ordered west to east.
+          This page covers{" "}
+          <strong className="text-ink">public rest-area and state parking only</strong>{" "}
+          — private truck stops are not inventoried here. For the full
+          rest-area picture, see our{" "}
+          <Link href="/rest-areas" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+            I-80 rest-area guide
+          </Link>
+          .
+        </>
+      }
+      current="/truck-parking"
+    >
+      <StartHere
+        title="Largest open public lots"
+        note="The four biggest public truck-parking sites in the NDOT guide. Counts are not live — confirm availability on 511."
+      >
+        {topSites.map((site) => (
+          <AnchorCard key={site.id} id={site.id}>
+            <TopSiteCardBody row={site} />
+          </AnchorCard>
+        ))}
+      </StartHere>
 
-      <header className="border-b border-line bg-cream">
-        <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Mile markers &amp; exits</p>
-          <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
-            Public truck parking on I-80
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Every public truck-parking spot NDOT lists on I-80 in Nebraska:
-            rest-area stalls and the state truck lots, ordered west to east.
-            This page covers{" "}
-            <strong className="text-ink">public rest-area and state parking only</strong>{" "}
-            — private truck stops are not inventoried here. For the full
-            rest-area picture, see our{" "}
-            <Link href="/rest-areas" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-              I-80 rest-area guide
-            </Link>
-            .
-          </p>
-        </div>
-      </header>
+      <div className="mt-4">
+        <RestAreaMap
+          variant="truck"
+          areas={openSites.map((site) => ({
+            id: site.id,
+            name: site.name,
+            milepost: site.mile,
+            nearestExit: site.nearestExit ?? 0,
+            truckOnly: false,
+          }))}
+        />
+      </div>
 
-      <div className="container-page py-10">
-        <div className="mx-auto max-w-5xl">
-          <section className="border border-line bg-paper p-5 md:p-7">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="kicker text-amber-dark">Start here</p>
-                <h2 className="mt-1 font-serif text-2xl font-semibold md:text-3xl">
-                  Largest open public lots
-                </h2>
-              </div>
-              <p className="max-w-sm text-[11px] leading-relaxed text-slate">
-                The four biggest public truck-parking sites in the NDOT guide.
-                Counts are not live — confirm availability on 511.
-              </p>
-            </div>
-            <div className="mt-4 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {topSites.map((site) => (
-                <div
-                  key={site.id}
-                  className="group min-w-0 border border-line bg-cream p-4 break-words hover:border-ink"
-                >
-                  <a href={`#${site.id}-m`} className="block sm:hidden">
-                    <TopSiteCardBody row={site} />
-                  </a>
-                  <a href={`#${site.id}`} className="hidden sm:block">
-                    <TopSiteCardBody row={site} />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </section>
+      <DataSummary
+        className="mt-4"
+        items={[
+          {
+            value: openTruckSpaces.toLocaleString("en-US"),
+            label: "open public truck spaces",
+            detail: `${countedSites} sites with posted counts`,
+          },
+          {
+            value: "~120",
+            label: "planned in Dawson County",
+            detail: "not open yet; release also cites ~92",
+          },
+          {
+            value: "2015",
+            label: "NDOT guide",
+            detail: "counts may have changed; check 511",
+          },
+        ]}
+      />
 
-          <div className="mt-4">
-            <RestAreaMap
-              variant="truck"
-              areas={openSites.map((site) => ({
-                id: site.id,
-                name: site.name,
-                milepost: site.mile,
-                nearestExit: site.nearestExit ?? 0,
-                truckOnly: false,
-              }))}
-            />
-          </div>
-
-          <DataSummary
-            className="mt-4"
-            items={[
-              {
-                value: openTruckSpaces.toLocaleString("en-US"),
-                label: "open public truck spaces",
-                detail: `${countedSites} sites with posted counts`,
-              },
-              {
-                value: "~120",
-                label: "planned in Dawson County",
-                detail: "not open yet; release also cites ~92",
-              },
-              {
-                value: "2015",
-                label: "NDOT guide",
-                detail: "counts may have changed; check 511",
-              },
-            ]}
-          />
-
-          <div className="mt-4 grid gap-4 border border-line bg-paper p-5 sm:grid-cols-3">
-            <div>
-              <p className="kicker text-amber-dark">Public vs. private</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+      <Explainer
+        className="mt-4"
+        items={[
+          {
+            title: "Public vs. private",
+            body: (
+              <>
                 Rest areas and the Deuel County lot are free, state-run and
                 open to any commercial driver. Private truck stops — fuel
                 islands, reserved paid parking, showers — are a separate
                 system this page does not track.
-              </p>
-            </div>
-            <div>
-              <p className="kicker text-amber-dark">The rules</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              </>
+            ),
+          },
+          {
+            title: "The rules",
+            body: (
+              <>
                 NDOT prohibits camping at rest areas and limits stays to 10
                 hours. Parking outside designated areas is prohibited — when
                 the stalls fill, the legal move is the next lot, not the
                 shoulder or the ramp.
-              </p>
-            </div>
-            <div>
-              <p className="kicker text-amber-dark">Before a night run</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              </>
+            ),
+          },
+          {
+            title: "Before a night run",
+            body: (
+              <>
                 Check{" "}
                 <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
                   Nebraska 511
@@ -265,226 +245,201 @@ export default function TruckParkingPage() {
                   exit guide
                 </Link>
                 .
-              </p>
-            </div>
-          </div>
+              </>
+            ),
+          },
+        ]}
+      />
 
-          {regions.map((region) => {
-            const regionRows = sites.filter((row) => {
-              if (row.mile == null) return region.name === "Central";
-              return row.mile >= region.min && row.mile <= region.max;
-            });
-            if (!regionRows.length) return null;
-            return (
-              <section key={region.name} className="mt-10">
-                <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">
-                  <h2 className="font-serif text-2xl font-semibold">{region.name}</h2>
-                  <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
-                    {region.note}
+      {regions.map((region) => {
+        const regionRows = sites.filter((row) => {
+          if (row.mile == null) return region.name === "Central";
+          return row.mile >= region.min && row.mile <= region.max;
+        });
+        if (!regionRows.length) return null;
+        return (
+          <RowSection<SiteRow>
+            key={region.name}
+            title={region.name}
+            note={region.note}
+            rows={regionRows}
+            rowKey={(row) => row.id}
+            rowId={(row) => row.id}
+            mobileGap="2"
+            minWidth="min-w-[52rem]"
+            columns={[
+              { label: "Site" },
+              { label: "Mile" },
+              { label: "Exit" },
+              { label: "Truck spaces" },
+              { label: "Status" },
+              { label: "Notes" },
+            ]}
+            renderMobile={(row) => (
+              <>
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <p className="font-serif text-lg leading-tight font-semibold">
+                    {row.name}
                   </p>
+                  <StatusBadge status={row.status} />
                 </div>
-                <ul className="mt-3 space-y-2 sm:hidden">
-                  {regionRows.map((row) => (
-                    <li
-                      key={row.id}
-                      id={`${row.id}-m`}
-                      className="scroll-mt-24 border border-line bg-paper p-4"
+                <p className="mt-1 text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
+                  {row.mile != null ? `Mile ${row.mile.toFixed(1)}${row.mileApproximate ? " ~" : ""}` : "Location TBA"} ·{" "}
+                  {row.direction}
+                </p>
+                <p className="mt-2 font-serif text-xl font-semibold">
+                  {formatSpaces(row.truckSpaces)}{" "}
+                  <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
+                </p>
+                <p className="mt-1 flex flex-wrap items-center gap-x-5 text-[12px]">
+                  <Link
+                    href={`/cities/${row.nearestTown}`}
+                    className="inline-flex min-h-[44px] items-center font-medium text-highway underline decoration-amber underline-offset-2"
+                  >
+                    {townName(row.nearestTown)} hub →
+                  </Link>
+                  {row.nearestExit != null ? (
+                    <Link
+                      href={`/exits#exit-${row.nearestExit}`}
+                      className="inline-flex min-h-[44px] items-center whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
                     >
-                      <div className="flex flex-wrap items-start justify-between gap-2">
-                        <p className="font-serif text-lg leading-tight font-semibold">
-                          {row.name}
-                        </p>
-                        <StatusBadge status={row.status} />
-                      </div>
-                      <p className="mt-1 text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-                        {row.mile != null ? `Mile ${row.mile.toFixed(1)}${row.mileApproximate ? " ~" : ""}` : "Location TBA"} ·{" "}
-                        {row.direction}
-                      </p>
-                      <p className="mt-2 font-serif text-xl font-semibold">
-                        {formatSpaces(row.truckSpaces)}{" "}
-                        <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
-                      </p>
-                      <p className="mt-1 flex flex-wrap items-center gap-x-5 text-[12px]">
-                        <Link
-                          href={`/cities/${row.nearestTown}`}
-                          className="inline-flex min-h-[44px] items-center font-medium text-highway underline decoration-amber underline-offset-2"
-                        >
-                          {townName(row.nearestTown)} hub →
-                        </Link>
-                        {row.nearestExit != null ? (
-                          <Link
-                            href={`/exits#exit-${row.nearestExit}`}
-                            className="inline-flex min-h-[44px] items-center whitespace-nowrap text-highway underline decoration-amber underline-offset-2"
-                          >
-                            Exit {row.nearestExit} →
-                          </Link>
-                        ) : (
-                          <span className="inline-flex min-h-[44px] items-center text-slate">
-                            Exit TBA
-                          </span>
-                        )}
-                      </p>
-                      <p className="border-t border-line pt-2 text-[12px] leading-snug text-ink-soft">
-                        {row.notes}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-3 hidden overflow-x-auto border border-line sm:block">
-                  <table className="w-full min-w-[52rem] border-collapse text-left text-sm">
-                    <thead className="bg-cream text-[10px] tracking-[0.12em] text-slate uppercase">
-                      <tr>
-                        <th className="px-3 py-2 font-semibold">Site</th>
-                        <th className="px-3 py-2 font-semibold">Mile</th>
-                        <th className="px-3 py-2 font-semibold">Exit</th>
-                        <th className="px-3 py-2 font-semibold">Truck spaces</th>
-                        <th className="px-3 py-2 font-semibold">Status</th>
-                        <th className="px-3 py-2 font-semibold">Notes</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-line">
-                      {regionRows.map((row) => (
-                        <tr key={row.id} id={row.id} className="scroll-mt-24 bg-paper align-top">
-                          <td className="px-3 py-2 font-semibold">
-                            {row.name}
-                            <span className="mt-0.5 block text-[11px] font-normal text-slate capitalize">
-                              {row.direction} · near{" "}
-                              <Link
-                                href={`/cities/${row.nearestTown}`}
-                                className="font-medium text-highway underline decoration-amber underline-offset-2"
-                              >
-                                {townName(row.nearestTown)}
-                              </Link>
-                            </span>
-                          </td>
-                          <td className="px-3 py-2 tabular-nums whitespace-nowrap text-ink-soft">
-                            {row.mile != null ? row.mile.toFixed(1) : "—"}
-                            {row.mileApproximate && row.mile != null ? (
-                              <span className="text-slate"> ~</span>
-                            ) : null}
-                          </td>
-                          <td className="px-3 py-2 whitespace-nowrap text-ink-soft">
-                            {row.nearestExit != null ? (
-                              <Link
-                                href={`/exits#exit-${row.nearestExit}`}
-                                className="font-medium text-highway underline decoration-amber underline-offset-2"
-                              >
-                                Exit {row.nearestExit}
-                              </Link>
-                            ) : (
-                              <span className="text-slate">TBA</span>
-                            )}
-                          </td>
-                          <td className="px-3 py-2 font-serif text-lg font-semibold whitespace-nowrap">
-                            {formatSpaces(row.truckSpaces)}
-                          </td>
-                          <td className="px-3 py-2 whitespace-nowrap">
-                            {row.status === "open" ? (
-                              <span className="inline-block border border-highway px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] text-highway uppercase">
-                                Open
-                              </span>
-                            ) : (
-                              <span className="inline-block border border-amber-dark px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] text-amber-dark uppercase">
-                                Planned
-                              </span>
-                            )}
-                          </td>
-                          <td className="max-w-[22rem] px-3 py-2 text-[12px] leading-snug text-ink-soft">
-                            {row.notes}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            );
-          })}
+                      Exit {row.nearestExit} →
+                    </Link>
+                  ) : (
+                    <span className="inline-flex min-h-[44px] items-center text-slate">
+                      Exit TBA
+                    </span>
+                  )}
+                </p>
+                <p className="border-t border-line pt-2 text-[12px] leading-snug text-ink-soft">
+                  {row.notes}
+                </p>
+              </>
+            )}
+            renderCells={(row) => (
+              <>
+                <td className="px-3 py-2 font-semibold">
+                  {row.name}
+                  <span className="mt-0.5 block text-[11px] font-normal text-slate capitalize">
+                    {row.direction} · near{" "}
+                    <Link
+                      href={`/cities/${row.nearestTown}`}
+                      className="font-medium text-highway underline decoration-amber underline-offset-2"
+                    >
+                      {townName(row.nearestTown)}
+                    </Link>
+                  </span>
+                </td>
+                <td className="px-3 py-2 tabular-nums whitespace-nowrap text-ink-soft">
+                  {row.mile != null ? row.mile.toFixed(1) : "—"}
+                  {row.mileApproximate && row.mile != null ? (
+                    <span className="text-slate"> ~</span>
+                  ) : null}
+                </td>
+                <td className="px-3 py-2 whitespace-nowrap text-ink-soft">
+                  {row.nearestExit != null ? (
+                    <Link
+                      href={`/exits#exit-${row.nearestExit}`}
+                      className="font-medium text-highway underline decoration-amber underline-offset-2"
+                    >
+                      Exit {row.nearestExit}
+                    </Link>
+                  ) : (
+                    <span className="text-slate">TBA</span>
+                  )}
+                </td>
+                <td className="px-3 py-2 font-serif text-lg font-semibold whitespace-nowrap">
+                  {formatSpaces(row.truckSpaces)}
+                </td>
+                <td className="px-3 py-2 whitespace-nowrap">
+                  <StatusBadge status={row.status} />
+                </td>
+                <td className="max-w-[22rem] px-3 py-2 text-[12px] leading-snug text-ink-soft">
+                  {row.notes}
+                </td>
+              </>
+            )}
+          />
+        );
+      })}
 
-          <section className="mt-10 border border-line bg-cream p-5 md:p-7">
-            <p className="kicker text-amber-dark">Coming next</p>
-            <h2 className="mt-1 font-serif text-2xl font-semibold">
-              Dawson County: about 120 new stalls, still on paper
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-soft">
-              In November 2026 NDOT announced that USDOT selected a $7.46
-              million INFRA grant for new public truck parking on I-80 between{" "}
-              <Link href="/cities/kearney" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                Elm Creek
-              </Link>{" "}
-              and{" "}
-              <Link href="/cities/lexington" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                Overton
-              </Link>{" "}
-              in Dawson County — a $15.5 million project in total. One
-              paragraph of the release says approximately 120 new stalls;
-              the director&apos;s quote in the same release says
-              approximately 92. No site, mile markers, timeline or opening
-              date have been announced. Read our full write-up:{" "}
-              <Link
-                href="/news/usdot-backs-120-new-i-80-truck-parking-stalls-in-dawson-county"
-                className="font-semibold text-highway underline decoration-amber underline-offset-2"
-              >
-                USDOT backs 120 new I-80 truck parking stalls in Dawson County
-              </Link>
-              .
-            </p>
-          </section>
+      <section className="mt-10 border border-line bg-cream p-5 md:p-7">
+        <p className="kicker text-amber-dark">Coming next</p>
+        <h2 className="mt-1 font-serif text-2xl font-semibold">
+          Dawson County: about 120 new stalls, still on paper
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-soft">
+          In November 2026 NDOT announced that USDOT selected a $7.46
+          million INFRA grant for new public truck parking on I-80 between{" "}
+          <Link href="/cities/kearney" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+            Elm Creek
+          </Link>{" "}
+          and{" "}
+          <Link href="/cities/lexington" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+            Overton
+          </Link>{" "}
+          in Dawson County — a $15.5 million project in total. One
+          paragraph of the release says approximately 120 new stalls;
+          the director&apos;s quote in the same release says
+          approximately 92. No site, mile markers, timeline or opening
+          date have been announced. Read our full write-up:{" "}
+          <Link
+            href="/news/usdot-backs-120-new-i-80-truck-parking-stalls-in-dawson-county"
+            className="font-semibold text-highway underline decoration-amber underline-offset-2"
+          >
+            USDOT backs 120 new I-80 truck parking stalls in Dawson County
+          </Link>
+          .
+        </p>
+      </section>
 
-          <div className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
-            <p className="font-serif text-base font-semibold text-ink">
-              Sources &amp; last checked
-            </p>
-            <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>
-                Truck-space counts:{" "}
-                <a href="https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                  NDOT Interstate 80 Rest Areas guide (Oct. 2015)
-                </a>
-                . The guide is a decade old — facilities may have been
-                re-striped or reconfigured since, and short-term closures
-                happen. Verify current availability on{" "}
-                <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                  Nebraska 511
-                </a>{" "}
-                or by calling 511 before relying on a stall.
-              </li>
-              <li>
-                Planned project:{" "}
-                <a href="https://dot.nebraska.gov/media/tgzmld3a/20261105-comm-usdot-grants.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                  NDOT Nov. 5, 2026 release on USDOT grant selections
-                </a>
-                . The Dawson County stalls are planned capacity, not open
-                parking.
-              </li>
-              <li>
-                Exit numbers and mileposts cross-checked against our{" "}
-                <Link href="/exits" className="font-semibold text-highway underline decoration-amber underline-offset-2">
-                  I-80 exit guide
-                </Link>
-                . Nearest-town links point to the closest corridor hub, not
-                necessarily the closest community.
-              </li>
-            </ul>
-            <p className="mt-2">
-              Last checked: November 6, 2026. NDOT&apos;s official Rest Area
-              Information page still linked the October 2015 guide on that
-              date; no newer official capacity inventory was found. For
-              emergencies on the interstate, use *55. Uncertainty we are carrying: the Goehner
-              truck-only site has no published stall count; the Deuel County
-              lot&apos;s milepost is approximate (at Exit 101); Melia Hill
-              is 2 miles west of Exit 432, the Highway 31 interchange; and
-              the Dawson County project&apos;s stall count (120 vs. 92) and
-              location are unresolved in NDOT&apos;s own release.
-            </p>
-          </div>
-        </div>
+      <div className="mt-8 border-t border-line pt-4 text-[12px] leading-relaxed text-slate">
+        <p className="font-serif text-base font-semibold text-ink">
+          Sources &amp; last checked
+        </p>
+        <ul className="mt-2 list-disc space-y-1 pl-5">
+          <li>
+            Truck-space counts:{" "}
+            <a href="https://dot.nebraska.gov/media/fgceurxm/rest-areas.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              NDOT Interstate 80 Rest Areas guide (Oct. 2015)
+            </a>
+            . The guide is a decade old — facilities may have been
+            re-striped or reconfigured since, and short-term closures
+            happen. Verify current availability on{" "}
+            <a href="https://511.nebraska.gov/" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              Nebraska 511
+            </a>{" "}
+            or by calling 511 before relying on a stall.
+          </li>
+          <li>
+            Planned project:{" "}
+            <a href="https://dot.nebraska.gov/media/tgzmld3a/20261105-comm-usdot-grants.pdf" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              NDOT Nov. 5, 2026 release on USDOT grant selections
+            </a>
+            . The Dawson County stalls are planned capacity, not open
+            parking.
+          </li>
+          <li>
+            Exit numbers and mileposts cross-checked against our{" "}
+            <Link href="/exits" className="font-semibold text-highway underline decoration-amber underline-offset-2">
+              I-80 exit guide
+            </Link>
+            . Nearest-town links point to the closest corridor hub, not
+            necessarily the closest community.
+          </li>
+        </ul>
+        <p className="mt-2">
+          Last checked: November 6, 2026. NDOT&apos;s official Rest Area
+          Information page still linked the October 2015 guide on that
+          date; no newer official capacity inventory was found. For
+          emergencies on the interstate, use *55. Uncertainty we are carrying: the Goehner
+          truck-only site has no published stall count; the Deuel County
+          lot&apos;s milepost is approximate (at Exit 101); Melia Hill
+          is 2 miles west of Exit 432, the Highway 31 interchange; and
+          the Dawson County project&apos;s stall count (120 vs. 92) and
+          location are unresolved in NDOT&apos;s own release.
+        </p>
       </div>
-      <div className="container-page pb-10">
-        <div className="mx-auto max-w-5xl">
-          <DataPageLinks current="/truck-parking" />
-        </div>
-      </div>
-    </main>
+    </DataPage>
   );
 }

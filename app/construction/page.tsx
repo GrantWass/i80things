@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { CorridorMap } from "@/components/CorridorMap";
-import { JsonLd } from "@/components/JsonLd";
-import { DataPageLinks } from "@/components/DataPageLinks";
+import { DataPage } from "@/components/data-page";
 import { DataSummary } from "@/components/DataSummary";
 import { TrackedLink } from "@/components/TrackedLink";
 import {
@@ -176,51 +175,48 @@ export default async function ConstructionPage() {
   };
 
   return (
-    <main>
-      <AutoRefresh />
-      <JsonLd data={jsonLd} />
-
-      <header className="border-b border-line bg-cream">
-        <div className="container-page py-10 md:py-14">
-          <p className="kicker text-amber-dark">Work zones &amp; closures</p>
-          <h1 className="mt-2 max-w-4xl font-serif text-4xl leading-[1.04] font-semibold tracking-tight md:text-6xl">
-            I-80 construction tracker
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate">
-            Work zones and closures on I-80 in Nebraska, grouped by NDOT
-            district from west to east. This page is an{" "}
-            <strong className="font-semibold text-ink">
-              unofficial reader of Nebraska 511
-            </strong>
-            , not a live official NDOT feed — confirm every work zone on the
-            official map before you drive.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <TrackedLink
-              href="https://511.nebraska.gov/"
-              external
-              event="construction_511_click"
-              eventData={{ placement: "header" }}
-              className="inline-flex min-h-[44px] items-center bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
-            >
-              Open Nebraska 511
-            </TrackedLink>
-            <TrackedLink
-              href={NDOT_REPORT_URL}
-              external
-              event="construction_ndot_report_click"
-              eventData={{ placement: "header" }}
-              className="inline-flex min-h-[44px] items-center border border-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
-            >
-              NDOT weekly report (PDF)
-            </TrackedLink>
-          </div>
-        </div>
-      </header>
-
-      <div className="container-page py-10">
-        <div className="mx-auto max-w-5xl">
-          <DataSummary
+    <DataPage
+      jsonLd={jsonLd}
+      before={<AutoRefresh />}
+      kicker="Work zones &amp; closures"
+      title="I-80 construction tracker"
+      introWidth="3xl"
+      intro={
+        <>
+          Work zones and closures on I-80 in Nebraska, grouped by NDOT
+          district from west to east. This page is an{" "}
+          <strong className="font-semibold text-ink">
+            unofficial reader of Nebraska 511
+          </strong>
+          , not a live official NDOT feed — confirm every work zone on the
+          official map before you drive.
+        </>
+      }
+      actions={
+        <>
+          <TrackedLink
+            href="https://511.nebraska.gov/"
+            external
+            event="construction_511_click"
+            eventData={{ placement: "header" }}
+            className="inline-flex min-h-[44px] items-center bg-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] text-paper uppercase hover:bg-highway"
+          >
+            Open Nebraska 511
+          </TrackedLink>
+          <TrackedLink
+            href={NDOT_REPORT_URL}
+            external
+            event="construction_ndot_report_click"
+            eventData={{ placement: "header" }}
+            className="inline-flex min-h-[44px] items-center border border-ink px-5 py-3 text-[11px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper"
+          >
+            NDOT weekly report (PDF)
+          </TrackedLink>
+        </>
+      }
+      current="/construction"
+    >
+      <DataSummary
             items={[
               {
                 value: workZones.length,
@@ -501,13 +497,6 @@ export default async function ConstructionPage() {
               </Link>
             </div>
           </section>
-        </div>
-      </div>
-      <div className="container-page pb-10">
-        <div className="mx-auto max-w-5xl">
-          <DataPageLinks current="/construction" />
-        </div>
-      </div>
-    </main>
+    </DataPage>
   );
 }
