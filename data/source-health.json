@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T16:40:10.393Z",
+  "generatedAt": "2026-11-07T14:30:01.811Z",
   "feeds": {
     "1011now": {
       "id": "1011now",
@@ -7,8 +7,8 @@
       "url": "https://www.1011now.com/arc/outboundfeeds/rss/?output=1",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:37:46.545Z",
-      "lastItemAt": "2026-11-06T16:28:59.000Z",
+      "checkedAt": "2026-11-07T14:26:46.374Z",
+      "lastItemAt": "2026-11-07T11:48:06.000Z",
       "error": null
     },
     "3newsnow": {
@@ -17,39 +17,39 @@
       "url": "https://www.3newsnow.com/index.rss",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:37:47.908Z",
-      "lastItemAt": "2026-11-06T10:04:27.000Z",
+      "checkedAt": "2026-11-07T14:26:47.646Z",
+      "lastItemAt": "2026-11-07T00:40:20.000Z",
       "error": null
     },
     "beatrice-daily-sun": {
       "id": "beatrice-daily-sun",
       "name": "Beatrice Daily Sun",
       "url": "https://beatricedailysun.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:37:49.154Z",
-      "lastItemAt": "2026-11-06T16:30:00.000Z",
-      "error": null
+      "status": "error",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-07T14:27:01.030Z",
+      "lastItemAt": null,
+      "error": "HTTP 429"
     },
     "columbus-telegram": {
       "id": "columbus-telegram",
       "name": "Columbus Telegram",
       "url": "https://columbustelegram.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:37:50.329Z",
-      "lastItemAt": "2026-11-06T16:30:00.000Z",
-      "error": null
+      "status": "error",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-07T14:27:14.508Z",
+      "lastItemAt": null,
+      "error": "HTTP 429"
     },
     "daily-nonpareil": {
       "id": "daily-nonpareil",
       "name": "Council Bluffs Daily Nonpareil",
       "url": "https://nonpareilonline.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:37:51.496Z",
-      "lastItemAt": "2026-11-06T16:30:00.000Z",
-      "error": null
+      "status": "error",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-07T14:27:27.900Z",
+      "lastItemAt": null,
+      "error": "HTTP 429"
     },
     "flatwater-free-press": {
       "id": "flatwater-free-press",
@@ -57,7 +57,7 @@
       "url": "https://flatwaterfreepress.org/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:37:52.863Z",
+      "checkedAt": "2026-11-07T14:27:29.154Z",
       "lastItemAt": "2026-11-06T11:00:00.000Z",
       "error": null
     },
@@ -67,7 +67,7 @@
       "url": "https://fremonttribune.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:38:06.228Z",
+      "checkedAt": "2026-11-07T14:27:42.575Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     },
@@ -77,7 +77,7 @@
       "url": "https://theindependent.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:38:19.590Z",
+      "checkedAt": "2026-11-07T14:27:55.973Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     },
@@ -87,7 +87,7 @@
       "url": "https://www.granttribune.com/rss",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:38:21.102Z",
+      "checkedAt": "2026-11-07T14:27:59.041Z",
       "lastItemAt": "2026-10-23T13:46:00.000Z",
       "error": null
     },
@@ -95,11 +95,11 @@
       "id": "hastings-tribune",
       "name": "Hastings Tribune",
       "url": "https://hastingstribune.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:38:35.229Z",
-      "lastItemAt": "2026-11-06T16:27:46.000Z",
-      "error": null
+      "status": "error",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-07T14:28:12.579Z",
+      "lastItemAt": null,
+      "error": "HTTP 429"
     },
     "kearney-hub": {
       "id": "kearney-hub",
@@ -107,7 +107,7 @@
       "url": "https://kearneyhub.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:38:48.711Z",
+      "checkedAt": "2026-11-07T14:28:25.961Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     },
@@ -117,8 +117,8 @@
       "url": "https://www.ketv.com/topstories-rss",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:38:49.961Z",
-      "lastItemAt": "2026-11-06T16:36:00.000Z",
+      "checkedAt": "2026-11-07T14:28:27.177Z",
+      "lastItemAt": "2026-11-07T13:41:00.000Z",
       "error": null
     },
     "kfor": {
@@ -127,8 +127,8 @@
       "url": "https://www.kfornow.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:38:51.146Z",
-      "lastItemAt": "2026-11-06T14:31:20.000Z",
+      "checkedAt": "2026-11-07T14:28:29.275Z",
+      "lastItemAt": "2026-11-07T13:05:47.000Z",
       "error": null
     },
     "klkn": {
@@ -137,8 +137,8 @@
       "url": "https://www.klkntv.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:38:52.348Z",
-      "lastItemAt": "2026-11-06T13:09:48.000Z",
+      "checkedAt": "2026-11-07T14:28:30.590Z",
+      "lastItemAt": "2026-11-07T05:39:14.000Z",
       "error": null
     },
     "lexington-clipper": {
@@ -147,7 +147,7 @@
       "url": "https://lexch.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:39:05.716Z",
+      "checkedAt": "2026-11-07T14:28:44.025Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     },
@@ -155,11 +155,11 @@
       "id": "lincoln-journal-star",
       "name": "Lincoln Journal Star",
       "url": "https://journalstar.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:07.188Z",
-      "lastItemAt": "2026-11-06T16:30:00.000Z",
-      "error": null
+      "status": "error",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-07T14:28:57.404Z",
+      "lastItemAt": null,
+      "error": "HTTP 429"
     },
     "mccook-gazette": {
       "id": "mccook-gazette",
@@ -167,8 +167,8 @@
       "url": "https://www.mccookgazette.com/rss.xml",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:08.416Z",
-      "lastItemAt": "2026-11-06T06:00:00.000Z",
+      "checkedAt": "2026-11-07T14:28:58.780Z",
+      "lastItemAt": "2026-11-06T17:30:00.000Z",
       "error": null
     },
     "nebraska-examiner": {
@@ -177,8 +177,8 @@
       "url": "https://nebraskaexaminer.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:09.689Z",
-      "lastItemAt": "2026-11-05T22:03:18.000Z",
+      "checkedAt": "2026-11-07T14:29:00.167Z",
+      "lastItemAt": "2026-11-07T11:30:34.000Z",
       "error": null
     },
     "rural-radio": {
@@ -187,7 +187,7 @@
       "url": "https://ruralradio.com/feed/",
       "status": "error",
       "httpStatus": 403,
-      "checkedAt": "2026-11-06T16:39:11.177Z",
+      "checkedAt": "2026-11-07T14:29:01.766Z",
       "lastItemAt": null,
       "error": "HTTP 403"
     },
@@ -197,7 +197,7 @@
       "url": "https://nebtrucking.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:12.388Z",
+      "checkedAt": "2026-11-07T14:29:03.143Z",
       "lastItemAt": "2026-07-20T16:51:12.000Z",
       "error": null
     },
@@ -207,7 +207,7 @@
       "url": "https://nptelegraph.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:39:25.714Z",
+      "checkedAt": "2026-11-07T14:29:16.495Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     },
@@ -217,7 +217,7 @@
       "url": "https://omahadailyrecord.com/rss.xml",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:27.041Z",
+      "checkedAt": "2026-11-07T14:29:17.799Z",
       "lastItemAt": "2026-11-06T07:00:00.000Z",
       "error": null
     },
@@ -225,11 +225,11 @@
       "id": "omaha-world-herald",
       "name": "Omaha World-Herald",
       "url": "https://omaha.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:40.809Z",
-      "lastItemAt": "2026-11-06T16:30:00.000Z",
-      "error": null
+      "status": "error",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-07T14:29:31.463Z",
+      "lastItemAt": null,
+      "error": "HTTP 429"
     },
     "star-herald": {
       "id": "star-herald",
@@ -237,7 +237,7 @@
       "url": "https://starherald.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:39:54.220Z",
+      "checkedAt": "2026-11-07T14:29:44.902Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     },
@@ -247,7 +247,7 @@
       "url": "https://www.suntelegraph.com/rss/articles",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:55.542Z",
+      "checkedAt": "2026-11-07T14:29:46.585Z",
       "lastItemAt": "2026-11-05T13:00:19.000Z",
       "error": null
     },
@@ -257,8 +257,8 @@
       "url": "https://www.wowt.com/arc/outboundfeeds/rss/?output=1",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-06T16:39:57.051Z",
-      "lastItemAt": "2026-11-06T16:28:59.000Z",
+      "checkedAt": "2026-11-07T14:29:48.319Z",
+      "lastItemAt": "2026-11-07T13:15:54.000Z",
       "error": null
     },
     "york-news-times": {
@@ -267,7 +267,7 @@
       "url": "https://yorknewstimes.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "error",
       "httpStatus": 429,
-      "checkedAt": "2026-11-06T16:40:10.390Z",
+      "checkedAt": "2026-11-07T14:30:01.810Z",
       "lastItemAt": null,
       "error": "HTTP 429"
     }
