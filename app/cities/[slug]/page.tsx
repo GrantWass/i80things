@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPlace, places } from "@/data/places";
+import { firstMile, mileRange } from "@/lib/corridor-position";
 import { getAllPosts, getPostsByCity } from "@/lib/content";
 import { getSourcesForPlace } from "@/lib/sources";
 import { getPointForecast } from "@/lib/nws";
@@ -15,12 +16,6 @@ import { Arrow, Icon } from "@/components/Icon";
 import { topicLabel } from "@/data/topics";
 
 export const revalidate = 300;
-
-function mileBounds(mileMarker: string): { min: number; max: number } | null {
-  const numbers = mileMarker.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
-  if (!numbers.length) return null;
-  return { min: Math.min(...numbers) - 15, max: Math.max(...numbers) + 15 };
-}
 
 export function generateStaticParams() {
   return places.map((place) => ({ slug: place.slug }));
@@ -73,7 +68,10 @@ export default async function CityPage({
     getRoadConditions(),
     getPointForecast(place.lat, place.lon),
   ]);
-  const bounds = mileBounds(place.mileMarker);
+  const range = mileRange(place.mileMarker);
+  const bounds = range
+    ? { min: range.min - 15, max: range.max + 15 }
+    : null;
   const localRoadEvents = bounds
     ? roads.events
         .filter((event) => {
@@ -323,7 +321,7 @@ export default async function CityPage({
                     Nebraska 511 <Arrow className="h-4 w-4 text-slate" />
                   </span>
                   <span className="mt-1 block text-[12px] text-slate">
-                    Closures, cameras and plows near mile {place.mileMarker.split("–")[0]}
+                    Closures, cameras and plows near mile {firstMile(place.mileMarker)}
                   </span>
                 </a>
                 <a

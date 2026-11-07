@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { DataPage, Explainer, RowSection } from "@/components/data-page";
 import { ExitLookup, type ExitLookupRow } from "@/components/ExitLookup";
-import { places } from "@/data/places";
+import { nearestHub } from "@/lib/corridor-position";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 import exitData from "@/data/i80-exits.json";
@@ -36,7 +36,7 @@ const longestGap = gaps[0];
 const featuredExits = new Set([22, 59, 126, 177, 237, 272, 312, 353, 379, 401, 454]);
 
 const lookupRows: ExitLookupRow[] = rows.map((row) => {
-  const place = nearestPlace(row.mile);
+  const place = nearestHub(row.mile);
   return {
     exit: row.exit,
     mile: row.mile,
@@ -55,25 +55,6 @@ const regions = [
   { name: "Central", note: "Ogallala, North Platte, Lexington and Kearney", min: 126, max: 299 },
   { name: "East", note: "Grand Island, York, Seward, Lincoln and Omaha", min: 300, max: 455 },
 ];
-
-function nearestPlace(mile: number) {
-  let best: { place: (typeof places)[number]; distance: number } | null = null;
-  for (const place of places) {
-    const range = place.mileMarker.match(/\d+/g)?.map(Number) ?? [];
-    if (!range.length) continue;
-    const min = Math.min(...range);
-    const max = Math.max(...range);
-    const distance = mile < min ? min - mile : mile > max ? mile - max : 0;
-    const better =
-      !best ||
-      distance < best.distance ||
-      (distance === best.distance &&
-        best.place.slug === "hastings" &&
-        place.slug !== "hastings");
-    if (better) best = { place, distance };
-  }
-  return best && best.distance <= 25 ? best.place : null;
-}
 
 export default function ExitsPage() {
   const jsonLd = {
@@ -209,7 +190,7 @@ export default function ExitsPage() {
               { label: "Connects to" },
             ]}
             renderCells={(row) => {
-              const place = nearestPlace(row.mile);
+              const place = nearestHub(row.mile);
               return (
                 <>
                   <td className="px-3 py-3 font-semibold">Exit {row.exit}</td>

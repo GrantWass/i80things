@@ -2,47 +2,11 @@ import {
   CORRIDOR_MAX_MILE,
   CORRIDOR_MIN_MILE,
 } from "@/lib/corridor-map";
+import { mileRange } from "@/lib/corridor-position";
 import type { Place } from "@/lib/types";
-
-type MileRange = {
-  min: number;
-  max: number;
-};
 
 function clampMile(mile: number): number {
   return Math.max(CORRIDOR_MIN_MILE, Math.min(CORRIDOR_MAX_MILE, mile));
-}
-
-function parseMileRange(raw?: string): MileRange | null {
-  if (!raw) return null;
-
-  // An exit mention is a single point. Do not treat a route number such as
-  // "US-281" in the same label as a second milepost.
-  const exit = raw.match(/\bExit\s+(\d+(?:\.\d+)?)/i);
-  if (exit) {
-    const mile = clampMile(Number(exit[1]));
-    return { min: mile, max: mile };
-  }
-
-  const mile = raw.match(/\b(?:mile|MM)\s*(\d+(?:\.\d+)?)/i);
-  if (mile) {
-    const value = clampMile(Number(mile[1]));
-    return { min: value, max: value };
-  }
-
-  const range = raw.match(
-    /(\d+(?:\.\d+)?)\s*(?:–|-|to)\s*(\d+(?:\.\d+)?)/i,
-  );
-  if (range) {
-    const min = clampMile(Number(range[1]));
-    const max = clampMile(Number(range[2]));
-    return { min: Math.min(min, max), max: Math.max(min, max) };
-  }
-
-  const single = raw.match(/\d+(?:\.\d+)?/);
-  if (!single) return null;
-  const value = clampMile(Number(single[0]));
-  return { min: value, max: value };
 }
 
 function markerLabel(raw: string): string {
@@ -69,7 +33,10 @@ export function StoryLocator({
   mileMarker?: string;
 }) {
   const source = mileMarker?.trim() || place?.mileMarker;
-  const range = parseMileRange(source);
+  const parsed = mileRange(source);
+  const range = parsed
+    ? { min: clampMile(parsed.min), max: clampMile(parsed.max) }
+    : null;
   if (!range || !source) return null;
 
   const isPoint = range.max - range.min < 0.5;
@@ -106,10 +73,10 @@ export function StoryLocator({
           />
         )}
         <span className="absolute top-3 left-0 text-[8px] font-semibold tracking-[0.06em] text-slate uppercase">
-          MM 22
+          MM {CORRIDOR_MIN_MILE}
         </span>
         <span className="absolute top-3 right-0 text-[8px] font-semibold tracking-[0.06em] text-slate uppercase">
-          MM 454
+          MM {CORRIDOR_MAX_MILE}
         </span>
       </div>
     </div>

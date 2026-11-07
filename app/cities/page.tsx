@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { places } from "@/data/places";
+import { firstMile } from "@/lib/corridor-position";
 import { getAllPosts } from "@/lib/content";
 import { JsonLd } from "@/components/JsonLd";
 import { AdSlot } from "@/components/AdSlot";
@@ -18,11 +19,6 @@ export const metadata: Metadata = {
     description: "Mile markers, exits and local coverage for every I-80 town in Nebraska.",
   },
 };
-
-function firstMile(mileMarker: string): number {
-  const numbers = mileMarker.match(/\d+/g)?.map(Number) ?? [];
-  return numbers.length ? Math.min(...numbers) : 0;
-}
 
 export default function CitiesPage() {
   const posts = getAllPosts();

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { firstMile } from "@/lib/corridor-position";
 import { places } from "@/data/places";
 
 export const metadata: Metadata = {
@@ -115,7 +116,7 @@ export default function ContactPage() {
                 className="flex items-center justify-between border border-line bg-paper px-3 py-2 text-[13px] hover:border-ink"
               >
                 <span className="font-semibold">{p.name}</span>
-                <span className="text-[9px] font-bold tracking-wider text-slate">MM {p.mileMarker.split("–")[0]}</span>
+                <span className="text-[9px] font-bold tracking-wider text-slate">MM {firstMile(p.mileMarker)}</span>
               </Link>
             ))}
           </div>
