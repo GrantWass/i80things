@@ -17,7 +17,7 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
    npm run cities:coverage
    npm run stories:audit -- --due
    ```
-   Skip anything covering the same event in the last 7 days, or using the same source URL without a new development. If there is no breaking story, prefer a city hub with zero local stories.
+   Skip anything covering the same event in the last 7 days, or using the same source URL without a new development. If there is no breaking story, prefer a city hub with zero local stories. Routine maintenance — crack sealing, mowing, striping, sweeping or shoulder work with traffic maintained — is construction-page data, not a standalone story; skip it.
 
 2. **What is new?**
    The source and 511 sweeps already ran. Read the preflight bundle at

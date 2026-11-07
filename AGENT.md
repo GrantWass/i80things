@@ -155,9 +155,11 @@ Prioritize, in order:
 5. **Context and service journalism** — explainers, mile marker guides, service gaps, how to request a crash report.
 6. **Corridor life** — business, freight, Amtrak, small-town news with a clear I-80 angle.
 
+**Impact gate for construction:** A verified NDOT release or 511 event is not automatically a story. Routine maintenance — crack sealing, mowing, striping, sweeping, pothole patching, bridge washing or shoulder work — is construction-page data, not a standalone news story, when traffic is maintained with intermittent lane closures and there is no detour. A construction story needs a real driver impact: a full or ramp closure, detour, long-term restriction that affects freight, emergency repair, or a milestone with broad corridor impact. If the only new item is routine maintenance, publish nothing and report the skip.
+
 Skip: celebrity gossip, national politics without a Nebraska corridor impact, unverified scanner chatter, petty crime with no public safety value, and anything that exists only to fill a quota.
 
-**One strong story beats three thin ones.** If the sweep produces nothing verifiable, publish nothing and report why.
+**One strong story beats three thin ones.** If the sweep produces nothing verifiable, publish nothing and report why. A no-publish day is a successful day when the alternative is a thin maintenance brief.
 
 Before choosing, run:
 

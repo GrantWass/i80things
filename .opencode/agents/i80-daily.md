@@ -78,7 +78,8 @@ Then run the desk for today in `America/Chicago`.
 5. **Pick the story of the day.** Prefer, in order:
    - a verified I-80 closure, crash or hazard affecting travel now;
    - a verified weather warning or winter-driving condition;
-   - a verified NDOT construction change;
+   - a verified NDOT construction change with real driver impact — not routine
+     crack sealing, mowing, striping or shoulder work (see AGENT.md §4);
    - a corridor town development with a primary source;
    - an evergreen explainer only when there is no news, and only if it is
      genuinely useful and not a duplicate.
