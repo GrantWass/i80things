@@ -99,11 +99,11 @@ export default function AboutPage() {
               work.
             </p>
             <p>
-              We monitor public-safety radio, but a scanner call is never
-              published as fact. It is a tip that must be confirmed. We also use
-              AI tools to monitor sources and prepare drafts; every story is
-              checked against primary sources before publication. Our full
-              process is in our{" "}
+              Public-safety radio is a human listening tool, not an automated
+              feed. A scanner call is never published as fact; it is a tip that
+              must be confirmed. We also use AI tools to monitor text sources
+              and prepare drafts; every story is checked against primary
+              sources before publication. Our full process is in our{" "}
               <Link href="/editorial-standards">editorial standards</Link>, and
               every source we use is listed in the{" "}
               <Link href="/sources">source desk</Link>.

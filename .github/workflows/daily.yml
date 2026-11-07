@@ -13,9 +13,10 @@ on:
         default: false
         type: boolean
   schedule:
-    # 05:30 America/Chicago in daylight time and standard time.
-    - cron: "30 10 * * *"
-    - cron: "30 11 * * *"
+    # 05:17 America/Chicago in daylight and standard time. Avoid :00/:30,
+    # which are GitHub's highest-load scheduler slots.
+    - cron: "17 10 * * *"
+    - cron: "17 11 * * *"
 
 concurrency:
   group: i80-daily-desk

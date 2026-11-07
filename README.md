@@ -17,8 +17,8 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 ## What's in this repo
 
 - **News site** — Next.js 16 App Router, Tailwind 4, MDX content, static/ISR pages.
-- **87 verified sources** — police scanners, State Patrol, NDOT, 511, NWS, 27 RSS feeds, town papers, open data APIs.
-- **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor and a macOS scheduler. `npm run daily` runs the desk; `npm run daily:install` installs the 5:30 a.m. Central job.
+- **75 verified sources** — town newspapers, State Patrol, NDOT, 511, NWS, 35 RSS/discovery feeds, open data APIs and one human-only scanner directory link.
+- **Daily agent system prompt** — [`AGENT.md`](./AGENT.md), plus the `i80-daily` OpenCode agent on Muse Spark 1.3 Contributor, a GitHub Actions schedule and a Vercel Cron fallback. `npm run daily` runs the desk; `npm run daily:install` installs the optional local 5:30 a.m. Central job.
 - **Live corridor conditions** — `/conditions` combines Nebraska 511 closures/construction with point-based NWS alerts for every corridor town, cached for five minutes, plus a pure-CSS corridor map and auto-refresh.
 - **Source health** — `npm run sources` writes `data/source-health.json`; `/sources` shows OK/stale/error/manual status for every feed.
 - **Search** — `/search` searches published stories and the source directory; linked from the header and footer.
@@ -92,6 +92,8 @@ vercel --prod
 | `GITHUB_TOKEN` | **Yes** (on Vercel) | Fine-grained token, Contents: Read and write on this repo. Needed for the admin to publish. |
 | `GITHUB_REPO` | Yes | `GrantWass/i80things` |
 | `GITHUB_BRANCH` | Yes | `main` |
+| `CRON_SECRET` | Optional | Protects `/api/cron/daily`, the Vercel Cron fallback for the daily desk. Vercel sends it automatically. |
+| `GITHUB_DISPATCH_TOKEN` | Optional | Fine-grained token with **Actions: write** for the fallback. Falls back to `GITHUB_TOKEN` if that token has Actions permission. |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | Optional | `ca-pub-…` from AdSense. Ads render as reserved placeholders until set. |
 | `ADSENSE_PUB_ID` | Optional | `pub-…`, served at `/ads.txt`. |
 | `NEXT_PUBLIC_ADSENSE_SLOT_LEADERBOARD` | Optional | Ad unit slot ID. |
@@ -209,7 +211,7 @@ An OpenCode skill is included at [`.opencode/skills/i80-daily-post/SKILL.md`](./
 | Endpoint | Returns |
 | --- | --- |
 | `/api/posts` | Published stories with title, dek, date, city, topics, sources, URL, image and caption URLs. Supports `?limit=`, `?city=`, `?topic=`, `?since=`. |
-| `/api/sources` | All 87 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
+| `/api/sources` | All 75 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
 | `/api/alerts` | Active NWS alerts for all corridor towns (point-based). |
 | `/api/social/<slug>` | 1080×1350 JPEG for the cover; add `?image=N` for other gallery images. |
 | `/api/social/<slug>/caption` | JSON caption + URLs. |
@@ -226,11 +228,11 @@ All public endpoints send permissive CORS headers; be polite and cache.
 
 The directory lives in [`data/sources.json`](./data/sources.json) and is published at **/sources** with search, category filters and copyable feed URLs.
 
-**87 sources** (verified November 2026):
+**75 sources** (verified November 2026):
 
-- **22 scanner feeds** — NSP Troop H & A, Omaha PD, Omaha Fire, Douglas/Sarpy sheriffs, Lincoln PD/Fire, Lancaster rural fire, Seward, Buffalo/Kearney, Grand Island, Lincoln County/North Platte, Keith/Ogallala, Cheyenne/Sidney, Council Bluffs, NDOT districts.
-- **27 RSS feeds** — Omaha World-Herald, WOWT, KETV, 3 News Now, Omaha Daily Record, Daily Nonpareil, Lincoln Journal Star, 10/11, KLKN, KFOR, York News-Times, Fremont Tribune, Columbus Telegram, Grand Island Independent, Hastings Tribune, Kearney Hub, Lexington Clipper-Herald, North Platte Telegraph, Sidney Sun-Telegraph, Star-Herald, Beatrice Daily Sun, Nebraska Examiner, Flatwater Free Press, McCook Gazette, Grant Tribune, Nebraska Trucking, Silicon Prairie News.
-- **38 official and data links** — NSP, Omaha PD, Lincoln PD, NEMA, State Fire Marshal, DHHS, Nebraska 511, NDOT, plow tracker, NWS offices, alert API, AADT ArcGIS, Lincoln crash data, FARS, Amtrak/Amtraker, Legislature.
+- **One scanner directory link** — the daily desk cannot listen to audio, so individual Broadcastify feeds are not part of the automated source stack. The public directory points humans to the statewide index; scanner tips still require agency confirmation.
+- **35 RSS/discovery feeds** — Omaha World-Herald, WOWT, KETV, 3 News Now, Omaha Daily Record, Daily Nonpareil, Lincoln Journal Star, 10/11, KLKN, KFOR, York News-Times, Fremont Tribune, Columbus Telegram, Grand Island Independent, Hastings Tribune, Kearney Hub, Lexington Clipper-Herald, North Platte Telegraph, Sidney Sun-Telegraph, Star-Herald, Beatrice Daily Sun, Nebraska Examiner, Flatwater Free Press, McCook Gazette, Grant Tribune, Nebraska Trucking, Western Nebraska Observer, Cozad Local, Phelps County Focus, Aurora News-Register, Panhandle Post, Seward Independent, Nebraska Public Media and News Channel Nebraska. Some newspaper feeds use Google News discovery because the paper blocks direct RSS; open the original article before reporting.
+- **39 official and data links** — NSP, Omaha PD, Lincoln PD, Hastings PD, Adams County Sheriff, Hamilton County, Kimball County, NEMA, State Fire Marshal, DHHS, Nebraska 511, NDOT, plow tracker, NWS offices, alert API, AADT ArcGIS, Lincoln crash data, FARS, Amtrak/Amtraker, Legislature.
 
 ### Access caveats (important)
 
@@ -372,10 +374,11 @@ AGENT.md                       daily agent system prompt
 | `npm run validate` | Validate all MDX frontmatter and content. |
 | `npm run log` | List published stories and source URLs (dedupe). |
 | `npm run daily` | Run the `i80-daily` OpenCode agent (Muse Spark 1.3 Contributor) now. |
+| `npm run sources:audit` | Summarize feed health and check scanner-directory links. |
 | `npm run daily:status` | Show the latest local daily-run log and schedule status. |
 | `npm run daily:install` | Install the macOS launchd job for 5:30 a.m. Central. |
 | `npm run daily:uninstall` | Remove the macOS daily job. |
-| `npm run sources` | Sweep 27 RSS feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |
+| `npm run sources` | Sweep 35 RSS/discovery feeds, the NSP newsroom, NDOT releases and NWS alerts for candidate stories. |
 | `npm run 511` | Read live I-80 events from Nebraska 511's internal GraphQL endpoint. Unofficial; use for monitoring only. |
 | `npm run new -- --title …` | Scaffold a story. |
 | `npm run social -- --slug …` | Print Instagram caption + selected image URLs (1–10). |

@@ -8,7 +8,7 @@ agent runs the reporting workflow in `AGENT.md`.
 | --- | --- |
 | Agent | `i80-daily` (`.opencode/agents/i80-daily.md`) |
 | Model | `opencode-go/muse-spark-1.3-contributor#high` |
-| Schedule | Every day at **5:30 a.m. America/Chicago** |
+| Schedule | GitHub Actions at **5:17 a.m. America/Chicago**, with a Vercel Cron fallback |
 | Runner | `scripts/daily-run.sh` |
 | macOS job | `~/Library/LaunchAgents/com.i80things.daily.plist` |
 | Logs | `.cache/daily-desk/YYYY-MM-DD.log` and `launchd.log` |
@@ -171,16 +171,32 @@ The workflow:
 2. Installs Node 22 and `npm ci`.
 3. Runs the source sweep and 511 preflight into `.cache/daily-desk/`.
 4. Uses `anomalyco/opencode/github@latest` with the `i80-daily` agent.
-5. Runs at **10:30 and 11:30 UTC**, then skips the duplicate by checking that
-   the local hour in `America/Chicago` is `05`.
+5. Runs at **10:17 and 11:17 UTC**, then skips the duplicate by checking that
+   the local hour in `America/Chicago` is `05`. The off-minute schedule avoids
+   GitHub's highest-load `:00`/`:30` slots.
 6. Uses `concurrency` so two runs cannot overlap.
 7. Opens a GitHub issue if the run fails.
+8. A Vercel Cron at **11:47 UTC** calls `/api/cron/daily`; it dispatches the
+   workflow only if no successful or active daily-desk run exists that day.
+   This is the fallback for GitHub's best-effort scheduler.
+
+### Vercel Cron fallback setup
+
+Add these Vercel production variables:
+
+- `CRON_SECRET` — a long random string. Vercel Cron sends it as a bearer token.
+- `GITHUB_DISPATCH_TOKEN` — fine-grained token with **Actions: write** on
+  `GrantWass/i80things`. `GITHUB_TOKEN` is used as a fallback only if it has
+  that permission.
+
+`vercel.json` schedules `/api/cron/daily` once daily. The route never writes a
+story; it only dispatches the normal GitHub workflow.
 
 ### Enable it
 
-1. Add the OpenCode Go key as a repository secret:
+1. Add the exported OpenCode credentials as a repository secret:
    ```bash
-   gh secret set OPENCODE_API_KEY -R GrantWass/i80things
+   opencode auth export | gh secret set OPENCODE_AUTH_JSON -R GrantWass/i80things
    ```
    Use a dedicated key with a spend limit. Do not commit it.
 2. **Turn off the Mac job first**, so launchd and GitHub do not both publish:
@@ -193,9 +209,16 @@ The workflow:
    ```
 4. Test manually before trusting the cron:
    ```bash
-   gh workflow run daily-desk.yml -R GrantWass/i80things
+   gh workflow run daily.yml -R GrantWass/i80things
    gh run watch -R GrantWass/i80things
    ```
+5. Add the Vercel fallback variables above, then verify the route:
+   ```bash
+   curl -i -H "Authorization: Bearer $CRON_SECRET" \
+     https://i80things.vercel.app/api/cron/daily
+   ```
+   A `skipped` response means a run already exists; `dispatched` means the
+   fallback queued one.
 
 Until `DAILY_ENABLED=true`, scheduled runs are skipped. Manual
 `workflow_dispatch` runs still work once the secret is present.

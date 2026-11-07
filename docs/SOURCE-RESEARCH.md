@@ -8,6 +8,11 @@ Corridor covered: I-80 in Nebraska, Omaha (mile 454) west to Kimball (mile 22), 
 
 ## 1. Scanners and public-safety radio
 
+> **Current use:** the public source directory now has one human-only
+> Broadcastify directory link. Individual scanner feeds are not ingested by the
+> daily desk because it cannot listen to audio. This section is retained as
+> research for a human editor, not as an automated source list.
+
 All Broadcastify links returned HTTP 200. Live listening requires a **free Broadcastify account** since October 2026. Archives and the Calls API are paid. Listener counts are not exposed to anonymous requests and are not reported here.
 
 | Feed | URL | Coverage | Notes |

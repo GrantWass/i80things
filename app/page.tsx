@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, getFeaturedPosts } from "@/lib/content";
 import { getCorridorAlerts } from "@/lib/nws";
+import { getAllSources } from "@/lib/sources";
 import { site } from "@/lib/site";
 import { places } from "@/data/places";
 import { topics } from "@/data/topics";
@@ -29,6 +30,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const alerts = await getCorridorAlerts();
+  const sourceCount = getAllSources().length;
   const [lead, ...secondary] = getFeaturedPosts(3);
   const posts = getAllPosts();
   const latest = posts.filter((p) => p.slug !== lead.slug).slice(0, 6);
@@ -302,12 +304,12 @@ export default async function HomePage() {
             <div>
               <p className="kicker text-amber">For reporters, drivers and neighbors</p>
               <h2 className="mt-2 font-serif text-3xl leading-tight font-semibold">
-                87 verified sources. One corridor.
+                {sourceCount} verified sources. One corridor.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream/70">
-                Police scanners, town newspapers, weather offices and state
-                data feeds — with access notes, coverage areas and verified
-                links.
+                Town newspapers, weather offices, official feeds and state
+                data — plus a human-only scanner directory, with access notes
+                and verified links.
               </p>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row md:justify-end">

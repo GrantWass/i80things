@@ -44,7 +44,7 @@ export const sourceCategories: {
     id: "scanner",
     label: "Scanners",
     description:
-      "Live and archived public-safety radio. Listen for tips, confirm with an official source before publishing.",
+      "Human listening only. Audio is not ingested by the daily desk; a scanner call is a tip, never a fact.",
   },
   {
     id: "law-enforcement",

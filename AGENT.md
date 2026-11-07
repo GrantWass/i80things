@@ -79,7 +79,7 @@ npm run 511 -- --all            # every Nebraska route, not just I-80
 
 `npm run 511` uses the same undocumented GraphQL endpoint as the 511 web app. It works today (635 statewide events, 30 I-80-specific at verification), but it is unsupported and can change. Use it once or twice a day, attribute NDOT/Nebraska 511, and confirm every closure with NDOT or NSP before publishing.
 
-This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news releases and active NWS alerts, then filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting. Some newspaper groups block direct RSS requests; when that happens the sweep uses a Google News discovery feed for that site. Treat those links as leads only and open the original article and primary source before writing.
+This pulls 35 verified RSS/discovery feeds, the Nebraska State Patrol newsroom, NDOT news releases and active NWS alerts, then filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting. Some newspaper groups block direct RSS requests; when that happens the sweep uses a Google News discovery feed for that site. Treat those links as leads only and open the original article and primary source before writing.
 
 ### 3.2 Check the primary sources manually
 
@@ -98,33 +98,31 @@ This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news 
 | Omaha PD | https://police.cityofomaha.org/press-releases | Bot-protected; open in a browser. |
 | Lincoln PD | https://www.lincoln.ne.gov/City/Departments/Police/Police-Activity | Bot-protected; open in a browser. |
 | NEMA | https://nema.nebraska.gov/newsroom.php | Emergencies, flooding, evacuations. |
+| Hastings PD | https://www.cityofhastings.org/departments/police/reports-and-services/press-reports/ | Official press reports; no RSS. |
+| Adams County Sheriff | https://www.adamscounty.org/sheriff/166-media-public-information-release | Media releases; no RSS. |
+| Hamilton County | https://hamiltoncountyne.gov/news/ | County news and notices. |
+| Kimball County | https://www.kimballcountyne.gov/news | County news and notices. |
 | Nebraska Examiner | https://nebraskaexaminer.com/feed/ | Statewide policy; free to republish with credit. |
 | Flatwater Free Press | https://flatwaterfreepress.org/feed/ | Enterprise; requires browser UA. |
-| Town papers | See `data/sources.json` | 27 verified RSS feeds. Link out; never republish. |
+| Town papers | See `data/sources.json` | 35 RSS/discovery feeds, including Kimball, Cozad, Holdrege, Aurora, Seward and the Panhandle. Link out; never republish. |
 
 The full, machine-readable list is at **https://i80things.vercel.app/api/sources** and in `data/sources.json`. The public directory is at **/sources**.
 
-### 3.3 Scanner feeds (tips only)
+### 3.3 Scanner audio (human listening, not an automated source)
 
-`data/sources.json` contains the verified Broadcastify feeds, including:
+The daily desk **cannot listen to audio**. `data/sources.json` therefore contains
+one human-only Broadcastify directory link, not a list of individual feeds. If a
+human editor hears something, it is still a tip that must be confirmed with the
+agency. Use the text sources instead:
 
-- NSP Troop H & A: feed 41080
-- Omaha PD NE/SE/SW: feeds 35492 / 35490 / 35491
-- Omaha Fire: 34221
-- Douglas County Sheriff: 39790
-- Sarpy County Sheriff (official): 43260
-- Lincoln PD + Lancaster Sheriff: 14395
-- Lancaster rural fire: 21281
-- Seward County: 21526
-- Buffalo County / Kearney: 40751
-- Grand Island: 26964
-- Lincoln County / North Platte: 35653
-- Keith County / Ogallala: 40675
-- Cheyenne County / Sidney: 47673
-- Council Bluffs PD/Fire (delayed): 45846 / 45845
-- NDOT Districts 3 & 4: 36579 / 36578
+- NSP news releases, NDOT news, Nebraska 511, NWS alerts;
+- city police press pages and county sheriff media releases;
+- local newspaper and TV reporting;
+- official city/county government news pages.
 
-Broadcastify requires a **free account** for live listening. Archives and the Calls API are paid. OpenMHz has no public API. Do not attempt to defeat delays or bot protection.
+Broadcastify requires a **free account** for live listening. Archives and the
+Calls API are paid. OpenMHz has no public API. Do not attempt to defeat delays or
+bot protection.
 
 For an audio → transcript → tip pipeline, see [`docs/SCANNER-STT.md`](./docs/SCANNER-STT.md). The short version: use the paid Broadcastify Calls API or a local SDR, transcribe with `faster-whisper`, and treat every transcript as unverified.
 

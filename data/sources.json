@@ -630,17 +630,18 @@
     "id": "nebraska-public-media",
     "name": "Nebraska Public Media — News",
     "category": "news",
-    "kind": "web",
+    "kind": "rss",
     "url": "https://nebraskapublicmedia.org/news/",
     "coverage": "Statewide public media",
     "access": "free",
     "reliability": "news",
-    "notes": "No RSS feed. Check the news page manually for transportation and rural reporting.",
+    "notes": "Direct site has no public RSS; Google News discovery links to the original stories.",
     "tags": [
       "public media",
       "statewide"
     ],
-    "verified": "2026-11-05"
+    "verified": "2026-11-05",
+    "feedUrl": "https://news.google.com/rss/search?q=site%3Anebraskapublicmedia.org%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen"
   },
   {
     "id": "rural-radio",
@@ -648,11 +649,11 @@
     "category": "news",
     "kind": "rss",
     "url": "https://ruralradio.com/krvn/",
-    "feedUrl": "https://ruralradio.com/feed/",
+    "feedUrl": "https://news.google.com/rss/search?q=site%3Aruralradio.com%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
     "coverage": "Statewide ag & rural radio",
     "access": "free",
     "reliability": "news",
-    "notes": "Feed is stale (last item May 2026). Monitor the KRVN homepage manually instead.",
+    "notes": "The site RSS is stale; Google News discovery links to current KRVN stories.",
     "tags": [
       "radio",
       "agriculture"
@@ -681,17 +682,18 @@
     "id": "news-channel-nebraska",
     "name": "News Channel Nebraska",
     "category": "news",
-    "kind": "web",
+    "kind": "rss",
     "url": "https://nebraska.tv/",
     "coverage": "Statewide TV",
     "access": "free",
     "reliability": "news",
-    "notes": "No RSS feed. Sitemap at nebraska.tv/sitemap.xml can be monitored for new URLs.",
+    "notes": "Direct site has no public RSS; Google News discovery links to the original stories.",
     "tags": [
       "TV",
       "statewide"
     ],
-    "verified": "2026-11-05"
+    "verified": "2026-11-05",
+    "feedUrl": "https://news.google.com/rss/search?q=site%3Anebraska.tv%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen"
   },
   {
     "id": "north-platte-telegraph",
@@ -778,19 +780,20 @@
     "id": "seward-independent",
     "name": "Seward County Independent",
     "category": "news",
-    "kind": "web",
+    "kind": "rss",
     "url": "https://www.sewardindependent.com/news",
     "coverage": "Seward County",
     "city": "seward",
     "mileMarker": "373–388",
     "access": "metered",
     "reliability": "news",
-    "notes": "No RSS feed. Check the news page manually; strong on Seward County government and schools.",
+    "notes": "Direct feed is bot-blocked; Google News discovery links to the original stories.",
     "tags": [
       "newspaper",
       "Seward"
     ],
-    "verified": "2026-11-05"
+    "verified": "2026-11-05",
+    "feedUrl": "https://news.google.com/rss/search?q=site%3Asewardindependent.com%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen"
   },
   {
     "id": "sidney-sun-telegraph",
@@ -853,412 +856,121 @@
     "verified": "2026-11-05"
   },
   {
+    "id": "western-nebraska-observer",
+    "name": "Western Nebraska Observer",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.westernnebraskaobserver.com/",
+    "feedUrl": "https://www.westernnebraskaobserver.com/rss/articles",
+    "coverage": "Kimball & western Panhandle",
+    "city": "kimball",
+    "mileMarker": "20–29",
+    "access": "free",
+    "reliability": "news",
+    "recommended": true,
+    "notes": "Kimball County's local paper. Direct RSS; strong on city council, schools and county government.",
+    "tags": [
+      "newspaper",
+      "Kimball",
+      "Panhandle",
+      "RSS"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "cozad-local",
+    "name": "Cozad Local",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://cozadlocal.com/",
+    "feedUrl": "https://cozadlocal.com/rss.xml",
+    "coverage": "Cozad & Dawson County",
+    "mileMarker": "222",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Direct RSS. Local government, schools and sports from the I-80 exit 222 community.",
+    "tags": [
+      "newspaper",
+      "Cozad",
+      "Dawson County",
+      "RSS"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "phelps-county-focus",
+    "name": "Phelps County Focus",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://phelpscountyfocus.com/",
+    "feedUrl": "https://phelpscountyfocus.com/feed/",
+    "coverage": "Holdrege & Phelps County (US-183 spur)",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Direct RSS. Holdrege and Phelps County government, schools and agriculture; useful for the US-183 connection south of I-80.",
+    "tags": [
+      "newspaper",
+      "Holdrege",
+      "Phelps County",
+      "RSS"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "aurora-news-register",
+    "name": "Aurora News-Register",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://www.auroranewsregister.com/",
+    "feedUrl": "https://www.auroranewsregister.com/rss.xml",
+    "coverage": "Aurora & Hamilton County",
+    "mileMarker": "332",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Direct RSS. Hamilton County government, schools and the I-80 exit 332 community.",
+    "tags": [
+      "newspaper",
+      "Aurora",
+      "Hamilton County",
+      "RSS"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "panhandle-post",
+    "name": "Panhandle Post",
+    "category": "news",
+    "kind": "rss",
+    "url": "https://panhandlepost.com/",
+    "feedUrl": "https://news.google.com/rss/search?q=site%3Apanhandlepost.com%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
+    "coverage": "Nebraska Panhandle",
+    "access": "free",
+    "reliability": "news",
+    "notes": "Regional Panhandle digital outlet; Google News discovery links to original stories. Useful for Scottsbluff, Sidney and Kimball spillover.",
+    "tags": [
+      "news",
+      "Panhandle",
+      "Scottsbluff",
+      "Sidney"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
     "id": "broadcastify-ne",
-    "name": "Broadcastify — All Nebraska feeds",
+    "name": "Broadcastify — Nebraska scanner directory",
     "category": "scanner",
     "kind": "scanner",
     "url": "https://www.broadcastify.com/listen/stid/31",
-    "coverage": "Statewide directory",
+    "coverage": "Human listening only; not a machine-readable feed",
     "access": "free-account",
     "reliability": "community",
-    "notes": "Directory of every public Nebraska feed. Free account required to listen. Archives and the Calls API are paid.",
+    "notes": "Human listening only. The daily desk cannot ingest audio; scanner traffic is a tip, never a fact. Free Broadcastify account required.",
     "tags": [
       "scanner",
-      "directory"
+      "directory",
+      "human listening"
     ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "broadcastify-calls",
-    "name": "Broadcastify Calls — Nebraska State Radio System",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/calls/tg/6699",
-    "coverage": "Statewide trunked radio",
-    "access": "paid",
-    "reliability": "community",
-    "notes": "Recorded talkgroup calls for NSP troops that lack a live feed. The Calls API is metered and prepaid; not a free data source.",
-    "tags": [
-      "scanner",
-      "NSP",
-      "archives"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-buffalo-kearney",
-    "name": "Buffalo County / Kearney Public Safety",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/40751",
-    "coverage": "Kearney & Buffalo County",
-    "city": "kearney",
-    "mileMarker": "272–293",
-    "access": "free-account",
-    "reliability": "community",
-    "recommended": true,
-    "notes": "Kearney PD, Buffalo County Sheriff and fire/EMS. Key feed for the central corridor.",
-    "tags": [
-      "scanner",
-      "Kearney",
-      "Buffalo County"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-cheyenne-sidney",
-    "name": "Cheyenne County Fire / EMS — Sidney",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/47673",
-    "coverage": "Sidney & Cheyenne County",
-    "city": "sidney",
-    "mileMarker": "40–76",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Fire/EMS for the western corridor. No dedicated Kimball County feed found.",
-    "tags": [
-      "scanner",
-      "Sidney",
-      "Cheyenne County"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-council-bluffs-pd",
-    "name": "Council Bluffs PD — Official delayed feed",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/45846",
-    "coverage": "Council Bluffs, IA",
-    "city": "omaha",
-    "mileMarker": "454",
-    "access": "free-account",
-    "reliability": "official",
-    "notes": "Official feed with a 15-minute delay. Use for the Missouri River crossing and I-80 border incidents.",
-    "tags": [
-      "scanner",
-      "Iowa",
-      "Council Bluffs"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-douglas-so",
-    "name": "Douglas County Sheriff — Dispatch",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/39790",
-    "coverage": "Douglas County outside Omaha",
-    "city": "omaha",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "County patrol, rural crashes and I-80 calls outside Omaha city limits.",
-    "tags": [
-      "scanner",
-      "Douglas County"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-grand-island",
-    "name": "Grand Island PD / Fire / EMS",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/26964",
-    "coverage": "Grand Island",
-    "city": "grand-island",
-    "mileMarker": "306–318",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Feed page notes Grand Island PD's digital traffic is not fully carried; pair with official releases.",
-    "tags": [
-      "scanner",
-      "Grand Island"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-keith-ogallala",
-    "name": "Keith County Fire / EMS — Ogallala",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/40675",
-    "coverage": "Ogallala & Keith County",
-    "city": "ogallala",
-    "mileMarker": "117–145",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Fire/EMS only. Covers the I-80/I-76 junction and Lake McConaughy area.",
-    "tags": [
-      "scanner",
-      "Ogallala",
-      "Keith County"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-lancaster-rural-fire",
-    "name": "Lancaster County Rural Fire / Rescue",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/21281",
-    "coverage": "Rural Lancaster County",
-    "city": "lincoln",
-    "mileMarker": "388–401",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Covers the I-80 stretch between Lincoln and Seward.",
-    "tags": [
-      "scanner",
-      "Lancaster",
-      "rural"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-north-platte",
-    "name": "Lincoln County Public Safety — North Platte",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/35653",
-    "coverage": "North Platte & Lincoln County",
-    "city": "north-platte",
-    "mileMarker": "177–199",
-    "access": "free-account",
-    "reliability": "community",
-    "recommended": true,
-    "notes": "Main feed for the long empty stretch around North Platte.",
-    "tags": [
-      "scanner",
-      "North Platte",
-      "Lincoln County"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-lincoln-pd-fire",
-    "name": "Lincoln PD + Lancaster Sheriff / Fire",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/14395",
-    "coverage": "Lincoln & Lancaster County (stereo: law left, fire right)",
-    "city": "lincoln",
-    "mileMarker": "395–401",
-    "access": "free-account",
-    "reliability": "official",
-    "recommended": true,
-    "notes": "The single most useful Lincoln feed. Stereo split lets you isolate police from fire/EMS.",
-    "tags": [
-      "scanner",
-      "Lincoln",
-      "Lancaster"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-ndot-d3",
-    "name": "NDOT District 3 — Highway maintenance",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/36579",
-    "coverage": "NDOT District 3 (Platte, Colfax, Dodge, Washington counties)",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Eastern corridor plow and maintenance traffic.",
-    "tags": [
-      "scanner",
-      "NDOT",
-      "plows",
-      "winter"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-ndot-d4",
-    "name": "NDOT District 4 — Highway maintenance",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/36578",
-    "coverage": "NDOT District 4 (Polk, Merrick, Platte, Colfax counties)",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Plow and maintenance operations during storms. Listen for closures before they hit 511.",
-    "tags": [
-      "scanner",
-      "NDOT",
-      "plows",
-      "winter"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-nsp-troop-ha",
-    "name": "NSP Troop H & A — Broadcastify",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/41080",
-    "coverage": "Lancaster County & Omaha-area State Patrol",
-    "city": "lincoln",
-    "mileMarker": "395–454",
-    "access": "free-account",
-    "reliability": "community",
-    "recommended": true,
-    "notes": "Free Broadcastify account required since Oct 2026. Best single feed for I-80 State Patrol activity in the east.",
-    "tags": [
-      "scanner",
-      "NSP",
-      "Troop A"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-omaha-fire",
-    "name": "Omaha Fire — Dispatch",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/34221",
-    "coverage": "Omaha Fire Department",
-    "city": "omaha",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Crash extrications, fires and EMS response inside Omaha.",
-    "tags": [
-      "scanner",
-      "Omaha",
-      "fire",
-      "EMS"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-omaha-pd-ne",
-    "name": "Omaha Police — Northeast dispatch",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/35492",
-    "coverage": "Omaha NE precinct",
-    "city": "omaha",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Busiest Omaha police feed; includes interstate-adjacent calls.",
-    "tags": [
-      "scanner",
-      "Omaha",
-      "police"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-omaha-pd-se",
-    "name": "Omaha Police — Southeast dispatch",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/35490",
-    "coverage": "Omaha SE precinct",
-    "city": "omaha",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Covers the I-80/I-480 and Missouri River approaches.",
-    "tags": [
-      "scanner",
-      "Omaha",
-      "I-480"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-omaha-pd-sw",
-    "name": "Omaha Police — Southwest dispatch",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/35491",
-    "coverage": "Omaha SW precinct",
-    "city": "omaha",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "West Omaha and the I-80 corridor near Gretna.",
-    "tags": [
-      "scanner",
-      "Omaha",
-      "west"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "pottawattamie-streams",
-    "name": "Pottawattamie County, IA — Public safety streams",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://holt.pottcountysheriff.gov/streams/?sPermalink=streams&dID=19",
-    "coverage": "Council Bluffs / Iowa border",
-    "city": "omaha",
-    "mileMarker": "454",
-    "access": "free",
-    "reliability": "official",
-    "notes": "Official delayed streams across the Missouri River. Useful for I-80 bridge and Council Bluffs incidents. Iowa agencies apply a delay.",
-    "tags": [
-      "scanner",
-      "Iowa",
-      "Council Bluffs"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "sarpy-radio",
-    "name": "Sarpy County — Official radio traffic feeds",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.sarpy.gov/900/Radio-Traffic-Feeds",
-    "coverage": "Sarpy County (Gretna, Bellevue, I-80 east)",
-    "city": "omaha",
-    "mileMarker": "432–445",
-    "access": "free",
-    "reliability": "official",
-    "notes": "County-hosted player, no Broadcastify login needed. Good when Broadcastify is down.",
-    "tags": [
-      "scanner",
-      "Sarpy",
-      "official feed"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-sarpy-so",
-    "name": "Sarpy County Sheriff — Official feed",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/43260",
-    "coverage": "Sarpy County",
-    "city": "omaha",
-    "mileMarker": "432–445",
-    "access": "free-account",
-    "reliability": "official",
-    "notes": "Official Sarpy feed with archives. Covers Gretna, Bellevue and the I-80 south bypass area.",
-    "tags": [
-      "scanner",
-      "Sarpy",
-      "official feed"
-    ],
-    "verified": "2026-11-05"
-  },
-  {
-    "id": "bcfy-seward-so",
-    "name": "Seward County Sheriff + Milford PD",
-    "category": "scanner",
-    "kind": "scanner",
-    "url": "https://www.broadcastify.com/listen/feed/21526",
-    "coverage": "Seward County, Milford, I-80 exits 373–388",
-    "city": "seward",
-    "mileMarker": "373–388",
-    "access": "free-account",
-    "reliability": "community",
-    "notes": "Primary feed for the Seward/Milford/Beaver Crossing stretch.",
-    "tags": [
-      "scanner",
-      "Seward"
-    ],
-    "verified": "2026-11-05"
+    "verified": "2026-11-07"
   },
   {
     "id": "lincoln-pd-x",
@@ -1329,6 +1041,77 @@
       "weather"
     ],
     "verified": "2026-11-05"
+  },
+  {
+    "id": "hastings-pd-press",
+    "name": "Hastings Police — Press reports",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://www.cityofhastings.org/departments/police/reports-and-services/press-reports/",
+    "coverage": "Hastings / Adams County",
+    "city": "hastings",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official press reports. No RSS; check the page manually. Covers the US-281 spur south of I-80.",
+    "tags": [
+      "Hastings",
+      "police",
+      "press reports"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "adams-so-releases",
+    "name": "Adams County Sheriff — Media releases",
+    "category": "law-enforcement",
+    "kind": "web",
+    "url": "https://www.adamscounty.org/sheriff/166-media-public-information-release",
+    "coverage": "Adams County",
+    "city": "hastings",
+    "access": "free",
+    "reliability": "official",
+    "notes": "Official media releases from the Adams County Sheriff. No feed; check manually for crashes and county incidents.",
+    "tags": [
+      "Adams County",
+      "sheriff",
+      "media releases"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "hamilton-county-news",
+    "name": "Hamilton County — News",
+    "category": "government",
+    "kind": "web",
+    "url": "https://hamiltoncountyne.gov/news/",
+    "coverage": "Hamilton County / Aurora",
+    "access": "free",
+    "reliability": "official",
+    "notes": "County news and public notices. The WordPress feed is comments-only, so open the page directly.",
+    "tags": [
+      "Hamilton County",
+      "Aurora",
+      "government"
+    ],
+    "verified": "2026-11-07"
+  },
+  {
+    "id": "kimball-county-news",
+    "name": "Kimball County — News",
+    "category": "government",
+    "kind": "web",
+    "url": "https://www.kimballcountyne.gov/news",
+    "coverage": "Kimball County",
+    "city": "kimball",
+    "access": "free",
+    "reliability": "official",
+    "notes": "County news, notices and public meetings. No usable feed; open the page directly.",
+    "tags": [
+      "Kimball County",
+      "government",
+      "news"
+    ],
+    "verified": "2026-11-07"
   },
   {
     "id": "ndot-detours",

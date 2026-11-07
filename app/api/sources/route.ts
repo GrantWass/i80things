@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     {
       name: "I-80 Things source directory",
       description:
-        "Verified scanners, newspapers, official feeds and open data for the I-80 corridor in Nebraska. Verified November 2026.",
+        "Verified newspapers, official feeds, a human-only scanner directory and open data for the I-80 corridor in Nebraska. Verified November 2026.",
       count: sources.length,
       categories: sourceCategories,
       sources,

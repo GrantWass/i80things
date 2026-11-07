@@ -10,7 +10,7 @@ import { Arrow } from "@/components/Icon";
 export const metadata: Metadata = {
   title: "The source desk — every feed we monitor",
   description:
-    "A public directory of 87 verified sources for Nebraska's I-80 corridor: police scanners, State Patrol releases, Nebraska 511, NWS alerts, town newspapers, RSS feeds and open data APIs.",
+    "A public directory of verified sources for Nebraska's I-80 corridor: town newspapers, State Patrol releases, Nebraska 511, NWS alerts, RSS feeds, open data APIs and a human-only scanner directory.",
   alternates: { canonical: "/sources" },
   openGraph: {
     url: `${site.url}/sources`,
@@ -45,7 +45,7 @@ export default function SourcesPage() {
           name: "I-80 Nebraska source directory",
           url: `${site.url}/sources`,
           description:
-            "Verified scanners, newspapers, official feeds and data sources for the I-80 corridor in Nebraska.",
+            "Verified newspapers, official feeds, the scanner directory and data sources for the I-80 corridor in Nebraska.",
           isPartOf: { "@id": `${site.url}/#website` },
           mainEntity: {
             "@type": "ItemList",
@@ -67,14 +67,14 @@ export default function SourcesPage() {
             The source desk
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate">
-            Police scanners, State Patrol releases, Nebraska 511, National
-            Weather Service alerts, town newspapers, RSS feeds, open data and
-            the official accounts that break news first.
+            Town newspapers, State Patrol releases, Nebraska 511, National
+            Weather Service alerts, RSS feeds, open data and a human-only
+            scanner directory. The daily desk works from text sources.
           </p>
           <div className="mt-6 grid max-w-3xl grid-cols-2 gap-px border border-line bg-line sm:grid-cols-5">
             {[
               [sources.length, "Total sources"],
-              [scannerCount, "Scanner feeds"],
+              [scannerCount, "Scanner links"],
               [rss.length, "RSS feeds"],
               [official, "Official"],
               [`${health.ok}/${feedsChecked}`, "Feeds OK"],
@@ -99,8 +99,9 @@ export default function SourcesPage() {
           <div className="border border-line bg-paper p-4">
             <h2 className="kicker text-amber-dark">How to use it</h2>
             <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
-              Filter by beat, search a town or copy an RSS feed. Scanner links
-              open the public feed; some require a free Broadcastify account.
+              Filter by beat, search a town or copy an RSS feed. The scanner
+              directory is for human listening only; the daily desk cannot ingest
+              audio and never treats a scanner call as a fact.
             </p>
           </div>
           <div className="border border-line bg-paper p-4">

@@ -31,10 +31,17 @@ const keywords = [
   "i-80", "i80", "interstate 80", "omaha", "lincoln", "gretna", "ashland",
   "seward", "milford", "york", "aurora", "grand island", "hastings", "kearney",
   "lexington", "cozad", "gothenburg", "north platte", "ogallala", "sidney",
-  "kimball", "chappell", "paxton", "nebraska", "ndot", "state patrol", "crash",
+  "kimball", "chappell", "paxton", "holdrege", "phelps", "hamilton", "dawson",
+  "nebraska", "ndot", "state patrol", "crash",
   "collision", "closure", "closed", "construction", "snow", "ice", "winter storm",
   "blizzard", "wind", "fatal", "pursuit", "highway", "interstate", "rest area",
   "truck", "semi", "amtrak", "plow",
+];
+
+const excludeKeywords = [
+  "mlb", "nfl", "nba", "nhl", "ncaa", "football", "basketball", "baseball",
+  "volleyball", "softball", "sports", "ravens", "brissett", "celebrity",
+  "movie review", "album", "concert",
 ];
 
 const cachePath = path.join(process.cwd(), ".cache", "source-sweep.json");
@@ -125,7 +132,7 @@ function discoveryFeedUrl(source) {
   try {
     const host = new URL(source.url || source.feedUrl).hostname.replace(/^www\./, "");
     if (!host || host.endsWith("news.google.com")) return null;
-    const query = encodeURIComponent(`site:${host}`);
+    const query = encodeURIComponent(`site:${host} when:30d`);
     return `https://news.google.com/rss/search?q=${query}&hl=en-US&gl=US&ceid=US:en`;
   } catch {
     return null;
@@ -181,7 +188,7 @@ async function fetchFeed(source, attempt = 1) {
     });
 
     if (res.status === 429 && attempt <= 2) {
-      await new Promise((resolve) => setTimeout(resolve, 4000 * attempt));
+      await new Promise((resolve) => setTimeout(resolve, 6000 * attempt));
       return fetchFeed(source, attempt + 1);
     }
 
@@ -355,7 +362,7 @@ async function mapWithConcurrency(items, limit, mapper) {
       const index = cursor;
       cursor += 1;
       // Stagger requests so shared feed infrastructure does not rate-limit us.
-      await new Promise((resolve) => setTimeout(resolve, 1100));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       results[index] = await mapper(items[index]);
     }
   });
@@ -372,15 +379,33 @@ const [results, alerts, ndotNews, nspNews] = await Promise.all([
 const cutoff = Date.now() - hours * 3600 * 1000;
 
 let items = [...results.flatMap((r) => r.items), ...ndotNews];
-const failures = results.filter((r) => r.error);
-const stale = results.filter((r) => r.stale);
+const STALE_AFTER_MS = 21 * 24 * 60 * 60 * 1000;
+
+function staleAge(r) {
+  if (r.status !== "ok" || !r.lastItemAt) return false;
+  const published = new Date(r.lastItemAt).getTime();
+  return !Number.isNaN(published) && Date.now() - published > STALE_AFTER_MS;
+}
+
+function staleNote(r) {
+  if (!staleAge(r)) return r.error ?? null;
+  const since = r.lastItemAt ? r.lastItemAt.slice(0, 10) : "unknown";
+  return `No new items since ${since}; feed may be inactive.${r.error ? ` ${r.error}` : ""}`;
+}
+
+const failures = results.filter((r) => r.status === "error");
+const degraded = results.filter((r) => r.error && r.status !== "error");
+const stale = results.filter((r) => r.stale || staleAge(r));
 
 items = items
   .filter((item) => item.title && item.url)
   .filter((item) => !item.date || new Date(item.date).getTime() >= cutoff)
   .filter((item) => {
     const haystack = `${item.title} ${item.description}`.toLowerCase();
-    return keywords.some((keyword) => haystack.includes(keyword));
+    return (
+      keywords.some((keyword) => haystack.includes(keyword)) &&
+      !excludeKeywords.some((keyword) => haystack.includes(keyword))
+    );
   });
 
 const seen = new Set();
@@ -418,11 +443,11 @@ const health = {
         id: r.sourceId,
         name: r.source,
         url: r.url,
-        status: r.status,
+        status: staleAge(r) ? "stale" : r.status,
         httpStatus: r.httpStatus ?? null,
         checkedAt: r.checkedAt,
         lastItemAt: r.lastItemAt ?? null,
-        error: r.error ?? null,
+        error: staleNote(r),
       },
     ]),
   ),
@@ -489,11 +514,19 @@ for (const item of top) {
   if (item.description) console.log(`  ${item.description}`);
 }
 
-if (failures.length) {
+if (failures.length || degraded.length || stale.length) {
   console.log(`\nFEED ISSUES (${failures.length})`);
   for (const failure of failures) console.log(`  ${failure.source}: ${failure.error}`);
+  if (degraded.length) {
+    console.log(`\nDEGRADED FEEDS (${degraded.length}) — usable, but not the direct feed`);
+    for (const item of degraded) console.log(`  ${item.source}: ${item.error}`);
+  }
   if (stale.length) {
-    console.log(`\n  ${stale.length} feed(s) served from cache. Run again later or check the URL manually.`);
+    console.log(`\nSTALE FEEDS (${stale.length}) — HTTP OK, but no recent item`);
+    for (const item of stale) {
+      const since = item.lastItemAt ? item.lastItemAt.slice(0, 10) : "unknown";
+      console.log(`  ${item.source}: last item ${since}`);
+    }
   }
 }
 

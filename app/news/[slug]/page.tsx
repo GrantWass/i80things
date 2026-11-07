@@ -13,7 +13,7 @@ import { authorInitials, getAuthor } from "@/data/authors";
 import { getPlace, placeName } from "@/data/places";
 import { getTopic, topicLabel } from "@/data/topics";
 import { site } from "@/lib/site";
-import { getSourcesForPlace } from "@/lib/sources";
+import { getAllSources, getSourcesForPlace } from "@/lib/sources";
 import { CompactCard, SectionHeading } from "@/components/PostCards";
 import { ArticleGallery } from "@/components/ArticleGallery";
 import { AdSlot } from "@/components/AdSlot";
@@ -97,6 +97,7 @@ export default async function ArticlePage({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post || post.draft) notFound();
+  const sourceCount = getAllSources().length;
 
   const author = getAuthor(post.author);
   const place = getPlace(post.city);
@@ -490,7 +491,7 @@ export default async function ArticlePage({
                 </li>
               </ul>
               <Link href="/sources" className="mt-4 block border border-ink px-3 py-2 text-center text-[10px] font-bold tracking-[0.1em] uppercase transition hover:bg-ink hover:text-paper">
-                All 87 sources
+                All {sourceCount} sources
               </Link>
             </div>
 

@@ -3,8 +3,8 @@ name: story-audit
 on:
   workflow_dispatch:
   schedule:
-    # Monday, 8:00 a.m. America/Chicago (DST may shift this by an hour).
-    - cron: "0 14 * * 1"
+    # Monday morning; avoid GitHub's highest-load :00 scheduler slot.
+    - cron: "17 14 * * 1"
 
 permissions:
   contents: read

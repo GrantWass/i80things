@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SearchClient } from "@/components/SearchClient";
 import { JsonLd } from "@/components/JsonLd";
 import { site } from "@/lib/site";
+import { getAllSources } from "@/lib/sources";
 
 export const metadata: Metadata = {
   title: "Search",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default function SearchPage() {
+  const sourceCount = getAllSources().length;
   return (
     <main>
       <JsonLd
@@ -31,7 +33,7 @@ export default function SearchPage() {
             Search the corridor
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate">
-            Search published stories and the 87-source directory. Try a town, a
+            Search published stories and the {sourceCount}-source directory. Try a town, a
             mile marker, a topic or an agency.
           </p>
         </div>

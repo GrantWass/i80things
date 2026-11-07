@@ -29,7 +29,7 @@ ${site.name} covers Interstate 80 in Nebraska, from Omaha (mile 454) to Kimball 
 - [Hub distances](${site.url}/distances): estimated I-80 hub-to-hub miles and drive times
 - [Corridor towns](${site.url}/cities): mile markers, exits and local coverage for all ${places.length} hubs
 - [Topics](${site.url}/topics): crashes, road conditions, weather, construction, travel, communities
-- [Source directory](${site.url}/sources): ${sources.length} verified scanners, newspapers, 511, NWS and data feeds
+- [Source directory](${site.url}/sources): ${sources.length} verified newspapers, official feeds, a scanner directory and data sources
 - [Mile marker guide](${site.url}/news/i-80-mile-markers-nebraska-explained)
 - [Editorial standards](${site.url}/editorial-standards): sourcing, scanner policy, corrections
 - [Corrections](${site.url}/corrections): correction policy and public log
