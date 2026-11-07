@@ -29,12 +29,6 @@ export function mileRange(raw: string | null | undefined): MileRange | null {
     return { min: mile, max: mile };
   }
 
-  const mile = text.match(/\b(?:mile|MM)\s*(\d+(?:\.\d+)?)/i);
-  if (mile) {
-    const value = Number(mile[1]);
-    return { min: value, max: value };
-  }
-
   const range = text.match(
     /(\d+(?:\.\d+)?)\s*(?:–|—|-|to)\s*(\d+(?:\.\d+)?)/i,
   );
@@ -42,6 +36,12 @@ export function mileRange(raw: string | null | undefined): MileRange | null {
     const min = Number(range[1]);
     const max = Number(range[2]);
     return { min: Math.min(min, max), max: Math.max(min, max) };
+  }
+
+  const mile = text.match(/\b(?:mile|MM)\s*(\d+(?:\.\d+)?)/i);
+  if (mile) {
+    const value = Number(mile[1]);
+    return { min: value, max: value };
   }
 
   const single = text.match(/\d+(?:\.\d+)?/);
@@ -53,6 +53,16 @@ export function mileRange(raw: string | null | undefined): MileRange | null {
 /** First mile of the range, for west-to-east sorting. Unknown → 0. */
 export function firstMile(raw: string | null | undefined): number {
   return mileRange(raw)?.min ?? 0;
+}
+
+/** Display label for a raw mile marker such as `20–29` or `Spur via Exit 312`. */
+export function mileLabel(raw: string | null | undefined): string {
+  if (!raw) return "";
+  const cleaned = raw
+    .replace(/^Spur via\s+/i, "")
+    .replace(/^I-80\s+/i, "")
+    .trim();
+  return /^\d/.test(cleaned) ? `MM ${cleaned}` : cleaned;
 }
 
 /**
@@ -68,8 +78,7 @@ export function positionOf(slug: string): {
   if (!place) return null;
   const range = mileRange(place.mileMarker);
   if (!range) return null;
-  const cleaned = place.mileMarker.replace(/^Spur via\s+/i, "").trim();
-  const label = /^\d/.test(cleaned) ? `MM ${cleaned}` : cleaned;
+  const label = mileLabel(place.mileMarker);
   const midpoint = (range.min + range.max) / 2;
   return { range, label, percent: (midpoint / CORRIDOR_LENGTH) * 100 };
 }

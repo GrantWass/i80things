@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DataPage, RowSection, StartHere } from "@/components/data-page";
-import { DataSummary } from "@/components/DataSummary";
+import { DataPage, DataSummary, RowSection, StartHere } from "@/components/data-page";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 import demoData from "@/data/town-demographics.json";

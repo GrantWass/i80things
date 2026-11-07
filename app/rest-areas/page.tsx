@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DataPage, Explainer, RowSection } from "@/components/data-page";
+import { DataPage, DataSummary, Explainer, RowSection } from "@/components/data-page";
 import { RestAreaMap } from "@/components/RestAreaMap";
-import { DataSummary } from "@/components/DataSummary";
 import { places } from "@/data/places";
 import { inventoryTotals } from "@/lib/inventory";
 import { site } from "@/lib/site";

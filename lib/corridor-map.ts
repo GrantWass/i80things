@@ -303,3 +303,26 @@ export const VERTICAL_MAP: CorridorMapModel = {
   },
   shield: null,
 };
+
+/**
+ * A polyline from one mile to another along the drawn I-80 route. Used by
+ * compact locators that need to highlight a short corridor segment without
+ * re-projecting an arbitrary straight line.
+ */
+export function routeSegmentPath(
+  map: CorridorMapModel,
+  min: number,
+  max: number,
+  steps = 40,
+): string {
+  const start = map.pointAtMile(min);
+  const points = [`${start.x.toFixed(1)} ${start.y.toFixed(1)}`];
+  const step = Math.max(0.5, (max - min) / steps);
+  for (let mile = min + step; mile < max; mile += step) {
+    const point = map.pointAtMile(mile);
+    points.push(`${point.x.toFixed(1)} ${point.y.toFixed(1)}`);
+  }
+  const end = map.pointAtMile(max);
+  points.push(`${end.x.toFixed(1)} ${end.y.toFixed(1)}`);
+  return `M ${points.join(" L ")}`;
+}

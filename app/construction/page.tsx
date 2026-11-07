@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { CorridorMap } from "@/components/CorridorMap";
-import { DataPage } from "@/components/data-page";
-import { DataSummary } from "@/components/DataSummary";
+import { DataPage, DataSummary } from "@/components/data-page";
 import { TrackedLink } from "@/components/TrackedLink";
 import {
   getRoadConditions,

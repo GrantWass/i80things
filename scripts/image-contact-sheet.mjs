@@ -4,6 +4,8 @@
  *
  *   npm run images:sheet
  *   npm run images:sheet -- --slug york-at-mile-353 --out /tmp/i80-images
+ *   npm run stock -- --query "truck stop" --json > .cache/candidates.json
+ *   npm run images:sheet -- --manifest .cache/candidates.json
  *
  * The sheet is deliberately simple: a readable grid plus a JSON manifest.
  * A vision-capable reviewer can open the JPEGs; an editor can use the
@@ -11,8 +13,8 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
 import sharp from "sharp";
+import { readStoryFile } from "../lib/story.mjs";
 
 const args = process.argv.slice(2);
 function arg(name, fallback = null) {
@@ -79,39 +81,24 @@ if (candidateFile) {
   for (const file of files) {
     const slug = file.replace(/\.mdx?$/, "");
     if (onlySlug && slug !== onlySlug) continue;
-    const { data } = matter(fs.readFileSync(path.join(postsDir, file), "utf8"));
-    const gallery = Array.isArray(data.images) ? data.images : [];
-    const list = gallery.length
-      ? gallery
-      : data.image
-        ? [
-            {
-              src: data.image,
-              alt: data.imageAlt,
-              caption: data.imageCaption,
-              credit: data.imageCredit,
-              license: data.imageLicense,
-            },
-          ]
-        : [];
-
-    for (const [index, image] of list.entries()) {
-      const src = typeof image?.src === "string" ? image.src.trim() : "";
-      if (!src.startsWith("/")) continue;
-      const full = path.join(process.cwd(), "public", src.replace(/^\//, ""));
+    const story = readStoryFile(path.join(postsDir, file));
+    for (const [index, image] of story.images.entries()) {
+      if (!image.src.startsWith("/")) continue;
+      const full = path.join(process.cwd(), "public", image.src.replace(/^\//, ""));
       if (!fs.existsSync(full)) continue;
       items.push({
         kind: "audit",
         slug,
         imageIndex: index + 1,
-        src,
+        src: image.src,
         full,
-        alt: String(image?.alt || ""),
-        caption: String(image?.caption || ""),
-        credit: String(image?.credit || ""),
-        license: String(image?.license || ""),
+        alt: image.alt,
+        caption: image.caption ?? "",
+        credit: image.credit ?? "",
+        license: image.license ?? "",
       });
     }
+
   }
 }
 

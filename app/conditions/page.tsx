@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { DataSummary } from "@/components/data-page";
 import Link from "next/link";
 import { AutoRefresh } from "@/components/AutoRefresh";
 import { CorridorMap } from "@/components/CorridorMap";
-import { DataSummary } from "@/components/DataSummary";
 import { JsonLd } from "@/components/JsonLd";
 import { TrackedLink } from "@/components/TrackedLink";
 import { getCorridorAlerts } from "@/lib/nws";
