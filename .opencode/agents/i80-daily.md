@@ -97,6 +97,14 @@ Then run the desk for today in `America/Chicago`.
    npm run stock -- --query "…" --slug <slug> --download --update
    ```
    - Search 2–3 queries. Do not simply take the first result.
+   - To compare candidates visually, save the JSON results and make a contact
+     sheet, then inspect it before downloading:
+     ```bash
+     npm run stock -- --query "…" --json > .cache/candidates-<slug>.json
+     npm run images:sheet -- --manifest .cache/candidates-<slug>.json \
+       --out .cache/image-candidates/<slug>
+     ```
+     Use the manifest to map a candidate number back to its source and license.
    - The cover must show the story's subject — the town, road, landmark, agency
      or work zone. Reject generic cornfields, gas stations, parking lots and
      badge close-ups used as a stand-in.
@@ -106,6 +114,8 @@ Then run the desk for today in `America/Chicago`.
    - Prefer CC0/public domain. Keep the credit and license for CC BY/BY-SA.
    - Run `npm run images:audit` and fix every issue. Do not reuse an image from
      another story.
+   - Run `npm run images:sheet -- --slug <slug>` and inspect the labeled sheet
+     before publishing; make sure the visible frame supports the caption.
    - Never use an AI-generated image of a real event. If no usable photo exists,
      leave the fallback card rather than inventing one.
    - Check every exit number against `data/i80-exits.json`. For rankings,

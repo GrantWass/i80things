@@ -24,6 +24,7 @@
     "brand:check": "node scripts/brand-check.mjs",
     "stock": "node scripts/stock-photo.mjs",
     "images:audit": "node scripts/audit-images.mjs",
+    "images:sheet": "node scripts/image-contact-sheet.mjs",
     "cities:coverage": "node scripts/city-coverage.mjs",
     "factcheck": "node scripts/fact-check.mjs",
     "stories:audit": "node scripts/story-audit.mjs",

@@ -36,7 +36,7 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
      --source "Nebraska State Patrol|https://…"
    ```
    Fill the body with original context, 3–5 short-version bullets, a sources list and internal links to the city/topic/related story.
-   Choose 1–3 real images that show the subject — not the first generic stock result. Add alt, caption, credit and credit URL. If the 4:5 crop is bad, add `socialSrc`. Never put a one-day advisory or undated "current" condition in an evergreen story.
+   Choose 1–3 real images that show the subject — not the first generic stock result. Add alt, caption, credit and credit URL. If the 4:5 crop is bad, add `socialSrc`. For visual review, save stock JSON and run `npm run images:sheet -- --manifest …`; after adding images, run `npm run images:sheet -- --slug <slug>` and inspect the labeled sheet. Never put a one-day advisory or undated "current" condition in an evergreen story.
 
 5. **Validate and publish.**
    ```bash
