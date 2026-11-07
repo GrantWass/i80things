@@ -69,16 +69,19 @@ function routeSegment(min: number, max: number): string {
 export function StoryLocator({
   place,
   mileMarker,
+  className = "",
 }: {
   place?: Pick<Place, "name" | "mileMarker"> | null;
   mileMarker?: string;
+  className?: string;
 }) {
   const source = mileMarker?.trim() || place?.mileMarker;
   const range = parseMileRange(source);
   if (!range || !source) return null;
 
   const isPoint = range.max - range.min < 0.5;
-  const point = HORIZONTAL_MAP.pointAtMile(range.min);
+  const start = HORIZONTAL_MAP.pointAtMile(range.min);
+  const end = HORIZONTAL_MAP.pointAtMile(range.max);
   const marker = markerLabel(source);
   const shortMarker = /^Exit\b/i.test(marker)
     ? marker.split("/")[0].trim()
@@ -87,17 +90,27 @@ export function StoryLocator({
     place && !/^Exit\b/i.test(shortMarker)
       ? `${place.name} · ${shortMarker}`
       : shortMarker;
+  const markerType = /^Exit\b/i.test(shortMarker)
+    ? "I-80 exit"
+    : "Mile markers";
 
   return (
-    <figure className="mt-5 ml-auto w-full sm:w-[17rem]">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <figcaption className="kicker text-slate">On I-80</figcaption>
-        <p className="max-w-full text-right text-[10px] font-bold tracking-[0.06em] text-ink-soft uppercase">
-          {label}
+    <figure
+      aria-label={`Location on I-80: ${label}`}
+      className={`w-full ${className}`}
+    >
+      <figcaption>
+        <p className="kicker text-slate">On I-80</p>
+        <p className="mt-1 font-serif text-2xl leading-none font-semibold tracking-tight text-ink">
+          {shortMarker}
         </p>
-      </div>
+        <p className="mt-1 text-[10px] font-semibold tracking-[0.08em] text-slate uppercase">
+          {markerType}
+          {place ? ` · ${place.name}` : ""}
+        </p>
+      </figcaption>
 
-      <div className="relative mt-1.5">
+      <div className="mt-3">
         <svg
           viewBox={`0 0 ${HORIZONTAL_MAP.viewW} ${HORIZONTAL_MAP.viewH}`}
           aria-hidden="true"
@@ -121,36 +134,49 @@ export function StoryLocator({
           {isPoint ? (
             <>
               <circle
-                cx={point.x}
-                cy={point.y}
-                r={20}
+                cx={start.x}
+                cy={start.y}
+                r={22}
                 fill="var(--color-paper)"
               />
               <circle
-                cx={point.x}
-                cy={point.y}
-                r={13}
+                cx={start.x}
+                cy={start.y}
+                r={14}
                 fill="var(--color-highway)"
                 stroke="var(--color-paper)"
                 strokeWidth={3}
               />
             </>
           ) : (
-            <path
-              d={routeSegment(range.min, range.max)}
-              fill="none"
-              stroke="var(--color-amber-dark)"
-              strokeWidth={16}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <>
+              <path
+                d={routeSegment(range.min, range.max)}
+                fill="none"
+                stroke="var(--color-amber-dark)"
+                strokeWidth={24}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle
+                cx={start.x}
+                cy={start.y}
+                r={9}
+                fill="var(--color-amber-dark)"
+                stroke="var(--color-paper)"
+                strokeWidth={2}
+              />
+              <circle
+                cx={end.x}
+                cy={end.y}
+                r={9}
+                fill="var(--color-amber-dark)"
+                stroke="var(--color-paper)"
+                strokeWidth={2}
+              />
+            </>
           )}
         </svg>
-
-        <div className="mt-1 flex justify-between text-[8px] font-semibold tracking-[0.06em] text-slate uppercase">
-          <span>MM 22</span>
-          <span>MM 454</span>
-        </div>
       </div>
     </figure>
   );

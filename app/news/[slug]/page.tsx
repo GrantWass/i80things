@@ -260,7 +260,11 @@ export default async function ArticlePage({
                 {post.dek}
               </p>
 
-              <StoryLocator place={place} mileMarker={post.mileMarker} />
+              {place || post.mileMarker ? (
+                <div className="mt-5 lg:hidden">
+                  <StoryLocator place={place} mileMarker={post.mileMarker} />
+                </div>
+              ) : null}
 
               <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-line py-3">
                 <Link href={`/authors/${author.slug}`} className="flex items-center gap-2">
@@ -451,6 +455,12 @@ export default async function ArticlePage({
           </article>
 
           <aside className="space-y-7 lg:sticky lg:top-24 lg:self-start">
+            {place || post.mileMarker ? (
+              <div className="hidden border border-line bg-paper p-4 lg:block">
+                <StoryLocator place={place} mileMarker={post.mileMarker} />
+              </div>
+            ) : null}
+
             <div className="border border-line bg-paper p-4">
               <h2 className="kicker text-amber-dark">Before you drive</h2>
               <ul className="mt-3 space-y-2.5">

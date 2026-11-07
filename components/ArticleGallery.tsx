@@ -214,12 +214,6 @@ export function ArticleGallery({
                 <p className="text-sm leading-relaxed">
                   {captionFor(activeImage)}
                 </p>
-                {activeImage.caption &&
-                activeImage.caption !== activeImage.alt ? (
-                  <p className="mt-1 text-[11px] leading-relaxed text-cream/70">
-                    {activeImage.alt}
-                  </p>
-                ) : null}
                 {activeImage.credit ? (
                   <p className="mt-1 text-[10px] text-cream/70">
                     {activeImage.creditUrl ? (
