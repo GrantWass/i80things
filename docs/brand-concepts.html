@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I-80 Things — three Nebraska concepts</title>
+<style>
+  :root {
+    --ink: #14150f; --paper: #f7f4ec; --cream: #efe9db; --line: #d8d1c0;
+    --slate: #5d6155; --amber: #e3a008; --amber-dark: #7c5500; --highway: #14432f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 24px 80px; background: var(--paper); color: var(--ink);
+    font-family: "Public Sans", Helvetica, Arial, sans-serif; line-height: 1.5;
+  }
+  main { max-width: 980px; margin: 0 auto; }
+  h1 { font-family: Newsreader, Georgia, serif; font-size: 40px; line-height: 1.1; margin: 0 0 8px; }
+  .lede { color: var(--slate); max-width: 62ch; margin: 0 0 40px; }
+  .concept { border-top: 1px solid var(--line); padding: 32px 0 8px; }
+  .concept h2 { font-family: Newsreader, Georgia, serif; font-size: 26px; margin: 0 0 4px; }
+  .pitch { color: var(--slate); margin: 0 0 24px; max-width: 60ch; }
+  .sizes { display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 8px; }
+  .sizes figure { margin: 0; text-align: center; }
+  .sizes figcaption { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-top: 6px; }
+  .wordmark {
+    font-family: Newsreader, Georgia, serif; font-size: 64px; font-weight: 700;
+    letter-spacing: -0.01em; white-space: nowrap; margin: 24px 0 8px;
+  }
+  .wordmark.small { font-size: 26px; }
+  .wordmark.on-green { background: var(--highway); color: var(--paper); display: inline-block; padding: 18px 28px; }
+  .kernel { fill: var(--amber); }
+  .kernel-vein { stroke: var(--amber-dark); stroke-width: .8; fill: none; opacity: .5; }
+  .tittle { width: .26em; height: .38em; position: relative; top: -.40em; margin: 0 .02em; }
+  .stop { width: .24em; height: .35em; display: inline-block; vertical-align: -.02em; margin-left: .04em; }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 24px 0 8px; }
+  .notes div { border: 1px solid var(--line); background: #fffdf8; padding: 12px 14px; font-size: 13px; }
+  .notes strong { display: block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-bottom: 4px; }
+  .strip { display: flex; align-items: center; gap: 14px; margin: 8px 0 0; flex-wrap: wrap; }
+  .strip span { font-size: 11px; color: var(--slate); }
+  .badge-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); margin: 0 0 8px; }
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 16px; font-size: 12px; color: var(--slate); }
+  code { font-size: 12px; background: var(--cream); padding: 1px 4px; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Three ways to put Nebraska in the mark</h1>
+<p class="lede">All three keep the interstate badge, the green, the amber and the serif wordmark. The difference is how loud the Nebraska reference is. Judged at 16&nbsp;px first: if it turns to mush there, it is decoration, not a mark.</p>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <h2>1. Kernel Dot</h2>
+  <p class="pitch">A single amber corn kernel replaces the dot over the “i” in <em>Things</em>, and the full stop at the end. The badge does not change at all. At a glance it reads as punctuation; look closer and it is a kernel.</p>
+
+  <p class="badge-label">The mark, unchanged</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Current badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="26" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>256 px</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Badge 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="26" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Badge 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="26" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Badge 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <text x="32" y="46" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16</figcaption>
+    </figure>
+  </div>
+
+  <p class="badge-label" style="margin-top:24px">The wordmark</p>
+  <div class="wordmark">
+    I-80 Th<svg class="tittle" viewBox="0 0 10 14" aria-hidden="true"><path class="kernel" d="M5 0.4C7.6 2.8 9 6.5 8.2 9.5 7.6 11.8 6.2 13.5 5 13.5 3.8 13.5 2.4 11.8 1.8 9.5 1 6.5 2.4 2.8 5 .4Z"/><path class="kernel-vein" d="M5 3.4C6.4 5.1 7 7.6 6.5 9.6"/></svg>ngs<svg class="stop" viewBox="0 0 10 14" aria-hidden="true"><path class="kernel" d="M5 0.4C7.6 2.8 9 6.5 8.2 9.5 7.6 11.8 6.2 13.5 5 13.5 3.8 13.5 2.4 11.8 1.8 9.5 1 6.5 2.4 2.8 5 .4Z"/></svg>
+  </div>
+  <div class="wordmark on-green" style="font-size:32px">
+    I-80 Th<svg class="tittle" viewBox="0 0 10 14" aria-hidden="true"><path class="kernel" d="M5 0.4C7.6 2.8 9 6.5 8.2 9.5 7.6 11.8 6.2 13.5 5 13.5 3.8 13.5 2.4 11.8 1.8 9.5 1 6.5 2.4 2.8 5 .4Z"/></svg>ngs
+  </div>
+
+  <div class="notes">
+    <div><strong>Where it lives</strong>Wordmark, footer, OG cards, Instagram caption watermark. Badge stays as-is.</div>
+    <div><strong>Why it works</strong>Zero legibility risk. Nobody notices until they do, which is the definition of subtle.</div>
+    <div><strong>Risk</strong>So quiet it may not register. If you want people to mention the corn, this is not the one.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <h2>2. Furrow</h2>
+  <p class="pitch">A faint set of field rows runs behind the number, with one amber line as the horizon. At full size it is a plowed field seen from the interstate; at 32&nbsp;px it reads as a clean rule under the 80.</p>
+
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Furrow badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <g stroke="#f7f4ec" stroke-width="1" opacity=".10">
+          <path d="M8 14H56"/><path d="M8 22H56"/><path d="M8 30H56"/><path d="M8 38H56"/>
+        </g>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="25" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="29" font-weight="700" fill="#f7f4ec">80</text>
+        <path d="M11 55.5Q32 53.4 53 55.5" stroke="#e3a008" stroke-width="1.8" fill="none"/>
+      </svg>
+      <figcaption>256 px</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Furrow 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <g stroke="#f7f4ec" stroke-width="1" opacity=".10">
+          <path d="M8 14H56"/><path d="M8 22H56"/><path d="M8 30H56"/><path d="M8 38H56"/>
+        </g>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="25" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="29" font-weight="700" fill="#f7f4ec">80</text>
+        <path d="M11 55.5Q32 53.4 53 55.5" stroke="#e3a008" stroke-width="1.8" fill="none"/>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Furrow 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="25" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="29" font-weight="700" fill="#f7f4ec">80</text>
+        <path d="M11 55.5Q32 53.4 53 55.5" stroke="#e3a008" stroke-width="1.8" fill="none"/>
+      </svg>
+      <figcaption>32</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Furrow 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <text x="32" y="44" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="700" fill="#f7f4ec">80</text>
+        <path d="M12 54Q32 52 52 54" stroke="#e3a008" stroke-width="4" fill="none"/>
+      </svg>
+      <figcaption>16</figcaption>
+    </figure>
+  </div>
+
+  <p class="badge-label" style="margin-top:24px">The same rows as a page divider</p>
+  <div class="strip">
+    <svg width="260" height="18" viewBox="0 0 260 18" aria-hidden="true">
+      <path d="M0 4Q130 0 260 4" stroke="#d8d1c0" stroke-width="1" fill="none"/>
+      <path d="M0 10Q130 6 260 10" stroke="#e3a008" stroke-width="1.4" fill="none"/>
+      <path d="M0 16Q130 12 260 16" stroke="#d8d1c0" stroke-width="1" fill="none"/>
+    </svg>
+    <span>Section divider on paper</span>
+  </div>
+
+  <div class="notes">
+    <div><strong>Where it lives</strong>Badge base, section dividers, OG and Instagram card footers.</div>
+    <div><strong>Why it works</strong>Reads as landscape without a single literal object. Ties the mark to the site chrome.</div>
+    <div><strong>Risk</strong>The amber line can look like a progress bar if it is used on its own. Always pair with the faint rows.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <h2>3. Cob Ring</h2>
+  <p class="pitch">The zero in 80 becomes a ring of kernels, in amber, only at display sizes. At 64&nbsp;px and below it falls back to the plain 80. The boldest of the three, and the one people will actually notice on an Instagram grid.</p>
+
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Cob badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="25" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="24" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="29" font-weight="700" fill="#f7f4ec">8</text>
+        <g fill="#e3a008">
+          <circle cx="40.5" cy="31.5" r="1.7"/><circle cx="44.9" cy="33.2" r="1.7"/>
+          <circle cx="47.4" cy="37" r="1.7"/><circle cx="47.4" cy="41.4" r="1.7"/>
+          <circle cx="44.9" cy="45.2" r="1.7"/><circle cx="40.5" cy="46.9" r="1.7"/>
+          <circle cx="36.1" cy="45.2" r="1.7"/><circle cx="33.6" cy="41.4" r="1.7"/>
+          <circle cx="33.6" cy="37" r="1.7"/><circle cx="36.1" cy="33.2" r="1.7"/>
+        </g>
+        <circle cx="40.5" cy="39.2" r="1.5" fill="#e3a008"/>
+      </svg>
+      <figcaption>256 px</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Cob 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="25" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="24" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="29" font-weight="700" fill="#f7f4ec">8</text>
+        <g fill="#e3a008">
+          <circle cx="40.5" cy="31.5" r="1.7"/><circle cx="44.9" cy="33.2" r="1.7"/>
+          <circle cx="47.4" cy="37" r="1.7"/><circle cx="47.4" cy="41.4" r="1.7"/>
+          <circle cx="44.9" cy="45.2" r="1.7"/><circle cx="40.5" cy="46.9" r="1.7"/>
+          <circle cx="36.1" cy="45.2" r="1.7"/><circle cx="33.6" cy="41.4" r="1.7"/>
+          <circle cx="33.6" cy="37" r="1.7"/><circle cx="36.1" cy="33.2" r="1.7"/>
+        </g>
+        <circle cx="40.5" cy="39.2" r="1.5" fill="#e3a008"/>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Cob fallback 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="26" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32 — plain 80</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Cob fallback 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <text x="32" y="46" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — plain 80</figcaption>
+    </figure>
+  </div>
+
+  <div class="notes">
+    <div><strong>Where it lives</strong>Instagram avatar, OG card corner, large print. Not the header badge, not the favicon.</div>
+    <div><strong>Why it works</strong>A cob cross-section is a spiral of kernels — geometric, not a cartoon. It survives a circular crop.</div>
+    <div><strong>Risk</strong>At small sizes it has to switch to the plain 80, so the mark is not one thing everywhere. More work to maintain.</div>
+  </div>
+</section>
+
+<footer>
+  Palette unchanged: highway #14432f · paper #f7f4ec · amber #e3a008 · ink #14150f.
+  Rule: charm never appears inside an alert, a fact box or a correction notice.
+  Preview only — nothing here is wired into <code>lib/brand.mjs</code>.
+</footer>
+
+</main>
+</body>
+</html>

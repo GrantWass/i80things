@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I-80 Things — the top band</title>
+<style>
+  :root {
+    --ink: #14150f; --paper: #f7f4ec; --cream: #efe9db; --line: #d8d1c0;
+    --slate: #5d6155; --amber: #e3a008; --amber-dark: #7c5500; --highway: #14432f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 24px 80px; background: var(--paper); color: var(--ink);
+    font-family: "Public Sans", Helvetica, Arial, sans-serif; line-height: 1.5;
+  }
+  main { max-width: 1020px; margin: 0 auto; }
+  h1 { font-family: Newsreader, Georgia, serif; font-size: 40px; line-height: 1.1; margin: 0 0 8px; }
+  .lede { color: var(--slate); max-width: 64ch; margin: 0 0 40px; }
+  .concept { border-top: 1px solid var(--line); padding: 32px 0 8px; }
+  .concept h2 { font-family: Newsreader, Georgia, serif; font-size: 26px; margin: 0 0 4px; }
+  .kicker { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--amber-dark); margin: 0 0 6px; }
+  .pitch { color: var(--slate); margin: 0 0 24px; max-width: 62ch; }
+  .sizes { display: flex; align-items: flex-end; gap: 26px; flex-wrap: wrap; }
+  .sizes figure { margin: 0; text-align: center; }
+  .sizes figcaption { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-top: 6px; }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 26px 0 8px; }
+  .notes div { border: 1px solid var(--line); background: #fffdf8; padding: 12px 14px; font-size: 13px; }
+  .notes strong { display: block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-bottom: 4px; }
+  .band { fill: none; stroke: #b3392b; stroke-width: .8; stroke-dasharray: 2 2; }
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 16px; font-size: 12px; color: var(--slate); }
+</style>
+</head>
+<body>
+<main>
+
+<h1>The top band, five ways</h1>
+<p class="lede">Same badge, same palette, same type — everything happens in the empty strip above <strong>INTERSTATE</strong> (dashed red below, for reference). That band is 24 × 10 units at 64 px: enough for a horizon, a river, three kernels or a state outline, not enough for a scene.</p>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Reference</p>
+  <h2>The empty band</h2>
+  <p class="pitch">The space you noticed. It is the only part of the badge with nothing to do, which is why every idea below lives there.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="220" height="220" role="img" aria-label="Empty band">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <rect class="band" x="14" y="8" width="36" height="11" rx="2"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>Where the emblem goes</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Landscape</p>
+  <h2>Big Sky</h2>
+  <p class="pitch">A low amber sun on a hairline horizon. Nebraska is a big-sky state before it is a corn state, and a dot over a line survives every size down to the favicon.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Big Sky badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M13 16.5H51" stroke="#f7f4ec" stroke-width=".9" opacity=".85"/>
+        <circle cx="32" cy="12.2" r="2.7" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>256</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Big Sky 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M13 16.5H51" stroke="#f7f4ec" stroke-width=".9" opacity=".85"/>
+        <circle cx="32" cy="12.2" r="2.7" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Big Sky 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M13 16.5H51" stroke="#f7f4ec" stroke-width="1.4" opacity=".85"/>
+        <circle cx="32" cy="12.2" r="3.2" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Big Sky 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <path d="M10 22H54" stroke="#f7f4ec" stroke-width="3" opacity=".85"/>
+        <circle cx="32" cy="15" r="7" fill="#e3a008"/>
+        <text x="32" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — sun + line survive</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Reads as</strong>A dot on a horizon. Nobody has to know it is intentional.</div>
+    <div><strong>Risk</strong>Low. It could also read as a generic sunrise logo, which is the price of calm.</div>
+    <div><strong>Pairs with</strong>Furrow (set one) — same horizon logic, one for the badge, one for the page.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Geography</p>
+  <h2>The Platte</h2>
+  <p class="pitch">I-80 follows the Platte for most of the corridor. A thin river line with a small fork above the label says “this place” without naming a crop or a town.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Platte badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M10 14.5C14 11.5 18 17.5 22 14.5S30 11.5 34 14.5 42 17.5 45 14.5 52 12.5 54 14" stroke="#e3a008" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M34 14.5L37.5 9.8" stroke="#e3a008" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".8"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>256</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Platte 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M10 14.5C14 11.5 18 17.5 22 14.5S30 11.5 34 14.5 42 17.5 45 14.5 52 12.5 54 14" stroke="#e3a008" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M34 14.5L37.5 9.8" stroke="#e3a008" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".8"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Platte 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M10 14.5C14 11.5 18 17.5 22 14.5S30 11.5 34 14.5 42 17.5 45 14.5 52 12.5 54 14" stroke="#e3a008" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Platte 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <path d="M8 18C16 12 20 24 28 18S40 12 48 18 56 16 58 18" stroke="#e3a008" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <text x="32" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — a gold squiggle</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Reads as</strong>A river, or just a decorative line. Locals who know the Platte get it instantly.</div>
+    <div><strong>Risk</strong>Medium: squiggles are the universal sign of “wellness brand.” It needs to stay thin and geometric, not hand-drawn.</div>
+    <div><strong>Pairs with</strong>Nothing in set one. It is its own move.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Warm</p>
+  <h2>Three Kernels</h2>
+  <p class="pitch">Three amber kernels in a row above the label — a stylised ear, or an ellipsis for <em>Things</em>. The most obviously Nebraskan of the five, and still three dots at favicon size.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Three Kernels badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g fill="#e3a008">
+          <path d="M26 8.8c1.5 1.4 2.2 3.5 1.7 5.3-.3 1.2-.9 2-1.7 2s-1.4-.8-1.7-2c-.5-1.8.2-3.9 1.7-5.3Z"/>
+          <path d="M32 8.2c1.7 1.6 2.5 4 1.9 6-.3 1.4-1 2.3-1.9 2.3s-1.6-.9-1.9-2.3c-.6-2 .2-4.4 1.9-6Z"/>
+          <path d="M38 8.8c1.5 1.4 2.2 3.5 1.7 5.3-.3 1.2-.9 2-1.7 2s-1.4-.8-1.7-2c-.5-1.8.2-3.9 1.7-5.3Z"/>
+        </g>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>256</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Three Kernels 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g fill="#e3a008">
+          <path d="M26 8.8c1.5 1.4 2.2 3.5 1.7 5.3-.3 1.2-.9 2-1.7 2s-1.4-.8-1.7-2c-.5-1.8.2-3.9 1.7-5.3Z"/>
+          <path d="M32 8.2c1.7 1.6 2.5 4 1.9 6-.3 1.4-1 2.3-1.9 2.3s-1.6-.9-1.9-2.3c-.6-2 .2-4.4 1.9-6Z"/>
+          <path d="M38 8.8c1.5 1.4 2.2 3.5 1.7 5.3-.3 1.2-.9 2-1.7 2s-1.4-.8-1.7-2c-.5-1.8.2-3.9 1.7-5.3Z"/>
+        </g>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Three Kernels 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g fill="#e3a008">
+          <circle cx="26" cy="12" r="2.6"/><circle cx="32" cy="11.4" r="2.9"/><circle cx="38" cy="12" r="2.6"/>
+        </g>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32 — reads as dots</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Three Kernels 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <g fill="#e3a008">
+          <circle cx="20" cy="16" r="6"/><circle cx="32" cy="14" r="7"/><circle cx="44" cy="16" r="6"/>
+        </g>
+        <text x="32" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — three dots</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Reads as</strong>A warm detail that locals will name. “The corn one.”</div>
+    <div><strong>Risk</strong>Medium: three amber dots can read as a menu or an ellipsis before they read as kernels.</div>
+    <div><strong>Pairs with</strong>Kernel Dot (set one) — but do not use both. One corn reference per page.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Place</p>
+  <h2>Nebraska</h2>
+  <p class="pitch">A 15 × 9 unit silhouette of the state, panhandle notch and all. No crop, no sky, just the shape — the most literal and the most local of the five.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Nebraska badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M24.5 9H39.5V12.6C39.1 13.7 39.5 14.8 38.4 16.2L37.8 17.5H30.6V15.2H24.5Z" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>256</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Nebraska 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M24.5 9H39.5V12.6C39.1 13.7 39.5 14.8 38.4 16.2L37.8 17.5H30.6V15.2H24.5Z" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Nebraska 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <path d="M23 8H41V12.8C40.5 14.2 41 15.6 39.6 17.4L38.8 19H29.4V16.2H23Z" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Nebraska 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <path d="M18 6H46V12C45 14 46 16 43 19L41 23H27V18H18Z" fill="#e3a008"/>
+        <text x="32" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — a shape, not a state</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Reads as</strong>“That is Nebraska.” Instant for locals, invisible to everyone else.</div>
+    <div><strong>Risk</strong>Medium-high: at 16 px it is an amber blob, and a filled shape this small can look like a stain.</div>
+    <div><strong>Pairs with</strong>Nothing. The outline is doing all the work.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Wildcard</p>
+  <h2>Crane</h2>
+  <p class="pitch">A sandhill crane in the band — the Platte migration is the most Nebraska thing that is not a crop. Elegant, unexpected, and completely gone at small sizes.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Crane badge">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g fill="none" stroke="#e3a008" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M25 15.4c3-.6 6.6-.6 9.4.2" stroke-width="1.5"/>
+          <path d="M34.4 15.6 39 12.4l1.9-.4" stroke-width="1.1"/>
+          <path d="M25 15.6 21.4 18M26.4 15.9 23 19.2" stroke-width=".8"/>
+          <path d="M28.6 14.6c1.2-2.4 3.4-3.6 5.6-3.4" stroke-width="1"/>
+        </g>
+        <circle cx="41.4" cy="11.9" r=".9" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>256</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Crane 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g fill="none" stroke="#e3a008" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M25 15.4c3-.6 6.6-.6 9.4.2" stroke-width="1.5"/>
+          <path d="M34.4 15.6 39 12.4l1.9-.4" stroke-width="1.1"/>
+          <path d="M25 15.6 21.4 18M26.4 15.9 23 19.2" stroke-width=".8"/>
+          <path d="M28.6 14.6c1.2-2.4 3.4-3.6 5.6-3.4" stroke-width="1"/>
+        </g>
+        <circle cx="41.4" cy="11.9" r=".9" fill="#e3a008"/>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64 — still a bird</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Crane 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g fill="none" stroke="#e3a008" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 15.5c3.6-.8 8-.8 11.4.2" stroke-width="2"/>
+          <path d="M35 15.7 40 12l2-.4" stroke-width="1.4"/>
+          <path d="M24 15.7 20 18.6" stroke-width="1"/>
+        </g>
+        <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32 — a scribble</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Crane 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <path d="M14 18c6-4 14-4 20 0l6-5" stroke="#e3a008" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <text x="32" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — gone; needs a fallback</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Reads as</strong>Something wild and specific. The only concept that implies “this is a place with a season,” not just a crop.</div>
+    <div><strong>Risk</strong>High at small sizes. Would need the plain badge under 48 px, and the silhouette has to be redrawn by someone who can draw birds.</div>
+    <div><strong>Pairs with</strong>Big Sky, in an alternate universe where the mark is illustrated rather than geometric.</div>
+  </div>
+</section>
+
+<footer>
+  Palette unchanged: highway #14432f · paper #f7f4ec · amber #e3a008 · ink #14150f.
+  Preview only — nothing here is wired into <code>lib/brand.mjs</code>.
+  Any pick needs a 16 px fallback decision before it ships.
+</footer>
+
+</main>
+</body>
+</html>

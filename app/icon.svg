@@ -1,6 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="10" fill="#14432f"/>
-  <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
-  <text x="32" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="7" font-weight="bold" letter-spacing="1" fill="#f7f4ec">INTERSTATE</text>
-  <text x="32" y="51" text-anchor="middle" font-family="Georgia, serif" font-size="31" font-weight="bold" fill="#f7f4ec">80</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="I-80 Things"><rect width="64" height="64" rx="10" fill="#14432f"/><rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/><text x="32" y="26" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text><text x="32" y="53" text-anchor="middle" font-family="ui-serif, Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text></svg>

@@ -1,15 +1,16 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
+import { brand, brandColors } from "@/lib/brand.mjs";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "I-80 Things — Nebraska corridor news",
-    short_name: "I-80 Things",
+    name: `${brand.name} — Nebraska corridor news`,
+    short_name: site.shortName,
     description: site.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#f7f4ec",
-    theme_color: "#14150f",
+    background_color: brandColors.paper,
+    theme_color: brandColors.ink,
     icons: [
       {
         src: "/brand/logo-180.png",

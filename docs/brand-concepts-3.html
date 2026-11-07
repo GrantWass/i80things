@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I-80 Things — state and cobs</title>
+<style>
+  :root {
+    --ink: #14150f; --paper: #f7f4ec; --cream: #efe9db; --line: #d8d1c0;
+    --slate: #5d6155; --amber: #e3a008; --amber-dark: #7c5500; --highway: #14432f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px 24px 80px; background: var(--paper); color: var(--ink);
+    font-family: "Public Sans", Helvetica, Arial, sans-serif; line-height: 1.5; }
+  main { max-width: 1040px; margin: 0 auto; }
+  h1 { font-family: Newsreader, Georgia, serif; font-size: 40px; line-height: 1.1; margin: 0 0 8px; }
+  .lede { color: var(--slate); max-width: 66ch; margin: 0 0 40px; }
+  .concept { border-top: 1px solid var(--line); padding: 32px 0 8px; }
+  .concept h2 { font-family: Newsreader, Georgia, serif; font-size: 26px; margin: 0 0 4px; }
+  .kicker { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--amber-dark); margin: 0 0 6px; }
+  .pitch { color: var(--slate); margin: 0 0 24px; max-width: 62ch; }
+  .sizes { display: flex; align-items: flex-end; gap: 26px; flex-wrap: wrap; }
+  .sizes figure { margin: 0; text-align: center; }
+  .sizes figcaption { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-top: 6px; }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 26px 0 8px; }
+  .notes div { border: 1px solid var(--line); background: #fffdf8; padding: 12px 14px; font-size: 13px; }
+  .notes strong { display: block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-bottom: 4px; }
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 16px; font-size: 12px; color: var(--slate); }
+  .on-paper { background: var(--paper); padding: 24px; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>State in the middle, cobs on both sides</h1>
+<p class="lede">Drawn as detailed vector cobs — husks, kernel rows, two-tone shading — not icons. The honest catch: that detail only exists above roughly 128&nbsp;px. At 32 the cobs become amber commas, and at 16 the whole crest is a smudge. That does not kill the idea; it decides where it can be used.</p>
+
+<!-- shared cob -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="cob" viewBox="0 0 24 48">
+      <path d="M12 33C7.5 36.5 4.6 41.5 3.6 47c4.6-1.2 8.6-5.4 10.2-10.6Z" fill="#ded4b4" stroke="#bbae87" stroke-width=".35"/>
+      <path d="M12 33c4.5 3.5 7.4 8.5 8.4 14-4.6-1.2-8.6-5.4-10.2-10.6Z" fill="#ded4b4" stroke="#bbae87" stroke-width=".35"/>
+      <path d="M12 1.6c3.8 0 6.2 5 6.2 11v17.6c0 7.4-2.7 12.8-6.2 12.8s-6.2-5.4-6.2-12.8V12.6c0-6 2.4-11 6.2-11Z" fill="#e3a008" stroke="#b87f04" stroke-width=".4"/>
+      <pattern id="kernels" width="3.1" height="2.7" patternUnits="userSpaceOnUse">
+        <ellipse cx=".85" cy=".75" rx=".78" ry="1.05" fill="#f0b52a" stroke="#b87f04" stroke-width=".22"/>
+        <ellipse cx="2.4" cy="2.1" rx=".78" ry="1.05" fill="#eeb02a" stroke="#b87f04" stroke-width=".22"/>
+      </pattern>
+      <clipPath id="cobclip">
+        <path d="M12 1.6c3.8 0 6.2 5 6.2 11v17.6c0 7.4-2.7 12.8-6.2 12.8s-6.2-5.4-6.2-12.8V12.6c0-6 2.4-11 6.2-11Z"/>
+      </clipPath>
+      <rect x="5" y="1" width="14" height="43" fill="url(#kernels)" clip-path="url(#cobclip)"/>
+      <path d="M9.6 38.5c-1.6 3.2-1.8 6-.6 8.6 1.5-2.3 2.4-5.2 2.6-8" fill="#efe9db" stroke="#bbb08b" stroke-width=".3"/>
+      <path d="M14.4 38.5c1.6 3.2 1.8 6 .6 8.6-1.5-2.3-2.4-5.2-2.6-8" fill="#efe9db" stroke="#bbb08b" stroke-width=".3"/>
+      <path d="M12 1.7C11.4.7 11.5-.1 12.2-.7" stroke="#bbb08b" stroke-width=".45" fill="none"/>
+    </symbol>
+    <path id="nebraska" d="M0 0H31.5C32.55 3.75 33 6.75 33.6 9.4C34.2 12 35.1 14.55 36 16.5H8.25V11H0Z"/>
+  </defs>
+</svg>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Option A</p>
+  <h2>The seal</h2>
+  <p class="pitch">Crest fills the badge, no type. State silhouette centred, cobs tilted outward like a seal. This is the version to use at 128&nbsp;px and above — the Instagram avatar, the OG corner, anything printed.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="260" height="260" role="img" aria-label="State and cobs seal">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g transform="rotate(-6 6 32)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <g transform="rotate(6 58 32) translate(64 0) scale(-1 1)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <g transform="translate(13.5 25) scale(1.02)">
+          <use href="#nebraska" fill="none" stroke="#f7f4ec" stroke-width="1.15" stroke-linejoin="round"/>
+          <path d="M17 13.2Q26 12.4 34.6 13.4" fill="none" stroke="#e3a008" stroke-width="1.35" stroke-linecap="round"/>
+          <circle cx="17" cy="13.2" r="1.05" fill="#e3a008"/>
+          <circle cx="34.6" cy="13.4" r="1.05" fill="#e3a008"/>
+        </g>
+        <text x="32" y="13" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="4.2" font-weight="700" letter-spacing="1.6" textLength="26" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec" opacity=".9">NEBRASKA</text>
+      </svg>
+      <figcaption>260 px</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="128" height="128" role="img" aria-label="Seal 128">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g transform="rotate(-6 6 32)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <g transform="rotate(6 58 32) translate(64 0) scale(-1 1)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <use href="#nebraska" transform="translate(13.5 25) scale(1.02)" fill="#f7f4ec"/>
+      </svg>
+      <figcaption>128 — last stop for kernel rows</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Seal 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g transform="rotate(-6 6 32)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <g transform="rotate(6 58 32) translate(64 0) scale(-1 1)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <use href="#nebraska" transform="translate(13.5 25) scale(1.02)" fill="#f7f4ec"/>
+      </svg>
+      <figcaption>64 — cobs become commas</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Seal 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g transform="rotate(-6 6 32)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <g transform="rotate(6 58 32) translate(64 0) scale(-1 1)"><use href="#cob" x="0.5" y="16" width="12" height="31"/></g>
+        <use href="#nebraska" transform="translate(13.5 25) scale(1.02)" fill="#f7f4ec"/>
+      </svg>
+      <figcaption>32 — smudge</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Works at</strong>128 px and up. Perfect avatar, print, merch, a corner stamp on cards.</div>
+    <div><strong>Fails at</strong>32 and below. The badge would have to fall back to the plain 80 there.</div>
+    <div><strong>Reads as</strong>A state seal more than a logo — which suits a newsroom.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Option B</p>
+  <h2>Seal with the sign</h2>
+  <p class="pitch">Same crest, but the interstate type stays at the top and the 80 comes back small at the bottom. More of a full logo, less of a stamp. Busier, and it starts to feel like a state agency badge.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="260" height="260" role="img" aria-label="Seal with type">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="14" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="5.6" font-weight="700" letter-spacing="1.1" textLength="44" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <g transform="rotate(-8 11 31)"><use href="#cob" x="4" y="19" width="11" height="26"/></g>
+        <g transform="rotate(8 53 31) translate(64 0) scale(-1 1)"><use href="#cob" x="4" y="19" width="11" height="26"/></g>
+        <use href="#nebraska" transform="translate(14.5 26.5) scale(0.98)" fill="#f7f4ec"/>
+        <text x="32" y="59" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>260 px</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="128" height="128" role="img" aria-label="Seal with type 128">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="14" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="5.6" font-weight="700" letter-spacing="1.1" textLength="44" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <g transform="rotate(-8 11 31)"><use href="#cob" x="4" y="19" width="11" height="26"/></g>
+        <g transform="rotate(8 53 31) translate(64 0) scale(-1 1)"><use href="#cob" x="4" y="19" width="11" height="26"/></g>
+        <use href="#nebraska" transform="translate(14.5 26.5) scale(0.98)" fill="#f7f4ec"/>
+        <text x="32" y="59" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>128</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Seal with type 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <text x="32" y="14" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="5.6" font-weight="700" letter-spacing="1.1" textLength="44" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <use href="#nebraska" transform="translate(17 27) scale(0.83)" fill="#f7f4ec"/>
+        <text x="32" y="59" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64 — cobs dropped for legibility</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Seal with type 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32 — plain 80</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Works at</strong>128 px. At 64 you have to drop the cobs anyway, so the crest stops being the crest.</div>
+    <div><strong>Fails at</strong>Everything small. This is the mark that needs the most rules.</div>
+    <div><strong>Reads as</strong>Official. Possibly too official — a state agency, not a newsroom.</div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------------ -->
+<section class="concept">
+  <p class="kicker">Option C</p>
+  <h2>In the band</h2>
+  <p class="pitch">The literal reading: state and two cobs squeezed into the strip above INTERSTATE, with the 80 untouched. Included because you asked, and because seeing it is faster than arguing about it.</p>
+  <div class="sizes">
+    <figure>
+      <svg viewBox="0 0 64 64" width="260" height="260" role="img" aria-label="Band crest">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g transform="rotate(-14 19 13)"><use href="#cob" x="16" y="7" width="5" height="12"/></g>
+        <g transform="rotate(14 45 13) translate(64 0) scale(-1 1)"><use href="#cob" x="16" y="7" width="5" height="12"/></g>
+        <use href="#nebraska" transform="translate(24 8) scale(0.46)" fill="#f7f4ec"/>
+        <text x="32" y="28" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>260 px</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Band crest 64">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <rect x="4" y="4" width="56" height="56" rx="7" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+        <g transform="rotate(-14 19 13)"><use href="#cob" x="16" y="7" width="5" height="12"/></g>
+        <g transform="rotate(14 45 13) translate(64 0) scale(-1 1)"><use href="#cob" x="16" y="7" width="5" height="12"/></g>
+        <use href="#nebraska" transform="translate(24 8) scale(0.46)" fill="#f7f4ec"/>
+        <text x="32" y="28" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>64</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Band crest 32">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <use href="#nebraska" transform="translate(24 8) scale(0.46)" fill="#f7f4ec"/>
+        <text x="32" y="28" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.1" textLength="50" lengthAdjust="spacingAndGlyphs" fill="#f7f4ec">INTERSTATE</text>
+        <text x="32" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>32 — cobs dropped</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 64 64" width="16" height="16" role="img" aria-label="Band crest 16">
+        <rect width="64" height="64" rx="10" fill="#14432f"/>
+        <text x="32" y="46" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#f7f4ec">80</text>
+      </svg>
+      <figcaption>16 — nothing survives</figcaption>
+    </figure>
+  </div>
+  <div class="notes">
+    <div><strong>Works at</strong>Nowhere. The band is 10 units tall; the cobs are 5 units wide. There is no room to be realistic.</div>
+    <div><strong>Fails at</strong>Every size. At 260 px it looks like three stamps crammed into a strip.</div>
+    <div><strong>Conclusion</strong>If you want the crest, it replaces the 80 — it cannot live above it.</div>
+  </div>
+</section>
+
+<footer>
+  Palette unchanged: highway #14432f · paper #f7f4ec · amber #e3a008 · ink #14150f.
+  Preview only — nothing here is wired into <code>lib/brand.mjs</code>.
+  The cobs are drawn at 24 × 48 with 30 kernels each; they need at least 128 px to read.
+</footer>
+
+</main>
+</body>
+</html>

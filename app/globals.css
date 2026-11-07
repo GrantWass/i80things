@@ -115,13 +115,12 @@
     opacity: 0.9;
   }
 
-  .sign-green {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.12)),
-      var(--color-highway);
-    box-shadow:
-      inset 0 0 0 2px #f7f4ec,
-      inset 0 0 0 4px var(--color-highway);
+  .brand-mark text {
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .brand-mark text + text {
+    font-family: var(--font-serif), ui-serif, Georgia, serif;
   }
 
   .no-scrollbar::-webkit-scrollbar {

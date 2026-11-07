@@ -4,6 +4,8 @@ import { ImageResponse } from "next/og";
 import { getPost } from "@/lib/content";
 import { getPlace } from "@/data/places";
 import { getOgFonts } from "@/lib/og-fonts";
+import { getBrandMarkImage } from "@/lib/brand-mark-image";
+import { brand, brandColors } from "@/lib/brand.mjs";
 import { postImages } from "@/lib/utils";
 
 export const runtime = "nodejs";
@@ -77,6 +79,7 @@ export async function GET(
     post.title.length > 135 ? `${post.title.slice(0, 132)}…` : post.title;
   const dek = post.dek.length > 180 ? `${post.dek.slice(0, 177)}…` : post.dek;
   const fonts = await getOgFonts();
+  const mark = await getBrandMarkImage();
 
   const png = new ImageResponse(
     (
@@ -86,8 +89,8 @@ export async function GET(
           height: "100%",
           display: "flex",
           position: "relative",
-          background: "#14432f",
-          color: "#f7f4ec",
+          background: brandColors.highway,
+          color: brandColors.paper,
         }}
       >
         {photoUrl ? (
@@ -174,25 +177,12 @@ export async function GET(
                 borderRadius: 4,
               }}
             >
-              <div
-                style={{
-                  width: 44,
-                  height: 40,
-                  border: "2px solid #f7f4ec",
-                  borderRadius: 4,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div style={{ fontSize: 6, letterSpacing: 1.5, fontWeight: 700 }}>INTERSTATE</div>
-                <div style={{ fontSize: 23, fontWeight: 700, lineHeight: 0.9 }}>80</div>
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={mark} width={44} height={35} alt="" style={{ width: 44, height: 35 }} />
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "Crimson Text" }}>I-80 Things</div>
+                <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "Crimson Text" }}>{brand.name}</div>
                 <div style={{ fontSize: 10, letterSpacing: 2.5, color: "#c9d6cc" }}>
-                  NEBRASKA CORRIDOR NEWS
+                  {brand.descriptor.toUpperCase()}
                 </div>
               </div>
             </div>
@@ -221,8 +211,8 @@ export async function GET(
               <div
                 style={{
                   display: "flex",
-                  background: "#e3a008",
-                  color: "#14150f",
+                  background: brandColors.amber,
+                  color: brandColors.ink,
                   fontSize: 14,
                   fontWeight: 700,
                   letterSpacing: 2,
@@ -241,7 +231,7 @@ export async function GET(
               style={{
                 fontSize: 20,
                 letterSpacing: 2,
-                color: "#e3a008",
+                color: brandColors.amber,
                 fontWeight: 600,
                 display: "flex",
                 fontFamily: "Crimson Text",
@@ -257,7 +247,7 @@ export async function GET(
                 lineHeight: 1.03,
                 fontWeight: 700,
                 letterSpacing: -0.5,
-                color: "#f7f4ec",
+                color: brandColors.paper,
                 display: "flex",
                 fontFamily: "Crimson Text",
               }}
@@ -294,7 +284,7 @@ export async function GET(
                   style={{
                     fontSize: 13,
                     letterSpacing: 2,
-                    color: "#e3a008",
+                    color: brandColors.amber,
                     fontWeight: 600,
                     display: "flex",
                     fontFamily: "Crimson Text",
@@ -308,7 +298,7 @@ export async function GET(
                       style={{
                         width: 7,
                         height: 7,
-                        background: "#e3a008",
+                        background: brandColors.amber,
                         marginTop: 8,
                         flexShrink: 0,
                         display: "flex",
@@ -341,7 +331,7 @@ export async function GET(
               }}
             >
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 15, letterSpacing: 1, color: "#f7f4ec", display: "flex" }}>
+                <div style={{ fontSize: 15, letterSpacing: 1, color: brandColors.paper, display: "flex" }}>
                   i80things.com
                 </div>
                 {imageCredit ? (
@@ -362,8 +352,8 @@ export async function GET(
               </div>
               <div
                 style={{
-                  background: "#e3a008",
-                  color: "#14150f",
+                  background: brandColors.amber,
+                  color: brandColors.ink,
                   fontSize: 13,
                   fontWeight: 700,
                   letterSpacing: 2,

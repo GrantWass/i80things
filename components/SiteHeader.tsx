@@ -2,14 +2,12 @@ import Link from "next/link";
 import { nav, site } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 import { TrackedLink } from "@/components/TrackedLink";
+import { BrandMark } from "@/components/BrandMark";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link href="/" className="group flex items-center gap-2.5">
-      <span className="sign-green flex h-11 w-14 shrink-0 flex-col items-center justify-center rounded-[4px] text-paper">
-        <span className="text-[6px] font-bold tracking-[0.12em] whitespace-nowrap">INTERSTATE</span>
-        <span className="font-serif text-[26px] leading-[0.9] font-bold">80</span>
-      </span>
+      <BrandMark className="h-11 w-auto shrink-0" />
       <span className="leading-none">
         <span
           className={`block font-serif text-[18px] font-bold tracking-tight whitespace-nowrap sm:text-[21px] ${

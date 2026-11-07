@@ -27,5 +27,7 @@ jobs:
         run: npm run lint
       - name: Typecheck
         run: npx tsc --noEmit
+      - name: Brand check
+        run: npm run brand:check
       - name: Build
         run: npm run build

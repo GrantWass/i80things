@@ -1,15 +1,20 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { getOgFonts } from "@/lib/og-fonts";
+import { getBrandMarkImage } from "@/lib/brand-mark-image";
+import { brand, brandColors } from "@/lib/brand.mjs";
 
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const title = (searchParams.get("title") || "I-80 Things").slice(0, 150);
-  const kicker = (searchParams.get("kicker") || "NEBRASKA CORRIDOR NEWS").slice(0, 60);
+  const title = (searchParams.get("title") || brand.name).slice(0, 150);
+  const kicker = (
+    searchParams.get("kicker") || brand.descriptor.toUpperCase()
+  ).slice(0, 60);
   const city = (searchParams.get("city") || "").slice(0, 40);
   const fonts = await getOgFonts();
+  const mark = await getBrandMarkImage();
 
   return new ImageResponse(
     (
@@ -19,7 +24,7 @@ export async function GET(request: NextRequest) {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: "#14432f",
+          background: brandColors.highway,
           padding: "50px 62px 40px",
           position: "relative",
         }}
@@ -31,7 +36,7 @@ export async function GET(request: NextRequest) {
             left: 0,
             right: 0,
             height: 12,
-            background: "#e3a008",
+            background: brandColors.amber,
             display: "flex",
           }}
         />
@@ -44,35 +49,20 @@ export async function GET(request: NextRequest) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div
-              style={{
-                width: 66,
-                height: 60,
-                background: "#14432f",
-                border: "3px solid #f7f4ec",
-                borderRadius: 5,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#f7f4ec",
-              }}
-            >
-              <div style={{ fontSize: 8, letterSpacing: 2, fontWeight: 700 }}>INTERSTATE</div>
-              <div style={{ fontSize: 34, fontWeight: 700, lineHeight: 0.9 }}>80</div>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={mark} width={66} height={52} alt="" />
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ fontSize: 28, fontWeight: 700, color: "#f7f4ec", fontFamily: "Crimson Text" }}>I-80 Things</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: brandColors.paper, fontFamily: "Crimson Text" }}>{brand.name}</div>
               <div style={{ fontSize: 12, letterSpacing: 3, color: "#b9c9be" }}>
-                NEBRASKA CORRIDOR NEWS
+                {brand.descriptor.toUpperCase()}
               </div>
             </div>
           </div>
           <div
             style={{
               display: "flex",
-              background: "#e3a008",
-              color: "#14150f",
+              background: brandColors.amber,
+              color: brandColors.ink,
               fontSize: 12,
               fontWeight: 700,
               letterSpacing: 2,
@@ -97,7 +87,7 @@ export async function GET(request: NextRequest) {
             style={{
               fontSize: 17,
               letterSpacing: 3,
-              color: "#e3a008",
+              color: brandColors.amber,
               fontWeight: 600,
               marginBottom: 14,
               display: "flex",
@@ -111,7 +101,7 @@ export async function GET(request: NextRequest) {
               fontSize: title.length > 95 ? 56 : title.length > 70 ? 64 : title.length > 45 ? 72 : 80,
               lineHeight: 1.05,
               fontWeight: 700,
-              color: "#f7f4ec",
+              color: brandColors.paper,
               letterSpacing: -1,
               maxWidth: 1070,
               display: "flex",
@@ -132,8 +122,8 @@ export async function GET(request: NextRequest) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 8, height: 8, background: "#e3a008", display: "flex" }} />
-            <div style={{ fontSize: 17, color: "#f7f4ec", fontWeight: 600, display: "flex" }}>
+            <div style={{ width: 8, height: 8, background: brandColors.amber, display: "flex" }} />
+            <div style={{ fontSize: 17, color: brandColors.paper, fontWeight: 600, display: "flex" }}>
               i80things.com
             </div>
           </div>
