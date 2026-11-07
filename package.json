@@ -18,6 +18,8 @@
     "log": "node scripts/post-log.mjs",
     "sources": "node scripts/check-sources.mjs",
     "social": "node scripts/social.mjs",
+    "share": "node scripts/share.mjs",
+    "groups": "node scripts/groups.mjs",
     "social:instagram": "node scripts/publish-instagram.mjs",
     "validate": "node scripts/validate-posts.mjs",
     "brand": "node scripts/generate-brand.mjs",

@@ -103,12 +103,13 @@ if (asJson) {
     imageUrl,
     imageUrls,
     images: imagesMeta,
-    bioLink: `${siteUrl}/news/${slug}`,
+    bioLink: `${siteUrl}/instagram`,
   }, null, 2));
 } else {
   console.log(`\nIMAGE${imageUrls.length > 1 ? "S" : ""} (1080×1350 JPEG)`);
   for (const url of imageUrls) console.log(url);
   console.log("");
-  console.log(`BIO LINK (paste before posting)\n${siteUrl}/news/${slug}\n`);
+  console.log(`BIO LINK (paste once, always newest)\n${siteUrl}/instagram\n`);
+  console.log(`PIN THIS STORY\n${siteUrl}/instagram?s=${slug}\n`);
   console.log(`CAPTION (${caption.length}/2200)\n${caption}\n`);
 }

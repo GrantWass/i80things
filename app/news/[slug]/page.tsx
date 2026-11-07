@@ -9,7 +9,7 @@ import {
 } from "@/lib/content";
 import { renderMarkdown } from "@/lib/markdown";
 import { absoluteUrl, formatDate, formatDateTime, postImagePath } from "@/lib/utils";
-import { getAuthor } from "@/data/authors";
+import { authorInitials, getAuthor } from "@/data/authors";
 import { getPlace, placeName } from "@/data/places";
 import { getTopic, topicLabel } from "@/data/topics";
 import { site } from "@/lib/site";
@@ -269,7 +269,7 @@ export default async function ArticlePage({
               <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-line py-3">
                 <Link href={`/authors/${author.slug}`} className="flex items-center gap-2">
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-highway font-serif text-sm font-bold text-paper">
-                    {author.name.charAt(0)}
+                    {authorInitials(author.name)}
                   </span>
                   <span className="text-[12px] leading-tight">
                     <span className="block font-bold text-ink">{author.name}</span>
@@ -382,7 +382,7 @@ export default async function ArticlePage({
             <section className="mt-8 border border-line bg-cream p-5">
               <div className="flex flex-wrap items-start gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-highway font-serif text-lg font-bold text-paper">
-                  {author.name.charAt(0)}
+                  {authorInitials(author.name)}
                 </span>
                 <div className="min-w-[14rem] flex-1">
                   <h2 className="font-serif text-lg font-semibold">

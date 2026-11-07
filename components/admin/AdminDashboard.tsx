@@ -9,6 +9,7 @@ import { topics } from "@/data/topics";
 import { sourceCategories } from "@/lib/sources";
 import { formatDateShort, slugify } from "@/lib/utils";
 import { Arrow } from "@/components/Icon";
+import { BrandMark } from "@/components/BrandMark";
 
 type AdminPost = {
   slug: string;
@@ -100,10 +101,7 @@ export function AdminDashboard({
       <div className="bg-ink text-paper">
         <div className="container-page flex flex-wrap items-center justify-between gap-3 py-3">
           <div className="flex items-center gap-3">
-            <span className="sign-green flex h-8 w-9 flex-col items-center justify-center text-paper">
-              <span className="text-[6px] font-bold tracking-widest">INTERSTATE</span>
-              <span className="font-serif text-lg leading-none font-bold">80</span>
-            </span>
+            <BrandMark className="h-9 w-auto shrink-0" />
             <div>
               <p className="text-[11px] font-bold tracking-[0.12em] uppercase">Staff desk</p>
               <p className="text-[10px] text-cream/60">
@@ -979,7 +977,7 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
     } catch {}
   }
 
-  const bioUrl = `${siteUrl}/news/${slug}?utm_source=instagram&utm_medium=social&utm_campaign=bio`;
+  const bioUrl = `${siteUrl}/instagram`;
 
   async function copyLink() {
     try {
@@ -1101,8 +1099,12 @@ function SocialKit({ posts, siteUrl }: { posts: AdminPost[]; siteUrl: string }) 
               ) : null}
             </div>
             <p className="mt-3 border border-line bg-cream p-2 text-[10px] leading-relaxed text-slate">
-              Instagram captions cannot be clicked. Put this link in your bio
-              before posting: <code className="break-all">{bioUrl}</code>
+              Instagram captions cannot be clicked. Paste this permanent link in
+              your bio once — it always opens the newest story:{" "}
+              <code className="break-all">{bioUrl}</code>
+              <br />
+              To pin this story instead, use{" "}
+              <code className="break-all">{`${bioUrl}?s=${slug}`}</code>.
             </p>
             <a href="https://www.instagram.com/" target="_blank" className="mt-3 inline-flex items-center gap-1 text-[10px] font-bold tracking-[0.08em] text-highway uppercase hover:text-amber-dark">
               Open Instagram <Arrow className="h-3 w-3" />

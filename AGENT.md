@@ -265,7 +265,10 @@ Caption rules:
 - 3–5 precise hashtags (`#Nebraska #I80 #Kearney #NebraskaWeather`). No hashtag walls.
 - Max 2,200 characters. No misleading claims.
 - Include the town and mile marker when relevant.
-- Update the Instagram bio link to the story URL before posting. The admin kit gives you a **Copy bio link** button and a carousel image picker.
+- Update the Instagram bio only once: it points at `/instagram`, which always
+  redirects to the newest story. The admin kit gives you a **Copy bio link**
+  button and a carousel image picker; use `?s=<slug>` to pin a specific story.
+  The Instagram API cannot edit the bio, so this is a manual one-time step.
 - Each generated JPEG carries a small I-80 Things icon in the corner as a watermark.
 
 **Images must be real, not AI-generated.** Every story should get a licensed/credited photo. If you have one, upload it through `/admin`. If not, find one:
@@ -277,7 +280,7 @@ npm run stock -- --query "Nebraska winter road" --slug <slug> --download --index
 
 The tool downloads a 1600×900 crop, saves it under `public/images/posts/<slug>/`, and writes the credit into the frontmatter. For a gallery, upload additional images through `/admin` or add multiple `images:` entries. Prefer CC0/public-domain; keep the credit and license for CC BY/BY-SA. If no usable photo exists, the fallback is a branded text card — never a fabricated scene, crash photo or storm photo. For breaking news, use an official agency image only when its terms allow, with credit.
 
-Post one image or a carousel to Instagram manually or via the Graph API. If using the API, every image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. The API cannot change your bio link, so do that step manually. See `README.md`.
+Post one image or a carousel to Instagram manually or via the Graph API. If using the API, every image URL must be public HTTPS and the account must be a Business/Creator account linked to a Facebook Page. The API cannot change your bio link, but it only needs setting once: `https://i80things.com/instagram` redirects to the newest story. See `README.md`.
 
 ---
 
@@ -373,7 +376,8 @@ curl -s "https://i80things.vercel.app/api/posts?city=<city>" | grep -o '"count":
 2. Open the Instagram image and caption. Confirm the link works.
 3. Confirm the city hub shows the story and its local count increased.
 4. If it is a developing story, set a reminder to update it. When you update, add an `updated` date via a new commit and a correction note.
-5. In your run report, list what you published, what you skipped and why, and what to check next.
+5. Build the share kit: `npm run share -- --slug <slug>`. The kit is copy, not permission to post — group and Reddit posts are a human job. Include the three most useful blocks in the run report.
+6. In your run report, list what you published, what you skipped and why, and what to check next.
 
 ---
 
@@ -417,6 +421,7 @@ npm run 511                     # live I-80 closures/construction
 npm run new -- --title "…"      # scaffold a post
 npm run validate                # frontmatter + content checks
 npm run social -- --slug …      # caption + image URL
+npm run share -- --slug …       # per-platform share kit + UTM links
 npm run stock -- --query "…" --slug … --download --update
 npm run social:instagram -- --slug … --publish   # optional API post
 npm run build                   # local verification

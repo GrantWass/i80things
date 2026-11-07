@@ -29,6 +29,22 @@ export const authors: Author[] = [
   },
 ];
 
+/**
+ * Two initials for the byline avatar. Articles are skipped so "The Corridor
+ * Desk" reads CD rather than T.
+ */
+export function authorInitials(name: string): string {
+  const words = name
+    .replace(/\b(the|a|an)\b/gi, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!words.length) return name.charAt(0).toUpperCase();
+  const first = words[0]?.[0] ?? "";
+  const last = words.length > 1 ? words[words.length - 1]?.[0] ?? "" : "";
+  return `${first}${last}`.toUpperCase();
+}
+
 export function getAuthor(slug: string): Author {
   return authors.find((a) => a.slug === slug) ?? authors[0];
 }

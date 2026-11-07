@@ -33,6 +33,8 @@ export async function GET(
     imageUrls,
     images,
     articleUrl: `${site.url}/news/${post.slug}`,
+    bioUrl: `${site.url}/instagram`,
+    pinnedBioUrl: `${site.url}/instagram?s=${post.slug}`,
     publishedAt: post.date,
   });
 }

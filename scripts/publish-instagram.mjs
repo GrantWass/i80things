@@ -18,6 +18,13 @@ const args = process.argv.slice(2);
 const slug = args.includes("--slug") ? args[args.indexOf("--slug") + 1] : null;
 const shouldPublish = args.includes("--publish");
 
+// Local runs do not inherit Vercel env; pick up .env.local (gitignored).
+try {
+  process.loadEnvFile?.(".env.local");
+} catch {
+  /* no local env file */
+}
+
 if (!slug) {
   console.error("Usage: npm run social:instagram -- --slug <slug> [--publish]");
   process.exit(1);
@@ -33,7 +40,7 @@ const { data } = matter(fs.readFileSync(file, "utf8"));
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
 const igUserId = process.env.IG_USER_ID;
 const token = process.env.IG_ACCESS_TOKEN;
-const version = process.env.IG_GRAPH_VERSION || "v21.0";
+const version = process.env.IG_GRAPH_VERSION || "v27.0";
 
 if (!siteUrl || !siteUrl.startsWith("https://")) {
   console.error("Set NEXT_PUBLIC_SITE_URL to the public HTTPS deployment before publishing.");

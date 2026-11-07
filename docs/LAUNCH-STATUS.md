@@ -4,6 +4,7 @@
 **Repo:** https://github.com/GrantWass/i80things
 **Verified:** November 5, 2026
 **Account/purchase work:** [NEXT-STEPS.md](./NEXT-STEPS.md)
+**Distribution status:** [PUBLICITY.md](./PUBLICITY.md) · [playbook](./DISTRIBUTION.md)
 
 ## Live now
 

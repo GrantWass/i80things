@@ -7,7 +7,9 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ConsentNotice } from "@/components/ConsentNotice";
+import { CampaignTracking } from "@/components/CampaignTracking";
 import { site } from "@/lib/site";
+import { brandColors } from "@/lib/brand.mjs";
 
 const publicSans = Public_Sans({
   subsets: ["latin"],
@@ -74,7 +76,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#14150f",
+  themeColor: brandColors.ink,
   colorScheme: "light",
 };
 
@@ -94,6 +96,7 @@ export default function RootLayout({
         <div id="main">{children}</div>
         <SiteFooter />
         <ConsentNotice />
+        <CampaignTracking />
         <Analytics />
         <SpeedInsights />
         {site.adsenseClient ? (

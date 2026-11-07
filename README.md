@@ -7,6 +7,8 @@ An independent, ad-supported local news site built for Vercel: verified reportin
 **Live (Vercel):** https://i80things.vercel.app
 **Code (GitHub):** https://github.com/GrantWass/i80things — source control only; GitHub Pages is not used.
 **Launch status & remaining setup:** [docs/LAUNCH-STATUS.md](./docs/LAUNCH-STATUS.md)
+**Publicity status (where distribution stands):** [docs/PUBLICITY.md](./docs/PUBLICITY.md)
+**Facebook Page & Instagram setup:** [docs/META-SETUP.md](./docs/META-SETUP.md)
 **Domain/email/account next steps:** [docs/NEXT-STEPS.md](./docs/NEXT-STEPS.md)
 **Daily agent runbook:** [docs/DAILY-RUN.md](./docs/DAILY-RUN.md)
 
@@ -292,13 +294,13 @@ Never place ads that look like navigation, and never mix ads into the headline o
 Every story has:
 
 - `GET /api/social/<slug>?image=N` → 1080×1350 **JPEG** for gallery image N (Meta requires JPEG).
-- `GET /api/social/<slug>/caption` → JSON caption, bio link and image URL.
+- `GET /api/social/<slug>/caption` → JSON caption, permanent bio URL, pinned bio URL and image URLs.
 
 **Real photos, not AI imagery.** The selected gallery image is used as the full-bleed Instagram background and carries a small brand icon in the corner. If there is no image, the fallback is a clean branded text card — never an AI-generated scene. Upload real photos through `/admin` whenever possible, especially for crashes, weather and breaking news.
 
-**Link in bio.** Captions start with a topic-specific hook, then the headline/context, then `Full story → link in bio.` Instagram captions cannot be clicked, so the admin kit also gives you a **Copy bio link** button. Paste that URL into the profile bio before posting.
+**Link in bio.** Captions start with a topic-specific hook, then the headline/context, then `Full story → link in bio.` Instagram captions cannot be clicked, so the profile bio needs the tracking link — but only once. `/instagram` redirects to the newest published story with `utm_source=instagram&utm_medium=social&utm_campaign=bio`, so the bio never has to be edited again. `npm run social` and the admin kit print it, along with `/instagram?s=<slug>` to pin a specific story.
 
-Manual posting: `/admin` → **Instagram kit** → choose one or several gallery images for the carousel → put the link in bio → download/copy → post.
+Manual posting: `/admin` → **Instagram kit** → choose one or several gallery images for the carousel → copy the bio link once → download/copy → post.
 
 ### Real photos
 
@@ -324,7 +326,7 @@ API posting:
 
 Constraints: public HTTPS image URL, JPEG only, 4:5 to 1.91:1, ≤8 MB, caption ≤2,200 characters, ≤30 hashtags, 100 API-published posts per 24 hours. Keep 3–5 precise hashtags; keywords in the caption matter more than tag volume.
 
-Because the caption says "link in bio," update the bio link to the current story before publishing. The API cannot do that for you.
+Because the caption says "link in bio," the profile link must resolve to a story. `/instagram` does that automatically for the newest one, so there is nothing to update between posts. Use `/instagram?s=<slug>` only when you want a specific older story pinned.
 
 ---
 
@@ -377,13 +379,16 @@ AGENT.md                       daily agent system prompt
 | `npm run 511` | Read live I-80 events from Nebraska 511's internal GraphQL endpoint. Unofficial; use for monitoring only. |
 | `npm run new -- --title …` | Scaffold a story. |
 | `npm run social -- --slug …` | Print Instagram caption + selected image URLs (1–10). |
+| `npm run share -- --slug …` | Build the per-platform share kit: X, Threads, Bluesky, Facebook Page, Facebook group and Reddit copy with UTM links. Posts nothing. See [`docs/DISTRIBUTION.md`](./docs/DISTRIBUTION.md). |
+| `npm run groups` | List the Facebook groups worth sharing into (`data/groups.json`), by town or filtered to the ones ready to post. `--area kearney`, `--ready`, `--open`, `add`. |
 | `npm run stock -- --query …` | Find, download and credit a real stock/CC photo. |
 | `npm run images:audit` | Check every story image for missing files, alt, credit, license, dimensions, aspect and duplicates. |
 | `npm run cities:coverage` | Show which corridor city hubs have local stories and which are empty. |
 | `npm run factcheck` | Deterministic second pass: frontmatter, sources, dates, stale phrasing, image license and internal links. Add `-- --publish` to fail on drafts. |
 | `npm run review -- --slug <slug>` | Read-only AI reviewer that verifies one story against its sources and returns `VERDICT: PASS` or `VERDICT: BLOCK`. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
-| `npm run brand` | Regenerate PNG brand assets. |
+| `npm run brand` | Regenerate brand assets from `lib/brand.mjs` (see `docs/BRAND.md`). |
+| `npm run brand:check` | Verify brand tokens, assets and wordmark fit. |
 
 ---
 

@@ -34,7 +34,22 @@ agent. Work top to bottom.
 - [ ] Set `NEXT_PUBLIC_SITE_URL=https://i80things.com` and redeploy.
 - [ ] Update Search Console, Bing, AdSense, Publisher Center and the Instagram
   bio link.
+- [ ] **Update the Facebook Page:** About → website `https://i80things.com`,
+  contact email `hello@i80things.com`.
+- [ ] **Update Instagram:** bio link → `https://i80things.com`, contact email →
+  `hello@i80things.com` (Account type and tools → Contact info).
 - [ ] Keep `i80things.vercel.app` as a 301 redirect, not a second canonical.
+
+### Facebook Page placeholders
+
+Until the domain is live the Page carries temporary values. Replace both:
+
+| Field | Temporary now | Final |
+| --- | --- | --- |
+| Website | `https://i80things.vercel.app` | `https://i80things.com` |
+| Email | your personal contact address | `hello@i80things.com` |
+
+Step-by-step: [`META-SETUP.md`](./META-SETUP.md) §1 and its Progress block.
 
 ### Before AdSense
 
@@ -52,7 +67,7 @@ agent. Work top to bottom.
 
 ### Live data desk
 
-The first data pages are live at `/data`:
+The data pages are live under the **Corridor data** nav item:
 
 - `/exits` — every current I-80 exit, mile marker and nearest town
 - `/rest-areas` — NDOT rest-area inventory and amenities
@@ -170,6 +185,9 @@ This is the highest-leverage owned audience after daily publishing.
 
 ## 6. Instagram API
 
+Step-by-step account and token setup: [`META-SETUP.md`](./META-SETUP.md). Every
+story already has an image and a caption; the API only removes the manual step.
+
 The manual Instagram kit works without API access. To automate:
 
 - Convert `@i80.things` to a Business account.
@@ -184,10 +202,12 @@ the token and approval flow are tested.
 
 ## 7. Distribution
 
-- Create a Facebook Page and cross-post the Instagram image/caption.
+Full plan, routine and platform rules: [`DISTRIBUTION.md`](./DISTRIBUTION.md).
+
+- Create the Facebook Page and link it to the Instagram Business account (one Meta app covers both, plus Threads).
 - Claim the same handle on Threads and Bluesky if available.
-- Share only high-value corridor stories in relevant Nebraska subreddits and
-  local Facebook groups; do not spam.
+- Build the Facebook group list by hand; the Groups API is gone, so group shares stay manual.
+- Share only high-value corridor stories in relevant Nebraska subreddits and local Facebook groups; do not spam.
 - Consider Apple News, Flipboard and NewsBreak after 30+ stories.
 
 ## 8. Monitoring and quality
