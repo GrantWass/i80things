@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DataPage, AnchorCard, Explainer, RowSection, StartHere } from "@/components/data-page";
+import { DataPage, Explainer, RowSection } from "@/components/data-page";
 import { RestAreaMap } from "@/components/RestAreaMap";
 import { DataSummary } from "@/components/DataSummary";
 import { places } from "@/data/places";
@@ -77,11 +77,6 @@ function regionFor(area: RestArea) {
 const areaCount = areas.length;
 const { openTruckSpaces: truckSpacesListed } = inventoryTotals({ guide: "rest" });
 
-const topTruckAreas = areas
-  .filter((area) => area.truckSpaces !== null)
-  .sort((a, b) => (b.truckSpaces ?? 0) - (a.truckSpaces ?? 0))
-  .slice(0, 4);
-
 function directionShort(direction: Direction) {
   if (direction === "eastbound") return "EB";
   if (direction === "westbound") return "WB";
@@ -110,28 +105,6 @@ function featureText(area: RestArea): string {
 
 function locationText(area: RestArea, separator: string): string {
   return `${area.locationNote}${area.pullThru ? `${separator}Pull-thru truck parking.` : ""}`;
-}
-
-function TopLotCardBody({ area }: { area: RestArea }) {
-  const place = area.citySlug ? placeBySlug.get(area.citySlug) : null;
-  return (
-    <>
-      <p className="text-[10px] font-bold tracking-[0.08em] text-slate uppercase">
-        {area.milepost !== null ? `Mile ${area.milepost}` : `Exit ${area.nearestExit}`} · {directionShort(area.direction)}
-      </p>
-      <p className="mt-1 font-serif text-lg leading-tight font-semibold group-hover:underline group-hover:decoration-amber">
-        {area.name}
-      </p>
-      <p className="mt-2 font-serif text-2xl font-semibold">
-        {area.truckSpaces} <span className="text-xs font-sans font-semibold text-slate">truck spaces</span>
-      </p>
-      {place ? (
-        <span className="mt-1 block text-[11px] text-highway">
-          {place.name} hub →
-        </span>
-      ) : null}
-    </>
-  );
 }
 
 export default function RestAreasPage() {
@@ -196,18 +169,6 @@ export default function RestAreasPage() {
       current="/rest-areas"
     >
       <RestAreaMap areas={areas} />
-
-      <StartHere
-        className="mt-4"
-        title="The biggest public truck lots"
-        note="Sorted by the guide's posted truck spaces. These are capacity figures, not live availability — check 511."
-      >
-        {topTruckAreas.map((area) => (
-          <AnchorCard key={area.id} id={area.id}>
-            <TopLotCardBody area={area} />
-          </AnchorCard>
-        ))}
-      </StartHere>
 
       <DataSummary
         className="mt-4"

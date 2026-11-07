@@ -231,11 +231,18 @@ export default async function ConstructionPage() {
             ]}
           />
 
-          <div className="mt-6">
+          {workZones.length ? (
+            <div className="mt-8 flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-ink pb-2">
+              <p className="kicker text-amber-dark">All active work zones</p>
+              <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
+                {workZones.length} events · west to east
+              </p>
+            </div>
+          ) : null}
+
+          <div className="mt-4">
             <CorridorMap events={workZones} maxEvents={workZones.length} />
           </div>
-
-
 
           {roads.error || !workZones.length ? (
             <div className="mt-8 border border-amber-dark/40 bg-amber/5 p-5">
@@ -272,17 +279,6 @@ export default async function ConstructionPage() {
             </div>
           ) : (
             <div id="all-work-zones" className="mt-8 space-y-10">
-              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-ink pb-2">
-                <div>
-                  <p className="kicker text-amber-dark">All active work zones</p>
-                  <h2 className="mt-1 font-serif text-2xl font-semibold">
-                    Every current construction and closure
-                  </h2>
-                </div>
-                <p className="text-[11px] font-semibold tracking-wide text-slate uppercase">
-                  West to east · grouped by NDOT district
-                </p>
-              </div>
               {DISTRICTS.map((district) => {
                 const rows = withMiles.filter(
                   (w) => districtFor(w.mile)?.id === district.id,

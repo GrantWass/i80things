@@ -1,12 +1,49 @@
 import {
   CORRIDOR_MAX_MILE,
   CORRIDOR_MIN_MILE,
+  HORIZONTAL_MAP,
 } from "@/lib/corridor-map";
-import { mileRange } from "@/lib/corridor-position";
 import type { Place } from "@/lib/types";
+
+type MileRange = {
+  min: number;
+  max: number;
+};
 
 function clampMile(mile: number): number {
   return Math.max(CORRIDOR_MIN_MILE, Math.min(CORRIDOR_MAX_MILE, mile));
+}
+
+function parseMileRange(raw?: string): MileRange | null {
+  if (!raw) return null;
+
+  // An exit mention is a single point. Do not treat a route number such as
+  // "US-281" in the same label as a second milepost.
+  const exit = raw.match(/\bExit\s+(\d+(?:\.\d+)?)/i);
+  if (exit) {
+    const mile = clampMile(Number(exit[1]));
+    return { min: mile, max: mile };
+  }
+
+  const range = raw.match(
+    /(\d+(?:\.\d+)?)\s*(?:–|-|to)\s*(\d+(?:\.\d+)?)/i,
+  );
+  if (range) {
+    const min = clampMile(Number(range[1]));
+    const max = clampMile(Number(range[2]));
+    return { min: Math.min(min, max), max: Math.max(min, max) };
+  }
+
+  const mile = raw.match(/\b(?:mile|MM)\s*(\d+(?:\.\d+)?)/i);
+  if (mile) {
+    const value = clampMile(Number(mile[1]));
+    return { min: value, max: value };
+  }
+
+  const single = raw.match(/\d+(?:\.\d+)?/);
+  if (!single) return null;
+  const value = clampMile(Number(single[0]));
+  return { min: value, max: value };
 }
 
 function markerLabel(raw: string): string {
@@ -17,12 +54,16 @@ function markerLabel(raw: string): string {
   return /^\d/.test(cleaned) ? `MM ${cleaned}` : cleaned;
 }
 
-function percentAtMile(mile: number): number {
-  return (
-    ((mile - CORRIDOR_MIN_MILE) /
-      (CORRIDOR_MAX_MILE - CORRIDOR_MIN_MILE)) *
-    100
-  );
+function routeSegment(min: number, max: number): string {
+  const points: string[] = [];
+  const step = Math.max(0.5, (max - min) / 40);
+  for (let mile = min; mile < max; mile += step) {
+    const point = HORIZONTAL_MAP.pointAtMile(mile);
+    points.push(`${point.x.toFixed(1)} ${point.y.toFixed(1)}`);
+  }
+  const end = HORIZONTAL_MAP.pointAtMile(max);
+  points.push(`${end.x.toFixed(1)} ${end.y.toFixed(1)}`);
+  return `M ${points.join(" L ")}`;
 }
 
 export function StoryLocator({
@@ -33,15 +74,11 @@ export function StoryLocator({
   mileMarker?: string;
 }) {
   const source = mileMarker?.trim() || place?.mileMarker;
-  const parsed = mileRange(source);
-  const range = parsed
-    ? { min: clampMile(parsed.min), max: clampMile(parsed.max) }
-    : null;
+  const range = parseMileRange(source);
   if (!range || !source) return null;
 
   const isPoint = range.max - range.min < 0.5;
-  const left = percentAtMile(range.min);
-  const span = percentAtMile(range.max) - left;
+  const point = HORIZONTAL_MAP.pointAtMile(range.min);
   const marker = markerLabel(source);
   const shortMarker = /^Exit\b/i.test(marker)
     ? marker.split("/")[0].trim()
@@ -52,33 +89,69 @@ export function StoryLocator({
       : shortMarker;
 
   return (
-    <div className="mt-5 max-w-md">
+    <figure className="mt-5 ml-auto w-full sm:w-[17rem]">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <p className="kicker text-slate">On I-80</p>
+        <figcaption className="kicker text-slate">On I-80</figcaption>
         <p className="max-w-full text-right text-[10px] font-bold tracking-[0.06em] text-ink-soft uppercase">
           {label}
         </p>
       </div>
-      <div aria-hidden="true" className="relative mt-1.5 h-6">
-        <span className="absolute inset-x-0 top-1 h-px bg-line" />
-        {isPoint ? (
-          <span
-            className="absolute top-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-paper bg-highway"
-            style={{ left: `${left}%` }}
+
+      <div className="relative mt-1.5">
+        <svg
+          viewBox={`0 0 ${HORIZONTAL_MAP.viewW} ${HORIZONTAL_MAP.viewH}`}
+          aria-hidden="true"
+          className="h-auto w-full"
+        >
+          <path
+            d={HORIZONTAL_MAP.stateD}
+            fill="var(--color-cream)"
+            stroke="var(--color-line)"
+            strokeWidth={2}
+            strokeLinejoin="round"
           />
-        ) : (
-          <span
-            className="absolute top-0.5 h-1.5 bg-highway"
-            style={{ left: `${left}%`, width: `${Math.max(span, 0.9)}%` }}
+          <path
+            d={HORIZONTAL_MAP.routeD}
+            fill="none"
+            stroke="var(--color-highway)"
+            strokeWidth={10}
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-        )}
-        <span className="absolute top-3 left-0 text-[8px] font-semibold tracking-[0.06em] text-slate uppercase">
-          MM {CORRIDOR_MIN_MILE}
-        </span>
-        <span className="absolute top-3 right-0 text-[8px] font-semibold tracking-[0.06em] text-slate uppercase">
-          MM {CORRIDOR_MAX_MILE}
-        </span>
+          {isPoint ? (
+            <>
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={20}
+                fill="var(--color-paper)"
+              />
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={13}
+                fill="var(--color-highway)"
+                stroke="var(--color-paper)"
+                strokeWidth={3}
+              />
+            </>
+          ) : (
+            <path
+              d={routeSegment(range.min, range.max)}
+              fill="none"
+              stroke="var(--color-amber-dark)"
+              strokeWidth={16}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          )}
+        </svg>
+
+        <div className="mt-1 flex justify-between text-[8px] font-semibold tracking-[0.06em] text-slate uppercase">
+          <span>MM 22</span>
+          <span>MM 454</span>
+        </div>
       </div>
-    </div>
+    </figure>
   );
 }
