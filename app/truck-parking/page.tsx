@@ -4,6 +4,7 @@ import { DataPage, AnchorCard, Explainer, RowSection, StartHere } from "@/compon
 import { RestAreaMap } from "@/components/RestAreaMap";
 import { DataSummary } from "@/components/DataSummary";
 import { getPlace } from "@/data/places";
+import { inventoryTotals } from "@/lib/inventory";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 import parkingData from "@/data/truck-parking.json";
@@ -43,11 +44,7 @@ const sites = (parkingData.sites as SiteRow[]).slice().sort((a, b) => {
 });
 
 const openSites = sites.filter((s) => s.status === "open");
-const openTruckSpaces = openSites.reduce(
-  (sum, s) => sum + (s.truckSpaces ?? 0),
-  0,
-);
-const countedSites = openSites.filter((s) => s.truckSpaces != null).length;
+const { openTruckSpaces, countedOpenSites: countedSites } = inventoryTotals({ guide: "truck" });
 const topSites = openSites
   .filter((site) => site.truckSpaces !== null)
   .sort((a, b) => (b.truckSpaces ?? 0) - (a.truckSpaces ?? 0))

@@ -4,6 +4,7 @@ import { DataPage, AnchorCard, Explainer, RowSection, StartHere } from "@/compon
 import { RestAreaMap } from "@/components/RestAreaMap";
 import { DataSummary } from "@/components/DataSummary";
 import { places } from "@/data/places";
+import { inventoryTotals } from "@/lib/inventory";
 import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 import restAreaData from "@/data/rest-areas.json";
@@ -74,7 +75,7 @@ function regionFor(area: RestArea) {
 }
 
 const areaCount = areas.length;
-const truckSpacesListed = areas.reduce((sum, area) => sum + (area.truckSpaces ?? 0), 0);
+const { openTruckSpaces: truckSpacesListed } = inventoryTotals({ guide: "rest" });
 
 const topTruckAreas = areas
   .filter((area) => area.truckSpaces !== null)
