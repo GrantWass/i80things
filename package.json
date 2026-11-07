@@ -17,6 +17,7 @@
     "new": "node scripts/new-post.mjs",
     "log": "node scripts/post-log.mjs",
     "sources": "node scripts/check-sources.mjs",
+    "sources:audit": "node scripts/audit-sources.mjs",
     "social": "node scripts/social.mjs",
     "share": "node scripts/share.mjs",
     "groups": "node scripts/groups.mjs",

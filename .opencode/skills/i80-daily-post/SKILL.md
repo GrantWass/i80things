@@ -23,7 +23,7 @@ You are publishing verified local news for **I-80 Things**, covering Interstate 
    The source and 511 sweeps already ran. Read the preflight bundle at
    `$DAILY_BUNDLE` (`sources.txt`, `511.json`, `meta.json`); do not re-sweep
    the feeds with `npm run sources` or `npm run 511`.
-   Then open the primary source. Check NSP, NDOT, 511 and NWS manually for anything the feeds missed.
+   Then open the primary source. Check NSP, NDOT, 511 and NWS manually for anything the feeds missed. Read `data/source-health.json`; if local feeds are failing, open local newspaper/TV sites directly. A quiet feed is not proof of a quiet day.
 
 3. **Verify the five questions.** What happened, where (mile marker + direction), when, who confirmed it, current status. No verification → no story.
 

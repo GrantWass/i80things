@@ -66,7 +66,10 @@ Then run the desk for today in `America/Chicago`.
    `$DAILY_BUNDLE` (`sources.txt`, `511.json`, `meta.json`); do not re-sweep
    the feeds with `npm run sources` or `npm run 511`.
    Then check the primary pages yourself: NSP news, NDOT news, Nebraska 511,
-   NWS alerts. The sweep is a convenience, not a source.
+   NWS alerts. Also read `data/source-health.json`; if local newspaper feeds
+   are failing, open two or three local TV/newspaper sites manually instead of
+   treating the silence as a quiet news day. The sweep is a convenience, not a
+   source.
 
 4. **Check city coverage.**
    ```bash
@@ -80,9 +83,14 @@ Then run the desk for today in `America/Chicago`.
    - a verified weather warning or winter-driving condition;
    - a verified NDOT construction change with real driver impact — not routine
      crack sealing, mowing, striping or shoulder work (see AGENT.md §4);
-   - a corridor town development with a primary source;
+   - a corridor town development from a local paper/TV station, verified with
+     a primary source;
+   - a data-backed aggregate or historical story with a genuinely new angle;
    - an evergreen explainer only when there is no news, and only if it is
      genuinely useful and not a duplicate.
+
+   If local feeds are degraded, check the local outlets manually before
+   choosing. Do not use routine maintenance as filler for a thin wire.
 
 6. **Verify before writing.** Answer: what happened, where (mile marker and
    direction), when, who confirmed it, and current status. If you cannot answer

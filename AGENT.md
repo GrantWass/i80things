@@ -79,7 +79,7 @@ npm run 511 -- --all            # every Nebraska route, not just I-80
 
 `npm run 511` uses the same undocumented GraphQL endpoint as the 511 web app. It works today (635 statewide events, 30 I-80-specific at verification), but it is unsupported and can change. Use it once or twice a day, attribute NDOT/Nebraska 511, and confirm every closure with NDOT or NSP before publishing.
 
-This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news releases and active NWS alerts, then filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting.
+This pulls 27 verified RSS feeds, the Nebraska State Patrol newsroom, NDOT news releases and active NWS alerts, then filters for corridor keywords and dedupes headlines. It is your starting point, not your reporting. Some newspaper groups block direct RSS requests; when that happens the sweep uses a Google News discovery feed for that site. Treat those links as leads only and open the original article and primary source before writing.
 
 ### 3.2 Check the primary sources manually
 
@@ -156,6 +156,8 @@ Prioritize, in order:
 6. **Corridor life** — business, freight, Amtrak, small-town news with a clear I-80 angle.
 
 **Impact gate for construction:** A verified NDOT release or 511 event is not automatically a story. Routine maintenance — crack sealing, mowing, striping, sweeping, pothole patching, bridge washing or shoulder work — is construction-page data, not a standalone news story, when traffic is maintained with intermittent lane closures and there is no detour. A construction story needs a real driver impact: a full or ramp closure, detour, long-term restriction that affects freight, emergency repair, or a milestone with broad corridor impact. If the only new item is routine maintenance, publish nothing and report the skip.
+
+If the fresh wire is thin, look further back and wider before defaulting to a maintenance brief: local TV and newspaper coverage from the last 48 hours, NSP releases, city/county decisions, and a data-backed aggregate or historical piece with a genuinely new angle. A look-back story still needs a reason to exist now; do not republish an old story under a new date.
 
 Skip: celebrity gossip, national politics without a Nebraska corridor impact, unverified scanner chatter, petty crime with no public safety value, and anything that exists only to fill a quota.
 

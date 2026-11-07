@@ -115,6 +115,55 @@ function lastItemAt(items) {
   return latest;
 }
 
+
+/**
+ * Some newspaper groups block direct RSS clients with a 429/403. Fall back to
+ * Google News' public discovery feed for that site so a blocked paper still
+ * contributes headlines and links instead of silently disappearing.
+ */
+function discoveryFeedUrl(source) {
+  try {
+    const host = new URL(source.url || source.feedUrl).hostname.replace(/^www\./, "");
+    if (!host || host.endsWith("news.google.com")) return null;
+    const query = encodeURIComponent(`site:${host}`);
+    return `https://news.google.com/rss/search?q=${query}&hl=en-US&gl=US&ceid=US:en`;
+  } catch {
+    return null;
+  }
+}
+
+async function tryDiscovery(source) {
+  const feedUrl = discoveryFeedUrl(source);
+  if (!feedUrl) return null;
+  try {
+    const res = await fetch(feedUrl, {
+      headers: {
+        "User-Agent": UA,
+        Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
+      },
+      signal: AbortSignal.timeout(18000),
+    });
+    if (!res.ok) return null;
+    const items = parseFeed(await res.text(), source);
+    if (!items.length) return null;
+    return {
+      source: source.name,
+      sourceId: source.id,
+      url: feedUrl,
+      fallbackUrl: feedUrl,
+      items,
+      stale: false,
+      status: "ok",
+      httpStatus: 200,
+      checkedAt: new Date().toISOString(),
+      lastItemAt: lastItemAt(items),
+      error: "Direct feed blocked; using Google News discovery",
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function fetchFeed(source, attempt = 1) {
   const base = {
     source: source.name,
@@ -139,6 +188,8 @@ async function fetchFeed(source, attempt = 1) {
     const checkedAt = new Date().toISOString();
 
     if (!res.ok) {
+      const discovered = await tryDiscovery(source);
+      if (discovered) return discovered;
       const cached = cache[source.feedUrl];
       if (cached?.items?.length) {
         return {
@@ -180,6 +231,8 @@ async function fetchFeed(source, attempt = 1) {
       error: null,
     };
   } catch (error) {
+    const discovered = await tryDiscovery(source);
+    if (discovered) return discovered;
     const checkedAt = new Date().toISOString();
     const cached = cache[source.feedUrl];
     if (cached?.items?.length) {
