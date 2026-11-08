@@ -38,7 +38,13 @@ async function imageToDataUrl(imagePath: string, origin: string): Promise<string
   return `data:${mime};base64,${buffer.toString("base64")}`;
 }
 
-function headlineSize(title: string) {
+function headlineSize(title: string, landscape: boolean) {
+  if (landscape) {
+    if (title.length > 120) return 46;
+    if (title.length > 95) return 52;
+    if (title.length > 70) return 58;
+    return 64;
+  }
   if (title.length > 115) return 52;
   if (title.length > 90) return 60;
   if (title.length > 65) return 68;
@@ -58,7 +64,12 @@ export async function GET(
   const origin = new URL(request.url).origin;
   const place = getPlace(post.city);
   const gallery = postImages(post);
-  const imageParam = new URL(request.url).searchParams.get("image");
+  const searchParams = new URL(request.url).searchParams;
+  // Instagram needs 4:5, but Facebook fits that portrait card into a wider
+  // feed frame and fills the sides with padding. Give the Page a 1.91:1 card
+  // that spans the full post width.
+  const landscape = searchParams.get("format") === "facebook";
+  const imageParam = searchParams.get("image");
   let selected = gallery[0];
   if (imageParam !== null) {
     const n = Number(imageParam);
@@ -98,8 +109,8 @@ export async function GET(
           <img
             src={photoUrl}
             alt=""
-            width={1080}
-            height={1350}
+            width={landscape ? 1200 : 1080}
+            height={landscape ? 630 : 1350}
             style={{
               position: "absolute",
               top: 0,
@@ -128,7 +139,7 @@ export async function GET(
           <div
             style={{
               position: "absolute",
-              top: 150,
+              top: landscape ? 60 : 150,
               left: 0,
               width: "100%",
               display: "flex",
@@ -138,7 +149,7 @@ export async function GET(
             <div
               style={{
                 fontFamily: "Crimson Text",
-                fontSize: 560,
+                fontSize: landscape ? 320 : 560,
                 lineHeight: 0.8,
                 fontWeight: 700,
                 color: "rgba(247,244,236,0.055)",
@@ -157,7 +168,7 @@ export async function GET(
             flexDirection: "column",
             width: "100%",
             height: "100%",
-            padding: "44px 50px 38px",
+            padding: landscape ? "34px 44px 30px" : "44px 50px 38px",
           }}
         >
           <div
@@ -171,16 +182,22 @@ export async function GET(
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 14,
+                gap: landscape ? 12 : 14,
                 background: "rgba(20,21,15,0.72)",
-                padding: "10px 14px",
+                padding: landscape ? "8px 12px" : "10px 14px",
                 borderRadius: 4,
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={mark} width={44} height={35} alt="" style={{ width: 44, height: 35 }} />
+              <img
+                src={mark}
+                width={landscape ? 38 : 44}
+                height={landscape ? 30 : 35}
+                alt=""
+                style={{ width: landscape ? 38 : 44, height: landscape ? 30 : 35 }}
+              />
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 24, fontWeight: 700, fontFamily: "Crimson Text" }}>{brand.name}</div>
+                <div style={{ fontSize: landscape ? 21 : 24, fontWeight: 700, fontFamily: "Crimson Text" }}>{brand.name}</div>
                 <div style={{ fontSize: 10, letterSpacing: 2.5, color: "#c9d6cc" }}>
                   {brand.descriptor.toUpperCase()}
                 </div>
@@ -198,12 +215,12 @@ export async function GET(
                 <img
                   src={logoUrl}
                   alt=""
-                  width={46}
-                  height={46}
+                  width={landscape ? 40 : 46}
+                  height={landscape ? 40 : 46}
                   style={{
-                    width: 46,
-                    height: 46,
-                    borderRadius: 9,
+                    width: landscape ? 40 : 46,
+                    height: landscape ? 40 : 46,
+                    borderRadius: landscape ? 8 : 9,
                     opacity: 0.84,
                   }}
                 />
@@ -213,13 +230,13 @@ export async function GET(
                   display: "flex",
                   background: brandColors.amber,
                   color: brandColors.ink,
-                  fontSize: 14,
+                  fontSize: landscape ? 12 : 14,
                   fontWeight: 700,
                   letterSpacing: 2,
-                  padding: "10px 14px",
+                  padding: landscape ? "8px 12px" : "10px 14px",
                 }}
               >
-                LINK IN BIO
+                {landscape ? "READ THE FULL STORY" : "LINK IN BIO"}
               </div>
             </div>
           </div>
@@ -229,7 +246,7 @@ export async function GET(
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div
               style={{
-                fontSize: 20,
+                fontSize: landscape ? 16 : 20,
                 letterSpacing: 2,
                 color: brandColors.amber,
                 fontWeight: 600,
@@ -242,8 +259,8 @@ export async function GET(
 
             <div
               style={{
-                marginTop: 14,
-                fontSize: headlineSize(title),
+                marginTop: landscape ? 10 : 14,
+                fontSize: headlineSize(title, landscape),
                 lineHeight: 1.03,
                 fontWeight: 700,
                 letterSpacing: -0.5,
@@ -255,21 +272,23 @@ export async function GET(
               {title}
             </div>
 
-            <div
-              style={{
-                marginTop: 16,
-                fontSize: 25,
-                lineHeight: 1.3,
-                color: "#e8e2d3",
-                display: "flex",
-                fontFamily: "Crimson Text",
-                fontWeight: 400,
-              }}
-            >
-              {dek}
-            </div>
+            {landscape ? null : (
+              <div
+                style={{
+                  marginTop: 16,
+                  fontSize: 25,
+                  lineHeight: 1.3,
+                  color: "#e8e2d3",
+                  display: "flex",
+                  fontFamily: "Crimson Text",
+                  fontWeight: 400,
+                }}
+              >
+                {dek}
+              </div>
+            )}
 
-            {!photoUrl && post.summary.length ? (
+            {!photoUrl && !landscape && post.summary.length ? (
               <div
                 style={{
                   display: "flex",
@@ -326,19 +345,19 @@ export async function GET(
                 justifyContent: "space-between",
                 alignItems: "flex-end",
                 borderTop: "1px solid rgba(247,244,236,0.3)",
-                paddingTop: 16,
-                marginTop: 22,
+                paddingTop: landscape ? 12 : 16,
+                marginTop: landscape ? 14 : 22,
               }}
             >
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 15, letterSpacing: 1, color: brandColors.paper, display: "flex" }}>
+                <div style={{ fontSize: landscape ? 14 : 15, letterSpacing: 1, color: brandColors.paper, display: "flex" }}>
                   i80things.com
                 </div>
                 {imageCredit ? (
                   <div
                     style={{
                       marginTop: 4,
-                      fontSize: 11,
+                      fontSize: landscape ? 10 : 11,
                       color: "#b9c9be",
                       maxWidth: 560,
                       display: "flex",
@@ -354,10 +373,10 @@ export async function GET(
                 style={{
                   background: brandColors.amber,
                   color: brandColors.ink,
-                  fontSize: 13,
+                  fontSize: landscape ? 12 : 13,
                   fontWeight: 700,
                   letterSpacing: 2,
-                  padding: "8px 12px",
+                  padding: landscape ? "7px 11px" : "8px 12px",
                   display: "flex",
                 }}
               >
@@ -368,7 +387,7 @@ export async function GET(
         </div>
       </div>
     ),
-    { width: 1080, height: 1350, fonts },
+    { width: landscape ? 1200 : 1080, height: landscape ? 630 : 1350, fonts },
   );
 
   try {

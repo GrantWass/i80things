@@ -245,7 +245,7 @@ Every story needs at least one strong, real image, and the image has to match th
    Fix every missing file, missing alt, missing credit, wrong aspect or duplicate. Do not reuse the same image across two stories.
 5. **No photo?** Use the branded fallback card rather than inventing an image. Never scrape a newsroom photo or use an AI-generated scene of a real event.
 
-The Instagram image automatically carries the I-80 Things corner watermark. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card.
+The Instagram image automatically carries the I-80 Things corner watermark. If the gallery is empty, the site generates a 16:9 OG image and a 1080×1350 branded card. Add `?format=facebook` to get the 1200×630 version used for Facebook Page posts — a 4:5 card gets padded at the sides in Facebook's wider feed frame.
 
 Verify the Instagram images:
 

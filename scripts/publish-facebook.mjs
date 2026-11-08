@@ -65,11 +65,13 @@ const gallery = fmImages.filter(
   (image) => typeof image?.src === "string" && image.src.trim(),
 );
 const firstIndex = gallery.findIndex((image) => image.instagram !== false);
+// Facebook fits the 4:5 Instagram card into a wider feed frame and pads the
+// sides, so the Page gets a 1.91:1 render that spans the full post width.
 // With no gallery image the route renders a branded card, but only without
 // the `image` param — `?image=1` 404s when there is nothing to index.
 const imageUrl = gallery.length
-  ? `${siteUrl}/api/social/${slug}?image=${(firstIndex === -1 ? 0 : firstIndex) + 1}`
-  : `${siteUrl}/api/social/${slug}`;
+  ? `${siteUrl}/api/social/${slug}?image=${(firstIndex === -1 ? 0 : firstIndex) + 1}&format=facebook`
+  : `${siteUrl}/api/social/${slug}?format=facebook`;
 
 const hooks = {
   crashes: "Heads up, I-80 drivers.",

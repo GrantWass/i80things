@@ -213,7 +213,7 @@ An OpenCode skill is included at [`.opencode/skills/i80-daily-post/SKILL.md`](./
 | `/api/posts` | Published stories with title, dek, date, city, topics, sources, URL, image and caption URLs. Supports `?limit=`, `?city=`, `?topic=`, `?since=`. |
 | `/api/sources` | All 81 sources with category, access, reliability and notes. Supports `?category=`, `?recommended=true`, `?rss=true`. |
 | `/api/alerts` | Active NWS alerts for all corridor towns (point-based). |
-| `/api/social/<slug>` | 1080×1350 JPEG for the cover; add `?image=N` for other gallery images. |
+| `/api/social/<slug>` | 1080×1350 JPEG for the cover; add `?image=N` for other gallery images, or `?format=facebook` for a 1200×630 card that fills the Facebook feed width. |
 | `/api/social/<slug>/caption` | JSON caption + URLs. |
 | `/feed.xml` | RSS 2.0. |
 | `/sitemap.xml`, `/news-sitemap.xml` | Standard + Google News sitemaps. |
@@ -295,7 +295,7 @@ Never place ads that look like navigation, and never mix ads into the headline o
 
 Every story has:
 
-- `GET /api/social/<slug>?image=N` → 1080×1350 **JPEG** for gallery image N (Meta requires JPEG).
+- `GET /api/social/<slug>?image=N` → 1080×1350 **JPEG** for gallery image N (Meta requires JPEG). Add `&format=facebook` for the 1200×630 Facebook Page card.
 - `GET /api/social/<slug>/caption` → JSON caption, permanent bio URL, pinned bio URL and image URLs.
 
 **Real photos, not AI imagery.** The selected gallery image is used as the full-bleed Instagram background and carries a small brand icon in the corner. If there is no image, the fallback is a clean branded text card — never an AI-generated scene. Upload real photos through `/admin` whenever possible, especially for crashes, weather and breaking news.
@@ -390,7 +390,7 @@ AGENT.md                       daily agent system prompt
 | `npm run factcheck` | Deterministic second pass: frontmatter, sources, dates, stale phrasing, image license and internal links. Add `-- --publish` to fail on drafts. |
 | `npm run review -- --slug <slug>` | Read-only AI reviewer that verifies one story against its sources and returns `VERDICT: PASS` or `VERDICT: BLOCK`. |
 | `npm run social:instagram -- --slug … --publish` | Post to Instagram via Graph API. |
-| `npm run social:facebook -- --slug … --publish` | Post to the Facebook Page via Graph API. Needs `FB_PAGE_ID` and a token with `pages_manage_posts`. |
+| `npm run social:facebook -- --slug … --publish` | Post to the Facebook Page via Graph API as a 1200×630 image (the 4:5 Instagram card gets side padding on Facebook). Needs `FB_PAGE_ID` and a token with `pages_manage_posts`. |
 | `npm run social:daily -- --publish` | Post the day's lead story to Instagram and the Facebook Page. Used by `npm run daily`. |
 | `npm run brand` | Regenerate brand assets from `lib/brand.mjs` (see `docs/BRAND.md`). |
 | `npm run brand:check` | Verify brand tokens, assets and wordmark fit. |
