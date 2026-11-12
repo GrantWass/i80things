@@ -7,6 +7,7 @@ import { getOgFonts } from "@/lib/og-fonts";
 import { getBrandMarkImage } from "@/lib/brand-mark-image";
 import { brand, brandColors } from "@/lib/brand.mjs";
 import { postImages } from "@/lib/utils";
+import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
 
@@ -351,7 +352,7 @@ export async function GET(
             >
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ fontSize: landscape ? 14 : 15, letterSpacing: 1, color: brandColors.paper, display: "flex" }}>
-                  i80things.com
+                  {site.url.replace(/^https?:\/\//, "")}
                 </div>
                 {imageCredit ? (
                   <div
