@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T11:36:05.140Z",
+  "generatedAt": "2026-11-19T11:36:12.198Z",
   "feeds": {
     "1011now": {
       "id": "1011now",
@@ -7,8 +7,8 @@
       "url": "https://www.1011now.com/arc/outboundfeeds/rss/?output=1",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:30:10.677Z",
-      "lastItemAt": "2026-11-18T11:05:10.000Z",
+      "checkedAt": "2026-11-19T11:30:06.313Z",
+      "lastItemAt": "2026-11-19T11:01:49.000Z",
       "error": null
     },
     "3newsnow": {
@@ -17,8 +17,8 @@
       "url": "https://www.3newsnow.com/index.rss",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:30:14.164Z",
-      "lastItemAt": "2026-11-18T11:09:53.000Z",
+      "checkedAt": "2026-11-19T11:30:09.736Z",
+      "lastItemAt": "2026-11-19T11:15:54.000Z",
       "error": null
     },
     "beatrice-daily-sun": {
@@ -27,29 +27,29 @@
       "url": "https://news.google.com/rss/search?q=site%3Abeatricedailysun.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:30:36.417Z",
-      "lastItemAt": "2026-11-17T13:15:04.000Z",
+      "checkedAt": "2026-11-19T11:30:31.890Z",
+      "lastItemAt": "2026-11-18T12:09:49.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "columbus-telegram": {
       "id": "columbus-telegram",
       "name": "Columbus Telegram",
-      "url": "https://columbustelegram.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+      "url": "https://news.google.com/rss/search?q=site%3Acolumbustelegram.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:30:45.960Z",
-      "lastItemAt": "2026-11-18T11:30:00.000Z",
-      "error": null
+      "checkedAt": "2026-11-19T11:30:53.967Z",
+      "lastItemAt": "2026-11-18T12:41:28.000Z",
+      "error": "Direct feed blocked; using Google News discovery"
     },
     "daily-nonpareil": {
       "id": "daily-nonpareil",
       "name": "Council Bluffs Daily Nonpareil",
-      "url": "https://news.google.com/rss/search?q=site%3Anonpareilonline.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:31:08.064Z",
-      "lastItemAt": "2026-11-18T03:57:00.000Z",
-      "error": "Direct feed blocked; using Google News discovery"
+      "url": "https://nonpareilonline.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+      "status": "stale",
+      "httpStatus": 429,
+      "checkedAt": "2026-11-19T11:31:15.672Z",
+      "lastItemAt": "2026-11-15T11:30:00.000Z",
+      "error": "HTTP 429 — using cache from 2026-11-15"
     },
     "flatwater-free-press": {
       "id": "flatwater-free-press",
@@ -57,29 +57,29 @@
       "url": "https://flatwaterfreepress.org/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:31:11.453Z",
-      "lastItemAt": "2026-11-18T10:32:00.000Z",
+      "checkedAt": "2026-11-19T11:31:19.615Z",
+      "lastItemAt": "2026-11-19T09:08:00.000Z",
       "error": null
     },
     "fremont-tribune": {
       "id": "fremont-tribune",
       "name": "Fremont Tribune",
-      "url": "https://fremonttribune.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
+      "url": "https://news.google.com/rss/search?q=site%3Afremonttribune.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:31:33.121Z",
-      "lastItemAt": "2026-11-18T11:30:00.000Z",
-      "error": null
+      "checkedAt": "2026-11-19T11:31:41.643Z",
+      "lastItemAt": "2026-11-18T21:00:00.000Z",
+      "error": "Direct feed blocked; using Google News discovery"
     },
     "grand-island-independent": {
       "id": "grand-island-independent",
       "name": "Grand Island Independent",
-      "url": "https://news.google.com/rss/search?q=site%3Atheindependent.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
+      "url": "https://theindependent.com/search/?f=rss&t=article&l=10&s=start_time&sd=desc",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:31:55.218Z",
-      "lastItemAt": "2026-11-17T02:49:08.000Z",
-      "error": "Direct feed blocked; using Google News discovery"
+      "checkedAt": "2026-11-19T11:32:03.402Z",
+      "lastItemAt": "2026-11-19T11:30:00.000Z",
+      "error": null
     },
     "grant-tribune": {
       "id": "grant-tribune",
@@ -87,7 +87,7 @@
       "url": "https://www.granttribune.com/rss",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:31:58.989Z",
+      "checkedAt": "2026-11-19T11:32:07.158Z",
       "lastItemAt": "2026-11-12T10:49:00.000Z",
       "error": null
     },
@@ -97,8 +97,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Ahastingstribune.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:32:22.273Z",
-      "lastItemAt": "2026-11-18T05:24:34.000Z",
+      "checkedAt": "2026-11-19T11:32:30.533Z",
+      "lastItemAt": "2026-11-19T10:36:40.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "kearney-hub": {
@@ -107,8 +107,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Akearneyhub.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:32:44.518Z",
-      "lastItemAt": "2026-11-18T01:16:48.000Z",
+      "checkedAt": "2026-11-19T11:32:52.690Z",
+      "lastItemAt": "2026-11-18T23:29:58.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "ketv": {
@@ -117,8 +117,8 @@
       "url": "https://www.ketv.com/topstories-rss",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:32:47.875Z",
-      "lastItemAt": "2026-11-18T11:24:00.000Z",
+      "checkedAt": "2026-11-19T11:32:56.223Z",
+      "lastItemAt": "2026-11-19T11:32:00.000Z",
       "error": null
     },
     "kfor": {
@@ -127,8 +127,8 @@
       "url": "https://www.kfornow.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:32:52.093Z",
-      "lastItemAt": "2026-11-17T19:49:33.000Z",
+      "checkedAt": "2026-11-19T11:33:01.513Z",
+      "lastItemAt": "2026-11-19T05:01:44.000Z",
       "error": null
     },
     "klkn": {
@@ -137,8 +137,8 @@
       "url": "https://www.klkntv.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:32:55.380Z",
-      "lastItemAt": "2026-11-18T05:11:56.000Z",
+      "checkedAt": "2026-11-19T11:33:04.923Z",
+      "lastItemAt": "2026-11-19T08:18:34.000Z",
       "error": null
     },
     "lexington-clipper": {
@@ -147,8 +147,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Alexch.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:17.487Z",
-      "lastItemAt": "2026-11-17T20:59:00.000Z",
+      "checkedAt": "2026-11-19T11:33:27.017Z",
+      "lastItemAt": "2026-11-18T21:00:00.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "lincoln-journal-star": {
@@ -157,8 +157,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Ajournalstar.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:39.614Z",
-      "lastItemAt": "2026-11-18T03:14:00.000Z",
+      "checkedAt": "2026-11-19T11:33:49.311Z",
+      "lastItemAt": "2026-11-18T21:30:00.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "mccook-gazette": {
@@ -167,8 +167,8 @@
       "url": "https://www.mccookgazette.com/rss.xml",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:43.198Z",
-      "lastItemAt": "2026-11-17T18:02:25.000Z",
+      "checkedAt": "2026-11-19T11:33:52.907Z",
+      "lastItemAt": "2026-11-18T16:42:41.000Z",
       "error": null
     },
     "nebraska-examiner": {
@@ -177,8 +177,8 @@
       "url": "https://nebraskaexaminer.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:46.780Z",
-      "lastItemAt": "2026-11-18T00:01:32.000Z",
+      "checkedAt": "2026-11-19T11:33:56.392Z",
+      "lastItemAt": "2026-11-18T23:54:49.000Z",
       "error": null
     },
     "nebraska-public-media": {
@@ -187,8 +187,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Anebraskapublicmedia.org%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:50.289Z",
-      "lastItemAt": "2026-11-17T12:10:38.000Z",
+      "checkedAt": "2026-11-19T11:34:00.078Z",
+      "lastItemAt": "2026-11-18T22:06:44.000Z",
       "error": null
     },
     "rural-radio": {
@@ -197,8 +197,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Aruralradio.com%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:53.708Z",
-      "lastItemAt": "2026-11-17T15:04:54.000Z",
+      "checkedAt": "2026-11-19T11:34:03.592Z",
+      "lastItemAt": "2026-11-18T22:42:05.000Z",
       "error": null
     },
     "nebraska-trucking": {
@@ -207,7 +207,7 @@
       "url": "https://nebtrucking.com/feed/",
       "status": "stale",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:33:57.703Z",
+      "checkedAt": "2026-11-19T11:34:07.117Z",
       "lastItemAt": "2026-07-20T16:51:12.000Z",
       "error": "No new items since 2026-07-20; feed may be inactive."
     },
@@ -217,8 +217,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Anebraska.tv%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:34:01.138Z",
-      "lastItemAt": "2026-11-17T03:31:20.000Z",
+      "checkedAt": "2026-11-19T11:34:10.639Z",
+      "lastItemAt": "2026-11-17T19:55:15.000Z",
       "error": null
     },
     "north-platte-telegraph": {
@@ -227,8 +227,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Anptelegraph.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:34:23.475Z",
-      "lastItemAt": "2026-11-17T20:30:00.000Z",
+      "checkedAt": "2026-11-19T11:34:32.754Z",
+      "lastItemAt": "2026-11-18T12:07:46.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "omaha-daily-record": {
@@ -237,8 +237,8 @@
       "url": "https://omahadailyrecord.com/rss.xml",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:34:27.004Z",
-      "lastItemAt": "2026-11-18T07:00:00.000Z",
+      "checkedAt": "2026-11-19T11:34:36.159Z",
+      "lastItemAt": "2026-11-19T07:00:00.000Z",
       "error": null
     },
     "omaha-world-herald": {
@@ -247,8 +247,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Aomaha.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:34:49.354Z",
-      "lastItemAt": "2026-11-17T23:40:22.000Z",
+      "checkedAt": "2026-11-19T11:34:58.634Z",
+      "lastItemAt": "2026-11-18T09:45:56.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "star-herald": {
@@ -257,8 +257,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Astarherald.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:11.880Z",
-      "lastItemAt": "2026-11-15T02:31:00.000Z",
+      "checkedAt": "2026-11-19T11:35:20.814Z",
+      "lastItemAt": "2026-11-18T02:00:00.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "seward-independent": {
@@ -267,8 +267,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Asewardindependent.com%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:15.211Z",
-      "lastItemAt": "2026-11-04T14:57:04.000Z",
+      "checkedAt": "2026-11-19T11:35:24.107Z",
+      "lastItemAt": "2026-11-18T15:30:00.000Z",
       "error": null
     },
     "sidney-sun-telegraph": {
@@ -277,7 +277,7 @@
       "url": "https://www.suntelegraph.com/rss/articles",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:18.812Z",
+      "checkedAt": "2026-11-19T11:35:27.984Z",
       "lastItemAt": "2026-11-12T16:00:22.000Z",
       "error": null
     },
@@ -287,8 +287,8 @@
       "url": "https://www.wowt.com/arc/outboundfeeds/rss/?output=1",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:24.846Z",
-      "lastItemAt": "2026-11-18T11:28:07.000Z",
+      "checkedAt": "2026-11-19T11:35:31.766Z",
+      "lastItemAt": "2026-11-19T11:01:49.000Z",
       "error": null
     },
     "york-news-times": {
@@ -297,8 +297,8 @@
       "url": "https://news.google.com/rss/search?q=site%3Ayorknewstimes.com%20when%3A30d&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:47.355Z",
-      "lastItemAt": "2026-11-16T22:19:00.000Z",
+      "checkedAt": "2026-11-19T11:35:53.995Z",
+      "lastItemAt": "2026-11-18T02:49:06.000Z",
       "error": "Direct feed blocked; using Google News discovery"
     },
     "western-nebraska-observer": {
@@ -307,7 +307,7 @@
       "url": "https://www.westernnebraskaobserver.com/rss/articles",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:51.162Z",
+      "checkedAt": "2026-11-19T11:35:57.984Z",
       "lastItemAt": "2026-11-12T13:00:18.000Z",
       "error": null
     },
@@ -317,8 +317,8 @@
       "url": "https://cozadlocal.com/rss.xml",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:54.864Z",
-      "lastItemAt": "2026-11-12T10:42:21.000Z",
+      "checkedAt": "2026-11-19T11:36:01.717Z",
+      "lastItemAt": "2026-11-19T10:26:29.000Z",
       "error": null
     },
     "phelps-county-focus": {
@@ -327,8 +327,8 @@
       "url": "https://phelpscountyfocus.com/feed/",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:35:58.281Z",
-      "lastItemAt": "2026-11-17T21:52:00.000Z",
+      "checkedAt": "2026-11-19T11:36:05.253Z",
+      "lastItemAt": "2026-11-18T15:58:00.000Z",
       "error": null
     },
     "aurora-news-register": {
@@ -337,7 +337,7 @@
       "url": "https://www.auroranewsregister.com/rss.xml",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:36:01.684Z",
+      "checkedAt": "2026-11-19T11:36:08.788Z",
       "lastItemAt": "2026-11-17T21:49:12.000Z",
       "error": null
     },
@@ -347,7 +347,7 @@
       "url": "https://news.google.com/rss/search?q=site%3Apanhandlepost.com%20when%3A30d&hl=en-US&gl=US&ceid=US%3Aen",
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-11-18T11:36:05.068Z",
+      "checkedAt": "2026-11-19T11:36:12.184Z",
       "lastItemAt": "2026-11-13T18:34:33.000Z",
       "error": null
     }
